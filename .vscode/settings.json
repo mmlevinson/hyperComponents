@@ -1,0 +1,33 @@
+{
+	"workbench.colorCustomizations": {
+		"[Night Owl Black]": {
+			"activityBar.background": "#000C1D",
+			"activityBar.border": "#102a44",
+			"editorGroup.border": "#102a44",
+			"sideBar.background": "#1a041d",
+			"sideBarSectionHeader.background": "#0d300d",
+			"sideBarSectionHeader.foreground": "#d8e3d8",
+			"list.hoverForeground": "#ff0000",
+			"sideBar.border": "#4c5761",
+			"sideBar.foreground": "#fbf8f5",
+			"tab.inactiveForeground": "#e1a87d",
+			"tab.activeForeground": "#fefbfb",
+			"tab.activeBackground": "#340527",
+			"titleBar.activeBackground": "#666b66",
+			"breadcrumb.foreground": "#e0defb",
+			"list.activeSelectionBackground": "#bc9a33",
+			"list.activeSelectionForeground": "#ffffff",
+			"editorCursor.foreground": "#ff0000",
+			"editor.selectionHighlightBackground": "#627162c6",
+			"editor.findMatchBackground": "#3091216c",
+			"titleBar.activeForeground": "#f13207"
+		},
+		"terminal.foreground": "#f1c979",
+		"terminal.background": "#1b0c2a",
+		"terminalCursor.foreground": "#cccdc8",
+		"terminal.selectionBackground": "#c4bbbb",
+		"activityBar.background": "#003337",
+		"titleBar.activeBackground": "#00484D",
+		"titleBar.activeForeground": "#ECFEFF"
+	}
+}
