@@ -1,0 +1,25 @@
+---
+
+title: Dropdown Menus
+description: Menu Components with a list of menu items
+
+---
+
+## Click Activated
+
+### Single Click Dropdown
+
+export const tw = {
+	wrapper: 'w-[200px] bg-gray-700'
+}
+
+import DropdownMenu from '../../../../components/DropdownMenu.astro';
+
+<DropdownMenu id="dropdown-1" class={tw.wrapper}>
+   <li>Menu Item 1</li>
+   <li>Menu Item 2</li>
+   <li>Menu Item 3</li>
+</DropdownMenu>
+
+
+
