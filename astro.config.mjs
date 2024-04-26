@@ -7,9 +7,28 @@ import tailwind from "@astrojs/tailwind";
 export default defineConfig({
   integrations: [starlight({
     title: 'hyperComponents',
+		description: 'HyperScript, HTMX, Web Component Library, Tailwind CSS',
     social: {
       github: 'https://github.com/mmlevinson/hyperComponents'
     },
+		head: [
+			{
+				tag: 'script',
+				attrs:{
+					src: 'https://unpkg.com/hyperscript.org@0.9.12',
+					defer: true
+				} 
+			},
+			{
+				tag: 'script',
+				attrs:{
+					src: 'https://unpkg.com/htmx.org@1.9.12',
+					integrity: "sha384-ujb1lZYygJmzgSwoxRggbCHcjc0rB2XoQrxeTUQyRjrOnlCoYta87iKBWq3EsdM2",
+					crossorigin: "anonymous",
+					defer: true
+				} 
+			},
+		],
     sidebar: [{
       label: 'Getting Started',
       items: [

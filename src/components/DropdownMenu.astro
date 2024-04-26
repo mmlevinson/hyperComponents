@@ -18,7 +18,7 @@ const tw = {
 	triggerButton: 'inline-block rounded-lg p-3 ' +
 		'font-semibold text-lg lg:text-xl text-zinc-100 hover:text-zinc-400 hover:dark:text-zinc-300 ' + 
 		'bg-indigo-500 hover:bg-indigo-800 ',
-	menuWrapper:'absolute z-10 ' + 
+	menuWrapper:'hidden h-0 absolute z-10 ' + 
 		'rounded-lg drop-shadow-2xl overflow-hidden ' + 
 		'text-lg font-medium' +
 		'bg-white dark:bg-gray-800 ',
@@ -54,28 +54,11 @@ have no offsetHeight value*/
 <div>
 	<button id={id}  offset={offset} class={twMerge(tw.triggerButton, buttonStyles)} type='button'
 		script="init
-			-- initialize variables (element scoped)
-			set :menuWrapper to 'menuWrapper-' + @id
-			set :itemsList to 'itemsList-' + @id
-			set :buttonHasMouse to false
 			set :isOpen to false
-			-- function to dynamically calculate the dropdown height
-			-- FYI hidden items are not in the DOM, so have no offsetHeight
-			--  you must first set a display other than none
-			def calcHeight
-				set dropdownHeight to 0 then set items to the children of #{:menuWrapper}
-				for item in items increment the dropdownHeight by the item's offsetHeight end
-				return dropdownHeight
-			end -- calcHeight
-			-- click handler (toggles appearance of dropdown)
-			on click if :isOpen then trigger closeDropdown on me otherwise trigger openDropdown on me end
-			--handle Escape key closing dropdown
-			on keyup[key=='Escape'] trigger closeDropdown on me end
-			-- handle mouse leaves dropdown (so close it)
-			on mouseleave wait 20ms then if :buttonHasMouse is true then trigger closeDropdown on me end
-			on dropdownHasMouse(insideDropdown) set :buttonHasMouse to not insideDropdown end
+			on click 
+				log 'clicked'
+			end
 			
-			-- handler to show dropdown (at an optional x,y offset)
 			on openDropdown
 				set offset to @offset.split(',')
 				set topOffset to offset[0] as Int
