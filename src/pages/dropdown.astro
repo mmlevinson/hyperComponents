@@ -1,0 +1,36 @@
+---
+import StarlightPage from '@astrojs/starlight/components/StarlightPage.astro';
+const title = 'Dropdown Menus';
+const tw={
+	wrapper: 'w-[200px] rounded-lg px-4 spacing-y-6  ' + 
+	   'text-md lg:text-xl ' +
+	  'bg-gray-100 dark:bg-gray-700',
+	list: '',
+	item: '',
+	itemContent: '',
+}
+
+const hs = ''
+---
+
+<StarlightPage frontmatter={{ title: title }}>
+  <p>This is a custom test page calld {title}</p>
+	
+
+<div class={tw.wrapper}>
+	<ul id="dropmenu" class={tw.list} _={hs}>
+		<li class={tw.item}>
+			<span class={tw.itemContent}>Item 1</span>
+		</li>
+		<li class={tw.item}>
+			<span class={tw.itemContent}>Item 2</span>
+		</li>
+		<li class={tw.item}>
+			<span class={tw.itemContent}>Item 3</span>
+		</li>
+		
+	</ul>
+</div>
+
+</StarlightPage>
+

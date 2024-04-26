@@ -8,7 +8,7 @@ description: What you need to get started with hyperComponents
 hyperComponents in this project were created using the [Astro](https://astro.build/docs) build tool. Although the structure of each hyperComponent could be duplicated using any modern web tooling, [Astro](https://astro.build/docs) offers unique advantages such as 
 
 1.  Simple, easy syntax for creating reusable components,
-2.  File-based page routing without additional tooling,
+2.  [File-based page routing](https://docs.astro.build/en/basics/astro-pages/#file-based-routing) without additional tooling,
 3.  [Markdown](https://www.markdownguide.org/basic-syntax/) and [MDX](https://mdxjs.com/)  as full class citizens, converting them directly to HTML.
 4.  **Simultaneous back-end API development** (i.e. [custom endpoints](https://docs.astro.build/en/guides/endpoints/#server-endpoints-api-routes)) within the same project without the need to spin up a separate Node/Express or Django back end.  
 
@@ -30,6 +30,18 @@ Collections of Markdown/MDX documents receive TypeScript support by implementing
 
 A further advantage of using the Astro build tool is support for [custom endpoints](https://docs.astro.build/en/guides/endpoints/#server-endpoints-api-routes) (API routes) without the need to spin up a separate Node/Express or Django back end.  
 
+
+## Tailwind Merge
+
+hyperComponents were intended to be customizable by passing Tailwind class names via props.  Thi s means that hyperComponent styles are not frozen and developers can fully customize their appearance in the code block where the component is being used.   This increases the versatility of the hyperComponent without extensive re-writing.
+
+It is a trivial matter to pass Tailwind CSS utility classes into a component using props, just adding new class names to an established (or default) list of classes yields unpredictable results.   It appears that the current version of Tailwind sorts class lists alphabetically, so if you add a class name to an element manually, it may not apply if its alpha sort happens before another class name.
+
+This problem is resolved using the third-pary library [tailwind-merge](https://www.npmjs.com/package/tailwind-merge).    This library ensures the 'last class name wins' rule applies.    To allow fully customizable hyperComponents, you are encouraged to install tailwind-merge.
+
+```bash
+npm install tailwind-merge
+```
 
 
 

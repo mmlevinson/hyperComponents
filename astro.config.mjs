@@ -24,6 +24,9 @@ export default defineConfig({
         label: 'Requirements',
         link: '/about/requirements/'
       }, {
+        label: 'Tailwind Opinions',
+        link: '/about/tailwind/'
+      }, {
         label: 'Disclaimers',
         link: '/about/disclaimers/'
       }]
