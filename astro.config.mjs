@@ -5,16 +5,19 @@ import starlight from '@astrojs/starlight';
 export default defineConfig({
 	integrations: [
 		starlight({
-			title: 'My Docs',
+			title: 'hyperComponents',
 			social: {
-				github: 'https://github.com/withastro/starlight',
+				github: 'https://github.com/mmlevinson/hyperComponents',
 			},
 			sidebar: [
 				{
-					label: 'Guides',
+					label: 'Getting Started',
 					items: [
 						// Each item here is one entry in the navigation menu.
-						{ label: 'Example Guide', link: '/guides/example/' },
+						{ label: 'Background', link: '/about/background/' },
+						{ label: 'Why hyperComponents', link: '/about/why/' }, 
+						{ label: 'Requirements', link: '/about/requirements/' }, 
+						{ label: 'Disclaimers', link: '/about/disclaimers/' }, 
 					],
 				},
 				{
