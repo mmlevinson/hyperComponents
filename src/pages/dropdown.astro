@@ -1,36 +1,127 @@
 ---
 import StarlightPage from '@astrojs/starlight/components/StarlightPage.astro';
+
+interface Props {
+ id:string
+ caption:string
+ dropdownStyles:string[]
+ buttonStyles:string[]
+ listStyles:string
+ offset:number[]
+}
+
+import {twMerge} from 'tailwind-merge'
+const {id, caption, dropdownStyles, buttonStyles, listStyles, offset = [0,0]} = Astro.props
+
 const title = 'Dropdown Menus';
 const tw={
-	wrapper: 'w-[200px] rounded-lg px-4 spacing-y-6  ' + 
-	   'text-md lg:text-xl ' +
-	  'bg-gray-100 dark:bg-gray-700',
-	list: '',
-	item: '',
-	itemContent: '',
+	startIcon:'',
+  endIcon:'',
+	dropdownMenu:'hidden h-0 absolute rounded-lg shadow-xl overflow-hidden ' + 
+		'text-lg font-medium',
+  dropdownButton: 'inline-block rounded-lg  ' +
+		'text-lg lg:text-xl text-zinc-300 hover:text-cyan-200 ' + 
+		'bg-indigo-500 hover:bg-indigo-600',
+	dropdownList:'opacity-0',
 }
 
 const hs = ''
+
+/* 
+Action: a basic dropdown menu activated by single click.
+
+Features: 
+
+1.  Closes when Escape Key pressed
+2.  Closes when mouse leaves the dropdown
+3.  Closes when a menu item is clicked (indicating a user has made a choice)
+4.  Position of the dropdown can be offset by a top, left integer value pass via props
+5.  Actual menu items are not included in this component, just the wrapping <ul>
+6.  Actual menu items are passed into the default slot, so can be any <li> of any makeup
+
+Props:
+
+id<string> - a unique identifier for this component, allowing multiple dropdowns on a page without collisions
+caption<string> - the text displayed in the button that triggers the dropdown
+dropdownStyles<string[]> - any additional styles to apply to the overall wrapper <div>
+buttonStyles<string[]> - any additional Tailwind classes for customizing the trigger button
+listStyles<string> - any additional styles to apply to the dropdown list
+offset - an optional [x,y] offset for the dropdown menu
+
+Implementation:
+
+<div id=dropdownMenu-${id} is a wrapper around the <ul> allowing the entire component to be styled and selectively
+	positioned within a parent container.  Also, the default style is hidden with height set to zero.
+
+The menu items are encapsulated inside a <ul> where initial height is set to zero so it is not seen
+You cannot set the .hidden class (or the corresponding <li> are absent from the DOM and thus
+have no offsetHeight value*/
 ---
 
 <StarlightPage frontmatter={{ title: title }}>
   <p>This is a custom test page calld {title}</p>
 	
 
-<div class={tw.wrapper}>
-	<ul id="dropmenu" class={tw.list} _={hs}>
-		<li class={tw.item}>
-			<span class={tw.itemContent}>Item 1</span>
-		</li>
-		<li class={tw.item}>
-			<span class={tw.itemContent}>Item 2</span>
-		</li>
-		<li class={tw.item}>
-			<span class={tw.itemContent}>Item 3</span>
-		</li>
-		
-	</ul>
-</div>
-
+	<div>
+		<button id={id}  offset={offset} class={twMerge(tw.dropdownButton, buttonStyles)} type='button'
+			script="init
+				-- initialize element scoped variables
+				set :dropdownMenu to 'dropdownMenu-' + @id
+				set :dropdownList to 'dropdownList-' + @id
+				set :buttonHasMouse to false
+				set :isOpen to false
+				-- function to dynamically calculate the dropdown height
+				-- FYI hidden items are not in the DOM, so have no offsetHeight
+				--  you must first set a display other than none
+				def calcHeight
+					set dropdownHeight to 0 then set items to the children of #{:dropdownMenu}
+					for item in items increment the dropdownHeight by the item's offsetHeight end
+					return dropdownHeight
+				end -- calcHeight
+				-- click handler (toggles appearance of dropdown)
+				on click if :isOpen then trigger closeDropdown on me otherwise trigger openDropdown on me end
+				--handle Escape key closing dropdown
+				on keyup[key=='Escape'] trigger closeDropdown on me end
+				-- handle mouse leaves dropdown (so close it)
+				on mouseleave wait 20ms then if :buttonHasMouse is true then trigger closeDropdown on me end
+				on dropdownHasMouse(insideDropdown) set :buttonHasMouse to not insideDropdown end
+				
+				-- handler to show dropdown (at an optional x,y offset)
+				on openDropdown
+					set offset to @offset.split(',')
+					set topOffset to offset[0] as Int
+					set leftOffset to offset[1] as Int
+					measure me then put the result.bounds into myBounds
+					set newLeft to (myBounds.left - myBounds.width)
+					set *left of #{:dropdownMenu} to (newLeft + leftOffset) + 'px'
+					set *top of #{:dropdownMenu} to (myBounds.height + topOffset ) + 'px'
+					remove .hidden from #{:dropdownMenu} -- now items have an offsetHeight available
+					set *height of #{:dropdownMenu} to (calcHeight() + 'px') then wait 20ms then
+					set *opacity of #{:dropdownList} to 1
+				end
+				on closeDropdown
+					set *opacity of #{:dropdownList} to 0
+					set *height of #{:dropdownMenu} to 0 then settle then
+					add .hidden to #{:dropdownMenu}
+				end
+				on navigateTo(href)
+					trigger closeDropdown on me then settle then
+					go to url `$href`
+				end">
+			<slot name='startIcon' class={tw.startIcon}/>
+			{caption}
+			<slot name='endIcon' class={tw.endIcon}/>
+			</button>
+	</div>
+	
+	
+	<div id=`dropdownMenu-${id}` class={twMerge(tw.dropdownMenu, dropdownStyles)} style="transition: all 100ms ease-in-out">
+		<ul id=`dropdownList-${id}` class={twMerge(tw.dropdownList, listStyles)} style="transition: all 50ms ease-in-out"
+		script="on mouseenter send dropdownHasMouse(insideDropdown:true) to the previous <button/> end
+				on mouseleave send dropdownHasMouse(insideDropdown:false) to the previous <button/> then
+				send closeDropdown to the previous <button/> end ">
+		<slot/>
+		</ul>
+	</div>
 </StarlightPage>
 
