@@ -5,11 +5,11 @@ interface Props {
  dropdownStyles:string[]   //any additional styles to apply to the overall wrapper <div>
  buttonStyles:string[]   //any additional Tailwind classes for customizing the trigger button
  listStyles:string   //any additional styles to apply to the dropdown list
- offset:string //comma separated integer values specifying top,left shift in dropdown location
+ moveBy:string //comma separated integer values specifying top,left shift in dropdown location
 }
 
 import {twMerge} from 'tailwind-merge'
-const {id, caption, dropdownStyles, buttonStyles, listStyles, offset = "0,0"} = Astro.props
+const {id, caption, dropdownStyles, buttonStyles, listStyles, moveBy = "0,0"} = Astro.props
 
 const title = 'Dropdown Menus';
 const tw = {
@@ -18,7 +18,7 @@ const tw = {
 	triggerButton: 'inline-block rounded-lg p-3 ' +
 		'font-semibold text-lg lg:text-xl text-zinc-100 hover:text-zinc-400 hover:dark:text-zinc-300 ' + 
 		'bg-indigo-500 hover:bg-indigo-800 ',
-	menuWrapper:'hidden h-0 absolute z-10 ' + 
+	menuWrapper:'absolute z-10 ' + 
 		'rounded-lg drop-shadow-2xl overflow-hidden ' + 
 		'text-lg font-medium' +
 		'bg-white dark:bg-gray-800 ',
@@ -52,21 +52,35 @@ have no offsetHeight value*/
 ---
 
 <div>
-	<button id={id}  offset={offset} class={twMerge(tw.triggerButton, buttonStyles)} type='button'
+	<button id={id}  moveBy={moveBy} class={twMerge(tw.triggerButton, buttonStyles)} type='button'
 		script="init
+			set :menuWrapper to 'menuWrapper-' + @id
+			set :itemsList to 'itemsList-' + @id
+			set :buttonHasMouse to false
 			set :isOpen to false
 			on click 
 				log 'clicked'
 			end
-			
-			on openDropdown
-				set offset to @offset.split(',')
+
+			def calcHeight
+				set dropdownHeight to 0 then set items to the children of #{:itemsList}
+				for item in items increment the dropdownHeight by the item's offsetHeight end
+				log 'dropdownHeight: ' + dropdownHeight
+				return dropdownHeight
+			end -- calcHeight
+
+			def resetPosition
+				set offset to @moveBy.split(',')
 				set topOffset to offset[0] as Int
 				set leftOffset to offset[1] as Int
 				measure me then put the result.bounds into myBounds
 				set newLeft to (myBounds.left - myBounds.width)
 				set *left of #{:menuWrapper} to (newLeft + leftOffset) + 'px'
 				set *top of #{:menuWrapper} to (myBounds.height + topOffset ) + 'px'
+			end  -- calcOffset
+			
+			on openDropdown
+			  resetPosition()
 				remove .hidden from #{:menuWrapper} -- now items have an offsetHeight available
 				set *height of #{:menuWrapper} to (calcHeight() + 'px') then wait 20ms then
 				set *opacity of #{:itemsList} to 1
