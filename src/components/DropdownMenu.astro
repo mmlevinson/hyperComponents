@@ -60,7 +60,11 @@ have no offsetHeight value*/
 			set :isOpen to false
 			on click 
 				log 'clicked'
-				trigger openDropdown on me
+				if :isOpen then trigger closeDropdown on me otherwise trigger openDropdown on me
+			end
+
+			on keydown[key=='Escape']
+				trigger closeDropdown on me
 			end
 
 			def calcHeight
@@ -85,12 +89,14 @@ have no offsetHeight value*/
 				remove .hidden from #{:menuWrapper} -- now items have an offsetHeight available
 				set *height of #{:menuWrapper} to (calcHeight() + 'px') then wait 20ms then
 				set *opacity of #{:itemsList} to 1
+				set :isOpen to true
 			end
 			-- handler to hide dropdown
 			on closeDropdown
 				set *opacity of #{:itemsList} to 0
 				set *height of #{:menuWrapper} to 0 then settle then
 				add .hidden to #{:menuWrapper}
+				set :isOpen to false
 			end">
 		<slot name='startIcon' class={tw.startIcon}/>
 		{caption}
