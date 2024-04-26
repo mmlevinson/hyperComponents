@@ -5,23 +5,25 @@ interface Props {
  dropdownStyles:string[]   //any additional styles to apply to the overall wrapper <div>
  buttonStyles:string[]   //any additional Tailwind classes for customizing the trigger button
  listStyles:string   //any additional styles to apply to the dropdown list
- offset:number[] //integer values specifying top,left shift in dropdown location
+ offset:string //comma separated integer values specifying top,left shift in dropdown location
 }
 
 import {twMerge} from 'tailwind-merge'
-const {id, caption, dropdownStyles, buttonStyles, listStyles, offset = [0,0]} = Astro.props
+const {id, caption, dropdownStyles, buttonStyles, listStyles, offset = "0,0"} = Astro.props
 
 const title = 'Dropdown Menus';
-const tw={
+const tw = {
 	startIcon:'',
   endIcon:'',
-	dropdownMenu:'hidden h-0 absolute ' + 
-		'rounded-lg shadow-xl overflow-hidden ' + 
-		'text-lg font-medium',
-  dropdownButton: 'inline-block rounded-lg  ' +
-		'text-lg lg:text-xl text-zinc-300 hover:text-cyan-200 ' + 
-		'bg-indigo-500 hover:bg-indigo-600',
-	dropdownList:'opacity-0',
+	triggerButton: 'inline-block rounded-lg p-3 ' +
+		'font-semibold text-lg lg:text-xl text-zinc-100 hover:text-zinc-400 hover:dark:text-zinc-300 ' + 
+		'bg-indigo-500 hover:bg-indigo-800 ',
+	menuWrapper:'absolute z-10 ' + 
+		'rounded-lg drop-shadow-2xl overflow-hidden ' + 
+		'text-lg font-medium' +
+		'bg-white dark:bg-gray-800 ',
+	itemsList:'opacity-1 flex flex-col gap-y-4 cursor-pointer ' + 
+		'py-4 font-semibold text-gray-900 dark:text-zinc-100',
 }
 
 
@@ -41,7 +43,7 @@ Features:
 
 
 Implementation:
-<div id=dropdownMenu-${id} is a wrapper around a <ul> allowing the entire component to be styled and selectively
+<div id=menuWrapper-${id} is a wrapper around a <ul> allowing the entire component to be styled and/or selectively
 	positioned within a parent container.  Also, the default style is hidden with height set to zero.
 
 The menu items are installed into the default slot inside a <ul> whose initial height is set to zero so it is not seen
@@ -50,18 +52,18 @@ have no offsetHeight value*/
 ---
 
 <div>
-	<button id={id}  offset={offset} class={twMerge(tw.dropdownButton, buttonStyles)} type='button'
+	<button id={id}  offset={offset} class={twMerge(tw.triggerButton, buttonStyles)} type='button'
 		script="init
-			-- initialize element scoped variables
-			set :dropdownMenu to 'dropdownMenu-' + @id
-			set :dropdownList to 'dropdownList-' + @id
+			-- initialize variables (element scoped)
+			set :menuWrapper to 'menuWrapper-' + @id
+			set :itemsList to 'itemsList-' + @id
 			set :buttonHasMouse to false
 			set :isOpen to false
 			-- function to dynamically calculate the dropdown height
 			-- FYI hidden items are not in the DOM, so have no offsetHeight
 			--  you must first set a display other than none
 			def calcHeight
-				set dropdownHeight to 0 then set items to the children of #{:dropdownMenu}
+				set dropdownHeight to 0 then set items to the children of #{:menuWrapper}
 				for item in items increment the dropdownHeight by the item's offsetHeight end
 				return dropdownHeight
 			end -- calcHeight
@@ -80,17 +82,17 @@ have no offsetHeight value*/
 				set leftOffset to offset[1] as Int
 				measure me then put the result.bounds into myBounds
 				set newLeft to (myBounds.left - myBounds.width)
-				set *left of #{:dropdownMenu} to (newLeft + leftOffset) + 'px'
-				set *top of #{:dropdownMenu} to (myBounds.height + topOffset ) + 'px'
-				remove .hidden from #{:dropdownMenu} -- now items have an offsetHeight available
-				set *height of #{:dropdownMenu} to (calcHeight() + 'px') then wait 20ms then
-				set *opacity of #{:dropdownList} to 1
+				set *left of #{:menuWrapper} to (newLeft + leftOffset) + 'px'
+				set *top of #{:menuWrapper} to (myBounds.height + topOffset ) + 'px'
+				remove .hidden from #{:menuWrapper} -- now items have an offsetHeight available
+				set *height of #{:menuWrapper} to (calcHeight() + 'px') then wait 20ms then
+				set *opacity of #{:itemsList} to 1
 			end
 			-- handler to hide dropdown
 			on closeDropdown
-				set *opacity of #{:dropdownList} to 0
-				set *height of #{:dropdownMenu} to 0 then settle then
-				add .hidden to #{:dropdownMenu}
+				set *opacity of #{:itemsList} to 0
+				set *height of #{:menuWrapper} to 0 then settle then
+				add .hidden to #{:menuWrapper}
 			end">
 		<slot name='startIcon' class={tw.startIcon}/>
 		{caption}
@@ -99,8 +101,8 @@ have no offsetHeight value*/
 </div>
 
 
-<div id=`dropdownMenu-${id}` class={twMerge(tw.dropdownMenu, dropdownStyles)} style="transition: all 100ms ease-in-out">
-	<ul id=`dropdownList-${id}` class={twMerge(tw.dropdownList, listStyles)} style="transition: all 50ms ease-in-out"
+<div id=`menuWrapper-${id}` class={twMerge(tw.menuWrapper, dropdownStyles)} style="transition: all 100ms ease-in-out">
+	<ul id=`itemsList-${id}` class={twMerge(tw.itemsList, listStyles)} style="transition: all 50ms ease-in-out"
 	script="on mouseenter send dropdownHasMouse(insideDropdown:true) to the previous <button/> end
 			on mouseleave send dropdownHasMouse(insideDropdown:false) to the previous <button/> then
 			send closeDropdown to the previous <button/> end ">

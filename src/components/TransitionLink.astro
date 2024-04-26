@@ -1,0 +1,15 @@
+---
+const {href, caption, styles} = Astro.props
+---
+
+<li class={styles}
+	hx-get={href} 
+	hx-target='#main' 
+	hx-select='#main'
+	hx-swap='outerHTML transition:true settle:60ms show:window:top'
+	hx-push-url="true"
+	script="on htmx:beforeSend closeUp() "
+	>
+	{caption}
+</li>
+
