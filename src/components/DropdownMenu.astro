@@ -17,13 +17,14 @@ const tw = {
   endIcon:'',
 	triggerButton: 'inline-block rounded-lg p-3 ' +
 		'font-semibold text-lg lg:text-xl text-zinc-100 hover:text-zinc-400 hover:dark:text-zinc-300 ' + 
-		'bg-indigo-500 hover:bg-indigo-800 ',
+		'bg-indigo-600 hover:bg-indigo-800 ' +
+		'focus:ring-4 focus:outline-none focus:ring-indigo-300 ',
 	menuWrapper:'hidden h-0 absolute z-10 ' + 
 		'rounded-lg drop-shadow-2xl overflow-hidden ' + 
 		'text-lg font-medium' +
 		'bg-white dark:bg-gray-800 ',
 	itemsList:'opacity-0 flex flex-col gap-y-4 cursor-pointer ' + 
-		'py-4 font-semibold text-gray-900 dark:text-zinc-100',
+		'py-4 font-semibold text-gray-900 dark:text-zinc-50',
 }
 
 
@@ -58,8 +59,7 @@ have no offsetHeight value*/
 			set :itemsList to 'itemsList-' + @id
 			set :buttonHasMouse to false
 			set :isOpen to false
-			on click 
-				log 'clicked'
+			on click
 				if :isOpen then trigger closeDropdown on me otherwise trigger openDropdown on me
 			end
 
@@ -70,7 +70,6 @@ have no offsetHeight value*/
 			def calcHeight
 				set dropdownHeight to 0 then set items to the children of #{:menuWrapper}
 				for item in items increment the dropdownHeight by the item's offsetHeight end
-				log 'dropdownHeight: ' + dropdownHeight
 				return dropdownHeight
 			end -- calcHeight
 
@@ -107,9 +106,7 @@ have no offsetHeight value*/
 
 <div id=`menuWrapper-${id}` class={twMerge(tw.menuWrapper, dropdownStyles)} style="transition: all 100ms ease-in-out">
 	<ul id=`itemsList-${id}` class={twMerge(tw.itemsList, listStyles)} style="transition: all 50ms ease-in-out"
-	script="on mouseenter send dropdownHasMouse(insideDropdown:true) to the previous <button/> end
-			on mouseleave send dropdownHasMouse(insideDropdown:false) to the previous <button/> then
-			send closeDropdown to the previous <button/> end ">
+	script="on click or mouseleave send closeDropdown to the previous <button/> end ">
 	<slot/>
 	</ul>
 </div>
