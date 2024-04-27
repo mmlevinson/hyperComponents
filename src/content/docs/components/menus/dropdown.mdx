@@ -20,7 +20,7 @@ export const menuId = 'dropdown-example-1'
 export const hs = "on click call alert('You selected ' + my innerHTML) "
 import DropdownMenu from '../../../../components/DropdownMenu.astro';
 
-<DropdownMenu id={menuId} caption="Click Me">
+<DropdownMenu id={menuId} caption="Click Me" duration="300ms">
    <li class={tw.menuItem} script={hs}>Choice 1</li>
    <li class={tw.menuItem} script={hs}>Choice 2</li>
    <li class={tw.menuItem} script={hs}>Choice 3</li>
