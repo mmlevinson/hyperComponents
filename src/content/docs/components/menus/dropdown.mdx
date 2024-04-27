@@ -32,7 +32,7 @@ import DropdownMenu from '../../../../components/DropdownMenu.astro';
 
 
 <DropdownMenu id='palette-menu-1' caption="Colors" duration="300ms">
-  <div class="grid grid-cols-12 align-items-start gap-2 px-4">
+  <div class="grid align-items-start gap-2 px-4" style="grid-template-columns: repeat(22, 1fr);">
     <div class={tw.palleteWrapper} >
 			<span class={tw.paletteItem + ' bg-slate-50'} title='slate-50 (#f8fafc)'></span>
 			<span class={tw.paletteItem + ' bg-slate-100'} title='slate-100 (#f1f5f9)'></span>
@@ -175,6 +175,72 @@ import DropdownMenu from '../../../../components/DropdownMenu.astro';
 			<span class={tw.paletteItem + ' bg-green-800'} title='green-800 (#166534)'></span>
 			<span class={tw.paletteItem + ' bg-green-900'} title='green-900 (#14532d)'></span>
 			<span class={tw.paletteItem + ' bg-green-950'} title='green-950 (#052e16)'></span>
+		</div>
+		<div class={tw.palleteWrapper} style="margin-top: 0;">
+			<span class={tw.paletteItem + ' bg-emerald-50'} title='emerald-50 (#ecfdf5)'></span>
+			<span class={tw.paletteItem + ' bg-emerald-100'} title='emerald-100 (#d1fae5)'></span>
+			<span class={tw.paletteItem + ' bg-emerald-200'} title='emerald-200 (#a7f3d0)'></span>
+			<span class={tw.paletteItem + ' bg-emerald-300'} title='emerald-300 (#6ee7b7)'></span>
+			<span class={tw.paletteItem + ' bg-emerald-400'} title='emerald-400 (#34d399)'></span>
+			<span class={tw.paletteItem + ' bg-emerald-500'} title='emerald-500 (#10b981)'></span>
+			<span class={tw.paletteItem + ' bg-emerald-600'} title='emerald-600 (#059669)'></span>
+			<span class={tw.paletteItem + ' bg-emerald-700'} title='emerald-700 (#047857)'></span>
+			<span class={tw.paletteItem + ' bg-emerald-800'} title='emerald-800 (#065f46)'></span>
+			<span class={tw.paletteItem + ' bg-emerald-900'} title='emerald-900 (#064e3b)'></span>
+			<span class={tw.paletteItem + ' bg-emerald-950'} title='emerald-950 (#022c22)'></span>
+		</div>
+		<div class={tw.palleteWrapper} style="margin-top: 0;">
+			<span class={tw.paletteItem + ' bg-teal-50'} title='teal-50 (#f0fdfa)'></span>
+			<span class={tw.paletteItem + ' bg-teal-100'} title='teal-100 (#ccfbf1)'></span>
+			<span class={tw.paletteItem + ' bg-teal-200'} title='teal-200 (#99f6e4)'></span>
+			<span class={tw.paletteItem + ' bg-teal-300'} title='teal-300 (#5eead4)'></span>
+			<span class={tw.paletteItem + ' bg-teal-400'} title='teal-400 (#2dd4bf)'></span>
+			<span class={tw.paletteItem + ' bg-teal-500'} title='teal-500 (#14b8a6)'></span>
+			<span class={tw.paletteItem + ' bg-teal-600'} title='teal-600 (#0d9488)'></span>
+			<span class={tw.paletteItem + ' bg-teal-700'} title='teal-700 (#0f766e)'></span>
+			<span class={tw.paletteItem + ' bg-teal-800'} title='teal-800 (#115e59)'></span>
+			<span class={tw.paletteItem + ' bg-teal-900'} title='teal-900 (#134e4a)'></span>
+			<span class={tw.paletteItem + ' bg-teal-950'} title='teal-950 (#042f2e)'></span>
+		</div>
+
+		<div class={tw.palleteWrapper} style="margin-top: 0;">
+			<span class={tw.paletteItem + ' bg-cyan-50'} title='cyan-50 (#ecfeff)'></span>
+			<span class={tw.paletteItem + ' bg-cyan-100'} title='cyan-100 (#cffafe)'></span>
+			<span class={tw.paletteItem + ' bg-cyan-200'} title='cyan-200 (#a5f3fc)'></span>
+			<span class={tw.paletteItem + ' bg-cyan-300'} title='cyan-300 (#67e8f9)'></span>
+			<span class={tw.paletteItem + ' bg-cyan-400'} title='cyan-400 (#22d3ee)'></span>
+			<span class={tw.paletteItem + ' bg-cyan-500'} title='cyan-500 (#06b6d4)'></span>
+			<span class={tw.paletteItem + ' bg-cyan-600'} title='cyan-600 (#0891b2)'></span>
+			<span class={tw.paletteItem + ' bg-cyan-700'} title='cyan-700 (#0e7490)'></span>
+			<span class={tw.paletteItem + ' bg-cyan-800'} title='cyan-800 (#155e75)'></span>
+			<span class={tw.paletteItem + ' bg-cyan-900'} title='cyan-900 (#164e63)'></span>
+			<span class={tw.paletteItem + ' bg-cyan-950'} title='cyan-950 (#083344)'></span>
+		</div>
+		<div class={tw.palleteWrapper} style="margin-top: 0;">
+			<span class={tw.paletteItem + ' bg-sky-50'} title='sky-50 (#f0f9ff)'></span>
+			<span class={tw.paletteItem + ' bg-sky-100'} title='sky-100 (#e0f2fe)'></span>
+			<span class={tw.paletteItem + ' bg-sky-200'} title='sky-200 (#bae6fd)'></span>
+			<span class={tw.paletteItem + ' bg-sky-300'} title='sky-300 (#7ddefc)'></span>
+			<span class={tw.paletteItem + ' bg-sky-400'} title='sky-400 (#38bdf8)'></span>
+			<span class={tw.paletteItem + ' bg-sky-500'} title='sky-500 (#0ea5e9)'></span>
+			<span class={tw.paletteItem + ' bg-sky-600'} title='sky-600 (#0284c7)'></span>
+			<span class={tw.paletteItem + ' bg-sky-700'} title='sky-700 (#0369a1)'></span>
+			<span class={tw.paletteItem + ' bg-sky-800'} title='sky-800 (#075985)'></span>
+			<span class={tw.paletteItem + ' bg-sky-900'} title='sky-900 (#0c4a6e)'></span>
+			<span class={tw.paletteItem + ' bg-sky-950'} title='sky-950 (#082f49)'></span>
+		</div>
+		<div class={tw.palleteWrapper} style="margin-top: 0;">
+			<span class={tw.paletteItem + ' bg-blue-50'} title='blue-50 (#eff6ff)'></span>
+			<span class={tw.paletteItem + ' bg-blue-100'} title='blue-100 (#dbeafe)'></span>
+			<span class={tw.paletteItem + ' bg-blue-200'} title='blue-200 (#bfdbfe)'></span>
+			<span class={tw.paletteItem + ' bg-blue-300'} title='blue-300 (#93c5fd)'></span>
+			<span class={tw.paletteItem + ' bg-blue-400'} title='blue-400 (#60a5fa)'></span>
+			<span class={tw.paletteItem + ' bg-blue-500'} title='blue-500 (#3b82f6)'></span>
+			<span class={tw.paletteItem + ' bg-blue-600'} title='blue-600 (#2563eb)'></span>
+			<span class={tw.paletteItem + ' bg-blue-700'} title='blue-700 (#1d4ed8)'></span>
+			<span class={tw.paletteItem + ' bg-blue-800'} title='blue-800 (#1e40af)'></span>
+			<span class={tw.paletteItem + ' bg-blue-900'} title='blue-900 (#1e3a8a)'></span>
+			<span class={tw.paletteItem + ' bg-blue-950'} title='blue-950 (#172554)'></span>
 		</div>
 
   </div>
