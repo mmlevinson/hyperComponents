@@ -13,7 +13,9 @@ description: Menu Components with a list of menu items
 
 export const tw = {
 	menuItem: 'px-4 hover:bg-stone-200 hover:dark:bg-stone-300 ' +
-	'hover:text-cyan-100 hover:dark:text-sky-950'
+	'hover:text-cyan-100 hover:dark:text-sky-950',
+	paletteItem: 'size-3 rounded-sm overflow-hidden ring-1 ring-stone-400 hover:ring-opacity-70 hover:ring-red-500',
+	palleteWrapper: 'flex flex-col gap-y-2'
 }
 
 export const menuId = 'dropdown-example-1'
@@ -26,6 +28,80 @@ import DropdownMenu from '../../../../components/DropdownMenu.astro';
    <li class={tw.menuItem} script={hs}>Choice 3</li>
    <li class={tw.menuItem} script="on click trigger closeDropdown then settle then go to url '/' ">Go Home</li>
 </DropdownMenu>
+
+
+
+<DropdownMenu id='palette-menu-1' caption="Colors" duration="300ms">
+  <div class="grid grid-cols-4 align-items-start gap-2 px-4">
+    <div class={tw.palleteWrapper} >
+			<span class={tw.paletteItem + ' bg-slate-50'} title='slate-50 (#f8fafc)'></span>
+			<span class={tw.paletteItem + ' bg-slate-100'} title='slate-100 (#f1f2f4)'></span>
+			<span class={tw.paletteItem + ' bg-slate-200'} title='slate-200 (#e4e6eb)'></span>
+			<span class={tw.paletteItem + ' bg-slate-300'} title='slate-300 (#d4d5d9)'></span>
+			<span class={tw.paletteItem + ' bg-slate-400'} title='slate-400 (#a7a9b0)'></span>
+			<span class={tw.paletteItem + ' bg-slate-500'} title='slate-500 (#6b6d72)'></span>
+			<span class={tw.paletteItem + ' bg-slate-600'} title='slate-600'></span>
+			<span class={tw.paletteItem + ' bg-slate-700'} title='slate-700'></span>
+			<span class={tw.paletteItem + ' bg-slate-800'} title='slate-800 (#2a2c31)'></span>
+			<span class={tw.paletteItem + ' bg-slate-900'} title='slate-900 (#1b1c21)'></span>
+			<span class={tw.paletteItem + ' bg-slate-950'} title='slate-950 (#0a0b0d)'></span>
+		</div>
+    <div class={tw.palleteWrapper} >
+			<span class={tw.paletteItem + ' bg-gray-50'} title='gray-50 (#f9fafb)'></span>
+			<span class={tw.paletteItem + ' bg-gray-100'} title='gray-100 (#f3f4f6)'></span>
+			<span class={tw.paletteItem + ' bg-gray-200'} title='gray-200 (#e5e7eb)'></span>
+			<span class={tw.paletteItem + ' bg-gray-300'} title='gray-300 (#d1d5db)'></span>
+			<span class={tw.paletteItem + ' bg-gray-400'} title='gray-400 (#9ca3af)'></span>
+			<span class={tw.paletteItem + ' bg-gray-500'} title='gray-500 (#6b7280)'></span>
+			<span class={tw.paletteItem + ' bg-gray-600'} title='gray-600 (#4b5563)'></span>
+			<span class={tw.paletteItem + ' bg-gray-700'} title='gray-700 (#374151)'></span>
+			<span class={tw.paletteItem + ' bg-gray-800'} title='gray-800 (#1f2937)'></span>
+			<span class={tw.paletteItem + ' bg-gray-900'} title='gray-900 (#111827)'></span>
+			<span class={tw.paletteItem + ' bg-gray-950'} title='gray-950 (#030712)'></span>
+		</div>
+    <div class={tw.palleteWrapper}>
+			<span class={tw.paletteItem + ' bg-zinc-50'} title='zinc-50 (#fafafa)'></span>
+			<span class={tw.paletteItem + ' bg-zinc-100'} title='zinc-100 (#f4f4f5)'></span>
+			<span class={tw.paletteItem + ' bg-zinc-200'} title='zinc-200 (#e4e4e7)'></span>
+			<span class={tw.paletteItem + ' bg-zinc-300'} title='zinc-300 (#d4d4d8)'></span>
+			<span class={tw.paletteItem + ' bg-zinc-400'} title='zinc-400 (#a1a1aa)'></span>
+			<span class={tw.paletteItem + ' bg-zinc-500'} title='zinc-500 (#71717a)'></span>
+			<span class={tw.paletteItem + ' bg-zinc-600'} title='zinc-600 (#52525b)'></span>
+			<span class={tw.paletteItem + ' bg-zinc-700'} title='zinc-700 (#3f3f46)'></span>
+			<span class={tw.paletteItem + ' bg-zinc-800'} title='zinc-800 (#27272a)'></span>
+			<span class={tw.paletteItem + ' bg-zinc-900'} title='zinc-900 (#18181b)'></span>
+			<span class={tw.paletteItem + ' bg-zinc-950'} title='zinc-950 (#09090b)'></span>
+		</div>
+    <div class={tw.palleteWrapper}>
+			<span class={tw.paletteItem + ' bg-neutral-50'} title='neutral-50 (#fafafa)'></span>
+			<span class={tw.paletteItem + ' bg-neutral-100'} title='neutral-100 (#f5f5f5)'></span>
+			<span class={tw.paletteItem + ' bg-neutral-200'} title='neutral-200 (#e5e5e5)'></span>
+			<span class={tw.paletteItem + ' bg-neutral-300'} title='neutral-300 (#d4d4d4)'></span>
+			<span class={tw.paletteItem + ' bg-neutral-400'} title='neutral-400 (#a3a3a3)'></span>
+			<span class={tw.paletteItem + ' bg-neutral-500'} title='neutral-500 (#737373)'></span>
+			<span class={tw.paletteItem + ' bg-neutral-600'} title='neutral-600 (#525252)'></span>
+			<span class={tw.paletteItem + ' bg-neutral-700'} title='neutral-700 (#404040)'></span>
+			<span class={tw.paletteItem + ' bg-neutral-800'} title='neutral-800 (#262626)'></span>
+			<span class={tw.paletteItem + ' bg-neutral-900'} title='neutral-900 (#171717)'></span>
+			<span class={tw.paletteItem + ' bg-neutral-950'} title='neutral-950 (#0a0a0a)'></span>
+		</div>
+    <div class={tw.palleteWrapper}>
+			<span class={tw.paletteItem + ' bg-stone-50'} title='stone-50 (#fafaf9)'></span>
+			<span class={tw.paletteItem + ' bg-stone-100'} title='stone-100 (#f5f5f4)'></span>
+			<span class={tw.paletteItem + ' bg-stone-200'} title='stone-200 (#e7e5e4)'></span>
+			<span class={tw.paletteItem + ' bg-stone-300'} title='stone-300 (#d6d3d1)'></span>
+			<span class={tw.paletteItem + ' bg-stone-400'} title='stone-400 (#a8a29e)'></span>
+			<span class={tw.paletteItem + ' bg-stone-500'} title='stone-500 (#78716c)'></span>
+			<span class={tw.paletteItem + ' bg-stone-600'} title='stone-600 (#57534e)'></span>
+			<span class={tw.paletteItem + ' bg-stone-700'} title='stone-700 (#44403c)'></span>
+			<span class={tw.paletteItem + ' bg-stone-800'} title='stone-800 (#292524)'></span>
+			<span class={tw.paletteItem + ' bg-stone-900'} title='stone-900 (#1c1917)'></span>
+			<span class={tw.paletteItem + ' bg-stone-950'} title='stone-950 (#0c0a09)'></span>
+		</div>
+  </div>
+</DropdownMenu>
+
+
 
 
 
