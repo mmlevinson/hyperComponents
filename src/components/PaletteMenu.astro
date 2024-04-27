@@ -5,6 +5,7 @@ interface Props {
  moveOver?:string //comma separated integer values specifying top,left shift in dropdown location
 }
 
+import {Image} from 'astro:assets'
 import DropdownMenu from './DropdownMenu.astro';
 
 const {id, caption, moveOver} = Astro.props
@@ -14,25 +15,26 @@ const tw = {
 	paletteItem: 'size-3 rounded-sm overflow-hidden ring-1 ring-slate-600 hover:scale-125',
 }
 
-const hs = "on click call alert('You selected ' + my innerHTML) "
+const hs = "on click log ('You selected ' + my @title) "
 ---
 
 
 
-<DropdownMenu id={id} caption={caption} moveOver={moveOver} >
+<DropdownMenu id={id} moveOver={moveOver} buttonStyles="dark:bg-slate-900" duration="300ms">
+	<img slot="startIcon" src='/images/tailwind_icon.svg' alt='tailwind icon' class="size-5"/>
   <div class="grid align-items-start gap-2 px-4" style="grid-template-columns: repeat(22, 1fr);">
     <div class={tw.palleteWrapper} >
-			<span class={tw.paletteItem + ' bg-slate-50'} title='slate-50 (#f8fafc)'></span>
-			<span class={tw.paletteItem + ' bg-slate-100'} title='slate-100 (#f1f5f9)'></span>
-			<span class={tw.paletteItem + ' bg-slate-200'} title='slate-200 (#e2e8f0)'></span>
-			<span class={tw.paletteItem + ' bg-slate-300'} title='slate-300 (#cbd5e1)'></span>
-			<span class={tw.paletteItem + ' bg-slate-400'} title='slate-400 (#94a3b8)'></span>
-			<span class={tw.paletteItem + ' bg-slate-500'} title='slate-500 (#64748b)'></span>
-			<span class={tw.paletteItem + ' bg-slate-600'} title='slate-600 (#475569)'></span>
-			<span class={tw.paletteItem + ' bg-slate-700'} title='slate-700 (#334155)'></span>
-			<span class={tw.paletteItem + ' bg-slate-800'} title='slate-800 (#1e293b)'></span>
-			<span class={tw.paletteItem + ' bg-slate-900'} title='slate-900 (#0f172a)'></span>
-			<span class={tw.paletteItem + ' bg-slate-950'} title='slate-950 (#020617)'></span>
+			<span script={hs} class={tw.paletteItem + ' bg-slate-50'} title='slate-50 (#f8fafc)'></span>
+			<span script={hs} class={tw.paletteItem + ' bg-slate-100'} title='slate-100 (#f1f5f9)'></span>
+			<span script={hs} class={tw.paletteItem + ' bg-slate-200'} title='slate-200 (#e2e8f0)'></span>
+			<span script={hs} class={tw.paletteItem + ' bg-slate-300'} title='slate-300 (#cbd5e1)'></span>
+			<span script={hs} class={tw.paletteItem + ' bg-slate-400'} title='slate-400 (#94a3b8)'></span>
+			<span script={hs} class={tw.paletteItem + ' bg-slate-500'} title='slate-500 (#64748b)'></span>
+			<span script={hs} class={tw.paletteItem + ' bg-slate-600'} title='slate-600 (#475569)'></span>
+			<span script={hs} class={tw.paletteItem + ' bg-slate-700'} title='slate-700 (#334155)'></span>
+			<span script={hs} class={tw.paletteItem + ' bg-slate-800'} title='slate-800 (#1e293b)'></span>
+			<span script={hs} class={tw.paletteItem + ' bg-slate-900'} title='slate-900 (#0f172a)'></span>
+			<span script={hs} class={tw.paletteItem + ' bg-slate-950'} title='slate-950 (#020617)'></span>
 		</div>
     <div class={tw.palleteWrapper} style="margin-top: 0;">
 			<span class={tw.paletteItem + ' bg-gray-50'} title='gray-50 (#f9fafb)'></span>
