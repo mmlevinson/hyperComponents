@@ -13,9 +13,9 @@ const tw = {
 	paletteItem: 'size-3 rounded-sm overflow-hidden ring-1 ring-slate-600 hover:scale-125',
 }
 
-const hs = 'on click log `You Selected ` + my @title'
+
 
 ---
 
-<span script={hs} class={tw.paletteItem + ` bg-${twColor}`} title={`${twColor} (#${hexCode})`}></span>
+<span script='on click log `You Selected ` + my @title' class={tw.paletteItem + ` bg-${twColor}`} title={`${twColor} (#${hexCode})`}></span>
 
