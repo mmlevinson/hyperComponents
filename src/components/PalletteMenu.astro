@@ -1,39 +1,25 @@
 ---
+interface Props {
+ id:string   //a unique identifier for this component, allowing multiple dropdowns on a page without collisions
+ caption?:string   //the text displayed in the button that triggers the dropdown
+ moveOver?:string //comma separated integer values specifying top,left shift in dropdown location
+}
 
-title: Dropdown Menus
-description: Menu Components with a list of menu items
+import DropdownMenu from './DropdownMenu.astro';
 
----
+const {id, caption, moveOver} = Astro.props
 
-## Click Activated Dropdowns...
-
-### Single Click Dropdown
-
-
-
-export const tw = {
-	menuItem: 'px-4 hover:bg-stone-200 hover:dark:bg-stone-300 ' +
-	'hover:text-cyan-100 hover:dark:text-sky-950',
+const tw = {
 	palleteWrapper: 'mt-0 flex flex-col gap-y-2',
 	paletteItem: 'size-3 rounded-sm overflow-hidden ring-1 ring-slate-600 hover:scale-125',
 }
 
-export const menuId = 'dropdown-example-1'
-export const hs = "on click call alert('You selected ' + my innerHTML) "
-import DropdownMenu from '../../../../components/DropdownMenu.astro';
-
-<DropdownMenu id={menuId} caption="Click Me" duration="300ms" moveOver="-5, -7">
-   <li class={tw.menuItem} script={hs}>Choice 1</li>
-   <li class={tw.menuItem} script={hs}>Choice 2</li>
-   <li class={tw.menuItem} script={hs}>Choice 3</li>
-   <li class={tw.menuItem} script="on click trigger closeDropdown then settle then go to url '/' ">Go Home</li>
-</DropdownMenu>
+const hs = "on click call alert('You selected ' + my innerHTML) "
+---
 
 
 
-
-
-<DropdownMenu id='palette-menu-1' caption="Colors" duration="300ms" >
+<DropdownMenu id={id} caption={caption} moveOver={moveOver} >
   <div class="grid align-items-start gap-2 px-4" style="grid-template-columns: repeat(22, 1fr);">
     <div class={tw.palleteWrapper} >
 			<span class={tw.paletteItem + ' bg-slate-50'} title='slate-50 (#f8fafc)'></span>
@@ -322,11 +308,5 @@ import DropdownMenu from '../../../../components/DropdownMenu.astro';
 			<span class={tw.paletteItem + ' bg-rose-900'} title='rose-900 (#881337)'></span>
 			<span class={tw.paletteItem + ' bg-rose-950'} title='rose-950 (#4c0519)'></span>
 		</div>
-
-  </div>
 </DropdownMenu>
-
-
-
-
 

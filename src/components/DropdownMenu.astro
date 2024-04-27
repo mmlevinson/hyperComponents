@@ -2,8 +2,8 @@
 interface Props {
  id:string   //a unique identifier for this component, allowing multiple dropdowns on a page without collisions
  caption:string   //the text displayed in the button that triggers the dropdown
- dropdownStyles:string[]   //any additional styles to apply to the overall wrapper <div>
- buttonStyles:string[]   //any additional Tailwind classes for customizing the trigger button
+ dropdownStyles:string   //any additional styles to apply to the overall wrapper <div>
+ buttonStyles:string   //any additional Tailwind classes for customizing the trigger button
  listStyles:string   //any additional styles to apply to the dropdown list
  moveOver:string //comma separated integer values specifying top,left shift in dropdown location
  duration: '100ms'
@@ -22,7 +22,7 @@ const tw = {
 		'focus:ring-4 focus:outline-none focus:ring-indigo-300 ',
 	dropdownWrapper:'hidden h-0 absolute z-10 ' + 
 		'rounded-lg drop-shadow-2xl overflow-hidden ' + 
-		'text-lg font-medium' +
+		'text-lg font-medium ' +
 		'bg-white dark:bg-gray-800 ',
 	itemsList:'opacity-0 flex flex-col gap-y-4 cursor-pointer ' + 
 		'py-4 font-semibold text-gray-900 dark:text-zinc-50',
