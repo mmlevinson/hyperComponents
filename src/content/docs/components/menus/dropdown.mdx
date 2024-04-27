@@ -13,12 +13,17 @@ description: Menu Components with a list of menu items
 
 export const tw = {
 	menuItem: 'px-4 hover:bg-stone-200 hover:dark:bg-stone-300 ' +
-	'hover:text-cyan-100 hover:dark:text-sky-950'
+	'hover:text-cyan-100 hover:dark:text-sky-950',
+	palleteWrapper: 'mt-0 flex flex-col gap-y-2',
+	paletteItem: 'size-3 rounded-sm overflow-hidden ring-1 ring-slate-600 hover:scale-125',
 }
 
 export const menuId = 'dropdown-example-1'
 export const hs = "on click call alert('You selected ' + my innerHTML) "
 import DropdownMenu from '../../../../components/DropdownMenu.astro';
+import PaletteMenu from '../../../../components/PaletteMenu.astro'
+
+
 
 <DropdownMenu id={menuId} caption="Click Me" duration="300ms" moveOver="-5, -7">
    <li class={tw.menuItem} script={hs}>Choice 1</li>
@@ -28,6 +33,12 @@ import DropdownMenu from '../../../../components/DropdownMenu.astro';
 </DropdownMenu>
 
 import PaletteMenu from '../../../../components/PaletteMenu.astro'
+
+
+<PaletteMenu id='twColors' caption='Colors'>
+</PaletteMenu>
+
+
 
 
 

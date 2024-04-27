@@ -56,3 +56,12 @@ One problem  with this strategy is losing Tailwind code completion and Intellise
 
 Before you walk away and refactor all the example code, you may give this strategy a try and see if you might end up liking this strategy.
 
+## Are you missing a space char?
+
+In the example below, the class list has been extracted to a 'tw' constant.   Concatenation is used to manage verbose tailwind by using
+multi-line strings with concatenation.   While the resulting class list is more readable, there is a subtle mis-step that is easy to fall into. 
+
+Class lists are space-separated values.   So, don't forget to include a space at the end of each line in your multiline construct.  If you leave it out, concatenation merges two class names together.   You will see this effect in the browser DevTools when inspecting your classes.   The missing space char will break your Tailwind list, so watch for this if you are using multi-line strings with string concatenation.  active
+
+Of course you can use back-tick delimited strings instead, but then all white-space is also preserved, including line returns. 
+
