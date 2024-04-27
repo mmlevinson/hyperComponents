@@ -2,12 +2,9 @@
 interface Props {
 	twColor: string
 	hexCode:string
-	itemStyles?:string
-	script?: string
 }
 
-import {twMerge} from 'tailwind-merge'
-const {twColor, hexCode, itemStyles, script } = Astro.props
+const {twColor, hexCode } = Astro.props
 
 function capitalizeFirstCharacter(str) {
     if (!str) return str;
@@ -19,8 +16,6 @@ const color = capitalizeFirstCharacter(twColor.replace(/^bg-/, ''))
 const tw = {
 	paletteItem: 'size-3 rounded-sm overflow-hidden ring-1 ring-slate-600 hover:scale-125',
 }
-
-
 
 ---
 
