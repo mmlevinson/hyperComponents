@@ -15,7 +15,7 @@ export const tw = {
 	menuItem: 'px-4 hover:bg-stone-200 hover:dark:bg-stone-300 ' +
 	'hover:text-cyan-100 hover:dark:text-sky-950',
 	paletteItem: 'size-3 rounded-sm overflow-hidden ring-1 ring-stone-400 hover:ring-opacity-70 hover:ring-red-500',
-	palleteWrapper: 'flex flex-col gap-y-2'
+	palleteWrapper: 'mt-0 flex flex-col gap-y-2'
 }
 
 export const menuId = 'dropdown-example-1'
@@ -32,21 +32,21 @@ import DropdownMenu from '../../../../components/DropdownMenu.astro';
 
 
 <DropdownMenu id='palette-menu-1' caption="Colors" duration="300ms">
-  <div class="grid grid-cols-4 align-items-start gap-2 px-4">
+  <div class="grid grid-cols-12 align-items-start gap-2 px-4">
     <div class={tw.palleteWrapper} >
 			<span class={tw.paletteItem + ' bg-slate-50'} title='slate-50 (#f8fafc)'></span>
-			<span class={tw.paletteItem + ' bg-slate-100'} title='slate-100 (#f1f2f4)'></span>
-			<span class={tw.paletteItem + ' bg-slate-200'} title='slate-200 (#e4e6eb)'></span>
-			<span class={tw.paletteItem + ' bg-slate-300'} title='slate-300 (#d4d5d9)'></span>
-			<span class={tw.paletteItem + ' bg-slate-400'} title='slate-400 (#a7a9b0)'></span>
-			<span class={tw.paletteItem + ' bg-slate-500'} title='slate-500 (#6b6d72)'></span>
-			<span class={tw.paletteItem + ' bg-slate-600'} title='slate-600'></span>
-			<span class={tw.paletteItem + ' bg-slate-700'} title='slate-700'></span>
-			<span class={tw.paletteItem + ' bg-slate-800'} title='slate-800 (#2a2c31)'></span>
-			<span class={tw.paletteItem + ' bg-slate-900'} title='slate-900 (#1b1c21)'></span>
-			<span class={tw.paletteItem + ' bg-slate-950'} title='slate-950 (#0a0b0d)'></span>
+			<span class={tw.paletteItem + ' bg-slate-100'} title='slate-100 (#f1f5f9)'></span>
+			<span class={tw.paletteItem + ' bg-slate-200'} title='slate-200 (#e2e8f0)'></span>
+			<span class={tw.paletteItem + ' bg-slate-300'} title='slate-300 (#cbd5e1)'></span>
+			<span class={tw.paletteItem + ' bg-slate-400'} title='slate-400 (#94a3b8)'></span>
+			<span class={tw.paletteItem + ' bg-slate-500'} title='slate-500 (#64748b)'></span>
+			<span class={tw.paletteItem + ' bg-slate-600'} title='slate-600 (#475569)'></span>
+			<span class={tw.paletteItem + ' bg-slate-700'} title='slate-700 (#334155)'></span>
+			<span class={tw.paletteItem + ' bg-slate-800'} title='slate-800 (#1e293b)'></span>
+			<span class={tw.paletteItem + ' bg-slate-900'} title='slate-900 (#0f172a)'></span>
+			<span class={tw.paletteItem + ' bg-slate-950'} title='slate-950 (#020617)'></span>
 		</div>
-    <div class={tw.palleteWrapper} >
+    <div class={tw.palleteWrapper} style="margin-top: 0;">
 			<span class={tw.paletteItem + ' bg-gray-50'} title='gray-50 (#f9fafb)'></span>
 			<span class={tw.paletteItem + ' bg-gray-100'} title='gray-100 (#f3f4f6)'></span>
 			<span class={tw.paletteItem + ' bg-gray-200'} title='gray-200 (#e5e7eb)'></span>
@@ -59,7 +59,7 @@ import DropdownMenu from '../../../../components/DropdownMenu.astro';
 			<span class={tw.paletteItem + ' bg-gray-900'} title='gray-900 (#111827)'></span>
 			<span class={tw.paletteItem + ' bg-gray-950'} title='gray-950 (#030712)'></span>
 		</div>
-    <div class={tw.palleteWrapper}>
+    <div class={tw.palleteWrapper} style="margin-top: 0;">
 			<span class={tw.paletteItem + ' bg-zinc-50'} title='zinc-50 (#fafafa)'></span>
 			<span class={tw.paletteItem + ' bg-zinc-100'} title='zinc-100 (#f4f4f5)'></span>
 			<span class={tw.paletteItem + ' bg-zinc-200'} title='zinc-200 (#e4e4e7)'></span>
@@ -72,7 +72,7 @@ import DropdownMenu from '../../../../components/DropdownMenu.astro';
 			<span class={tw.paletteItem + ' bg-zinc-900'} title='zinc-900 (#18181b)'></span>
 			<span class={tw.paletteItem + ' bg-zinc-950'} title='zinc-950 (#09090b)'></span>
 		</div>
-    <div class={tw.palleteWrapper}>
+    <div class={tw.palleteWrapper} style="margin-top: 0;">
 			<span class={tw.paletteItem + ' bg-neutral-50'} title='neutral-50 (#fafafa)'></span>
 			<span class={tw.paletteItem + ' bg-neutral-100'} title='neutral-100 (#f5f5f5)'></span>
 			<span class={tw.paletteItem + ' bg-neutral-200'} title='neutral-200 (#e5e5e5)'></span>
@@ -85,7 +85,7 @@ import DropdownMenu from '../../../../components/DropdownMenu.astro';
 			<span class={tw.paletteItem + ' bg-neutral-900'} title='neutral-900 (#171717)'></span>
 			<span class={tw.paletteItem + ' bg-neutral-950'} title='neutral-950 (#0a0a0a)'></span>
 		</div>
-    <div class={tw.palleteWrapper}>
+		<div class={tw.palleteWrapper} style="margin-top: 0;">
 			<span class={tw.paletteItem + ' bg-stone-50'} title='stone-50 (#fafaf9)'></span>
 			<span class={tw.paletteItem + ' bg-stone-100'} title='stone-100 (#f5f5f4)'></span>
 			<span class={tw.paletteItem + ' bg-stone-200'} title='stone-200 (#e7e5e4)'></span>
@@ -98,6 +98,33 @@ import DropdownMenu from '../../../../components/DropdownMenu.astro';
 			<span class={tw.paletteItem + ' bg-stone-900'} title='stone-900 (#1c1917)'></span>
 			<span class={tw.paletteItem + ' bg-stone-950'} title='stone-950 (#0c0a09)'></span>
 		</div>
+		<div class={tw.palleteWrapper} style="margin-top: 0;">
+			<span class={tw.paletteItem + ' bg-red-50'} title='red-50 (#f3f2f2)'></span>
+			<span class={tw.paletteItem + ' bg-red-100'} title='red-100 (#fee2e2)'></span>
+			<span class={tw.paletteItem + ' bg-red-200'} title='red-200 (#fecaca)'></span>
+			<span class={tw.paletteItem + ' bg-red-300'} title='red-300 (#fca5a5)'></span>
+			<span class={tw.paletteItem + ' bg-red-400'} title='red-400 (#f87171)'></span>
+			<span class={tw.paletteItem + ' bg-red-500'} title='red-500 (#ef4444)'></span>
+			<span class={tw.paletteItem + ' bg-red-600'} title='red-600 (#dc2626)'></span>
+			<span class={tw.paletteItem + ' bg-red-700'} title='red-700 (#b91c1c)'></span>
+			<span class={tw.paletteItem + ' bg-red-800'} title='red-800 (#991b1b)'></span>
+			<span class={tw.paletteItem + ' bg-red-900'} title='red-900 (#7f1d1d)'></span>
+			<span class={tw.paletteItem + ' bg-red-950'} title='red-950 (#450a0a)'></span>
+		</div>
+		<div class={tw.palleteWrapper} style="margin-top: 0;">
+			<span class={tw.paletteItem + ' bg-orange-50'} title='orange-50 (#fff7ed)'></span>
+			<span class={tw.paletteItem + ' bg-orange-100'} title='orange-100 (#ffedd5)'></span>
+			<span class={tw.paletteItem + ' bg-orange-200'} title='orange-200 (#fed7aa)'></span>
+			<span class={tw.paletteItem + ' bg-orange-300'} title='orange-300 (#fdba74)'></span>
+			<span class={tw.paletteItem + ' bg-orange-400'} title='orange-400 (#fb923c)'></span>
+			<span class={tw.paletteItem + ' bg-orange-500'} title='orange-500 (#f97316)'></span>
+			<span class={tw.paletteItem + ' bg-orange-600'} title='orange-600 (#ea580c)'></span>
+			<span class={tw.paletteItem + ' bg-orange-700'} title='orange-700 (#c2410c)'></span>
+			<span class={tw.paletteItem + ' bg-orange-800'} title='orange-800 (#9a3412)'></span>
+			<span class={tw.paletteItem + ' bg-orange-900'} title='orange-900 (#7c2d12)'></span>
+			<span class={tw.paletteItem + ' bg-orange-950'} title='orange-950 (#431407)'></span>
+		</div>
+
   </div>
 </DropdownMenu>
 
