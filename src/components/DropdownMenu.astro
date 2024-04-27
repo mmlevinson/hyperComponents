@@ -50,16 +50,15 @@ const hs = {
 
 			def resetPosition
 				set offset to @moveOver.split(',')
-				set topOffset to offset[0] as Int
-				set leftOffset to offset[1] as Int
+				set leftOffset to offset[0] as Int
+				set bottomOffset to offset[1] as Int
 				measure me then put the result.bounds into myBounds
-				set newLeft to (myBounds.left - myBounds.width)
-				set *left of #{:dropdownWrapper} to (newLeft + leftOffset) + 'px'
-				set *top of #{:dropdownWrapper} to (myBounds.height + topOffset ) + 'px'
+				set *left of #{:dropdownWrapper} to (myBounds.left + leftOffset) px
+				set *top of #{:dropdownWrapper} to (myBounds.bottom  + bottomOffset) px
 			end  -- calcOffset
 			
 			on openDropdown
-			  -- resetPosition()
+			  resetPosition()
 				remove .hidden from #{:dropdownWrapper} -- now items have an offsetHeight available
 				set *height of #{:dropdownWrapper} to (calcHeight() + 'px') then wait 20ms then
 				set *opacity of #{:itemsList} to 1
