@@ -25,6 +25,7 @@ import PaletteMenu from '../../../../components/PaletteMenu.astro'
 
 
 
+
 <DropdownMenu id={menuId} caption="Click Me" duration="300ms" moveOver="-5, -7">
    <li class={tw.menuItem} script={hs}>Choice 1</li>
    <li class={tw.menuItem} script={hs}>Choice 2</li>
@@ -32,10 +33,8 @@ import PaletteMenu from '../../../../components/PaletteMenu.astro'
    <li class={tw.menuItem} script="on click trigger closeDropdown then settle then go to url '/' ">Go Home</li>
 </DropdownMenu>
 
-import PaletteMenu from '../../../../components/PaletteMenu.astro'
 
-
-<PaletteMenu id='twColors' caption='Colors'>
+<PaletteMenu id='twColors'>
 </PaletteMenu>
 
 
