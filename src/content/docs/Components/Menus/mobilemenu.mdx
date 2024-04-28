@@ -1,0 +1,80 @@
+---
+
+title: Mobile Menu (Hamburger) Button
+description: Dropdown Menu Component typical of a mobile menu choices list
+
+---
+
+
+### Description
+
+This example demonstrates a commonly used web component that presents simple button which displays a list of choices when activated by a click or tap.
+
+Common usage includes display of 
+
+The choice list appears as a dropdown below (or in a defined location near) the button.   
+
+A Click/Tap on a menu item triggers a 
+a custom event to be fired followed by dismissal of the dropdown.
+
+### Features
+
+The trigger button and the dropdown are styled with Tailwind CSS utility classes and are both
+fully customizable using props (see below)
+
+The action triggered by tapping a menu item is customizable.
+
+Appearance and disappearance of the dropdown are both smoothly animated using HyperScript
+
+### Props
+
+```ts
+interface Props {
+ id:string 
+ caption:string   
+ dropdownStyles:string   
+ buttonStyles:string   
+ listStyles:string   
+ moveOver:string 
+ duration: string
+}
+
+const {id, caption, dropdownStyles, buttonStyles, listStyles, moveOver = "0,0", duration = '100ms'} = Astro.props
+```
+
+
+### example
+
+
+### Code
+export const tw = {
+	dropdownContainer: 'flex gap-y-2 justify-between items-center w-full w-max-lg mx-auto bg-gray-700',
+	menuItem: 'px-4 hover:bg-stone-200 hover:dark:bg-stone-300 ' +
+	'hover:text-cyan-100 hover:dark:text-sky-950',
+}
+
+export const hs = "on click call alert('You selected ' + my innerHTML) "
+
+import DropdownMenu from '../../../../components/DropdownMenu.astro';
+import DropdownMenuX from '../../../../components/DropdownMenuX.astro';
+
+<div id='dropdownContainer' class={tw.dropdownContainer} style="margin-top:0;">
+
+<DropdownMenu id={'dropdown-example-1'} caption="Click Me" duration="300ms" moveOver="-5, -7">
+   <li class={tw.menuItem} script={hs}>Choice 1</li>
+   <li class={tw.menuItem} script={hs}>Choice 2</li>
+   <li class={tw.menuItem} script={hs}>Choice 3</li>
+   <li class={tw.menuItem} script="on click trigger closeDropdown then settle then go to url '/' ">Go Home</li>
+</DropdownMenu>
+
+
+
+
+
+
+</div>
+
+
+
+
+

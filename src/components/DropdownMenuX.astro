@@ -8,7 +8,7 @@ interface Props {
  buttonStyles: string   //any additional Tailwind classes for customizing the trigger button
  listStyles: string   //any additional styles to apply to the dropdown list
  moveOver: string //comma separated integer values specifying x,y shift in dropdown position
- triggers: string, //events for which the dropdown will be triggered
+ hover: boolean, //responds to mouseenter/leave
  duration: string, //transition duration for the dropdown appearance/disappearance
 }
 
@@ -20,7 +20,7 @@ const {
 	buttonStyles, 
 	listStyles, 
 	moveOver = "0,0", 
-	triggers = 'click, mouseEnter', 
+	hover = true, 
 	duration = '100js'
 } = Astro.props
 
@@ -29,7 +29,7 @@ const tw = {
 		'font-semibold text-lg lg:text-xl text-zinc-100 hover:text-zinc-400 hover:dark:text-zinc-300 ' + 
 		'bg-indigo-600 hover:bg-indigo-800 ' +
 		'focus:ring-4 focus:outline-none focus:ring-indigo-300',
-	dropdownWrapper:'hidden h-0 absolute z-10 ' + 
+	dropdownWrapper:'h-0 absolute z-10 ' + 
 		'rounded-lg drop-shadow-2xl overflow-hidden ' + 
 		'text-lg font-medium ' +
 		'bg-white dark:bg-gray-800 ',
@@ -47,10 +47,19 @@ const tw = {
 			set :dropdownHasMouse to false
 		end
 
+	def openUp
+	  log 'opening'
+		resetPosition()
+		-- remove .hidden from #{my @id + '-wrapper'} -- now items have an offsetHeight available
+		set *height of the next <div/> to (calcHeight() + 'px') then wait 20ms then
+		set *opacity of #{my @id + '-items'} to 1
+		add .open to me
+	end
 	
-	on mouseenter
+	on mouseenter(target)
+	  log target.id
 	  call me.focus()
-		trigger openDropdown on me
+		if beep! event.target.id matches my @id then openUp()
 	end
 
 	on mouseleave
@@ -91,19 +100,19 @@ const tw = {
 		set *top of #{:dropdownWrapper} to (myBounds.bottom  + bottomOffset) px
 	end  -- calcOffset
 	
-	on openDropdown
+	on openDropdown from me
 		resetPosition()
-		remove .hidden from #{:dropdownWrapper} -- now items have an offsetHeight available
+		-- remove .hidden from #{:dropdownWrapper} -- now items have an offsetHeight available
 		set *height of #{:dropdownWrapper} to (calcHeight() + 'px') then wait 20ms then
 		set *opacity of #{:itemsList} to 1
 		add .open to me
 	end
 
 	-- handler to hide dropdown
-	on closeDropdown
+	on closeDropdown from me
 		set *opacity of #{:itemsList} to 0
 		set *height of #{:dropdownWrapper} to 0 then settle then
-		add .hidden to #{:dropdownWrapper}
+		-- add .hidden to #{:dropdownWrapper}
 		remove .open from me
 	end
 

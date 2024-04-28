@@ -1,7 +1,7 @@
 ---
 
-title: Dropdown Menus
-description: Menu Components with a list of menu items
+title: Palette Style Dropdown
+description: Dropdown Menu Component displaying a palette of colors
 
 ---
 
@@ -33,9 +33,13 @@ import PaletteMenu from '../../../../components/PaletteMenu.astro'
    <li class={tw.menuItem} script="on click trigger closeDropdown then settle then go to url '/' ">Go Home</li>
 </DropdownMenu>
 
-<DropdownMenuX id={'dropdown-example-2'} caption="Hover Me" duration="300ms" moveOver="0, -10">
+<DropdownMenuX  id={'dropdown-example-2'} caption="Hover Me" duration="300ms" moveOver="0, -10">
    <li class={tw.menuItem} script={hs}>Hover 1</li>
    <li class={tw.menuItem} script={hs}>Hover 2</li>
+   <li class={tw.menuItem} script={hs}>Hover 3</li>
+   <li class={tw.menuItem} script={hs}>Hover 4</li>
+   <li class={tw.menuItem} script={hs}>Hover 5</li>
+   <li class={tw.menuItem} script={hs}>Hover 7</li>
    <li class={tw.menuItem} script={hs}>Hover 3</li>
    <li class={tw.menuItem} script="on click trigger closeDropdown then settle then go to url '/' ">Go Home</li>
 </DropdownMenuX>
