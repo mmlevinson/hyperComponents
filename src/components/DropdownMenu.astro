@@ -30,20 +30,20 @@ const hs = {
 	toggleDropdown: `init
 			set :dropdownWrapper to 'dropdownWrapper-' + @id
 			set :itemsList to 'itemsList-' + @id
-			set :buttonHasMouse to false
-			set :isOpen to false
+			-- set :buttonHasMouse to false
 
 			-- handler for click in trigger button
-			on click or blur
-				if :isOpen then trigger closeDropdown on me otherwise trigger openDropdown on me
+			on click or blur from me
+				if I match .open then trigger closeDropdown on me 
+				otherwise trigger openDropdown on me
 			end
 
-			-- handler for dismissal of dropdown using Escape key
+			-- handler for dismissal of dropdown using Escape key when element has focuse
 			on keydown[key=='Escape']
 				trigger closeDropdown on me
 			end
 
-			-- function to calculate actual height of dropdown based on contents
+			-- function to calculate actual height of dropdown based on it's contents
 			def calcHeight
 				set dropdownHeight to 0 then set items to the children of #{:dropdownWrapper}
 				for item in items increment the dropdownHeight by the item's offsetHeight end
@@ -52,7 +52,7 @@ const hs = {
 
 			-- handler to reposition dropdown by x,y pixels
 			def resetPosition
-				set offset to @moveOver.split(',')
+				set offset to my @moveOver.split(',')
 				set leftOffset to offset[0] as Int
 				set bottomOffset to offset[1] as Int
 				measure me then put the result.bounds into myBounds
@@ -66,7 +66,7 @@ const hs = {
 				remove .hidden from #{:dropdownWrapper} -- now items have an offsetHeight available
 				set *height of #{:dropdownWrapper} to (calcHeight() + 'px') then wait 20ms then
 				set *opacity of #{:itemsList} to 1
-				set :isOpen to true
+				add .open to me
 			end
 
 			-- handler to hide dropdown
@@ -74,7 +74,7 @@ const hs = {
 				set *opacity of #{:itemsList} to 0
 				set *height of #{:dropdownWrapper} to 0 then settle then
 				add .hidden to #{:dropdownWrapper}
-				set :isOpen to false
+				remove .open from me
 			end`,
   hideDropdown: `on click or mouseleave send closeDropdown to the previous <button/> end`
 
@@ -105,7 +105,7 @@ You cannot set the .hidden class (or the corresponding <li> are absent from the 
 have no offsetHeight value*/
 ---
 
-<div>
+<div style="margin-top:0;">
 	<button 
 		id={id}  
 		type='button'
@@ -116,17 +116,18 @@ have no offsetHeight value*/
 			{caption}
 			<slot name='endIcon'/>
 	</button>
-</div>
 
 
-<div id=`dropdownWrapper-${id}` 
-	class={twMerge(tw.dropdownWrapper, dropdownStyles)} 
-	style=`transition: all ${duration} ease-in-out`>
-		<ul id=`itemsList-${id}` 
-			class={twMerge(tw.itemsList, listStyles)} style="transition: all 50ms ease-in-out"
-			script={hs.hideDropdown}>
-		<slot/>
-		</ul>
+
+	<div id=`dropdownWrapper-${id}` 
+		class={twMerge(tw.dropdownWrapper, dropdownStyles)} 
+		style=`transition: all ${duration} ease-in-out`>
+			<ul id=`itemsList-${id}` 
+				class={twMerge(tw.itemsList, listStyles)} style="transition: all 50ms ease-in-out"
+				script={hs.hideDropdown}>
+			<slot/>
+			</ul>
+	</div>
 </div>
 
 

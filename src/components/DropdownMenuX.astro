@@ -74,12 +74,14 @@ const tw = {
 		trigger closeDropdown on me
 	end
 
+		-- function to calculate actual height of dropdown based on it's contents
 	def calcHeight
 		set dropdownHeight to 0 then set items to the children of #{:dropdownWrapper}
 		for item in items increment the dropdownHeight by the item's offsetHeight end
 		return dropdownHeight
 	end -- calcHeight
 
+	-- handler to reposition dropdown by x,y pixels
 	def resetPosition
 		set offset to my @moveOver.split(',')
 		set leftOffset to offset[0] as Int
@@ -104,7 +106,8 @@ const tw = {
 		add .hidden to #{:dropdownWrapper}
 		remove .open from me
 	end
-	end -- ToggleDropdown
+
+	end -- ToggleDropdown behavior
 
 	behavior HideDropdown
 	  on mouseover send mouseWithinDropdown(value:true) to the previous <button/> end
@@ -113,29 +116,31 @@ const tw = {
 	end -- HideDropdown
 </script>
 
-<div>
-	<button 
-		id={id}  
+
+<div style="margin-top:0;">
+	<button
+		id={id}
 		type='button'
-		moveOver={moveOver} 
-		class={twMerge(tw.triggerButton, buttonStyles)} 
+		moveOver={moveOver}
+		class={twMerge(tw.triggerButton, buttonStyles)}
 		_="install ToggleDropdown">
 		<slot name='startIcon' />
 		{caption}
 		<slot name='endIcon'/>
 	</button>
-</div>
-
-
-<div id=`dropdownWrapper-${id}` 
-	class={twMerge(tw.dropdownWrapper, dropdownStyles)} 
-	style=`transition: all ${duration} ease-in-out`>
-		<ul id=`itemsList-${id}` 
-			class={twMerge(tw.itemsList, listStyles)} 
-			style="transition: all 50ms ease-in-out"
-		_="install HideDropdown">
-		<slot/>
-		</ul>
+	
+	
+	
+	<div id=`dropdownWrapper-${id}`
+		class={twMerge(tw.dropdownWrapper, dropdownStyles)}
+		style=`transition: all ${duration} ease-in-out`>
+			<ul id=`itemsList-${id}`
+				class={twMerge(tw.itemsList, listStyles)}
+				style="transition: all 50ms ease-in-out"
+			_="install HideDropdown">
+			<slot/>
+			</ul>
+	</div>
 </div>
 
 
