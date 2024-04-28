@@ -47,14 +47,17 @@ const tw = {
 			set :dropdownHasMouse to false
 			set :isOpen to false
 		end
+
 	
 	on mouseenter
+	  call me.focus()
 		trigger openDropdown on me
 	end
+
 	on mouseleave
-		log event.target
-	  wait 30ms then
-		if not :dropdownHasMouse then trigger closeDropdown on me
+		if event.target.id is my @id then wait 50ms then
+			if not :dropdownHasMouse trigger closeDropdown on me
+    end
 	end
 
 	on mouseWithinDropdown(value)
@@ -99,7 +102,8 @@ const tw = {
 	end -- ToggleDropdown
 
 	behavior HideDropdown
-		on mouseenter send mouseWithinDropdown(value:true) to the previous <button/> end
+	  on mouseover send mouseWithinDropdown(value:true) to the previous <button/> end
+		on mouseleave send mouseWithinDropdown(value:false) to the previous <button/> end
 		on click or mouseleave send closeDropdown to the previous <button/> end
 	end -- HideDropdown
 </script>
