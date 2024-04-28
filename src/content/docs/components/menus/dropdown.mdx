@@ -9,8 +9,6 @@ description: Menu Components with a list of menu items
 
 ### Single Click Dropdown
 
-
-
 export const tw = {
 	menuItem: 'px-4 hover:bg-stone-200 hover:dark:bg-stone-300 ' +
 	'hover:text-cyan-100 hover:dark:text-sky-950',
@@ -18,20 +16,25 @@ export const tw = {
 	paletteItem: 'size-3 rounded-sm overflow-hidden ring-1 ring-slate-600 hover:scale-125',
 }
 
-export const menuId = 'dropdown-example-1'
 export const hs = "on click call alert('You selected ' + my innerHTML) "
+
 import DropdownMenu from '../../../../components/DropdownMenu.astro';
+import DropdownMenuX from '../../../../components/DropdownMenuX.astro';
 import PaletteMenu from '../../../../components/PaletteMenu.astro'
 
-
-
-
-<DropdownMenu id={menuId} caption="Click Me" duration="300ms" moveOver="-5, -7">
+<DropdownMenu id={'dropdown-example-1'} caption="Click Me" duration="300ms" moveOver="-5, -7">
    <li class={tw.menuItem} script={hs}>Choice 1</li>
    <li class={tw.menuItem} script={hs}>Choice 2</li>
    <li class={tw.menuItem} script={hs}>Choice 3</li>
    <li class={tw.menuItem} script="on click trigger closeDropdown then settle then go to url '/' ">Go Home</li>
 </DropdownMenu>
+
+<DropdownMenuX id={'dropdown-example-2'} caption="Hover Me" duration="300ms" moveOver="-5, -7">
+   <li class={tw.menuItem} script={hs}>Choice 1</li>
+   <li class={tw.menuItem} script={hs}>Choice 2</li>
+   <li class={tw.menuItem} script={hs}>Choice 3</li>
+   <li class={tw.menuItem} script="on click trigger closeDropdown then settle then go to url '/' ">Go Home</li>
+</DropdownMenuX>
 
 
 <PaletteMenu id='twColors'>

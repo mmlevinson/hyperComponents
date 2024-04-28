@@ -32,20 +32,25 @@ const hs = {
 			set :itemsList to 'itemsList-' + @id
 			set :buttonHasMouse to false
 			set :isOpen to false
+
+			-- handler for click in trigger button
 			on click
 				if :isOpen then trigger closeDropdown on me otherwise trigger openDropdown on me
 			end
 
+			-- handler for dismissal of dropdown using Escape key
 			on keydown[key=='Escape']
 				trigger closeDropdown on me
 			end
 
+			-- function to calculate actual height of dropdown based on contents
 			def calcHeight
 				set dropdownHeight to 0 then set items to the children of #{:dropdownWrapper}
 				for item in items increment the dropdownHeight by the item's offsetHeight end
 				return dropdownHeight
 			end -- calcHeight
 
+			-- handler to reposition dropdown by x,y pixels
 			def resetPosition
 				set offset to @moveOver.split(',')
 				set leftOffset to offset[0] as Int
@@ -55,6 +60,7 @@ const hs = {
 				set *top of #{:dropdownWrapper} to (myBounds.bottom  + bottomOffset) px
 			end  -- calcOffset
 			
+			-- handler to show dropdown
 			on openDropdown
 			  resetPosition()
 				remove .hidden from #{:dropdownWrapper} -- now items have an offsetHeight available
@@ -62,6 +68,7 @@ const hs = {
 				set *opacity of #{:itemsList} to 1
 				set :isOpen to true
 			end
+
 			-- handler to hide dropdown
 			on closeDropdown
 				set *opacity of #{:itemsList} to 0
@@ -99,20 +106,27 @@ have no offsetHeight value*/
 ---
 
 <div>
-	<button id={id}  moveOver={moveOver} class={twMerge(tw.triggerButton, buttonStyles)} type='button'
+	<button 
+		id={id}  
+		type='button'
+		moveOver={moveOver} 
+		class={twMerge(tw.triggerButton, buttonStyles)} 
 		script={hs.toggleDropdown}>
-		<slot name='startIcon' class={tw.startIcon}/>
-		{caption}
-		<slot name='endIcon' class={tw.endIcon}/>
-		</button>
+			<slot name='startIcon'/>
+			{caption}
+			<slot name='endIcon'/>
+	</button>
 </div>
 
 
-<div id=`dropdownWrapper-${id}` class={twMerge(tw.dropdownWrapper, dropdownStyles)} style=`transition: all ${duration} ease-in-out`>
-	<ul id=`itemsList-${id}` class={twMerge(tw.itemsList, listStyles)} style="transition: all 50ms ease-in-out"
-	script={hs.hideDropdown}>
-	<slot/>
-	</ul>
+<div id=`dropdownWrapper-${id}` 
+	class={twMerge(tw.dropdownWrapper, dropdownStyles)} 
+	style=`transition: all ${duration} ease-in-out`>
+		<ul id=`itemsList-${id}` 
+			class={twMerge(tw.itemsList, listStyles)} style="transition: all 50ms ease-in-out"
+			script={hs.hideDropdown}>
+		<slot/>
+		</ul>
 </div>
 
 
