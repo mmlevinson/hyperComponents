@@ -5,14 +5,15 @@ description: Dropdown Menu Component activated by a click event
 
 ---
 
+A commonly used web component is a a simple button presenting a list of choices when tapped.
+
 ### Description
 
-A commonly used web component is a a simple button presenting a list of choices when tapped.
 
 The example below demonstrates an Astro component appearing as a simple button configured by a list of menu items passed into the default slot.
 
 export const tw = {
-	dropdownContainer: 'w-full py-2 w-max-lg text-center mx-auto dark:bg-gray-800 rounded-xl my-6',
+	dropdownContainer: 'not-content w-full py-2 w-max-lg text-center mx-auto dark:bg-gray-800 rounded-xl my-6',
 	menuItem: 'px-4 hover:bg-stone-200 hover:dark:bg-stone-300 ' +
 	'hover:text-cyan-100 hover:dark:text-sky-950',
 }
@@ -38,7 +39,7 @@ Tapping any item in the dropdown triggers a custom event to be fired followed by
 
 ### Features
 
-The trigger button and dropdown are initally styled with Tailwind CSS utility classes but are both fully customizable using props (see below)
+The trigger button and dropdown are initally styled with Tailwind CSS utility classes but are both fully customizable using [props](#props).
 
 Appearance and disappearance of the dropdown are smoothly animated by HyperScript. The dropdown is dismissed by:
 
@@ -54,7 +55,7 @@ Custom events and styling can be specified for each menu item.  In this example 
 
 Tailwind classes are used for the default styling of the trigger button and dropdown wrapper. For accesssibility, the trigger button receives a focus ring when activated.
 
-To reduce verbosity and improve readability the Tailwind classes are extracted from the markup and encapsulated into a local <strong>tw</strong> variable in the Astro component script and then interpolated into the template.
+To reduce verbosity and improve readability the Tailwind classes are extracted from the markup and encapsulated into a local `tw` variable in the Astro component script and then interpolated into the template.
 
 Custom styles can be applied to all elements of the component by passing a string containing Tailwind utility classes as props.
 
@@ -78,7 +79,27 @@ const {id, caption, dropdownStyles, buttonStyles, listStyles, moveOver = "0,0", 
 
 ### Code
 
+import {Tabs, TabItem } from '@astrojs/starlight/components'
 
+
+<Tabs>
+  <TabItem label="HTML">
+    ```html
+	<DropdownMenu id={'dropdown-example-1'} caption="Click Me" duration="300ms" moveOver="-5, -7">
+		<li class={tw.menuItem} script={hs}>Choice 1</li>
+		<li class={tw.menuItem} script={hs}>Choice 2</li>
+		<li class={tw.menuItem} script={hs}>Choice 3</li>
+		<li class={tw.menuItem} script="on click trigger closeDropdown then settle then go to url '/' ">Go Home</li>
+</DropdownMenu>
+		```
+  </TabItem>
+  <TabItem label="Scripts">
+    Tab 2 Content
+  </TabItem>
+  <TabItem label="Tailwind">
+    Tab 3 Content
+  </TabItem>
+</Tabs>
 
 
 
