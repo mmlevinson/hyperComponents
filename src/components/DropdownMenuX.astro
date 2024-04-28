@@ -55,6 +55,7 @@ const tw = {
 	end
 
 	on mouseleave
+	  call me.blur()
 		if event.target.id is my @id then wait 50ms then
 			if not :dropdownHasMouse trigger closeDropdown on me
     end
@@ -64,7 +65,7 @@ const tw = {
    set :dropdownHasMouse to value
 	end 
 
-	-- handler for dismissal of dropdown using Escape key
+	-- handler for dismissal of dropdown using Escape key when element has the focus
 	on keydown[key=='Escape']
 		trigger closeDropdown on me
 	end
