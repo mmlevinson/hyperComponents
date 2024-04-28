@@ -34,7 +34,7 @@ const hs = {
 			set :isOpen to false
 
 			-- handler for click in trigger button
-			on click
+			on click or blur
 				if :isOpen then trigger closeDropdown on me otherwise trigger openDropdown on me
 			end
 

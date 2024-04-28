@@ -28,7 +28,7 @@ const tw = {
 	triggerButton: 'inline-block rounded-lg p-3 ' +
 		'font-semibold text-lg lg:text-xl text-zinc-100 hover:text-zinc-400 hover:dark:text-zinc-300 ' + 
 		'bg-indigo-600 hover:bg-indigo-800 ' +
-		'focus:ring-4 focus:outline-none focus:ring-indigo-300 ',
+		'focus:ring-4 focus:outline-none focus:ring-indigo-300',
 	dropdownWrapper:'hidden h-0 absolute z-10 ' + 
 		'rounded-lg drop-shadow-2xl overflow-hidden ' + 
 		'text-lg font-medium ' +
@@ -52,6 +52,7 @@ const tw = {
 		trigger openDropdown on me
 	end
 	on mouseleave
+		log event.target
 	  wait 30ms then
 		if not :dropdownHasMouse then trigger closeDropdown on me
 	end
@@ -60,6 +61,11 @@ const tw = {
    set :dropdownHasMouse to value
 	end 
 
+	-- handler for dismissal of dropdown using Escape key
+	on keydown[key=='Escape']
+		trigger closeDropdown on me
+	end
+
 	def calcHeight
 		set dropdownHeight to 0 then set items to the children of #{:dropdownWrapper}
 		for item in items increment the dropdownHeight by the item's offsetHeight end
@@ -67,7 +73,7 @@ const tw = {
 	end -- calcHeight
 
 	def resetPosition
-		set offset to @moveOver.split(',')
+		set offset to my @moveOver.split(',')
 		set leftOffset to offset[0] as Int
 		set bottomOffset to offset[1] as Int
 		measure me then put the result.bounds into myBounds
@@ -76,7 +82,7 @@ const tw = {
 	end  -- calcOffset
 	
 	on openDropdown
-		-- resetPosition()
+		resetPosition()
 		remove .hidden from #{:dropdownWrapper} -- now items have an offsetHeight available
 		set *height of #{:dropdownWrapper} to (calcHeight() + 'px') then wait 20ms then
 		set *opacity of #{:itemsList} to 1
