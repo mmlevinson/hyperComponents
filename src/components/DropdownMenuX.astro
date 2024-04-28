@@ -45,7 +45,6 @@ const tw = {
 			set :dropdownWrapper to 'dropdownWrapper-' + my @id
 			set :itemsList to 'itemsList-' + my @id
 			set :dropdownHasMouse to false
-			set :isOpen to false
 		end
 
 	
@@ -59,6 +58,10 @@ const tw = {
 		if event.target.id is my @id then wait 50ms then
 			if not :dropdownHasMouse trigger closeDropdown on me
     end
+	end
+
+	on click from me
+     if I match .open then trigger closeDropdown on me otherwise trigger openDropdown on me
 	end
 
 	on mouseWithinDropdown(value)
@@ -90,7 +93,7 @@ const tw = {
 		remove .hidden from #{:dropdownWrapper} -- now items have an offsetHeight available
 		set *height of #{:dropdownWrapper} to (calcHeight() + 'px') then wait 20ms then
 		set *opacity of #{:itemsList} to 1
-		set :isOpen to true
+		add .open to me
 	end
 
 	-- handler to hide dropdown
@@ -98,7 +101,7 @@ const tw = {
 		set *opacity of #{:itemsList} to 0
 		set *height of #{:dropdownWrapper} to 0 then settle then
 		add .hidden to #{:dropdownWrapper}
-		set :isOpen to false
+		remove .open from me
 	end
 	end -- ToggleDropdown
 
