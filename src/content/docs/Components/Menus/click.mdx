@@ -10,7 +10,7 @@ A commonly used web component is a a simple button presenting a list of choices 
 ### Example
 
 export const tw = {
-	dropdownContainer: 'not-content w-full py-2 w-max-lg text-center mx-auto dark:bg-gray-800 rounded-xl my-6',
+	dropdownContainer: 'not-content w-full pb-4 w-max-lg text-center mx-auto dark:bg-gray-800 rounded-xl my-6',
 	menuItem: 'px-4 hover:bg-stone-200 hover:dark:bg-stone-300 ' +
 	'hover:text-cyan-100 hover:dark:text-sky-950',
 }
@@ -20,7 +20,7 @@ export const hs = "on click call alert('You selected ' + my innerHTML) "
 import DropdownMenu from '../../../../components/DropdownMenu.astro';
 
 <div id='dropdownContainer' class={tw.dropdownContainer} >
-
+<div id='title' class="bg-gray-900 font-semibold py-2 mb-4">Click Activated Dropdown</div>
 <DropdownMenu id={'dropdown-example-1'} caption="Click Me" duration="300ms" moveXY="-5, 5">
    <li class={tw.menuItem} script={hs}>Choice 1</li>
    <li class={tw.menuItem} script={hs}>Choice 2</li>
@@ -44,34 +44,31 @@ The example above demonstrates an Astro component appearing as a simple button c
 </DropdownMenu>
 
 ```
-
-
-
-The initial height of the dropdown element is set to 0 so the items cannot be seen.  The button listens for a click event which causes the dropdown  to smoothly appear by transitioning it's height and opacity over a specified duration. 
+The dropdown is  hidden by setting the initial height of it's container to 0.   The trigger button listens for a click event which causes the dropdown  to smoothly appear by transitioning the height and opacity of it's container over a specified duration. 
 
 Tapping any item in the dropdown triggers a custom event to be fired followed by dismissal of the dropdown.
 
 ### Features
 
-The trigger button and dropdown are initally styled with Tailwind CSS utility classes but are both fully customizable using [props](#code).
+The trigger button and dropdown are initally styled with Tailwind CSS utility classes but are both fully customizable by passing additional styling classes through [props](#code).
 
-Appearance and disappearance of the dropdown are smoothly animated by HyperScript. The dropdown is dismissed by:
+The dropdown appearance and disappearance are smoothly animated by HyperScript. The dropdown is dismissed by:
 
 ###### 1. Tapping the trigger button again
 ###### 2. Tapping outside the dropdown
 ###### 3. Tapping any menu item
 ###### 4. Pressing the Escape key
 
-Custom events and styling can be utilized for each menu item.  In this example events tapping a menu item triggers a custom event written in HyperScript.
+Tapping any menu item triggers a custom event written in HyperScript.
 
 
 ### Styling
 
-Tailwind classes are used for the default styling of the trigger button and dropdown wrapper. For accesssibility, the trigger button also receives a focus ring when activated.
+Tailwind classes are used for the default styling of component, including the trigger button and dropdown container. For accesssibility, the trigger button also receives a focus ring when activated.
 
-To improve readability the Tailwind classes and Hyperscripts are extracted from the markup and encapsulated into Astro `tw` and `hs` variables which are referenced by the template.
+To improve readability, the Tailwind classes and Hyperscripts are extracted from the markup and encapsulated into Astro `tw` and `hs` variables which are then referenced in the html markup.
 
-Custom styles can be merged into the component by passing a string containing Tailwind utility classes as [props](#code).
+Custom styles sent via [props](#code) are merged with the default component styles and any conflicts resolved with a 'last wins' rule.
 
 
 ### Code
@@ -467,12 +464,32 @@ have no offsetHeight value*/
 	</div>
 </div>
 
-
-
 ```
 	</TabItem>
-
 </Tabs>
+
+### Usage
+
+To import the entire Astro component, click on the Everything tab above.  Paste all the code into a new Astro file.  active
+
+To use this Component anywhere in your Astro project, import the file you created and embed the Component into your markup within angle brackets.
+
+
+```html title="DropdownMenu.astro"
+<DropdownMenu id={'dropdown-example-1'} caption="Click Me" duration="300ms" moveXY="-5, 5">
+   <li class={tw.menuItem} script={hs}>Choice 1</li>
+   <li class={tw.menuItem} script={hs}>Choice 2</li>
+   <li class={tw.menuItem} script={hs}>Choice 3</li>
+   <li class={tw.menuItem} script="on click trigger closeDropdown then settle then go to url '/' ">Go Home</li>
+</DropdownMenu>
+
+```
+
+To populate the menu items, include multiple list items or other discrete elements between the parent tags.active
+
+Elements passed into the default slot can be of any makeup, and include any styling or custom action scripts.   
+
+
 
 
 
