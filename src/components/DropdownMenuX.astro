@@ -40,21 +40,25 @@ const tw = {
 
 <script type="text/hyperscript">
   -- namespaced behavior for showing a dropdown from a trigger button
-  behavior ToggleDropdown
+  behavior ToggleDropdown(triggers)
 		init
 			set :dropdownWrapper to 'dropdownWrapper-' + my @id
 			set :itemsList to 'itemsList-' + my @id
-			set :buttonHasMouse to false
+			set :dropdownHasMouse to false
 			set :isOpen to false
 		end
 	
-	on click
-		if :isOpen then trigger closeDropdown on me otherwise trigger openDropdown on me
+	on mouseenter
+		trigger openDropdown on me
+	end
+	on mouseleave
+	  wait 30ms then
+		if not :dropdownHasMouse then trigger closeDropdown on me
 	end
 
-	on keydown[key=='Escape']
-		trigger closeDropdown on me
-	end
+	on mouseWithinDropdown(value)
+   set :dropdownHasMouse to value
+	end 
 
 	def calcHeight
 		set dropdownHeight to 0 then set items to the children of #{:dropdownWrapper}
@@ -89,6 +93,7 @@ const tw = {
 	end -- ToggleDropdown
 
 	behavior HideDropdown
+		on mouseenter send mouseWithinDropdown(value:true) to the previous <button/> end
 		on click or mouseleave send closeDropdown to the previous <button/> end
 	end -- HideDropdown
 </script>
@@ -99,7 +104,7 @@ const tw = {
 		type='button'
 		moveOver={moveOver} 
 		class={twMerge(tw.triggerButton, buttonStyles)} 
-		_="install ToggleDropdown">
+		_="install ToggleDropdown(triggers:click)">
 		<slot name='startIcon' />
 		{caption}
 		<slot name='endIcon'/>
