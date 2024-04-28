@@ -7,7 +7,7 @@ description: Dropdown Menu Component activated by a click event
 
 A commonly used web component is a a simple button presenting a list of choices when tapped.
 
-### Example
+## Example
 
 export const tw = {
 	dropdownContainer: 'not-content w-full pb-4 w-max-lg text-center mx-auto dark:bg-gray-800 rounded-xl my-6',
@@ -30,7 +30,7 @@ import DropdownMenu from '../../../../components/DropdownMenu.astro';
 </div>
 
 
-### Description
+## Description
 
 
 The example above demonstrates an Astro component appearing as a simple button configured by passing a list of menu items into the default slot.
@@ -48,7 +48,7 @@ The dropdown is  hidden by setting the initial height of it's container to 0.   
 
 Tapping any item in the dropdown triggers a custom event to be fired followed by dismissal of the dropdown.
 
-### Features
+## Features
 
 The trigger button and dropdown are initally styled with Tailwind CSS utility classes but are both fully customizable by passing additional styling classes through [props](#code).
 
@@ -59,10 +59,53 @@ The dropdown appearance and disappearance are smoothly animated by HyperScript. 
 ###### 3. Tapping any menu item
 ###### 4. Pressing the Escape key
 
-Tapping any menu item triggers a custom event written in HyperScript.
+Tapping any menu item triggers a custom event written in HyperScript
 
+## Props
 
-### Styling
+```js
+interface Props {
+ id: string,   
+ caption: string,   	
+ buttonStyles?: string,
+ dropdownStyles?: string,   
+ listStyles?: string,   
+ moveXY?: string,
+ position?:string,
+ hover?: boolean,
+ duration?: string
+}
+```
+
+### Id
+
+Each DropdownMenu component requires a unique id.  This is used to ensure that the dropdowns do not interact with each other.
+
+### Caption
+
+The `caption` prop is the text that will be displayed in the trigger button.  
+
+### Button Styles
+
+The `buttonStyles` prop allows you to pass additional Tailwind classes to the trigger button.  This is useful if you want to change the hover behavior, change the  background or text color, apply a dropshadow, etc.
+
+### List Styles
+
+The `listStyles` prop allows you to pass additional Tailwind classes to the dropdown list.  Any styles you pass in this prop apply to the parent `<ul/>` that wraps all menu items.
+
+### Dropdown Styles
+
+The `dropdownStyles` prop allows you to customize the appearance of the dropdown container.  For example, to change the background color of the dropdown itself, you could pass `bg-slate-600`.
+
+### Positioning
+
+If the dropdown needs to be moved relative to the trigger button, you can pass a string with two comma separated values into the moveXY prop.  The first value is the horizontal shift and the second is the vertical shift.  For example, to move the dropdown 5 pixels to the right and 5 pixels down from the top left corner of the screen, you would pass `-5,5`.
+
+### Transition Duration
+
+The transition duration for the dropdown height can be customized by passing a string of milliseconds into the duration prop.  For example, to set the transition to 100 milliseconds, you would pass `100ms`.
+
+## Styling
 
 Tailwind classes are used for the default styling of component, including the trigger button and dropdown container. For accesssibility, the trigger button also receives a focus ring when activated.
 
@@ -70,8 +113,7 @@ To improve readability, the Tailwind classes and Hyperscripts are extracted from
 
 Custom styles sent via [props](#code) are merged with the default component styles and any conflicts resolved with a 'last wins' rule.
 
-
-### Code
+## Code
 
 import {Tabs, TabItem } from '@astrojs/starlight/components'
 
@@ -468,11 +510,11 @@ have no offsetHeight value*/
 	</TabItem>
 </Tabs>
 
-### Usage
+## Usage
 
-To import the entire Astro component, click on the Everything tab above.  Paste all the code into a new Astro file.  active
+To import the entire Astro component into your project, click the `Copy` button on the Everything tab above.  Paste all the code into a new Astro file.  In this example, I chose the file name of `DropdownMenu.astro`
 
-To use this Component anywhere in your Astro project, import the file you created and embed the Component into your markup within angle brackets.
+To use this Component in any part of your Astro project, import the file and embed the Component into your markup within angle brackets (with capitalized tag name).
 
 
 ```html title="DropdownMenu.astro"
@@ -485,9 +527,9 @@ To use this Component anywhere in your Astro project, import the file you create
 
 ```
 
-To populate the menu items, include multiple list items or other discrete elements between the parent tags.active
+To install the menu items into the dropdown container just include multiple list items or other discrete elements between the parent tags.
 
-Elements passed into the default slot can be of any makeup, and include any styling or custom action scripts.   
+Elements passed into the default slot can be of any makeup, and customized with any styling or action scripts.   
 
 
 
