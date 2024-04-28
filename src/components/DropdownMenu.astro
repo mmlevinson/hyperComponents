@@ -28,9 +28,8 @@ const tw = {
 
 const hs = {
 	toggleDropdown: `init
-			set :dropdownWrapper to 'dropdownWrapper-' + @id
-			set :itemsList to 'itemsList-' + @id
-			-- set :buttonHasMouse to false
+			set :dropdownWrapper to my @id + '-wrapper'
+			set :itemsList to my @id + '-items'
 
 			-- handler for click in trigger button
 			on click or blur from me
@@ -119,10 +118,10 @@ have no offsetHeight value*/
 
 
 
-	<div id=`dropdownWrapper-${id}` 
+	<div id=`${id}-wrapper` 
 		class={twMerge(tw.dropdownWrapper, dropdownStyles)} 
 		style=`transition: all ${duration} ease-in-out`>
-			<ul id=`itemsList-${id}` 
+			<ul id=`${id}-items` 
 				class={twMerge(tw.itemsList, listStyles)} style="transition: all 50ms ease-in-out"
 				script={hs.hideDropdown}>
 			<slot/>

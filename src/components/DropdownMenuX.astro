@@ -42,8 +42,8 @@ const tw = {
   -- namespaced behavior for showing a dropdown from a trigger button
   behavior ToggleDropdown
 		init
-			set :dropdownWrapper to 'dropdownWrapper-' + my @id
-			set :itemsList to 'itemsList-' + my @id
+			set :dropdownWrapper to my @id + '-wrapper'
+			set :itemsList to my @id + '-items'
 			set :dropdownHasMouse to false
 		end
 
@@ -131,10 +131,10 @@ const tw = {
 	
 	
 	
-	<div id=`dropdownWrapper-${id}`
+	<div id=`${id}-wrapper`
 		class={twMerge(tw.dropdownWrapper, dropdownStyles)}
 		style=`transition: all ${duration} ease-in-out`>
-			<ul id=`itemsList-${id}`
+			<ul id=`${id}-items`
 				class={twMerge(tw.itemsList, listStyles)}
 				style="transition: all 50ms ease-in-out"
 			_="install HideDropdown">
