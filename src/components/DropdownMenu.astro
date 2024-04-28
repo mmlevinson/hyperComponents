@@ -5,12 +5,12 @@ interface Props {
  dropdownStyles:string   //any additional styles to apply to the overall wrapper <div>
  buttonStyles:string   //any additional Tailwind classes for customizing the trigger button
  listStyles:string   //any additional styles to apply to the dropdown list
- moveOver:string //comma separated integer values specifying top,left shift in dropdown location
- duration: '100ms'
+ moveXY:string //comma separated integer values specifying top,left shift in dropdown location
+ duration:string //duration (in milliseconds) for dropdown height transition
 }
 
 import {twMerge} from 'tailwind-merge'
-const {id, caption, dropdownStyles, buttonStyles, listStyles, moveOver = "0,0", duration = '100ms'} = Astro.props
+const {id, caption, dropdownStyles, buttonStyles, listStyles, moveXY = "0,0", duration = '100ms'} = Astro.props
 
 const title = 'Dropdown Menus';
 const tw = {
@@ -51,7 +51,7 @@ const hs = {
 
 			-- handler to reposition dropdown by x,y pixels
 			def resetPosition
-				set offset to my @moveOver.split(',')
+				set offset to my @moveXY.split(',')
 				set leftOffset to offset[0] as Int
 				set bottomOffset to offset[1] as Int
 				measure me then put the result.bounds into myBounds
@@ -104,20 +104,19 @@ You cannot set the .hidden class (or the corresponding <li> are absent from the 
 have no offsetHeight value*/
 ---
 
-<div style="margin-top:0;">
+<div id="container" class="not-content">
+	<!-- Trigger -->
 	<button 
 		id={id}  
 		type='button'
-		moveOver={moveOver} 
+		moveXY={moveXY} 
 		class={twMerge(tw.triggerButton, buttonStyles)} 
 		script={hs.toggleDropdown}>
 			<slot name='startIcon'/>
 			{caption}
 			<slot name='endIcon'/>
 	</button>
-
-
-
+	<!-- Dropdown -->
 	<div id=`${id}-wrapper` 
 		class={twMerge(tw.dropdownWrapper, dropdownStyles)} 
 		style=`transition: all ${duration} ease-in-out`>

@@ -1,13 +1,13 @@
 ---
 interface Props {
  id:string   //a unique identifier for this component, allowing multiple dropdowns on a page without collisions
- moveOver?:string //comma separated integer values specifying top,left shift in dropdown location
+ moveXY?:string //comma separated integer values specifying top,left shift in dropdown location
 }
 
 import PaletteItem from './PaletteItem.astro';
 import DropdownMenu from './DropdownMenu.astro';
 
-const {id, moveOver} = Astro.props
+const {id, moveXY} = Astro.props
 
 const tw = {
 	palleteWrapper: 'mt-0 flex flex-col gap-y-2',
@@ -15,7 +15,7 @@ const tw = {
 
 ---
 
-<DropdownMenu id={id} moveOver={moveOver} buttonStyles="dark:bg-slate-900" duration="300ms">
+<DropdownMenu id={id} moveXY={moveXY} buttonStyles="dark:bg-slate-900" duration="300ms">
 	<img slot="startIcon" src='/images/tailwind_icon.svg' alt='tailwind icon' class="size-6"/>
   <div class="grid align-items-start gap-2 px-4" style="grid-template-columns: repeat(22, 1fr);">
     <div class={tw.palleteWrapper} >
