@@ -4,8 +4,7 @@ title: Click Activated Dropdown
 description: Dropdown Menu Component activated by a click event
 
 ---
-
-A commonly used web component is a a simple button presenting a list of choices when tapped.
+A commonly used web component is a button presenting a list of choices when tapped.
 
 ## Example
 
@@ -21,7 +20,8 @@ import DropdownMenu from '../../../../components/DropdownMenu.astro';
 
 <div id='dropdownContainer' class={tw.dropdownContainer} >
 <div id='title' class="bg-gray-900 font-semibold py-2 mb-4">Click Activated Dropdown</div>
-<DropdownMenu id={'dropdown-example-1'} caption="Click Me" duration="300ms" moveXY="-5, 5">
+<DropdownMenu id={'dropdown-example-1'} caption="Click Me" duration="300ms" moveXY="5, 5">
+	 <span slot="endIcon" class="w-6 h-6 text-gray-400 ml-2">&#9207;</span>
    <li class={tw.menuItem} script={hs}>Choice 1</li>
    <li class={tw.menuItem} script={hs}>Choice 2</li>
    <li class={tw.menuItem} script={hs}>Choice 3</li>
@@ -33,10 +33,10 @@ import DropdownMenu from '../../../../components/DropdownMenu.astro';
 ## Description
 
 
-The example above demonstrates an Astro component appearing as a simple button configured by passing a list of menu items into the default slot.
+The example above is an Astro component comprised of a button and a dropdown container which wraps an unordered list displayed as a flexbox in column orientation.  The unordered list is populated by passing a list of items into the component's default slot.
 
 ```html
-<DropdownMenu id={'dropdown-example-1'} caption="Click Me" duration="300ms" moveXY="-5, 5">
+<DropdownMenu id={'dropdown-example-1'} caption="Click Me" duration="300ms" moveXY="5, 5">
    <li class={tw.menuItem} script={hs}>Choice 1</li>
    <li class={tw.menuItem} script={hs}>Choice 2</li>
    <li class={tw.menuItem} script={hs}>Choice 3</li>
@@ -44,22 +44,25 @@ The example above demonstrates an Astro component appearing as a simple button c
 </DropdownMenu>
 
 ```
-The dropdown is  hidden by setting the initial height of it's container to 0.   The trigger button listens for a click event which causes the dropdown  to smoothly appear by transitioning the height and opacity of it's container over a specified duration. 
+The dropdown container is hidden by setting it's height to 0 and the opacity of the `<ul>` to 0.  The button listens for a click event which triggers the dropdown to smoothly appear by transitioning to it's full height and the `<ul>`'s opacity to 1 over a specified duration. 
 
-Tapping any item in the dropdown triggers a custom event to be fired followed by dismissal of the dropdown.
+Tapping any item in the dropdown emits a custom event attached to that item followed by dismissal of the dropdown.
 
 ## Features
 
-The trigger button and dropdown are initally styled with Tailwind CSS utility classes but are both fully customizable by passing additional styling classes through [props](#code).
+The trigger button and dropdown are initally styled with Tailwind CSS utility classes which are both fully customizable by passing additional styling classes through [props](#code).
 
-The dropdown appearance and disappearance are smoothly animated by HyperScript. The dropdown is dismissed by:
+The dropdown appearance/disappearance is smoothly animated by HyperScript over a duration passed via the `duration` prop.  Menu item custom events were also written in HyperScript for this example.
+
+The dropdown is dismissed by:
 
 ###### 1. Tapping the trigger button again
 ###### 2. Tapping outside the dropdown
 ###### 3. Tapping any menu item
-###### 4. Pressing the Escape key
+###### 4. Mouse leaving the dropdown
+###### 5. Pressing the Escape key when the button is focused
 
-Tapping any menu item triggers a custom event written in HyperScript
+
 
 ## Props
 
@@ -79,41 +82,72 @@ interface Props {
 
 ### Id
 
-Each DropdownMenu component requires a unique id.  This is used to ensure that the dropdowns do not interact with each other.
+Each DropdownMenu component requires a unique id.  This is used to ensure that multiple dropdowns do not interact with each other.
 
 ### Caption
 
-The `caption` prop is the text that will be displayed in the trigger button.  
+The `caption` prop is a text sting that will be displayed in the trigger button.  
 
 ### Button Styles
 
-The `buttonStyles` prop allows you to pass additional Tailwind classes to the trigger button.  This is useful if you want to change the hover behavior, change the  background or text color, apply a dropshadow, etc.
+The `buttonStyles` prop allows you to customize the appearance of the trigger button.  Use this prop if you want to change the button's hover behavior,  background or text color, apply a dropshadow, etc.
 
 ### List Styles
 
-The `listStyles` prop allows you to pass additional Tailwind classes to the dropdown list.  Any styles you pass in this prop apply to the parent `<ul/>` that wraps all menu items.
+The `listStyles` prop allows you to customize the appearznce of the `<ul>` flex container.  Any styles you pass in this prop apply to the parent `<ul>` that wraps all menu items.
 
 ### Dropdown Styles
 
-The `dropdownStyles` prop allows you to customize the appearance of the dropdown container.  For example, to change the background color of the dropdown itself, you could pass `bg-slate-600`.
+The `dropdownStyles` prop allows you to customize the appearance of the dropdown container.  For example, to change the background color of the dropdown itself, you could pass `"bg-slate-600"`.
 
 ### Positioning
 
-If the dropdown needs to be moved relative to the trigger button, you can pass a string with two comma separated values into the moveXY prop.  The first value is the horizontal shift and the second is the vertical shift.  For example, to move the dropdown 5 pixels to the right and 5 pixels down from the top left corner of the screen, you would pass `-5,5`.
+If the dropdown needs to be moved relative to the trigger button, you can pass a string with two comma separated values into the `moveXY` prop.  The first value is the horizontal shift and the second is the vertical shift.  For example, to move the dropdown 5 pixels to the left and 5 pixels down relative to the button's location, you would pass `"-5,5"`.
 
 ### Transition Duration
 
-The transition duration for the dropdown height can be customized by passing a string of milliseconds into the duration prop.  For example, to set the transition to 100 milliseconds, you would pass `100ms`.
+The duration of the dropdown container's height transition can be customized by passing a string (in milliseconds) into the `duration` prop.  For example, to set the transition to 100 milliseconds, you would pass `"100ms"`.
 
 ## Styling
 
-Tailwind classes are used for the default styling of component, including the trigger button and dropdown container. For accesssibility, the trigger button also receives a focus ring when activated.
+Default Tailwind classes are used for initial styling of all elements within the Component, including the trigger button, `<ul>` and dropdown container. For accesssibility, the trigger button also receives a focus ring when activated.
 
-To improve readability, the Tailwind classes and Hyperscripts are extracted from the markup and encapsulated into Astro `tw` and `hs` variables which are then referenced in the html markup.
+Custom styles sent via [props](#code) are merged with the default Component styles and any conflicts resolved with a 'last wins' rule.
 
-Custom styles sent via [props](#code) are merged with the default component styles and any conflicts resolved with a 'last wins' rule.
+To improve readability, the Tailwind classes and Hyperscript code are extracted from the markup and encapsulated into Astro `tw` and `hs` variables which are then referenced in the html markup.  This also allows long run-on strings to be formatted as concatenated, multi-line strings which aids readability and code maintenance.
+
+## Slots
+
+### Default Slot
+
+All menu items should be placed between the Component's opening and closing tags, thus positioning them into the default slot which is inside the Component's `<ul>`.
+
+### Start Icon Slot
+
+The `startIcon` slot is used to install markup for any icon or image of your choice.   
+
+If you also pass a `caption` prop, the `startIcon` slot will be displayed to the left of the caption text.
+
+### End Icon Slot
+
+The `endIcon` slot is used to install an icon or other element after the caption text.  This is useful if you want to add a visual cue to the button indicating that it is a dropdown menu.
+
+### Icon Styling
+
+In Astro, you designate a named slot by including a `slot="name"` attribute in the parent element of the markup you pass into the slot. 
+
+You will have to also attach Tailwind styling classes to these elements because the Component itself has no way to apply Tailwind classes to markup it does not know about yet. 
+
+For example, icon sizes, padding, margins, and text colors may need to be specified.  The code below yields a green down-pointing arrow using a Unicode character and Tailwind styling. 
+
+```html title="Tailwind Styling for Icon Slots"
+<span slot="endIcon" class="w-6 h-6 text-gray-400 ml-2">&#9207;</span>
+```
+
 
 ## Code
+
+Use the Tabs below to explore the various code sections and the Everything tab to view the entire Astro component.
 
 import {Tabs, TabItem } from '@astrojs/starlight/components'
 
@@ -145,6 +179,7 @@ const {
 } = Astro.props
 ```
 	</TabItem>
+
   <TabItem label="HTML">
     ```html
 	<!-- Trigger -->
@@ -159,8 +194,8 @@ const {
 			<slot name='endIcon'/>
 	</button>
 	<!-- Dropdown -->
-	<div id=`${id}-wrapper` 
-		class={twMerge(tw.dropdownWrapper, dropdownStyles)} 
+	<div id=`${id}-container` 
+		class={twMerge(tw.dropdownContainer, dropdownStyles)} 
 		style=`transition: all ${duration} ease-in-out`>
 			<ul id=`${id}-items` 
 				class={twMerge(tw.itemsList, listStyles)} style="transition: all 50ms ease-in-out"
@@ -173,55 +208,48 @@ const {
   <TabItem label="Scripts">
     ```js
 		const hs = {
-		toggleDropdown: `init
-			set :dropdownWrapper to my @id + '-wrapper'
-			set :itemsList to my @id + '-items'
+		toggleDropdown:  `
+			init
+				set :dropdownContainer to my @id + '-container'
+				set :itemsList to my @id + '-items'
+			end -- init
 
-			-- handler for click in trigger button
 			on click or blur from me
 				if I match .open then trigger closeDropdown on me 
-				otherwise send openDropdown to me
-			end
+				otherwise trigger openDropdown on me
+			end -- handler for click within trigger button
 
-			-- handler for dismissal of dropdown using Escape key when element has focuse
 			on keydown[key=='Escape']
 				trigger closeDropdown on me
-			end
+			end  -- handler for closing dropdown with Escape key when element has focus
 
-			-- function to calculate actual height of dropdown based on it's contents
 			def calcHeight
-				set dropdownHeight to 0 then set items to the children of #{:dropdownWrapper}
+				set dropdownHeight to 0 then set items to the children of #{:dropdownContainer}
 				for item in items increment the dropdownHeight by the item's offsetHeight end
 				return dropdownHeight
-			end -- calcHeight
-
-			-- handler to reposition dropdown by x,y pixels
+			end -- function to calculate actual height of dropdown based on it's contents
+				
 			def resetPosition
 				set offset to my @moveXY.split(',')
 				set leftOffset to offset[0] as Int
 				set bottomOffset to offset[1] as Int
 				measure me then put the result.bounds into myBounds
-				set *left of #{:dropdownWrapper} to (myBounds.left + leftOffset) px
-				set *top of #{:dropdownWrapper} to (myBounds.bottom  + bottomOffset) px
-			end  -- calcOffset
+				set *left of #{:dropdownContainer} to (myBounds.left + leftOffset) px
+				set *top of #{:dropdownContainer} to (myBounds.bottom  + bottomOffset) px
+			end  -- handler to reposition dropdown by x,y pixels
 			
-			-- handler to show dropdown
-			on openDropdown(target)
+			on openDropdown from me
 				resetPosition()
-				-- remove .hidden from #{my @id + '-wrapper'} -- now items have an offsetHeight available
-				set *height of #{my @id + '-wrapper'} to (calcHeight() + 'px') then wait 20ms then
+				set *height of #{my @id + '-container'} to (calcHeight() + 'px') then wait 20ms then
 				set *opacity of #{my @id + '-items'} to 1
 				add .open to me
-			end
+			end -- handler to open dropdown
 
-			-- handler to hide dropdown
-			on closeDropdown from me
+			on closeDropdown
 				set *opacity of #{:itemsList} to 0
-				set *height of #{:dropdownWrapper} to 0 then settle then
-				-- add .hidden to #{:dropdownWrapper}
+				set *height of #{:dropdownContainer} to 0 then settle then
 				remove .open from me
-			end`,
-
+			end -- handler to close dropdown `,
 		hideDropdown: `on click or mouseleave send closeDropdown to the previous <button/> end`
 
 }
@@ -234,7 +262,7 @@ const tw = {
 		'font-semibold text-lg lg:text-xl text-zinc-100 hover:text-zinc-400 hover:dark:text-zinc-300 ' + 
 		'bg-indigo-600 hover:bg-indigo-800 ' +
 		'focus:ring-4 focus:outline-none focus:ring-indigo-300 ',
-	dropdownWrapper:'h-0 absolute z-10 ' + 
+	dropdownContainer  :'h-0 absolute z-10 ' + 
 		'rounded-lg drop-shadow-2xl overflow-hidden ' + 
 		'text-lg font-medium ' +
 		'bg-white dark:bg-gray-800 ',
@@ -247,136 +275,6 @@ const tw = {
 	<TabItem label="Everything">
 ```js
 ---
-const title = 'Dropdown Menus X';
-
-interface Props {
- id: string   //a unique identifier for this component, allowing multiple dropdowns on a page without collisions
- caption: string   //the text displayed in the button that triggers the dropdown
- dropdownStyles: string   //any additional styles to apply to the overall wrapper <div>
- buttonStyles: string   //any additional Tailwind classes for customizing the trigger button
- listStyles: string   //any additional styles to apply to the dropdown list
- moveXY: string //comma separated integer values specifying x,y shift in dropdown position
- hover: boolean, //responds to mouseenter/leave
- duration: string, //transition duration for the dropdown appearance/disappearance
-}
-
-import {twMerge} from 'tailwind-merge'
-const {
-	id, 
-	caption, 
-	dropdownStyles, 
-	buttonStyles, 
-	listStyles, 
-	moveXY = "0,0", 
-	hover = true, 
-	duration = '100js'
-} = Astro.props
-
-const tw = {
-	triggerButton: 'inline-block rounded-lg p-3 ' +
-		'font-semibold text-lg lg:text-xl text-zinc-100 hover:text-zinc-400 hover:dark:text-zinc-300 ' + 
-		'bg-indigo-600 hover:bg-indigo-800 ' +
-		'focus:ring-4 focus:outline-none focus:ring-indigo-300',
-	dropdownWrapper:'h-0 absolute z-10 ' + 
-		'rounded-lg drop-shadow-2xl overflow-hidden ' + 
-		'text-lg font-medium ' +
-		'bg-white dark:bg-gray-800 ',
-	itemsList:'opacity-0 flex flex-col gap-y-4 cursor-pointer ' + 
-		'py-4 font-semibold text-gray-900 dark:text-zinc-50',
-}
----
-
-<script type="text/hyperscript">
-  -- namespaced behavior for showing a dropdown from a trigger button
-  behavior ToggleDropdown
-		init
-			set :dropdownWrapper to my @id + '-wrapper'
-			set :itemsList to my @id + '-items'
-			set :dropdownHasMouse to false
-		end
-
-	def openUp
-	  log 'opening'
-		resetPosition()
-		-- remove .hidden from #{my @id + '-wrapper'} -- now items have an offsetHeight available
-		set *height of the next <div/> to (calcHeight() + 'px') then wait 20ms then
-		set *opacity of #{my @id + '-items'} to 1
-		add .open to me
-	end
-	
-	on mouseenter(target)
-	  log target.id
-	  call me.focus()
-		if beep! event.target.id matches my @id then openUp()
-	end
-
-	on mouseleave
-	  call me.blur()
-		if event.target.id is my @id then wait 50ms then
-			if not :dropdownHasMouse trigger closeDropdown on me
-    end
-	end
-
-	on click from me
-     if I match .open then trigger closeDropdown on me 
-		 otherwise trigger openDropdown on me
-	end
-
-	on mouseWithinDropdown(value)
-   set :dropdownHasMouse to value
-	end 
-
-	-- handler for dismissal of dropdown using Escape key when element has the focus
-	on keydown[key=='Escape']
-		trigger closeDropdown on me
-	end
-
-		-- function to calculate actual height of dropdown based on it's contents
-	def calcHeight
-		set dropdownHeight to 0 then set items to the children of #{:dropdownWrapper}
-		for item in items increment the dropdownHeight by the item's offsetHeight end
-		return dropdownHeight
-	end -- calcHeight
-
-	-- handler to reposition dropdown by x,y pixels
-	def resetPosition
-		set offset to my @moveXY.split(',')
-		set leftOffset to offset[0] as Int
-		set bottomOffset to offset[1] as Int
-		measure me then put the result.bounds into myBounds
-		set *left of #{:dropdownWrapper} to (myBounds.left + leftOffset) px
-		set *top of #{:dropdownWrapper} to (myBounds.bottom  + bottomOffset) px
-	end  -- calcOffset
-	
-	on openDropdown from me
-		resetPosition()
-		-- remove .hidden from #{:dropdownWrapper} -- now items have an offsetHeight available
-		set *height of #{:dropdownWrapper} to (calcHeight() + 'px') then wait 20ms then
-		set *opacity of #{:itemsList} to 1
-		add .open to me
-	end
-
-	-- handler to hide dropdown
-	on closeDropdown from me
-		set *opacity of #{:itemsList} to 0
-		set *height of #{:dropdownWrapper} to 0 then settle then
-		-- add .hidden to #{:dropdownWrapper}
-		remove .open from me
-	end
-
-	end -- ToggleDropdown behavior
-
-	behavior HideDropdown
-	  on mouseover send mouseWithinDropdown(value:true) to the previous <button/> end
-		on mouseleave send mouseWithinDropdown(value:false) to the previous <button/> end
-		on click or mouseleave send closeDropdown to the previous <button/> end
-	end -- HideDropdown
-</script>
-
-
-<div style="margin-top:0;">
-	<!-- Trigger -->
-	<button---
 interface Props {
  id:string   //a unique identifier for this component, allowing multiple dropdowns on a page without collisions
  caption:string   //the text displayed in the button that triggers the dropdown
@@ -384,7 +282,7 @@ interface Props {
  buttonStyles:string   //any additional Tailwind classes for customizing the trigger button
  listStyles:string   //any additional styles to apply to the dropdown list
  moveXY:string //comma separated integer values specifying top,left shift in dropdown location
- duration: '100ms'
+ duration:string //duration (in milliseconds) for dropdown height transition
 }
 
 import {twMerge} from 'tailwind-merge'
@@ -396,7 +294,7 @@ const tw = {
 		'font-semibold text-lg lg:text-xl text-zinc-100 hover:text-zinc-400 hover:dark:text-zinc-300 ' + 
 		'bg-indigo-600 hover:bg-indigo-800 ' +
 		'focus:ring-4 focus:outline-none focus:ring-indigo-300 ',
-	dropdownWrapper:'h-0 absolute z-10 ' + 
+	dropdownContainer  :'h-0 absolute z-10 ' + 
 		'rounded-lg drop-shadow-2xl overflow-hidden ' + 
 		'text-lg font-medium ' +
 		'bg-white dark:bg-gray-800 ',
@@ -405,84 +303,55 @@ const tw = {
 }
 
 const hs = {
-	toggleDropdown: `init
-			set :dropdownWrapper to my @id + '-wrapper'
+	toggleDropdown:  `
+		init
+			set :dropdownContainer to my @id + '-container'
 			set :itemsList to my @id + '-items'
+		end -- init
 
-			-- handler for click in trigger button
-			on click or blur from me
-				if I match .open then trigger closeDropdown on me 
-				otherwise send openDropdown to me
-			end
+		on click or blur from me
+			if I match .open then trigger closeDropdown on me 
+			otherwise trigger openDropdown on me
+		end -- handler for click within trigger button
 
-			-- handler for dismissal of dropdown using Escape key when element has focuse
-			on keydown[key=='Escape']
-				trigger closeDropdown on me
-			end
+		on keydown[key=='Escape']
+			trigger closeDropdown on me
+		end  -- handler for closing dropdown with Escape key when element has focus
 
-			-- function to calculate actual height of dropdown based on it's contents
-			def calcHeight
-				set dropdownHeight to 0 then set items to the children of #{:dropdownWrapper}
-				for item in items increment the dropdownHeight by the item's offsetHeight end
-				return dropdownHeight
-			end -- calcHeight
-
-			-- handler to reposition dropdown by x,y pixels
-			def resetPosition
-				set offset to my @moveXY.split(',')
-				set leftOffset to offset[0] as Int
-				set bottomOffset to offset[1] as Int
-				measure me then put the result.bounds into myBounds
-				set *left of #{:dropdownWrapper} to (myBounds.left + leftOffset) px
-				set *top of #{:dropdownWrapper} to (myBounds.bottom  + bottomOffset) px
-			end  -- calcOffset
+		def calcHeight
+			set dropdownHeight to 0 then set items to the children of #{:dropdownContainer}
+			for item in items increment the dropdownHeight by the item's offsetHeight end
+			return dropdownHeight
+		end -- function to calculate actual height of dropdown based on it's contents
 			
-			-- handler to show dropdown
-			on openDropdown(target)
-				resetPosition()
-				-- remove .hidden from #{my @id + '-wrapper'} -- now items have an offsetHeight available
-				set *height of #{my @id + '-wrapper'} to (calcHeight() + 'px') then wait 20ms then
-				set *opacity of #{my @id + '-items'} to 1
-				add .open to me
-			end
+		def resetPosition
+			set offset to my @moveXY.split(',')
+			set leftOffset to offset[0] as Int
+			set bottomOffset to offset[1] as Int
+			measure me then put the result.bounds into myBounds
+			set *left of #{:dropdownContainer} to (myBounds.left + leftOffset) px
+			set *top of #{:dropdownContainer} to (myBounds.bottom  + bottomOffset) px
+		end  -- handler to reposition dropdown by x,y pixels
+		
+		on openDropdown from me
+			resetPosition()
+			set *height of #{my @id + '-container'} to (calcHeight() + 'px') then wait 20ms then
+			set *opacity of #{my @id + '-items'} to 1
+			add .open to me
+		end -- handler to open dropdown
 
-			-- handler to hide dropdown
-			on closeDropdown from me
-				set *opacity of #{:itemsList} to 0
-				set *height of #{:dropdownWrapper} to 0 then settle then
-				-- add .hidden to #{:dropdownWrapper}
-				remove .open from me
-			end`,
+		on closeDropdown
+			set *opacity of #{:itemsList} to 0
+			set *height of #{:dropdownContainer} to 0 then settle then
+			remove .open from me
+		end -- handler to close dropdown `,
   hideDropdown: `on click or mouseleave send closeDropdown to the previous <button/> end`
 
 }
 
-
-/* 
-Action: a basic dropdown menu activated by single click.
-
-Features: 
-
-1.  Closes when Escape Key pressed
-2.  Closes when mouse leaves the dropdown
-3.  Closes when a menu item is clicked (indicating a user has made a choice)
-4.  Position of the dropdown can be offset by a top, left integer value pass via props
-5.  Actual menu items are not included in this component, just the wrapping <ul>
-6.  Actual menu items are passed into the default slot, so can be any <li> of any makeup
-7.  Named slots to install starting/ending icon around the trigger button
-
-
-
-Implementation:
-<div id=dropdownWrapper-${id} is a wrapper around a <ul> allowing the entire component to be styled and/or selectively
-	positioned within a parent container.  Also, the default style is hidden with height set to zero.
-
-The menu items are installed into the default slot inside a <ul> whose initial height is set to zero so it is not seen
-You cannot set the .hidden class (or the corresponding <li> are absent from the DOM and thus
-have no offsetHeight value*/
 ---
 
-<div id="container" class="not-content">
+<div class="not-content">
 	<!-- Trigger -->
 	<button 
 		id={id}  
@@ -496,7 +365,7 @@ have no offsetHeight value*/
 	</button>
 	<!-- Dropdown -->
 	<div id=`${id}-wrapper` 
-		class={twMerge(tw.dropdownWrapper, dropdownStyles)} 
+		class={twMerge(tw.dropdownContainer  , dropdownStyles)} 
 		style=`transition: all ${duration} ease-in-out`>
 			<ul id=`${id}-items` 
 				class={twMerge(tw.itemsList, listStyles)} style="transition: all 50ms ease-in-out"
@@ -506,15 +375,19 @@ have no offsetHeight value*/
 	</div>
 </div>
 
+
+
 ```
 	</TabItem>
 </Tabs>
 
 ## Usage
 
-To import the entire Astro component into your project, click the `Copy` button on the Everything tab above.  Paste all the code into a new Astro file.  In this example, I chose the file name of `DropdownMenu.astro`
+The most common use case for dropdown menu buttons is in navigation elements such as a top navigation or side navigation bar.
 
-To use this Component in any part of your Astro project, import the file and embed the Component into your markup within angle brackets (with capitalized tag name).
+To import the entire Astro component into your project, click the `Copy` button on the Everything tab in the [code](#code) section above.  Paste all the code into a new Astro file.  In this example, I chose the file name of `DropdownMenu.astro`
+
+To use this Component 'as is' in  your Astro project, import the file and embed the Component into your markup between angle brackets (with a Capitalized tag name).
 
 
 ```html title="DropdownMenu.astro"
@@ -527,9 +400,12 @@ To use this Component in any part of your Astro project, import the file and emb
 
 ```
 
-To install the menu items into the dropdown container just include multiple list items or other discrete elements between the parent tags.
+To install menu items into the dropdown container just include multiple list items or other discrete elements between the component tags. Elements passed into the default slot can be of any makeup, and customized with any styling or actions. 
 
-Elements passed into the default slot can be of any makeup, and customized with any styling or action scripts.   
+
+To attach custom actions to any menu item simply include a script attribute (as seen in the example above).  The script should call `closeDropdown then settle` to dismiss the dropdown gracefully before proceeding with any further actions.
+
+
 
 
 

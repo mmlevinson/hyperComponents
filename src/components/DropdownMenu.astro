@@ -2,7 +2,7 @@
 interface Props {
  id:string   //a unique identifier for this component, allowing multiple dropdowns on a page without collisions
  caption:string   //the text displayed in the button that triggers the dropdown
- dropdownStyles:string   //any additional styles to apply to the overall wrapper <div>
+ dropdownStyles:string   //any additional styles to apply to the overall container <div>
  buttonStyles:string   //any additional Tailwind classes for customizing the trigger button
  listStyles:string   //any additional styles to apply to the dropdown list
  moveXY:string //comma separated integer values specifying top,left shift in dropdown location
@@ -18,7 +18,7 @@ const tw = {
 		'font-semibold text-lg lg:text-xl text-zinc-100 hover:text-zinc-400 hover:dark:text-zinc-300 ' + 
 		'bg-indigo-600 hover:bg-indigo-800 ' +
 		'focus:ring-4 focus:outline-none focus:ring-indigo-300 ',
-	dropdownWrapper:'h-0 absolute z-10 ' + 
+	dropdownContainer:'h-0 absolute z-10 ' + 
 		'rounded-lg drop-shadow-2xl overflow-hidden ' + 
 		'text-lg font-medium ' +
 		'bg-white dark:bg-gray-800 ',
@@ -27,84 +27,53 @@ const tw = {
 }
 
 const hs = {
-	toggleDropdown: `init
-			set :dropdownWrapper to my @id + '-wrapper'
+	toggleDropdown: `
+		init
+			set :dropdownContainer to my @id + '-container'
 			set :itemsList to my @id + '-items'
+		end -- init
 
-			-- handler for click in trigger button
-			on click or blur from me
-				if I match .open then trigger closeDropdown on me 
-				otherwise send openDropdown to me
-			end
+		on click or blur from me
+			if I match .open then trigger closeDropdown on me 
+			otherwise trigger openDropdown on me
+		end -- handler for click within trigger button
 
-			-- handler for dismissal of dropdown using Escape key when element has focuse
-			on keydown[key=='Escape']
-				trigger closeDropdown on me
-			end
+		on keydown[key=='Escape']
+			trigger closeDropdown on me
+		end  -- handler for closing dropdown with Escape key when element has focus
 
-			-- function to calculate actual height of dropdown based on it's contents
-			def calcHeight
-				set dropdownHeight to 0 then set items to the children of #{:dropdownWrapper}
-				for item in items increment the dropdownHeight by the item's offsetHeight end
-				return dropdownHeight
-			end -- calcHeight
-
-			-- handler to reposition dropdown by x,y pixels
-			def resetPosition
-				set offset to my @moveXY.split(',')
-				set leftOffset to offset[0] as Int
-				set bottomOffset to offset[1] as Int
-				measure me then put the result.bounds into myBounds
-				set *left of #{:dropdownWrapper} to (myBounds.left + leftOffset) px
-				set *top of #{:dropdownWrapper} to (myBounds.bottom  + bottomOffset) px
-			end  -- calcOffset
+		def calcHeight
+			set dropdownHeight to 0 then set items to the children of #{:dropdownContainer}
+			for item in items increment the dropdownHeight by the item's offsetHeight end
+			return dropdownHeight
+		end -- function to calculate actual height of dropdown based on it's contents
 			
-			-- handler to show dropdown
-			on openDropdown(target)
-				resetPosition()
-				-- remove .hidden from #{my @id + '-wrapper'} -- now items have an offsetHeight available
-				set *height of #{my @id + '-wrapper'} to (calcHeight() + 'px') then wait 20ms then
-				set *opacity of #{my @id + '-items'} to 1
-				add .open to me
-			end
+		def resetPosition
+			set offset to my @moveXY.split(',')
+			set leftOffset to offset[0] as Int
+			set bottomOffset to offset[1] as Int
+			measure me then put the result.bounds into myBounds
+			set *left of #{:dropdownContainer} to (myBounds.left + leftOffset) px
+			set *top of #{:dropdownContainer} to (myBounds.bottom  + bottomOffset) px
+		end  -- handler to reposition dropdown by x,y pixels
+		
+		on openDropdown from me
+			resetPosition()
+			set *height of #{my @id + '-container'} to (calcHeight() + 'px') then wait 20ms then
+			set *opacity of #{my @id + '-items'} to 1
+			add .open to me
+		end -- handler to open dropdown
 
-			-- handler to hide dropdown
-			on closeDropdown from me
-				set *opacity of #{:itemsList} to 0
-				set *height of #{:dropdownWrapper} to 0 then settle then
-				-- add .hidden to #{:dropdownWrapper}
-				remove .open from me
-			end`,
+		on closeDropdown
+			set *opacity of #{:itemsList} to 0
+			set *height of #{:dropdownContainer} to 0 then settle then
+			remove .open from me
+		end -- handler to close dropdown `,
   hideDropdown: `on click or mouseleave send closeDropdown to the previous <button/> end`
 
 }
-
-
-/* 
-Action: a basic dropdown menu activated by single click.
-
-Features: 
-
-1.  Closes when Escape Key pressed
-2.  Closes when mouse leaves the dropdown
-3.  Closes when a menu item is clicked (indicating a user has made a choice)
-4.  Position of the dropdown can be offset by a top, left integer value pass via props
-5.  Actual menu items are not included in this component, just the wrapping <ul>
-6.  Actual menu items are passed into the default slot, so can be any <li> of any makeup
-7.  Named slots to install starting/ending icon around the trigger button
-
-
-
-Implementation:
-<div id=dropdownWrapper-${id} is a wrapper around a <ul> allowing the entire component to be styled and/or selectively
-	positioned within a parent container.  Also, the default style is hidden with height set to zero.
-
-The menu items are installed into the default slot inside a <ul> whose initial height is set to zero so it is not seen
-You cannot set the .hidden class (or the corresponding <li> are absent from the DOM and thus
-have no offsetHeight value*/
 ---
-
-<div id="container" class="not-content">
+<div class="not-content">
 	<!-- Trigger -->
 	<button 
 		id={id}  
@@ -117,8 +86,8 @@ have no offsetHeight value*/
 			<slot name='endIcon'/>
 	</button>
 	<!-- Dropdown -->
-	<div id=`${id}-wrapper` 
-		class={twMerge(tw.dropdownWrapper, dropdownStyles)} 
+	<div id=`${id}-container` 
+		class={twMerge(tw.dropdownContainer, dropdownStyles)} 
 		style=`transition: all ${duration} ease-in-out`>
 			<ul id=`${id}-items` 
 				class={twMerge(tw.itemsList, listStyles)} style="transition: all 50ms ease-in-out"
