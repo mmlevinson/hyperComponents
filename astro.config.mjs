@@ -33,22 +33,31 @@ export default defineConfig({
       label: 'Getting Started',
       items: [
       // Each item here is one entry in the navigation menu.
-      {
-        label: 'Background',
-        link: '/about/background/'
-      }, {
-        label: 'Why hyperComponents',
-        link: '/about/why/'
-      }, {
-        label: 'Requirements',
-        link: '/about/requirements/'
-      }, {
-        label: 'Tailwind Issues',
-        link: '/about/tailwind/'
-      }, {
-        label: 'Disclaimers',
-        link: '/about/disclaimers/'
-      }]
+				{
+					label: 'Background',
+					link: '/about/background/'
+				}, 
+				{
+					label: 'Why hyperComponents',
+					link: '/about/why/'
+				}, 
+				{
+					label: 'Requirements',
+					link: '/about/requirements/'
+				}, 
+				{
+					label: 'Tailwind Issues',
+					link: '/about/tailwind/'
+				}, 
+				{
+					label: 'Hyperscript',
+					link: '/about/hyperscript/'
+				}, 
+				{
+					label: 'Disclaimers',
+					link: '/about/disclaimers/'
+				}
+			]
     }, {
       label: 'Components',
       autogenerate: {
