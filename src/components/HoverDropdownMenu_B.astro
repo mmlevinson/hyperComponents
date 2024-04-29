@@ -45,9 +45,9 @@ const tw = {
 			set :dropdownHasMouse to false
 		end -- init
 	
-		on mouseenter
+		on mouseenter from me
 			call me.focus()
-			if event.target.id matches my @id then trigger openDropdown on me
+			trigger openDropdown on me
 		end
 
 		on mouseleave from me
@@ -58,12 +58,12 @@ const tw = {
 		end
 
 		on click from me
-			if I match .open then trigger closeDropdown on me 
+		 if I match .open then trigger closeDropdown on me 
 			otherwise trigger openDropdown on me
 		end
 
 		on mouseWithinDropdown(value)
-		set :dropdownHasMouse to value
+			set :dropdownHasMouse to value
 		end 
 
 		on keydown[key=='Escape']
@@ -74,7 +74,7 @@ const tw = {
 			set dropdownHeight to 0 then set items to the children of #{:dropdownContainer}
 			for item in items increment the dropdownHeight by the item's offsetHeight end
 			return dropdownHeight
-		end -- calculate dropdown height based on content
+		end -- calculate dropdown container's height based on content
 
 		def resetPosition
 			set offset to my @moveXY.split(',')
@@ -90,7 +90,7 @@ const tw = {
 			set *height of #{:dropdownContainer} to (calcHeight() + 'px') then wait 20ms then
 			set *opacity of #{:itemsList} to 1
 			add .open to me
-		end  -- handle to open dropdown
+		end  -- handler to open dropdown
 
 		on closeDropdown 
 			set *opacity of #{:itemsList} to 0
@@ -101,7 +101,7 @@ const tw = {
 		end -- behavior ToggleDropdown
 
 	behavior HideDropdown
-	  on mouseover send mouseWithinDropdown(value:true) to the previous <button/> end
+	  on mouseenter send mouseWithinDropdown(value:true) to the previous <button/> end
 		on mouseleave send mouseWithinDropdown(value:false) to the previous <button/> end
 		on click or mouseleave send closeDropdown to the previous <button/> end
 	end -- behavior HideDropdown
