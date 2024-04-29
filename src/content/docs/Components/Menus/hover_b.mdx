@@ -4,38 +4,39 @@ title: Hover Activated Dropdown (B)
 description: Dropdown Menu Component activated by a click event
 
 ---
-A commonly used web component is a button presenting a list of choices when tapped.
 
-This hyperComponent is identical to the previous example Click Activated Dropdown (A) with the differences
+This hyperComponent is identical to the previous example Click Activated Dropdown (A) with the followiong differences
 
-##### 1. The dropdown (additonal) appears on hover
+##### 1. The dropdown appears on hover or click
 ##### 2. The Hyperscripts are embeded a \<script\> tag with Behaviors installed into the Component
 
 The following explanation is mostly identical to the previous example.  If you are familiar
-with the previous example, you can skip to the [Code](#code) section.
+with the previous example, you can simply [skip to the Code](#code) section.
 
 
 ## Example
+A commonly used web component is a button presenting a list of choices when tapped.
 
 export const tw = {
-	dropdownContainer: 'not-content w-full pb-4 w-max-lg text-center mx-auto dark:bg-gray-800 rounded-xl my-6',
+	exampleContainer: 'not-content w-full pb-4 w-max-lg text-center mx-auto dark:bg-gray-800 rounded-xl my-6',
+	exampleTitle: 'bg-gray-300 dark:bg-gray-900 font-semibold py-2 mb-4',
 	menuItem: 'px-4 hover:bg-stone-200 hover:dark:bg-stone-300 ' +
 	'hover:text-cyan-100 hover:dark:text-sky-950',
 }
 
 export const hs = "on click call alert('You selected ' + my innerHTML) "
 
-import DropdownMenu from '../../../../components/DropdownMenu.astro';
+import HoverDropdownMenu_B from '../../../../components/HoverDropdownMenu_B.astro';
 
-<div id='dropdownContainer' class={tw.dropdownContainer} >
-<div id='title' class="bg-gray-900 font-semibold py-2 mb-4">Click Activated Dropdown</div>
-<DropdownMenu id={'dropdown-example-1'} caption="Click Me" duration="300ms" moveXY="5, 5">
+<div id='exampleContainer' class={tw.exampleContainer} >
+<div id='title' class={tw.exampleTitle}>Hover Activated Dropdown</div>
+<HoverDropdownMenu_B id={'hover_dropdown'} caption="Hover Me" duration="300ms" moveXY="5, 5">
 	 <span slot="endIcon" class="w-6 h-6 text-gray-400 ml-2">&#9207;</span>
    <li class={tw.menuItem} script={hs}>Choice 1</li>
    <li class={tw.menuItem} script={hs}>Choice 2</li>
    <li class={tw.menuItem} script={hs}>Choice 3</li>
-   <li class={tw.menuItem} script="on click trigger closeDropdown then settle then go to url '/' ">Go Home</li>
-</DropdownMenu>
+   <li class={tw.menuItem} script="on click send closeDropdown to #{hover_dropdown} then settle then go to url '/' ">Go Home</li>
+</HoverDropdownMenu_B>
 </div>
 
 
@@ -44,12 +45,12 @@ import DropdownMenu from '../../../../components/DropdownMenu.astro';
 The example above is an Astro component comprised of a button and a dropdown container which wraps an unordered list of choices.  The unordered list is populated by passing `<li>` elements into the component's default slot.
 
 ```html
-<DropdownMenu id={'dropdown-example-1'} caption="Click Me" duration="300ms" moveXY="5, 5">
+<HoverDropdownMenu_B id={'hover_dropdown'} caption="Hover Me" duration="300ms" moveXY="5, 5">
    <li class={tw.menuItem} script={hs}>Choice 1</li>
    <li class={tw.menuItem} script={hs}>Choice 2</li>
    <li class={tw.menuItem} script={hs}>Choice 3</li>
    <li class={tw.menuItem} script="on click trigger closeDropdown then settle then go to url '/' ">Go Home</li>
-</DropdownMenu>
+</HoverDropdownMenu_B>
 
 ```
 The dropdown container is hidden by setting it's height to 0 and the opacity of the `<ul>` to 0.  
