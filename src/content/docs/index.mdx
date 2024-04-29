@@ -18,22 +18,27 @@ hero:
 
 import { Card, CardGrid } from '@astrojs/starlight/components';
 import HTMX_Logo from '../../components/HTMX_Logo.astro';
+import Hyperscript_Logo from '../../components/Hyperscript_Logo.astro';
+
 
 
 #### Free Downloadable Web Components Built with...
 
 <CardGrid stagger>
 	<Card>
-	<HTMX_Logo styles="h-40"/>
+	<HTMX_Logo/>
 		Extend any html element with attributes that emit AJAX requests and then swap the hypermedia response directly into the DOM.
 	</Card>
-	<Card title="Tailwind" icon="add-document">
+	<Card title="Tailwind">
+	  <img src="/images/tailwind_icon.svg" alt="Tailwind CSS" style="height: 30px;"/>
 		Responsive mobile-first design using utility classes for rapid prototyping.
 	</Card>
-	<Card title="///_hyperscript" icon="setting">
+	<Card>
+	<Hyperscript_Logo/>
 		Create dynamic client side interactivity with this powerful scripting language featuring prose-like syntax and extensive event management.
 	</Card>
-	<Card title="Astro" icon="open-book">
+	<Card >
+	  <img src="/images/astro_logo.png" alt="Astro Build Tool" style="height: 50px;"/>
 		Vite based static/SSR build tool with straight-forward component architecture, file-base routing, and full support for custom API endpoints perfect for serving hypermedia responses to AJAX requests.
 	</Card>
 </CardGrid>
