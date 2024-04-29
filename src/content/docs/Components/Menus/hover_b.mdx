@@ -5,23 +5,27 @@ description: Dropdown Menu Component activated by a click event
 
 ---
 
-This hyperComponent is identical to the previous example Click Activated Dropdown (A) with the followiong differences
+:::note
+This hyperComponent is identical to the  [Click Activated Dropdown (A)](/components/menus/click_a/) except:
 
-##### 1. The dropdown appears on hover or click
-##### 2. The Hyperscripts are embeded a \<script\> tag with Behaviors installed into the Component
+-Activation is by either hover or click
 
-The following explanation is mostly identical to the previous example.  If you are familiar
-with the previous example, you can simply [skip to the Code](#code) section.
+-Hyperscript code is located in a \<script\> tag with [Behaviors](https://hyperscript.org/docs/#behaviors) installed into elements inside the Component
+
+The explanations are otherwise identical so you may simply [jump to the Code](#code) section.
+:::
 
 
 ## Example
-A commonly used web component is a button presenting a list of choices when tapped.
+
+###### A commonly used web component is a Button which reveals a list of choices when activated.
 
 export const tw = {
 	exampleContainer: 'not-content w-full pb-4 w-max-lg text-center mx-auto dark:bg-gray-800 rounded-xl my-6',
 	exampleTitle: 'bg-gray-300 dark:bg-gray-900 font-semibold py-2 mb-4',
 	menuItem: 'px-4 hover:bg-stone-200 hover:dark:bg-stone-300 ' +
 	'hover:text-cyan-100 hover:dark:text-sky-950',
+	icon:'inline-block size-6'
 }
 
 export const hs = "on click call alert('You selected ' + my innerHTML) "
@@ -31,7 +35,9 @@ import HoverDropdownMenu_B from '../../../../components/HoverDropdownMenu_B.astr
 <div id='exampleContainer' class={tw.exampleContainer} >
 <div id='title' class={tw.exampleTitle}>Hover Activated Dropdown</div>
 <HoverDropdownMenu_B id={'hover_dropdown'} caption="Hover Me" duration="300ms" moveXY="5, 5">
-	 <span slot="endIcon" class="w-6 h-6 text-gray-400 ml-2">&#9207;</span>
+  <svg slot="endIcon" class={tw.icon}  fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+		<path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6z"/>
+	</svg>
    <li class={tw.menuItem} script={hs}>Choice 1</li>
    <li class={tw.menuItem} script={hs}>Choice 2</li>
    <li class={tw.menuItem} script={hs}>Choice 3</li>
@@ -42,7 +48,9 @@ import HoverDropdownMenu_B from '../../../../components/HoverDropdownMenu_B.astr
 
 ## Description
 
-The example above is an Astro component comprised of a button and a dropdown container which wraps an unordered list of choices.  The unordered list is populated by passing `<li>` elements into the component's default slot.
+The example above is an Astro component comprised of a `<button>` and a `dropdown container` which wraps the `<ul>` containing a list of choices.  
+
+The unordered list is populated by passing multiple `<li>` into the component's default slot.
 
 ```html
 <HoverDropdownMenu_B id={'hover_dropdown'} caption="Hover Me" duration="300ms" moveXY="5, 5">
@@ -53,23 +61,23 @@ The example above is an Astro component comprised of a button and a dropdown con
 </HoverDropdownMenu_B>
 
 ```
-The dropdown container is hidden by setting it's height to 0 and the opacity of the `<ul>` to 0.  
+The `dropdown container` is hidden by setting it's height to 0 and the opacity of the `<ul>` to 0.  
 
-The button listens for a click event which triggers the dropdown to smoothly appear by transitioning to it's content height and the `<ul>`'s opacity to 1 over a specified duration. 
+The `<button>` listens for either a `mouseenter` or  `click` event which then triggers the items to smoothly appear by transitioning the `dropdown container` to a new height and the `<ul>`'s opacity to 1 over a specified duration. 
 
-Tapping any `<li>` in the dropdown emits a custom event attached to that item followed by dismissal of the dropdown.
+Tapping any `<li>` emits a custom event attached to that item followed by dismissal of the dropdown.
 
 ## Features
 
 The trigger button and dropdown are initally styled with default Tailwind CSS utility classes but both are fully customizable by passing additional styling classes through [props](#code).
 
-The dropdown appearance/disappearance is smoothly animated by HyperScript over a duration specified by the `duration` prop. 
+The dropdown appearance/disappearance is smoothly animated by HyperScript with a timing function adjusted by the `duration` prop. 
 
 The dropdown is dismissed by:
 
 ###### 1. Tapping the trigger button again
-###### 2. Tapping outside the dropdown
-###### 3. Tapping any menu item
+###### 2. Tapping any menu item
+###### 3. Mouse leaving the button
 ###### 4. Mouse leaving the dropdown
 ###### 5. Pressing the Escape key when the button is focused
 
@@ -126,44 +134,51 @@ The duration of the dropdown container's height transition can be customized by 
 
 ## Styling
 
-Default Tailwind classes are used for initial styling of all elements within the Component, including the trigger button, `<ul>` and dropdown container. For accesssibility, the trigger button also receives a focus ring when activated.
+Default Tailwind classes are used for initial styling of all elements within the Component, including the trigger `<button>`, `<ul>` and `dropdown container`. For accesssibility, the trigger button also receives a focus ring when activated.
 
-Custom styles sent via [props](#code) are merged with the default Component styles and any conflicts resolved with a 'last wins' rule.
+Custom styles sent via [props](#code) are merged with the default styles and any conflicts resolved with a 'last wins' rule.
 
-To improve readability, the Tailwind classes and Hyperscript code are extracted from the markup and encapsulated into Astro `tw` and `hs` variables which are then referenced in the html markup. The advantage of this strategy is to allow long run-on strings to be formatted as concatenated, multi-line strings which aids readability and code maintenance.
+To improve readability, the Tailwind classes and Hyperscript code are extracted from the markup and encapsulated into Astro `tw` and `hs` local variables within the [Component Script](https://docs.astro.build/en/basics/astro-components/#the-component-script) which are then referenced in the html markup. 
+
+The advantage of this strategy is to allow long run-on strings to be formatted as concatenated, multi-line strings which aids readability and code maintenance.
 
 ## Transitions
 
-You can use the `transition` keyword to explicitly designate a CSS selector, element, and transition effect within your Hyperscript code.  However, this technique is blocking, and you will need to explicitly call the `settle` keyword after each `transition` statement which tells HS to wait 20ms to allow for swapping of all HS specific CSS classes used to implement the transition.
+You can use the `transition` keyword to explicitly designate a CSS selector, element, and transition effect within your Hyperscript code.  However, this technique is [blocking](https://hyperscript.org/docs/#transitions), and you will need to explicitly call the `settle` keyword after each `transition` statement which tells HS to wait briefly (20ms by default) to allow for swapping of all HS specific CSS classes used to implement the transition.
 
-A simpler, but less flexible technique is to assign an inline `<style>` tag with a transition CSS rule.  This technique is not blocking and reduces the amount of code in the script itself.  This is the transition technique used for this hyperComponent. 
+A simpler, but less flexible, technique is to apply a  CSS transition rule on the element being transitioned using an inline `<style>` tag.  This technique is not blocking and reduces the amount of code in the script itself.  This is the technique chosen for this hyperComponent. 
 
 ## Slots
-
 ### Default Slot
 
-All menu items should be placed between the Component's opening and closing tags, thus positioning them into the default slot which is inside the Component's `<ul>`.
+All menu items should be placed between the Component's opening and closing tags, thus positioning them into the default slot inside the Component's `<ul>`.
 
 ### Start Icon Slot
 
-The `startIcon` slot is used to install html tags for any icon or image of your choice.   
+The `startIcon` slot is used to install any icon or image markup of your choice.   
 
 If you also pass a `caption` prop, the `startIcon` slot will be displayed to the left of the caption text.
 
 ### End Icon Slot
 
-The `endIcon` slot is used to install an image after the caption text.  This is useful if you want to add a visual cue indicating that it is a dropdown menu.
+The `endIcon` slot is used to install any icon or image markup of your choice which is then positioned after the caption text.  
+
+In this example, a down-caret svg is used to provide a visual clue that interacting with the `<button>` will reveal additional choices.
 
 ### Icon Styling
 
 In Astro, you designate a named slot by including a `slot="name"` attribute in the parent element you are passing into the slot. 
 
-You will have to also attach Tailwind styling classes to elements passed into slots because the Component itself has no way to apply Tailwind classes to markup it does not know about yet. 
+You will have to also attach Tailwind styling classes to slot content  because the receiving Component  has no way to apply Tailwind classes to markup it does not know about yet. 
 
-For example, icon sizes, padding, margins, and  colors may need to be specified.  The code below yields a green down-pointing arrow using a Unicode character style with Tailwind. 
+For example, icon sizes, padding, margins, and  colors may need to be specified. 
+
+The code below illustrates Tailwind styling of a down-caret svg passed into the `endIcon` slot.
 
 ```html title="Tailwind Styling for Icon Slots"
-<span slot="endIcon" class="w-6 h-6 text-gray-400 ml-2">&#9207;</span>
+  <svg slot="endIcon" class="inline-block size-6"  fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+		<path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6z"/>
+	</svg>
 ```
 
 
@@ -484,9 +499,9 @@ const tw = {
 
 ## Usage
 
-The most common use case for dropdown menu buttons is in navigation elements such as a top \<nav\> bar or an \<aside\> navigation drawer.  Dropdowns can also provide a more customizable equivalent to \<select\> elements.
+The most common use case for dropdowns are in navigation components such as a top `<nav>` bar or an `<aside>` navigation drawer.  Dropdowns can also provide a more customizable equivalent to `<select>` elements.
 
-To use this Component 'as is' in  your Astro project, click the `Copy` button on the Everything tab in the [code](#code) section above.  Paste all the code into a new file with the `.astro` extension.
+To use this Component 'as is' in  your Astro project, click the `Copy` button on the Everything tab in the [code](#code) section above.  Paste all the code into a new file with a `.astro` extension.
 
 
 To use this Component in another Astro file just import and embed it between angle brackets (with a Capitalized tag name) as in the example below.
