@@ -44,74 +44,68 @@ const tw = {
 			set :itemsList to my @id + '-items'
 			set :dropdownHasMouse to false
 		end -- init
-
-	def openUp
-		resetPosition()
-		set *height of the next <div/> to (calcHeight() + 'px') then wait 20ms then
-		set *opacity of #{my @id + '-items'} to 1
-		add .open to me
-	end -- openUp function
 	
-	on mouseenter(target)
-	  call me.focus()
-		if event.target.id matches my @id then trigger openDropdown on me
-	end
+		on mouseenter
+			call me.focus()
+			if event.target.id matches my @id then trigger openDropdown on me
+		end
 
-	on mouseleave
-	  call me.blur()
-		if event.target.id matches my @id then wait 50ms then
-			if not :dropdownHasMouse trigger closeDropdown on me
-    end
-	end
+		on mouseleave from me
+			call me.blur()
+			wait 50ms then
+				if not :dropdownHasMouse trigger closeDropdown on me
+			end
+		end
 
-	on click from me
-     if I match .open then trigger closeDropdown on me 
-		 otherwise trigger openDropdown on me
-	end
+		on click from me
+			if I match .open then trigger closeDropdown on me 
+			otherwise trigger openDropdown on me
+		end
 
-	on mouseWithinDropdown(value)
-   set :dropdownHasMouse to value
-	end 
+		on mouseWithinDropdown(value)
+		set :dropdownHasMouse to value
+		end 
 
-	on keydown[key=='Escape']
-		trigger closeDropdown on me
-	end  -- Escape key handler
+		on keydown[key=='Escape']
+			trigger closeDropdown on me
+		end  -- Escape key handler
 
-	def calcHeight
-		set dropdownHeight to 0 then set items to the children of #{:dropdownContainer}
-		for item in items increment the dropdownHeight by the item's offsetHeight end
-		return dropdownHeight
-	end -- calculate dropdown height based on content
+		def calcHeight
+			set dropdownHeight to 0 then set items to the children of #{:dropdownContainer}
+			for item in items increment the dropdownHeight by the item's offsetHeight end
+			return dropdownHeight
+		end -- calculate dropdown height based on content
 
-	def resetPosition
-		set offset to my @moveXY.split(',')
-		set leftOffset to offset[0] as Int
-		set bottomOffset to offset[1] as Int
-		measure me then put the result.bounds into myBounds
-		set *left of #{:dropdownContainer} to (myBounds.left + leftOffset + window.pageXOffset) px
-		set *top of #{:dropdownContainer} to (myBounds.bottom  + bottomOffset + window.pageYOffset) px
-	end  -- handler to reposition dropdown by x,y pixels
-	
-	on openDropdown from me
-		resetPosition()
-		set *height of #{:dropdownContainer} to (calcHeight() + 'px') then wait 20ms then
-		set *opacity of #{:itemsList} to 1
-		add .open to me
-	end  -- handle to open dropdown
+		def resetPosition
+			set offset to my @moveXY.split(',')
+			set leftOffset to offset[0] as Int
+			set bottomOffset to offset[1] as Int
+			measure me then put the result.bounds into myBounds
+			set *left of #{:dropdownContainer} to (myBounds.left + leftOffset + window.pageXOffset) px
+			set *top of #{:dropdownContainer} to (myBounds.bottom  + bottomOffset + window.pageYOffset) px
+		end  -- handler to reposition dropdown by x,y pixels
+		
+		on openDropdown from me
+			resetPosition()
+			set *height of #{:dropdownContainer} to (calcHeight() + 'px') then wait 20ms then
+			set *opacity of #{:itemsList} to 1
+			add .open to me
+		end  -- handle to open dropdown
 
-	on closeDropdown 
-		set *opacity of #{:itemsList} to 0
-		set *height of #{:dropdownContainer} to 0 then settle then
-		remove .open from me
-	end -- handler to close dropdown
+		on closeDropdown 
+			set *opacity of #{:itemsList} to 0
+			set *height of #{:dropdownContainer} to 0 then settle then
+			remove .open from me
+		end -- handler to close dropdown
 
-	end -- behavior ToggleDropdown
+		end -- behavior ToggleDropdown
 
 	behavior HideDropdown
 	  on mouseover send mouseWithinDropdown(value:true) to the previous <button/> end
 		on mouseleave send mouseWithinDropdown(value:false) to the previous <button/> end
 		on click or mouseleave send closeDropdown to the previous <button/> end
 	end -- behavior HideDropdown
+	
 </script>
 
 
