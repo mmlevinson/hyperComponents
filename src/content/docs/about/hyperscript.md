@@ -14,25 +14,64 @@ HS emphasizes Locality of Behavior (LoB) to keep functionality at the site of in
 
 However, there are some unique features as well as possiblities.  The official docs are the best place to learn in depth, but a review of some of the important topics will help the facilitate understanding of the example Components in this library.
 
-### Embedded Hyperscript
+### Embedding Hyperscript
 
 There are several ways to embed HS code into your client side markup:
 
-###### 1. Inline using the `_="` attribute as in the code fragment below
 
-###### 2. Inline using a `script=""` or `data-script=""` attribute
+###### 2. As a `script=""` or `data-script=""` attribute of any html element
 
-###### 3. Traditional `<script>` tag within your component markup using the `type="text/hyperscript"` attribute`
+```html title="Hyperscript attributes"
+<div script="on click send 'Hello' to me">
+	Click me to say Hello
+</div>
+
+<div data-script="on click send 'World' to the next <output/>">
+	Click me to say Hello
+</div>
+<output></output>
+
+```
+
+###### 2. As an html attribute using the shorthand `_="` attribute as in the code fragment below
+
+```html title="Underscore attribute (_='')"
+<div _="on click send 'Hello' to me">
+	Click me to say Hello
+</div>
+```
+
+###### 3. Traditional `<script type="text/hypertext">` tag anywhere within your markup
+
+```html title="<script> tag"
+<script type="text/hyperscript">
+	on click send 'Hello' to me
+</script>
+```
 
 ###### 4. Importing HS code from an external file with the `._hs` extension. In Astro projects, these imports should be placed in the `<head>` of your main layout file.
 
+```html title="<head> element import statement"
+<script src="/assets/scripts/my-hyperscript-file._hs"></script>
+```
+
 ### Declaring Functions
 
-The `def` keyword is used to declare a function.  You can pass parameters to any function.   
+The `def` keyword is used to declare a function in HS no matter what embedding strategy you choose.  You can pass parameters to any function.
+
+```html title="Function declaration"
+<script>
+	def sayHello(name)
+		send 'Hello ' + name to me
+	end
+</script>
+```
 
 ### Using Behaviors
 
-Functionality that can be applied to more than one html element can be encapsulated in a Behavior, as in the code block below:
+Behaviors are one strengths of Hyperscript. Behaviors allow you to encapsulate functionality in one place that can be used in many other places.   
+
+Behaviors are declared with the `Behavior` keyword.  Parameters can be passed into Behaviors.
 
 ```js
   Behavior Removable
@@ -51,16 +90,30 @@ After defining a Behavior in a globally accessible HS, you can apply the Behavio
 	</div>
 ```
 
-For this Component library, we make use of all the above embedding techniques for HS code.   Not all code examples will use Behaviors.  
+The hyperComponents library will use of all the above [embedding](#embedding) techniques for HS code.   Not all code examples will use Behaviors.  
 
-In some situations, the same Component will be presented with Behaviors, `<script>` tags, and inline `script=""` attributes.
+In some situations, the same hyperComponent will be presented differently using Behaviors, `<script>` tags, or  `script=""` attributes.
 
-The shortcut attribute `_="` is very common. 
+The shortcut attribute `_="` is very common technique for embedding element level Hyperscipts.
 
-**However, the Components in this library are for instructional purposes so using so a preference is stated here for the using the `script=""` attribute to explicitly indicate that the element has HS code attached.**
+**However, the hyperCompnents library is principally for instructional purposes so it is the author's preference to use the more descriptive `script=""` attribute to explicitly indicate that an element has HS code attached.**
+
+**As a file naming convention, hyperComponents embedding  Hyperscript code using attribute will display an `_A` suffix in the Component name (symbolic of 'attribute').**
+
+**hyperComponents where HS is installed from a Behavior will display an `_B` suffix in the Component name (symbolic of 'behavior').**
 
 ### Operator Precedence (not!)
 
+Unlike most programming languages where a defined precedence is established for mathematical operators, Hyperscript expects the programmer to explicitly define the order of operations using parentheses `()`.
+
 ### Async Agnostic
 
+Many method calls, such as the 'fetch()' method are asynchronous behind the scenes.   All Promise resolutions and error management are handled for you behind the scenes in Hyperscript.
+
+You can explicitly designate a function as synchronous with the `async` keyword but any system or server side Promise based methods will be resolved before HS proceeds with the next code line.   
+
 ### Using Objects
+
+You can set up key:value pairs in Hyperscript using the `{}` syntax. 
+
+
