@@ -53,8 +53,8 @@ const hs = {
 			set leftOffset to offset[0] as Int
 			set bottomOffset to offset[1] as Int
 			measure me then put the result.bounds into myBounds
-			set *left of #{:dropdownContainer} to (myBounds.left + leftOffset) px
-			set *top of #{:dropdownContainer} to (myBounds.bottom  + bottomOffset) px
+			set *left of #{:dropdownContainer} to (myBounds.left + leftOffset + window.pageXOffset) px
+			set *top of #{:dropdownContainer} to (myBounds.bottom  + bottomOffset + window.pageYOffset) px
 		end  -- handler to reposition dropdown by x,y pixels
 		
 		on openDropdown from me

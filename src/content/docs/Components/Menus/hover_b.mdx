@@ -35,7 +35,7 @@ import HoverDropdownMenu_B from '../../../../components/HoverDropdownMenu_B.astr
    <li class={tw.menuItem} script={hs}>Choice 1</li>
    <li class={tw.menuItem} script={hs}>Choice 2</li>
    <li class={tw.menuItem} script={hs}>Choice 3</li>
-   <li class={tw.menuItem} script="on click send closeDropdown to #{hover_dropdown} then settle then go to url '/' ">Go Home</li>
+   <li class={tw.menuItem} script="on click send closeDropdown then settle then go to url '/' ">Go Home</li>
 </HoverDropdownMenu_B>
 </div>
 
@@ -49,7 +49,7 @@ The example above is an Astro component comprised of a button and a dropdown con
    <li class={tw.menuItem} script={hs}>Choice 1</li>
    <li class={tw.menuItem} script={hs}>Choice 2</li>
    <li class={tw.menuItem} script={hs}>Choice 3</li>
-   <li class={tw.menuItem} script="on click trigger closeDropdown then settle then go to url '/' ">Go Home</li>
+   <li class={tw.menuItem} script="on click send closeDropdown to #{hover_dropdown} then settle then go to url '/' ">Go Home</li>
 </HoverDropdownMenu_B>
 
 ```

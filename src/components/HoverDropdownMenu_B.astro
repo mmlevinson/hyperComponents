@@ -54,7 +54,7 @@ const tw = {
 	
 	on mouseenter(target)
 	  call me.focus()
-		if event.target.id matches my @id then openUp()
+		if event.target.id matches my @id then trigger openDropdown on me
 	end
 
 	on mouseleave
@@ -88,8 +88,8 @@ const tw = {
 		set leftOffset to offset[0] as Int
 		set bottomOffset to offset[1] as Int
 		measure me then put the result.bounds into myBounds
-		set *left of #{:dropdownContainer} to (myBounds.left + leftOffset) px
-		set *top of #{:dropdownContainer} to (myBounds.bottom  + bottomOffset) px
+		set *left of #{:dropdownContainer} to (myBounds.left + leftOffset + window.pageXOffset) px
+		set *top of #{:dropdownContainer} to (myBounds.bottom  + bottomOffset + window.pageYOffset) px
 	end  -- handler to reposition dropdown by x,y pixels
 	
 	on openDropdown from me
@@ -99,12 +99,11 @@ const tw = {
 		add .open to me
 	end  -- handle to open dropdown
 
-	on closeDropdown from me
+	on closeDropdown 
 		set *opacity of #{:itemsList} to 0
 		set *height of #{:dropdownContainer} to 0 then settle then
-		-- add .hidden to #{:dropdownContainer}
 		remove .open from me
-	end -- handler to hide dropdown
+	end -- handler to close dropdown
 
 	end -- behavior ToggleDropdown
 
