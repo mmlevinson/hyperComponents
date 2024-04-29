@@ -98,9 +98,9 @@ The shortcut attribute `_="` is very common technique for embedding element leve
 
 **However, the hyperCompnents library is principally for instructional purposes so it is the author's preference to use the more descriptive `script=""` attribute to explicitly indicate that an element has HS code attached.**
 
-**As a file naming convention, hyperComponents embedding  Hyperscript code using attribute will display an `_A` suffix in the Component name (symbolic of 'attribute').**
+**As a naming convention, hyperComponents embedding  Hyperscript code using attribute will display an `(A)` suffix in the Component name (symbolic of 'attribute').**
 
-**hyperComponents where HS is installed from a Behavior will display an `_B` suffix in the Component name (symbolic of 'behavior').**
+**hyperComponents where HS is installed from a Behavior will display an `(B)` suffix in the Component name (symbolic of 'behavior').**
 
 ### Operator Precedence (not!)
 

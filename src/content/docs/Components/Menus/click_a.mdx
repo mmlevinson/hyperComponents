@@ -1,6 +1,6 @@
 ---
 
-title: Click Activated Dropdown
+title: Click Activated Dropdown (A)
 description: Dropdown Menu Component activated by a click event
 
 ---
@@ -32,8 +32,7 @@ import DropdownMenu from '../../../../components/DropdownMenu.astro';
 
 ## Description
 
-
-The example above is an Astro component comprised of a button and a dropdown container which wraps an unordered list displayed as a flexbox in column orientation.  The unordered list is populated by passing a list of items into the component's default slot.
+The example above is an Astro component comprised of a button and a dropdown container which wraps an unordered list of choices.  The unordered list is populated by passing `<li>` elements into the component's default slot.
 
 ```html
 <DropdownMenu id={'dropdown-example-1'} caption="Click Me" duration="300ms" moveXY="5, 5">
@@ -44,9 +43,11 @@ The example above is an Astro component comprised of a button and a dropdown con
 </DropdownMenu>
 
 ```
-The dropdown container is hidden by setting it's height to 0 and the opacity of the `<ul>` to 0.  The button listens for a click event which triggers the dropdown to smoothly appear by transitioning to it's full height and the `<ul>`'s opacity to 1 over a specified duration. 
+The dropdown container is hidden by setting it's height to 0 and the opacity of the `<ul>` to 0.  
 
-Tapping any item in the dropdown emits a custom event attached to that item followed by dismissal of the dropdown.
+The button listens for a click event which triggers the dropdown to smoothly appear by transitioning to it's content height and the `<ul>`'s opacity to 1 over a specified duration. 
+
+Tapping any `<li>` in the dropdown emits a custom event attached to that item followed by dismissal of the dropdown.
 
 ## Features
 
@@ -66,6 +67,9 @@ The dropdown is dismissed by:
 
 ## Props
 
+Below is a summary of the Component props which can optionally configure the Component from the place where it is being used.
+
+
 ```js
 interface Props {
  id: string,   
@@ -80,31 +84,31 @@ interface Props {
 }
 ```
 
-### Id
+### id\<string\>
 
 Each DropdownMenu component requires a unique id.  This is used to ensure that multiple dropdowns do not interact with each other.
 
-### Caption
+### caption\<string\>
 
 The `caption` prop is a text sting that will be displayed in the trigger button.  
 
-### Button Styles
+### butonStyles?\<string\>
 
 The `buttonStyles` prop allows you to customize the appearance of the trigger button.  Use this prop if you want to change the button's hover behavior,  background or text color, apply a dropshadow, etc.
 
-### List Styles
+### listStyles?\<string\>
 
 The `listStyles` prop allows you to customize the appearznce of the `<ul>` flex container.  Any styles you pass in this prop apply to the parent `<ul>` that wraps all menu items.
 
-### Dropdown Styles
+### dropdownStyles?\<string\>
 
 The `dropdownStyles` prop allows you to customize the appearance of the dropdown container.  For example, to change the background color of the dropdown itself, you could pass `"bg-slate-600"`.
 
-### Positioning
+### moveXY?\<string\>
 
 If the dropdown needs to be moved relative to the trigger button, you can pass a string with two comma separated values into the `moveXY` prop.  The first value is the horizontal shift and the second is the vertical shift.  For example, to move the dropdown 5 pixels to the left and 5 pixels down relative to the button's location, you would pass `"-5,5"`.
 
-### Transition Duration
+### duration?\<string\>
 
 The duration of the dropdown container's height transition can be customized by passing a string (in milliseconds) into the `duration` prop.  For example, to set the transition to 100 milliseconds, you would pass `"100ms"`.
 
@@ -115,6 +119,12 @@ Default Tailwind classes are used for initial styling of all elements within the
 Custom styles sent via [props](#code) are merged with the default Component styles and any conflicts resolved with a 'last wins' rule.
 
 To improve readability, the Tailwind classes and Hyperscript code are extracted from the markup and encapsulated into Astro `tw` and `hs` variables which are then referenced in the html markup.  This also allows long run-on strings to be formatted as concatenated, multi-line strings which aids readability and code maintenance.
+
+## Transitions
+
+You can use the `transition` keyword in Hyperscript to explicitly designate a CSS selector, element, and transition effect within your Hyperscript code.  However, this technique is blocking, and you will need to explicitly call the `settle` keyword after each `transition` which tells HS to wait 20ms to allow all for swapping of HS specific CSS classes used to implement the transition.
+
+A simpler, but less flexible technique is to assign an inline `<style>` tag with a transition CSS rule.  This technique is not blocking and reduces the amount of code in the script itself.  This is the transition technique used in this hyperComponent. 
 
 ## Slots
 
