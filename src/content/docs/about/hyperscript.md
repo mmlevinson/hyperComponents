@@ -6,13 +6,13 @@ description: "Hyperscript  -- the new player in Front End interactivity"
 
 ## Hyperscript Options
 
-Hyperscript is a new front-end scripting language with syntax patterned after xTalk and the popular HyperTalk control language of HyperCard.active
+Hyperscript is a new front-end scripting language with syntax patterned after xTalk and the popular HyperTalk control language of HyperCard.
 
-The syntax is English prose-link with emphasis on self-documenting code by using familiar phraseology.active
+The syntax is English prose-like with emphasis on self-documenting code by using familiar phraseology.
 
-HS emphasizes Locality of Behavior (LoB) to keep functionality at the site of intent.   LoB also emphasizes understanding the action of code simply by inspection, reducing the cryptic nature of programming logic, improving understanding and code maintenance.active
+HS emphasizes Locality of Behavior (LoB) to keep functionality at the site of intent.   LoB also emphasizes understanding the action of code simply by inspection, reducing the cryptic nature of programming logic, improving understanding and code maintenance.
 
-However, there are some unique features as well as possiblities.  The official docs are the best place to learn in depth, but a review of some of the important topics will help the facilitate understanding of the example Components in this library.
+Hyperscript presents some unique features as well as possiblities which are worthy of a brief summary.   The official docs are the best place to explort HS in depth, but a review of some of the important topics here will help the facilitate understanding of the example Components in this library.
 
 ### Embedding Hyperscript
 
@@ -33,7 +33,7 @@ There are several ways to embed HS code into your client side markup:
 
 ```
 
-###### 2. As an html attribute using the shorthand `_="` attribute as in the code fragment below
+###### 2. Using the shorthand `_="` attribute
 
 ```html title="Underscore attribute (_='')"
 <div _="on click send 'Hello' to me">
@@ -41,7 +41,9 @@ There are several ways to embed HS code into your client side markup:
 </div>
 ```
 
-###### 3. Traditional `<script type="text/hypertext">` tag anywhere within your markup
+###### 3. Traditional `<script>` tag anywhere within your markup
+
+You must include the `type="text/hyperscript"` attribute in your \<script\> tag to tell the browser to interpret the content as Hyperscript.
 
 ```html title="<script> tag"
 <script type="text/hyperscript">
@@ -49,23 +51,15 @@ There are several ways to embed HS code into your client side markup:
 </script>
 ```
 
-###### 4. Importing HS code from an external file with the `._hs` extension. In Astro projects, these imports should be placed in the `<head>` of your main layout file.
+###### 4. Importing HS code from an external `._hs` file. 
+
+In Astro projects, these files should be placed in your /public folder and the \<script\> import placed into the  `<head>` tag of your main layout.
 
 ```html title="<head> element import statement"
 <script src="/assets/scripts/my-hyperscript-file._hs"></script>
 ```
 
-### Declaring Functions
 
-The `def` keyword is used to declare a function in HS no matter what embedding strategy you choose.  You can pass parameters to any function.
-
-```html title="Function declaration"
-<script>
-	def sayHello(name)
-		send 'Hello ' + name to me
-	end
-</script>
-```
 
 ### Using Behaviors
 
@@ -101,6 +95,18 @@ The shortcut attribute `_="` is very common technique for embedding element leve
 **As a naming convention, hyperComponents embedding  Hyperscript code using attribute will display an `(A)` suffix in the Component name (symbolic of 'attribute').**
 
 **hyperComponents where HS is installed from a Behavior will display an `(B)` suffix in the Component name (symbolic of 'behavior').**
+
+### Declaring Functions
+
+The `def` keyword is used to declare a function in HS no matter what embedding strategy you choose.  You can pass parameters to any function.
+
+```html title="Function declaration"
+<script>
+	def sayHello(name)
+		send 'Hello ' + name to me
+	end
+</script>
+```
 
 ### Operator Precedence (not!)
 
