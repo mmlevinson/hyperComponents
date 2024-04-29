@@ -1,0 +1,18 @@
+---
+
+
+
+const tw = {
+	container: 'inline-block text-4xl font-bold ',
+	base: ' text-gray-800 dark:text-zinc-200 msx-0',
+	alternate: 'text-blue-400'
+}
+---
+
+<div class={tw.container}>
+	<span class={tw.base}>&lt;</span>
+	<span class={tw.alternate}>/</span>
+	<span class={tw.base}>&gt;</span>
+	<span class={tw.base + " tracking-wider"}>htm<span class={tw.alternate + " -translate-x-6"}>x</span></span>
+	
+</div>

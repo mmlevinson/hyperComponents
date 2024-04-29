@@ -17,11 +17,14 @@ hero:
 ---
 
 import { Card, CardGrid } from '@astrojs/starlight/components';
+import HTMX_Logo from '../../components/HTMX_Logo.astro';
 
-###  Built with...
+
+#### Free Downloadable Web Components Built with...
 
 <CardGrid stagger>
-	<Card title="HTMX" icon="pencil">
+	<Card>
+	<HTMX_Logo styles="h-40"/>
 		Extend any html element with attributes that emit AJAX requests and then swap the hypermedia response directly into the DOM.
 	</Card>
 	<Card title="Tailwind" icon="add-document">
