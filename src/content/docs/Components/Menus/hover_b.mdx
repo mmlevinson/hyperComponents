@@ -1,10 +1,19 @@
 ---
 
-title: Click Activated Dropdown (A)
+title: Hover Activated Dropdown (B)
 description: Dropdown Menu Component activated by a click event
 
 ---
 A commonly used web component is a button presenting a list of choices when tapped.
+
+This hyperComponent is identical to the previous example Click Activated Dropdown (A) with the differences
+
+##### 1. The dropdown (additonal) appears on hover
+##### 2. The Hyperscripts are embeded a \<script\> tag with Behaviors installed into the Component
+
+The following explanation is mostly identical to the previous example.  If you are familiar
+with the previous example, you can skip to the [Code](#code) section.
+
 
 ## Example
 
@@ -195,23 +204,24 @@ const {
   <TabItem label="HTML">
     ```html
 	<!-- Trigger -->
-	<button 
-		id={id}  
+	<button
+		id={id}
 		type='button'
-		moveXY={moveXY} 
-		class={twMerge(tw.triggerButton, buttonStyles)} 
-		script={hs.toggleDropdown}>
-			<slot name='startIcon'/>
-			{caption}
-			<slot name='endIcon'/>
+		moveXY={moveXY}
+		class={twMerge(tw.triggerButton, buttonStyles)}
+		_="install ToggleDropdown">
+		<slot name='startIcon' />
+		{caption}
+		<slot name='endIcon'/>
 	</button>
 	<!-- Dropdown -->
-	<div id=`${id}-container` 
-		class={twMerge(tw.dropdownContainer, dropdownStyles)} 
+	<div id=`${id}-wrapper`
+		class={twMerge(tw.dropdownWrapper, dropdownStyles)}
 		style=`transition: all ${duration} ease-in-out`>
-			<ul id=`${id}-items` 
-				class={twMerge(tw.itemsList, listStyles)} style="transition: all 50ms ease-in-out"
-				script={hs.hideDropdown}>
+			<ul id=`${id}-items`
+				class={twMerge(tw.itemsList, listStyles)}
+				style="transition: all 50ms ease-in-out"
+			_="install HideDropdown">
 			<slot/>
 			</ul>
 	</div>
@@ -219,52 +229,86 @@ const {
   </TabItem>
   <TabItem label="Scripts">
     ```js
-		const hs = {
-		toggleDropdown:  `
-			init
-				set :dropdownContainer to my @id + '-container'
-				set :itemsList to my @id + '-items'
-			end -- init
+	
+<script type="text/hyperscript">
+  behavior ToggleDropdown
+		init
+			set :dropdownWrapper to my @id + '-wrapper'
+			set :itemsList to my @id + '-items'
+			set :dropdownHasMouse to false
+		end -- init
 
-			on click or blur from me
-				if I match .open then trigger closeDropdown on me 
-				otherwise trigger openDropdown on me
-			end -- handler for click within trigger button
+		def openUp
+			resetPosition()
+			set *height of the next <div/> to (calcHeight() + 'px') then wait 20ms then
+			set *opacity of #{my @id + '-items'} to 1
+			add .open to me
+		end -- handler to open dropdown
+	
+		on mouseenter(target)
+			call me.focus()
+			if event.target.id matches my @id then openUp()
+		end -- handler for opening on hover
 
-			on keydown[key=='Escape']
-				trigger closeDropdown on me
-			end  -- handler for closing dropdown with Escape key when element has focus
+		on mouseleave
+			call me.blur()
+			if event.target.id is my @id then wait 50ms then
+				if not :dropdownHasMouse trigger closeDropdown on me
+			end
+		end -- handler for closing on mouseleave
 
-			def calcHeight
-				set dropdownHeight to 0 then set items to the children of #{:dropdownContainer}
-				for item in items increment the dropdownHeight by the item's offsetHeight end
-				return dropdownHeight
-			end -- function to calculate actual height of dropdown based on it's contents
-				
-			def resetPosition
-				set offset to my @moveXY.split(',')
-				set leftOffset to offset[0] as Int
-				set bottomOffset to offset[1] as Int
-				measure me then put the result.bounds into myBounds
-				set *left of #{:dropdownContainer} to (myBounds.left + leftOffset) px
-				set *top of #{:dropdownContainer} to (myBounds.bottom  + bottomOffset) px
-			end  -- handler to reposition dropdown by x,y pixels
-			
-			on openDropdown from me
-				resetPosition()
-				set *height of #{my @id + '-container'} to (calcHeight() + 'px') then wait 20ms then
-				set *opacity of #{my @id + '-items'} to 1
-				add .open to me
-			end -- handler to open dropdown
+		on click from me
+			if I match .open then trigger closeDropdown on me 
+			otherwise trigger openDropdown on me
+		end -- handler toggling dropdown via click
 
-			on closeDropdown
-				set *opacity of #{:itemsList} to 0
-				set *height of #{:dropdownContainer} to 0 then settle then
-				remove .open from me
-			end -- handler to close dropdown `,
-		hideDropdown: `on click or mouseleave send closeDropdown to the previous <button/> end`
+		on mouseWithinDropdown(value)
+		set :dropdownHasMouse to value
+		end -- tracks mouse state
 
-}
+		on keydown[key=='Escape']
+			trigger closeDropdown on me
+		end -- handle for dismissal via Escape key
+
+		def calcHeight
+			set dropdownHeight to 0 then set items to the children of #{:dropdownWrapper}
+			for item in items increment the dropdownHeight by the item's offsetHeight end
+			return dropdownHeight
+		end -- function to calculate actual height of dropdown based on it's contents
+
+		def resetPosition
+			set offset to my @moveXY.split(',')
+			set leftOffset to offset[0] as Int
+			set bottomOffset to offset[1] as Int
+			measure me then put the result.bounds into myBounds
+			set *left of #{:dropdownWrapper} to (myBounds.left + leftOffset) px
+			set *top of #{:dropdownWrapper} to (myBounds.bottom  + bottomOffset) px
+		end -- handler to reposition dropdown by x,y pixels
+		
+		on openDropdown from me
+			resetPosition()
+			set *height of #{:dropdownWrapper} to (calcHeight() + 'px') then wait 20ms then
+			set *opacity of #{:itemsList} to 1
+			add .open to me
+		end -- handler for openDropdown event
+
+
+		on closeDropdown from me
+			set *opacity of #{:itemsList} to 0
+			set *height of #{:dropdownWrapper} to 0 then settle then
+			remove .open from me
+		end -- handler for closeDropdown event
+
+	end -- ToggleDropdown behavior
+
+	behavior HideDropdown
+	  on mouseover send mouseWithinDropdown(value:true) to the previous <button/> end
+		on mouseleave send mouseWithinDropdown(value:false) to the previous <button/> end
+		on click or mouseleave send closeDropdown to the previous <button/> end
+	end -- HideDropdown behavior
+
+</script>
+
 		```
   </TabItem>
   <TabItem label="Tailwind">
@@ -288,104 +332,148 @@ const tw = {
 ```js
 ---
 interface Props {
- id:string   //a unique identifier for this component, allowing multiple dropdowns on a page without collisions
- caption:string   //the text displayed in the button that triggers the dropdown
- dropdownStyles:string   //any additional styles to apply to the overall wrapper <div>
- buttonStyles:string   //any additional Tailwind classes for customizing the trigger button
- listStyles:string   //any additional styles to apply to the dropdown list
- moveXY:string //comma separated integer values specifying top,left shift in dropdown location
- duration:string //duration (in milliseconds) for dropdown height transition
+ id: string   //a unique identifier for this component, allowing multiple dropdowns on a page without collisions
+ caption: string   //the text displayed in the button that triggers the dropdown
+ dropdownStyles: string   //any additional styles to apply to the overall wrapper <div>
+ buttonStyles: string   //any additional Tailwind classes for customizing the trigger button
+ listStyles: string   //any additional styles to apply to the dropdown list
+ moveXY: string //comma separated integer values specifying x,y shift in dropdown position
+ hover: boolean, //responds to mouseenter/leave
+ duration: string, //duration (in milliseconds) for dropdown height transition
 }
 
 import {twMerge} from 'tailwind-merge'
-const {id, caption, dropdownStyles, buttonStyles, listStyles, moveXY = "0,0", duration = '100ms'} = Astro.props
+const {
+	id, 
+	caption, 
+	dropdownStyles, 
+	buttonStyles, 
+	listStyles, 
+	moveXY = "0,0", 
+	hover = true, 
+	duration = '100js'
+} = Astro.props
 
-const title = 'Dropdown Menus';
 const tw = {
 	triggerButton: 'inline-block rounded-lg p-3 ' +
 		'font-semibold text-lg lg:text-xl text-zinc-100 hover:text-zinc-400 hover:dark:text-zinc-300 ' + 
 		'bg-indigo-600 hover:bg-indigo-800 ' +
-		'focus:ring-4 focus:outline-none focus:ring-indigo-300 ',
-	dropdownContainer  :'h-0 absolute z-10 ' + 
+		'focus:ring-4 focus:outline-none focus:ring-indigo-300',
+	dropdownWrapper:'h-0 absolute z-10 ' + 
 		'rounded-lg drop-shadow-2xl overflow-hidden ' + 
 		'text-lg font-medium ' +
 		'bg-white dark:bg-gray-800 ',
 	itemsList:'opacity-0 flex flex-col gap-y-4 cursor-pointer ' + 
 		'py-4 font-semibold text-gray-900 dark:text-zinc-50',
 }
+---
 
-const hs = {
-	toggleDropdown:  `
+	
+<script type="text/hyperscript">
+  behavior ToggleDropdown
 		init
-			set :dropdownContainer to my @id + '-container'
+			set :dropdownWrapper to my @id + '-wrapper'
 			set :itemsList to my @id + '-items'
+			set :dropdownHasMouse to false
 		end -- init
 
-		on click or blur from me
+		def openUp
+			resetPosition()
+			set *height of the next <div/> to (calcHeight() + 'px') then wait 20ms then
+			set *opacity of #{my @id + '-items'} to 1
+			add .open to me
+		end -- handler to open dropdown
+	
+		on mouseenter(target)
+			call me.focus()
+			if event.target.id matches my @id then openUp()
+		end -- handler for opening on hover
+
+		on mouseleave
+			call me.blur()
+			if event.target.id is my @id then wait 50ms then
+				if not :dropdownHasMouse trigger closeDropdown on me
+			end
+		end -- handler for closing on mouseleave
+
+		on click from me
 			if I match .open then trigger closeDropdown on me 
 			otherwise trigger openDropdown on me
-		end -- handler for click within trigger button
+		end -- handler toggling dropdown via click
+
+		on mouseWithinDropdown(value)
+		set :dropdownHasMouse to value
+		end -- tracks mouse state
 
 		on keydown[key=='Escape']
 			trigger closeDropdown on me
-		end  -- handler for closing dropdown with Escape key when element has focus
+		end -- handle for dismissal via Escape key
 
 		def calcHeight
-			set dropdownHeight to 0 then set items to the children of #{:dropdownContainer}
+			set dropdownHeight to 0 then set items to the children of #{:dropdownWrapper}
 			for item in items increment the dropdownHeight by the item's offsetHeight end
 			return dropdownHeight
 		end -- function to calculate actual height of dropdown based on it's contents
-			
+
 		def resetPosition
 			set offset to my @moveXY.split(',')
 			set leftOffset to offset[0] as Int
 			set bottomOffset to offset[1] as Int
 			measure me then put the result.bounds into myBounds
-			set *left of #{:dropdownContainer} to (myBounds.left + leftOffset) px
-			set *top of #{:dropdownContainer} to (myBounds.bottom  + bottomOffset) px
-		end  -- handler to reposition dropdown by x,y pixels
+			set *left of #{:dropdownWrapper} to (myBounds.left + leftOffset) px
+			set *top of #{:dropdownWrapper} to (myBounds.bottom  + bottomOffset) px
+		end -- handler to reposition dropdown by x,y pixels
 		
 		on openDropdown from me
 			resetPosition()
-			set *height of #{my @id + '-container'} to (calcHeight() + 'px') then wait 20ms then
-			set *opacity of #{my @id + '-items'} to 1
+			set *height of #{:dropdownWrapper} to (calcHeight() + 'px') then wait 20ms then
+			set *opacity of #{:itemsList} to 1
 			add .open to me
-		end -- handler to open dropdown
+		end -- handler for openDropdown event
 
-		on closeDropdown
+
+		on closeDropdown from me
 			set *opacity of #{:itemsList} to 0
-			set *height of #{:dropdownContainer} to 0 then settle then
+			set *height of #{:dropdownWrapper} to 0 then settle then
 			remove .open from me
-		end -- handler to close dropdown `,
-  hideDropdown: `on click or mouseleave send closeDropdown to the previous <button/> end`
+		end -- handler for closeDropdown event
 
-}
+	end -- ToggleDropdown behavior
 
----
+	behavior HideDropdown
+	  on mouseover send mouseWithinDropdown(value:true) to the previous <button/> end
+		on mouseleave send mouseWithinDropdown(value:false) to the previous <button/> end
+		on click or mouseleave send closeDropdown to the previous <button/> end
+	end -- HideDropdown behavior
+	
+</script>
 
-<div class="not-content">
+
+<div>
 	<!-- Trigger -->
-	<button 
-		id={id}  
+	<button
+		id={id}
 		type='button'
-		moveXY={moveXY} 
-		class={twMerge(tw.triggerButton, buttonStyles)} 
-		script={hs.toggleDropdown}>
-			<slot name='startIcon'/>
-			{caption}
-			<slot name='endIcon'/>
+		moveXY={moveXY}
+		class={twMerge(tw.triggerButton, buttonStyles)}
+		_="install ToggleDropdown">
+		<slot name='startIcon' />
+		{caption}
+		<slot name='endIcon'/>
 	</button>
 	<!-- Dropdown -->
-	<div id=`${id}-wrapper` 
-		class={twMerge(tw.dropdownContainer  , dropdownStyles)} 
+	<div id=`${id}-wrapper`
+		class={twMerge(tw.dropdownWrapper, dropdownStyles)}
 		style=`transition: all ${duration} ease-in-out`>
-			<ul id=`${id}-items` 
-				class={twMerge(tw.itemsList, listStyles)} style="transition: all 50ms ease-in-out"
-				script={hs.hideDropdown}>
+			<ul id=`${id}-items`
+				class={twMerge(tw.itemsList, listStyles)}
+				style="transition: all 50ms ease-in-out"
+			_="install HideDropdown">
 			<slot/>
 			</ul>
 	</div>
 </div>
+
 
 
 
