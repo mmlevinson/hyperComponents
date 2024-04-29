@@ -51,9 +51,9 @@ Tapping any `<li>` in the dropdown emits a custom event attached to that item fo
 
 ## Features
 
-The trigger button and dropdown are initally styled with Tailwind CSS utility classes which are both fully customizable by passing additional styling classes through [props](#code).
+The trigger button and dropdown are initally styled with default Tailwind CSS utility classes but both are fully customizable by passing additional styling classes through [props](#code).
 
-The dropdown appearance/disappearance is smoothly animated by HyperScript over a duration passed via the `duration` prop.  Menu item custom events were also written in HyperScript for this example.
+The dropdown appearance/disappearance is smoothly animated by HyperScript over a duration specified by the `duration` prop. 
 
 The dropdown is dismissed by:
 
@@ -63,11 +63,11 @@ The dropdown is dismissed by:
 ###### 4. Mouse leaving the dropdown
 ###### 5. Pressing the Escape key when the button is focused
 
-
+Custom events emitted by individual menu choices were also written in HyperScript for this example.
 
 ## Props
 
-Below is a summary of the Component props which can optionally configure the Component from the place where it is being used.
+Below is a summary of the Component props which can optionally configure the Component from the markup where it is being used.
 
 
 ```js
@@ -86,31 +86,33 @@ interface Props {
 
 ### id\<string\>
 
-Each DropdownMenu component requires a unique id.  This is used to ensure that multiple dropdowns do not interact with each other.
+Each DropdownMenu component requires a unique id.  This is to ensure that multiple dropdowns do not interact with each other.
 
 ### caption\<string\>
 
-The `caption` prop is a text sting that will be displayed in the trigger button.  
+The `caption` prop is a text string that will be displayed in the trigger button.  
 
-### butonStyles?\<string\>
+### buttonStyles?\<string\>
 
 The `buttonStyles` prop allows you to customize the appearance of the trigger button.  Use this prop if you want to change the button's hover behavior,  background or text color, apply a dropshadow, etc.
 
 ### listStyles?\<string\>
 
-The `listStyles` prop allows you to customize the appearznce of the `<ul>` flex container.  Any styles you pass in this prop apply to the parent `<ul>` that wraps all menu items.
+The `listStyles` prop allows you to customize the appearance of the `<ul>` flex container.  Any styles you pass in this prop apply to the parent `<ul>` that wraps all menu items.
 
 ### dropdownStyles?\<string\>
 
-The `dropdownStyles` prop allows you to customize the appearance of the dropdown container.  For example, to change the background color of the dropdown itself, you could pass `"bg-slate-600"`.
+The `dropdownStyles` prop allows you to style the dropdown container itself. 
 
 ### moveXY?\<string\>
 
-If the dropdown needs to be moved relative to the trigger button, you can pass a string with two comma separated values into the `moveXY` prop.  The first value is the horizontal shift and the second is the vertical shift.  For example, to move the dropdown 5 pixels to the left and 5 pixels down relative to the button's location, you would pass `"-5,5"`.
+If the dropdown needs to be moved relative to the trigger button, you can pass a string with two comma separated values using the `moveXY` prop.  The first value is the horizontal shift and the second is the vertical shift.  
+
+For example, to move the dropdown 5 pixels to the left and 5 pixels down relative to the button's location, you would pass `"-5,5"`.
 
 ### duration?\<string\>
 
-The duration of the dropdown container's height transition can be customized by passing a string (in milliseconds) into the `duration` prop.  For example, to set the transition to 100 milliseconds, you would pass `"100ms"`.
+The duration of the dropdown container's height transition can be customized by passing a string (in milliseconds) into the `duration` prop. 
 
 ## Styling
 
@@ -118,13 +120,13 @@ Default Tailwind classes are used for initial styling of all elements within the
 
 Custom styles sent via [props](#code) are merged with the default Component styles and any conflicts resolved with a 'last wins' rule.
 
-To improve readability, the Tailwind classes and Hyperscript code are extracted from the markup and encapsulated into Astro `tw` and `hs` variables which are then referenced in the html markup.  This also allows long run-on strings to be formatted as concatenated, multi-line strings which aids readability and code maintenance.
+To improve readability, the Tailwind classes and Hyperscript code are extracted from the markup and encapsulated into Astro `tw` and `hs` variables which are then referenced in the html markup. The advantage of this strategy is to allow long run-on strings to be formatted as concatenated, multi-line strings which aids readability and code maintenance.
 
 ## Transitions
 
-You can use the `transition` keyword in Hyperscript to explicitly designate a CSS selector, element, and transition effect within your Hyperscript code.  However, this technique is blocking, and you will need to explicitly call the `settle` keyword after each `transition` which tells HS to wait 20ms to allow all for swapping of HS specific CSS classes used to implement the transition.
+You can use the `transition` keyword to explicitly designate a CSS selector, element, and transition effect within your Hyperscript code.  However, this technique is blocking, and you will need to explicitly call the `settle` keyword after each `transition` statement which tells HS to wait 20ms to allow for swapping of all HS specific CSS classes used to implement the transition.
 
-A simpler, but less flexible technique is to assign an inline `<style>` tag with a transition CSS rule.  This technique is not blocking and reduces the amount of code in the script itself.  This is the transition technique used in this hyperComponent. 
+A simpler, but less flexible technique is to assign an inline `<style>` tag with a transition CSS rule.  This technique is not blocking and reduces the amount of code in the script itself.  This is the transition technique used for this hyperComponent. 
 
 ## Slots
 
@@ -134,21 +136,21 @@ All menu items should be placed between the Component's opening and closing tags
 
 ### Start Icon Slot
 
-The `startIcon` slot is used to install markup for any icon or image of your choice.   
+The `startIcon` slot is used to install html tags for any icon or image of your choice.   
 
 If you also pass a `caption` prop, the `startIcon` slot will be displayed to the left of the caption text.
 
 ### End Icon Slot
 
-The `endIcon` slot is used to install an icon or other element after the caption text.  This is useful if you want to add a visual cue to the button indicating that it is a dropdown menu.
+The `endIcon` slot is used to install an image after the caption text.  This is useful if you want to add a visual cue indicating that it is a dropdown menu.
 
 ### Icon Styling
 
-In Astro, you designate a named slot by including a `slot="name"` attribute in the parent element of the markup you pass into the slot. 
+In Astro, you designate a named slot by including a `slot="name"` attribute in the parent element you are passing into the slot. 
 
-You will have to also attach Tailwind styling classes to these elements because the Component itself has no way to apply Tailwind classes to markup it does not know about yet. 
+You will have to also attach Tailwind styling classes to elements passed into slots because the Component itself has no way to apply Tailwind classes to markup it does not know about yet. 
 
-For example, icon sizes, padding, margins, and text colors may need to be specified.  The code below yields a green down-pointing arrow using a Unicode character and Tailwind styling. 
+For example, icon sizes, padding, margins, and  colors may need to be specified.  The code below yields a green down-pointing arrow using a Unicode character style with Tailwind. 
 
 ```html title="Tailwind Styling for Icon Slots"
 <span slot="endIcon" class="w-6 h-6 text-gray-400 ml-2">&#9207;</span>
@@ -157,7 +159,7 @@ For example, icon sizes, padding, margins, and text colors may need to be specif
 
 ## Code
 
-Use the Tabs below to explore the various code sections and the Everything tab to view the entire Astro component.
+The full source code for this hyperComponent is available in the Tabs below.  Us the Everything tab to copy/paste the entire Astro component into your project.
 
 import {Tabs, TabItem } from '@astrojs/starlight/components'
 
@@ -393,14 +395,17 @@ const hs = {
 
 ## Usage
 
-The most common use case for dropdown menu buttons is in navigation elements such as a top navigation or side navigation bar.
+The most common use case for dropdown menu buttons is in navigation elements such as a top \<nav\> bar or an \<aside\> navigation drawer.  Dropdowns can also provide a more customizable equivalent to \<select\> elements.
 
-To import the entire Astro component into your project, click the `Copy` button on the Everything tab in the [code](#code) section above.  Paste all the code into a new Astro file.  In this example, I chose the file name of `DropdownMenu.astro`
-
-To use this Component 'as is' in  your Astro project, import the file and embed the Component into your markup between angle brackets (with a Capitalized tag name).
+To use this Component 'as is' in  your Astro project, click the `Copy` button on the Everything tab in the [code](#code) section above.  Paste all the code into a new file with the `.astro` extension.
 
 
-```html title="DropdownMenu.astro"
+To use this Component in another Astro file just import and embed it between angle brackets (with a Capitalized tag name) as in the example below.
+
+```html title="UsingADropdown.astro"
+
+import DropdownMenu from './components/DropdownMenu.astro'
+
 <DropdownMenu id={'dropdown-example-1'} caption="Click Me" duration="300ms" moveXY="-5, 5">
    <li class={tw.menuItem} script={hs}>Choice 1</li>
    <li class={tw.menuItem} script={hs}>Choice 2</li>
@@ -410,10 +415,11 @@ To use this Component 'as is' in  your Astro project, import the file and embed 
 
 ```
 
-To install menu items into the dropdown container just include multiple list items or other discrete elements between the component tags. Elements passed into the default slot can be of any makeup, and customized with any styling or actions. 
+To install menu items into the dropdown container just include multiple `<li>` elements between the component tags. 
 
+To attach custom actions to any menu item simply include a script attribute in the corresponding `<li>` (as seen in the example above).  
 
-To attach custom actions to any menu item simply include a script attribute (as seen in the example above).  The script should call `closeDropdown then settle` to dismiss the dropdown gracefully before proceeding with any further actions.
+Your custom scripts should always call `closeDropdown then settle` to dismiss the dropdown gracefully before proceeding with any further actions (as in the 'Go Home' choice above).
 
 
 
