@@ -3,7 +3,7 @@ title: Welcome to hyperComponents
 description: An open source component libary using HyperMedia and styled with TailwindCSS
 template: splash
 hero:
-  tagline: a hypermedia starter kit !!
+  tagline: a hypermedia starter kit featuring HTMX, Hyperscript, Tailwind, and Astro !!
   image:
     file: ../../assets/houston.webp
   actions:
@@ -18,19 +18,19 @@ hero:
 
 import { Card, CardGrid } from '@astrojs/starlight/components';
 
-## Next steps
+###  Built with...
 
 <CardGrid stagger>
-	<Card title="Update content" icon="pencil">
-		Edit `src/content/docs/index.mdx` to see this page change.
+	<Card title="HTMX" icon="pencil">
+		Extend any html element with attributes that emit AJAX requests and then swap the hypermedia response directly into the DOM.
 	</Card>
-	<Card title="Add new content" icon="add-document">
-		Add Markdown or MDX files to `src/content/docs` to create new pages.
+	<Card title="Tailwind" icon="add-document">
+		Responsive mobile-first design using utility classes for rapid prototyping.
 	</Card>
-	<Card title="Configure your site" icon="setting">
-		Edit your `sidebar` and other config in `astro.config.mjs`.
+	<Card title="///_hyperscript" icon="setting">
+		Create dynamic client side interactivity with this powerful scripting language featuring prose-like syntax and extensive event management.
 	</Card>
-	<Card title="Read the docs" icon="open-book">
-		Learn more in [the Starlight Docs](https://starlight.astro.build/).
+	<Card title="Astro" icon="open-book">
+		Vite based static/SSR build tool with straight-forward component architecture, file-base routing, and full support for custom API endpoints perfect for serving hypermedia responses to AJAX requests.
 	</Card>
 </CardGrid>
