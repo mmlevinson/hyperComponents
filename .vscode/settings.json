@@ -22,6 +22,9 @@
 			"editor.findMatchBackground": "#3091216c",
 			"titleBar.activeForeground": "#f13207"
 		},
+		"[Houston]": {
+			"editorCursor.foreground": "#ff0000",
+		},
 		"terminal.foreground": "#f1c979",
 		"terminal.background": "#1b0c2a",
 		"terminalCursor.foreground": "#cccdc8",

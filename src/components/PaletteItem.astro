@@ -19,5 +19,8 @@ const tw = {
 
 ---
 
-<span script="on click log 'You selected ' + my @title" class={`${twColor} ` + tw.paletteItem} title={`${color} (#${hexCode})`}></span>
+<span 
+	class={`${twColor} ` + tw.paletteItem} title={`${color} (#${hexCode})`}
+	script="on click send closeDropdown to the .colorPalette then settle then alert( 'You selected ' + my @title)">
+</span>
 
