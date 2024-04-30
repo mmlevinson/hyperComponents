@@ -34,14 +34,14 @@ import HoverDropdownMenu_B from '../../../../components/HoverDropdownMenu_B.astr
 
 <div id='exampleContainer' class={tw.exampleContainer} >
 <div id='title' class={tw.exampleTitle}>Hover Activated Dropdown</div>
-<HoverDropdownMenu_B id={'hover_dropdown'} caption="Hover Me" duration="300ms" moveXY="5, 5">
+<HoverDropdownMenu_B id="hover_dropdown_id" caption="Hover Me" duration="300ms" moveXY="5, 5">
   <svg slot="rightIcon" class={tw.icon}  fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
 		<path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6z"/>
 	</svg>
    <li class={tw.menuItem} script={hs}>Choice 1</li>
    <li class={tw.menuItem} script={hs}>Choice 2</li>
    <li class={tw.menuItem} script={hs}>Choice 3</li>
-   <li class={tw.menuItem} script="on click send closeDropdown then settle then go to url '/' ">Go Home</li>
+   <li class={tw.menuItem} script="on click send closeDropdown to #{'hover_dropdown_id'} then settle then go to url '/' ">Go Home</li>
 </HoverDropdownMenu_B>
 </div>
 
@@ -53,11 +53,11 @@ The example above is an Astro component comprised of a `<button>` and a `dropdow
 The unordered list is populated by passing multiple `<li>` into the component's default slot.
 
 ```html
-<HoverDropdownMenu_B id={'hover_dropdown'} caption="Hover Me" duration="300ms" moveXY="5, 5">
+<HoverDropdownMenu_B id="hover_dropdown_id" caption="Hover Me" duration="300ms" moveXY="5, 5">
    <li class={tw.menuItem} script={hs}>Choice 1</li>
    <li class={tw.menuItem} script={hs}>Choice 2</li>
    <li class={tw.menuItem} script={hs}>Choice 3</li>
-   <li class={tw.menuItem} script="on click send closeDropdown to #{hover_dropdown} then settle then go to url '/' ">Go Home</li>
+   <li class={tw.menuItem} script="on click send closeDropdown to #{'hover_dropdown_id'} then settle then go to url '/' ">Go Home</li>
 </HoverDropdownMenu_B>
 
 ```
@@ -111,33 +111,33 @@ const {
 
 ```
 
-### id\<string\>
+### id
 
 Each DropdownMenu component requires a unique id.  This is to ensure that multiple dropdowns do not interact with each other.
 
-### caption\<string\>
+### caption
 
 The `caption` prop is a text string that will be displayed in the trigger button.  
 
-### buttonStyles?\<string\>
+### buttonStyles
 
 The `buttonStyles` prop allows you to customize the appearance of the trigger button.  Use this prop if you want to change the button's hover behavior,  background or text color, apply a dropshadow, etc.
 
-### listStyles?\<string\>
+### listStyles
 
 The `listStyles` prop allows you to customize the appearance of the `<ul>` flex container.  Any styles you pass in this prop apply to the parent `<ul>` that wraps all menu items.
 
-### dropdownStyles?\<string\>
+### dropdownStyles
 
 The `dropdownStyles` prop allows you to style the dropdown container itself. 
 
-### moveXY?\<string\>
+### moveXY
 
 If the dropdown needs to be moved relative to the trigger button, you can pass a string with two comma separated values using the `moveXY` prop.  The first value is the horizontal shift and the second is the vertical shift.  
 
 For example, to move the dropdown 5 pixels to the left and 5 pixels down relative to the button's location, you would pass `"-5,5"`.
 
-### duration?\<string\>
+### duration
 
 The duration of the height transition for the `dropdown container` can be specified by passing a string (in milliseconds) into the `duration` prop. 
 
@@ -202,15 +202,14 @@ import {Tabs, TabItem } from '@astrojs/starlight/components'
 
 interface Props {
  id: string   //a unique identifier for this component, allowing multiple dropdowns on a page without collisions
- caption: string   //the text displayed in the button that triggers the dropdown
+ caption: string   //the text displayed in the trigger button
  buttonStyles?: string   //any additional Tailwind classes for customizing the trigger button
- dropdownStyles?: string   //any additional styles to apply to the overall wrapper <div>
- listStyles?: string   //any additional styles to apply to the dropdown list
+ dropdownStyles?: string   //any additional styles to apply to the dropdown container <div>
+ listStyles?: string   //any additional styles to apply to the <ul>
  moveXY?: string //comma separated integer values specifying x,y shift in dropdown position
- duration?: string, //duration (in milliseconds) for dropdown height transitmon
+ duration?: string, //duration (in milliseconds) for dropdown height transition
 }
 
-import {twMerge} from 'tailwind-merge'
 const {
 	id, 
 	caption, 
@@ -360,7 +359,6 @@ interface Props {
  duration?: string, //duration (in milliseconds) for dropdown height transitmon
 }
 
-import {twMerge} from 'tailwind-merge'
 const {
 	id, 
 	caption, 
@@ -495,17 +493,22 @@ The most common use case for dropdowns are in navigation components such as a to
 To use this Component 'as is' in  your Astro project, click the `Copy` button on the Everything tab in the [code](#code) section above.  Paste all the code into a new file with a `.astro` extension.
 
 
-To use this Component in another Astro file just import and embed it between angle brackets (with a Capitalized tag name) as in the example below.
+To use this hyperComponent in another document just import the file and use angle brackets (with a Capitalized name) to create a custom html tag as shown in the example below.
 
 ```html title="UsingADropdown.astro"
-
+---
 import DropdownMenu from './components/DropdownMenu.astro'
+const tw = {
+	menuItem: 'p-3 hover:bg-indigo-600 hover:text-white'
+}
+const hs = "on click call alert('You selected ' + my innerHTML) "
+---
 
-<DropdownMenu id={'dropdown-example-1'} caption="Click Me" duration="300ms" moveXY="-5, 5">
+<DropdownMenu id="hover_dropdown_id" caption="Hover Me" duration="300ms" moveXY="-5, 5">
    <li class={tw.menuItem} script={hs}>Choice 1</li>
    <li class={tw.menuItem} script={hs}>Choice 2</li>
    <li class={tw.menuItem} script={hs}>Choice 3</li>
-   <li class={tw.menuItem} script="on click trigger closeDropdown then settle then go to url '/' ">Go Home</li>
+   <li class={tw.menuItem} script="on click send closeDropdown to #{'hover_dropdown_id'} then settle then go to url '/' ">Go Home</li>
 </DropdownMenu>
 
 ```
@@ -514,7 +517,7 @@ To install menu items into the dropdown container just include multiple `<li>` e
 
 To attach custom actions to any menu item simply include a script attribute in the corresponding `<li>` (as seen in the example above).  
 
-Your custom scripts should always call `closeDropdown then settle` to dismiss the dropdown gracefully before proceeding with any further actions (as in the 'Go Home' choice above).
+Your custom scripts should always  `send closeDropdown to #{'hover_dropdown_id'} then settle` to dismiss the dropdown gracefully before proceeding with any further actions (as in the 'Go Home' choice above).
 
 
 
