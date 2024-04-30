@@ -7,26 +7,20 @@ description: Dropdown Menu Component displaying a palette of colors
 
 ## Palette Dropdown
 
-export const tw = {
-	dropdownContainer: 'flex gap-y-2 justify-between items-center w-full w-max-lg mx-auto bg-gray-700',
-	menuItem: 'px-4 hover:bg-stone-200 hover:dark:bg-stone-300 ' +
-	'hover:text-cyan-100 hover:dark:text-sky-950',
-}
-
 
 import ClickDropdownMenu_A from '../../../../../components/ClickDropdownMenu_A.astro'
 import PaletteGrid from '../../../../../components/PaletteGrid.astro'
 
-<ClickDropdownMenu_A id='palette-example-1' moveXY='0,0' buttonStyles='colorPalette bg-gray-700' duration='300ms'>
-	<img slot="startIcon" src='/images/tailwind_icon.svg' alt='tailwind icon' class="size-12"/>
+<ClickDropdownMenu_A id='palette-example-1' moveXY='0,0' buttonStyles='colorPalette bg-gray-700' duration='180ms'>
+	<img slot="leftIcon" src='/images/tailwind_icon.svg' alt='tailwind icon' class="size-6"/>
 	<PaletteGrid/>
 </ClickDropdownMenu_A>
 
 
 import HoverDropdownMenu_B from '../../../../../components/HoverDropdownMenu_B.astro'
 
-<HoverDropdownMenu_B id='palette-example-2' moveXY='0,0' buttonStyles='bg-gray-700' duration='300ms'>
-	<img slot="startIcon" src='/images/tailwind_icon.svg' alt='tailwind icon' class="size-12"/>
+<HoverDropdownMenu_B id='palette-example-2' moveXY='0,0' buttonStyles='colorPalette bg-gray-700' duration='180ms'>
+	<img slot="leftIcon" src='/images/tailwind_icon.svg' alt='tailwind icon' class="size-6"/>
 	<PaletteGrid/>
 </HoverDropdownMenu_B>
 
