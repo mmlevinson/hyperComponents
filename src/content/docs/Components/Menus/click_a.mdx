@@ -17,7 +17,7 @@ export const tw = {
 	icon:'inline-block size-6'
 }
 
-export const hs = "on click send closeDropdown to #{'click-dropdown-id'} then settle then call alert('You selected ' + my innerHTML)"
+export const hs = "on click send closeDropdown to the #{'click-dropdown-id'} then settle then call alert('You selected ' + my innerHTML)"
 
 
 
@@ -55,7 +55,7 @@ const tw = {
 	'hover:text-cyan-100 hover:dark:text-sky-950',
 }
 
-const hs = "on click send closeDropdown to #{'click-dropdown-id'} then settle then call alert('You selected ' + my innerHTML)"
+const hs = "on click send closeDropdown to the #{'click-dropdown-id'} then settle then call alert('You selected ' + my innerHTML)"
 
 ---
 <ClickDropdownMenu_A id="click-dropdown-id" caption="Click Me" duration="300ms" moveXY="10, 5">
@@ -239,7 +239,7 @@ const {
 	<div id=`${id}-container` 
 		class={twMerge(tw.dropdownContainer, dropdownStyles)} 
 		style=`transition: all ${duration} ease-in-out`>
-			<ul id=`${id}-items` 
+			<ul id=`${id}-list` 
 				class={twMerge(tw.itemsList, listStyles)} 
 				style="transition: all 50ms ease-in-out"
 				script={hs.hideDropdown}>
@@ -255,7 +255,7 @@ const hs = {
 	toggleDropdown: `
 		init
 			set :dropdownContainer to my @id + '-container'
-			set :itemsList to my @id + '-items'
+			set :itemsList to my @id + '-list'
 		end -- init 
 
 		on click from me
@@ -357,7 +357,7 @@ const hs = {
 	toggleDropdown: `
 		init
 			set :dropdownContainer to my @id + '-container'
-			set :itemsList to my @id + '-items'
+			set :itemsList to my @id + '-list'
 		end -- init 
 
 		on click from me
@@ -414,8 +414,9 @@ const hs = {
 	<div id=`${id}-container` 
 		class={twMerge(tw.dropdownContainer, dropdownStyles)} 
 		style=`transition: all ${duration} ease-in-out`>
-			<ul id=`${id}-items` 
-				class={twMerge(tw.itemsList, listStyles)} style="transition: all 50ms ease-in-out"
+			<ul id=`${id}-list` 
+				class={twMerge(tw.itemsList, listStyles)} 
+				style="transition: all 50ms ease-in-out"
 				script={hs.hideDropdown}>
 			<slot/>
 			</ul>

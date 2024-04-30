@@ -39,7 +39,7 @@ const hs = {
 	toggleDropdown: `
 		init
 			set :dropdownContainer to my @id + '-container'
-			set :itemsList to my @id + '-items'
+			set :itemsList to my @id + '-list'
 		end -- init 
 
 		on click from me
@@ -97,8 +97,9 @@ const hs = {
 	<div id=`${id}-container` 
 		class={twMerge(tw.dropdownContainer, dropdownStyles)} 
 		style=`transition: all ${duration} ease-in-out`>
-			<ul id=`${id}-items` 
-				class={twMerge(tw.itemsList, listStyles)} style="transition: all 50ms ease-in-out"
+			<ul id=`${id}-list` 
+				class={twMerge(tw.itemsList, listStyles)} 
+				style="transition: all 50ms ease-in-out"
 				script={hs.hideDropdown}>
 			<slot/>
 			</ul>

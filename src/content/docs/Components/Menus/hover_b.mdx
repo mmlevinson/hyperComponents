@@ -28,7 +28,7 @@ export const tw = {
 	icon:'inline-block size-6'
 }
 
-export const hs = "on click send closeDropdown to #{'hover_dropdown_id'} then settle then call alert('You selected ' + my innerHTML) "
+export const hs = "on click send closeDropdown to the #{'hover_dropdown_id'} then settle then call alert('You selected ' + my innerHTML) "
 
 import HoverDropdownMenu_B from '../../../../components/HoverDropdownMenu_B.astro';
 
@@ -61,7 +61,7 @@ const tw = {
 	'hover:text-cyan-100 hover:dark:text-sky-950',
 }
 
-cexport const hs = "on click send closeDropdown to #{'hover_dropdown_id'} then settle then call alert('You selected ' + my innerHTML) "
+cexport const hs = "on click send closeDropdown to the #{'hover_dropdown_id'} then settle then call alert('You selected ' + my innerHTML) "
 
 ---
 <HoverDropdownMenu_B id="hover_dropdown_id" caption="Hover Me" duration="300ms" moveXY="10, 5">
@@ -254,7 +254,7 @@ const {
 	<div id=`${id}-container`
 		class={twMerge(tw.dropdownContainer, dropdownStyles)}
 		style=`transition: all ${duration} ease-in-out`>
-			<ul id=`${id}-items`
+			<ul id=`${id}-list`
 				class={twMerge(tw.itemsList, listStyles)}
 				style="transition: all 50ms ease-in-out"
 				script="install HideDropdown">
@@ -272,7 +272,7 @@ const {
   behavior ToggleDropdown
 		init
 			set :dropdownContainer to my @id + '-container'
-			set :itemsList to my @id + '-items'
+			set :itemsList to my @id + '-list'
 			set :dropdownHasMouse to false
 		end -- init
 	
@@ -403,7 +403,7 @@ const tw = {
   behavior ToggleDropdown
 		init
 			set :dropdownContainer to my @id + '-container'
-			set :itemsList to my @id + '-items'
+			set :itemsList to my @id + '-list'
 			set :dropdownHasMouse to false
 		end -- init
 	
@@ -486,7 +486,7 @@ const tw = {
 	<div id=`${id}-container`
 		class={twMerge(tw.dropdownContainer, dropdownStyles)}
 		style=`transition: all ${duration} ease-in-out`>
-			<ul id=`${id}-items`
+			<ul id=`${id}-list`
 				class={twMerge(tw.itemsList, listStyles)}
 				style="transition: all 50ms ease-in-out"
 				script="install HideDropdown">
