@@ -67,7 +67,7 @@ const hs = "on click call alert('You selected ' + my innerHTML) "
 ```
 The `dropdown container` is hidden by setting it's height to 0 and the opacity of it's `<ul>` to 0.  
 
-The `<button>` listens for either a `mouseenter` or  `click` event which then triggers the items to smoothly appear by transitioning the `dropdown container` to a new height and the `<ul>`'s opacity to 1 over a specified duration. 
+The `<button>` listens for a `click` event which then triggers the items to smoothly appear by transitioning the `dropdown container` to a new height and the `<ul>`'s opacity to 1 over a specified duration. 
 
 Tapping any `<li>` emits a custom event from a script attribute followed by dismissal of the dropdown.
 
@@ -142,7 +142,7 @@ The component's `<button>`, `<ul>` and `dropdown container` are initally styled 
 
 You can override the default styling by sending additional Tailwind classes via [props](#code) which are then merged with the default styles and any conflicts resolved with a 'last wins' rule.
 
-To improve readability, the Tailwind classes are extracted from the markup and encapsulated into an Astro `tw` local variable within the [Component Script](https://docs.astro.build/en/basics/astro-components/#the-component-script) which is then referenced in the html markup. 
+To improve readability, the Tailwind classes and Hyperscripts are both extracted from the markup and encapsulated into  Astro `tw` and `hs` local variables within the [Component Script](https://docs.astro.build/en/basics/astro-components/#the-component-script) which are then referenced in the html markup. 
 
 The advantage of this strategy is to allow long run-on strings to be formatted as concatenated, multi-line strings which aids readability and code maintenance.
 
@@ -220,7 +220,7 @@ const {
 	</TabItem>
 
   <TabItem label="HTML">
-    ```html
+    ```html "script={hs.hideDropdown}" 
 	<!-- Trigger -->
 	<button 
 		id={id}  
