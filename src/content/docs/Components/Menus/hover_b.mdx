@@ -109,15 +109,15 @@ interface Props {
  buttonStyles?: string,
  dropdownStyles?: string,   
  listStyles?: string,   
- moveXY?: string,s
+ moveXY?: string,
  duration?: string
 }
 
 const {
 	id, 
 	caption, 
-	dropdownStyles, 
 	buttonStyles, 
+	dropdownStyles, 
 	listStyles, 
 	moveXY = "0,0", 
 	duration = '100ms'
@@ -127,7 +127,7 @@ const {
 
 ### id
 
-Each dropdown component requires a unique id.  This is to ensure that multiple dropdowns do not interact with each other.
+Each dropdown component requires a unique id.  This is to ensure that multiple dropdowns do not interfere with each other.
 
 ### caption
 
@@ -157,7 +157,7 @@ The duration of the height transition for the `dropdown container` can be specif
 
 ## Styling
 
-The component's `<button>`, `<ul>` and `dropdown container` are initally styled with a default selection of Tailwind classes  For accesssibility, the trigger `<button>` also receives a focus ring when activated.
+The component's `<button>`, `<ul>` and `dropdown container` are initally styled with a default selection of Tailwind classes.  For accesssibility, the trigger `<button>` also receives a focus ring when activated.
 
 You can override the default styling by sending additional Tailwind classes via [props](#code) which are then merged with the default styles and any conflicts resolved with a 'last wins' rule.
 
@@ -227,8 +227,8 @@ interface Props {
 const {
 	id, 
 	caption, 
-	dropdownStyles, 
 	buttonStyles, 
+	dropdownStyles, 
 	listStyles, 
 	moveXY = "0,0", 
 	duration = '100ms'
@@ -377,8 +377,8 @@ interface Props {
 const {
 	id, 
 	caption, 
-	dropdownStyles, 
 	buttonStyles, 
+	dropdownStyles, 
 	listStyles, 
 	moveXY = "0,0", 
 	duration = '100ms'
@@ -508,7 +508,7 @@ The most common use case for dropdowns are in navigation components such as a to
 To use this component 'as is' in  your Astro project, click the `Copy` button on the Everything tab in the [code](#code) section above.  Paste all the code into a new file with a `.astro` extension.
 
 
-To use this hyperComponent in another document just import the file and use angle brackets (with a Capitalized name) to create a custom html tag as shown in the example below.
+To use this hyperComponent in another Astro component just import the file and use angle brackets (with a Capitalized name) to create a custom html tag as shown in the example below.
 
 ```js title="UsingADropdown.astro"
 ---
