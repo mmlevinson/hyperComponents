@@ -52,7 +52,7 @@ The example above is an Astro component comprised of a `<button>` and a `dropdow
 
 The unordered list is populated by passing multiple `<li>` into the component's default slot.
 
-```js title="Hover Activated Dropdown Example"
+```js title="Hover Activated Dropdown Example" "class={tw.menuItem}" "script={hs}" /const hs/ /const tw/
 ---
 import HoverDropdownMenu_B from '/components/HoverDropdownMenu_B.astro';
 
@@ -196,7 +196,7 @@ For example, icon sizes, padding, margins, and  colors will need to be annotated
 
 The code below illustrates Tailwind styling of a down-caret svg passed into the `rightIcon` slot.
 
-```html title="Tailwind Styling for Icon Slots"
+```html title="Tailwind Styling for Icon Slots" "slot=\"rightIcon\""
   <svg slot="rightIcon" class="inline-block size-6"  fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
 		<path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6z"/>
 	</svg>
@@ -238,7 +238,7 @@ const {
 	</TabItem>
 
   <TabItem label="HTML">
-    ```html
+    ```html {7,7} {15,15} {18,19}
 	<!-- Trigger -->
 	<button
 		id={id}
@@ -266,7 +266,7 @@ const {
 		```
   </TabItem>
   <TabItem label="Scripts">
-    ```js
+    ```js "behavior ToggleDropdown" "behavior HideDropdown"
 	<script type="text/hyperscript">
 
   behavior ToggleDropdown
@@ -504,7 +504,7 @@ To use this component 'as is' in  your Astro project, click the `Copy` button on
 
 To use this hyperComponent in another Astro component just import the file and use angle brackets (with a Capitalized name) to create a custom html tag as shown in the example below.
 
-```js title="UsingADropdown.astro"
+```js title="UsingADropdown.astro" "HoverDropdownMenu_B"
 ---
 import HoverDropdownMenu_B from '/components/HoverDropdownMenu_B.astro';
 
