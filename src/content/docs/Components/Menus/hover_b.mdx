@@ -28,7 +28,7 @@ export const tw = {
 	icon:'inline-block size-6'
 }
 
-export const hs = "on click call alert('You selected ' + my innerHTML) "
+export const hs = "on click send closeDropdown to #{'hover_dropdown_id'} then settle then call alert('You selected ' + my innerHTML) "
 
 import HoverDropdownMenu_B from '../../../../components/HoverDropdownMenu_B.astro';
 
@@ -61,7 +61,7 @@ const tw = {
 	'hover:text-cyan-100 hover:dark:text-sky-950',
 }
 
-const hs = "on click call alert('You selected ' + my innerHTML) "
+cexport const hs = "on click send closeDropdown to #{'hover_dropdown_id'} then settle then call alert('You selected ' + my innerHTML) "
 
 ---
 <HoverDropdownMenu_B id="hover_dropdown_id" caption="Hover Me" duration="300ms" moveXY="10, 5">
@@ -301,24 +301,24 @@ const {
 			trigger closeDropdown on me
 		end  -- Escape key handler
 
-		def calcHeight
+		def calculatedHeight
 			set dropdownHeight to 0 then set items to the children of the #{:dropdownContainer}
 			for item in items increment the dropdownHeight by the item's offsetHeight end
 			return dropdownHeight
 		end -- function to calculate dropdown container's height based on it's content
 
-		def resetPosition
+		def repositionDropdown
 			set offset to my @moveXY.split(',')
 			set leftOffset to offset[0] as Int
 			set bottomOffset to offset[1] as Int
-			measure me then put the result.bounds into myBounds
-			set the *left of the #{:dropdownContainer} to (myBounds.left + leftOffset + window.pageXOffset) px
-			set the *top of the #{:dropdownContainer} to (myBounds.bottom  + bottomOffset + window.pageYOffset) px
-		end  -- function to reposition dropdown by x,y pixels
+			measure me then put the result.bounds into buttonLocation
+			set the *left of the #{:dropdownContainer} to (buttonLocation.left + leftOffset + window.pageXOffset) px
+			set the *top of the #{:dropdownContainer} to (buttonLocation.bottom  + bottomOffset + window.pageYOffset) px
+		end  -- function to move dropdown by x,y pixels
 		
 		on openDropdown from me
-			resetPosition()
-			set the *height of the #{:dropdownContainer} to (calcHeight() + 'px') then wait 20ms then
+			repositionDropdown()
+			set the *height of the #{:dropdownContainer} to the calculatedHeight() px then wait 20ms then
 			set the *opacity of the #{:itemsList} to 1
 			add .open to me
 		end  -- handler to open dropdown
@@ -400,7 +400,7 @@ const tw = {
 
 <script type="text/hyperscript">
 
-behavior ToggleDropdown
+  behavior ToggleDropdown
 		init
 			set :dropdownContainer to my @id + '-container'
 			set :itemsList to my @id + '-items'
@@ -432,24 +432,24 @@ behavior ToggleDropdown
 			trigger closeDropdown on me
 		end  -- Escape key handler
 
-		def calcHeight
+		def calculatedHeight
 			set dropdownHeight to 0 then set items to the children of the #{:dropdownContainer}
 			for item in items increment the dropdownHeight by the item's offsetHeight end
 			return dropdownHeight
 		end -- function to calculate dropdown container's height based on it's content
 
-		def resetPosition
+		def repositionDropdown
 			set offset to my @moveXY.split(',')
 			set leftOffset to offset[0] as Int
 			set bottomOffset to offset[1] as Int
-			measure me then put the result.bounds into myBounds
-			set the *left of the #{:dropdownContainer} to (myBounds.left + leftOffset + window.pageXOffset) px
-			set the *top of the #{:dropdownContainer} to (myBounds.bottom  + bottomOffset + window.pageYOffset) px
-		end  -- function to reposition dropdown by x,y pixels
+			measure me then put the result.bounds into buttonLocation
+			set the *left of the #{:dropdownContainer} to (buttonLocation.left + leftOffset + window.pageXOffset) px
+			set the *top of the #{:dropdownContainer} to (buttonLocation.bottom  + bottomOffset + window.pageYOffset) px
+		end  -- function to move dropdown by x,y pixels
 		
 		on openDropdown from me
-			resetPosition()
-			set the *height of the #{:dropdownContainer} to (calcHeight() + 'px') then wait 20ms then
+			repositionDropdown()
+			set the *height of the #{:dropdownContainer} to the calculatedHeight() px then wait 20ms then
 			set the *opacity of the #{:itemsList} to 1
 			add .open to me
 		end  -- handler to open dropdown
@@ -461,6 +461,12 @@ behavior ToggleDropdown
 		end -- handler to close dropdown
 
 	end -- behavior ToggleDropdown
+
+	behavior HideDropdown
+	  on mouseenter send mouseWithinDropdown(value:true) to the previous <button/> end
+		on mouseleave send mouseWithinDropdown(value:false) to the previous <button/> end
+		on click or mouseleave send closeDropdown to the previous <button/> end
+	end -- behavior HideDropdown
 
 </script>
 
