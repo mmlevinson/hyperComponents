@@ -196,7 +196,7 @@ For example, icon sizes, padding, margins, and  colors will need to be annotated
 
 The code below illustrates Tailwind styling of a down-caret svg passed into the `rightIcon` slot.
 
-```html title="Tailwind Styling for Icon Slots" "slot=\"rightIcon\""
+```html title="Tailwind Styling for Icon Slots" "slot=\"rightIcon\""   "class=\"inline-block size-6\""
   <svg slot="rightIcon" class="inline-block size-6"  fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
 		<path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6z"/>
 	</svg>
@@ -307,13 +307,13 @@ const {
 			return dropdownHeight
 		end -- function to calculate dropdown container's height based on it's content
 
-		def repositionDropdown
+	def repositionDropdown
 			set offset to my @moveXY.split(',')
-			set leftOffset to offset[0] as Int
-			set bottomOffset to offset[1] as Int
+			set xOffset to the offset[0] as Int
+			set yOffset to the offset[1] as Int
 			measure me then put the result.bounds into buttonLocation
-			set the *left of the #{:dropdownContainer} to (buttonLocation.left + leftOffset + window.pageXOffset) px
-			set the *top of the #{:dropdownContainer} to (buttonLocation.bottom  + bottomOffset + window.pageYOffset) px
+			set the *left of the #{:dropdownContainer} to (buttonLocation.left + xOffset + window.pageXOffset) px
+			set the *top of the #{:dropdownContainer} to (buttonLocation.bottom  + yOffset + window.pageYOffset) px
 		end  -- function to move dropdown by x,y pixels
 		
 		on openDropdown from me
@@ -438,13 +438,13 @@ const tw = {
 			return dropdownHeight
 		end -- function to calculate dropdown container's height based on it's content
 
-		def repositionDropdown
+	def repositionDropdown
 			set offset to my @moveXY.split(',')
-			set leftOffset to offset[0] as Int
-			set bottomOffset to offset[1] as Int
+			set xOffset to the offset[0] as Int
+			set yOffset to the offset[1] as Int
 			measure me then put the result.bounds into buttonLocation
-			set the *left of the #{:dropdownContainer} to (buttonLocation.left + leftOffset + window.pageXOffset) px
-			set the *top of the #{:dropdownContainer} to (buttonLocation.bottom  + bottomOffset + window.pageYOffset) px
+			set the *left of the #{:dropdownContainer} to (buttonLocation.left + xOffset + window.pageXOffset) px
+			set the *top of the #{:dropdownContainer} to (buttonLocation.bottom  + yOffset + window.pageYOffset) px
 		end  -- function to move dropdown by x,y pixels
 		
 		on openDropdown from me
