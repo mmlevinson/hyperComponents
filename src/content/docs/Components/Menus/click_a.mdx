@@ -220,7 +220,7 @@ const {
 	</TabItem>
 
   <TabItem label="HTML">
-    ```html "script={hs.hideDropdown}" "script={hs.toggleDropdown}" 
+    ```html {7,7} {15,15} {18,19}
 	<!-- Trigger -->
 	<button 
 		id={id}  
@@ -237,7 +237,8 @@ const {
 		class={twMerge(tw.dropdownContainer, dropdownStyles)} 
 		style=`transition: all ${duration} ease-in-out`>
 			<ul id=`${id}-items` 
-				class={twMerge(tw.itemsList, listStyles)} style="transition: all 50ms ease-in-out"
+				class={twMerge(tw.itemsList, listStyles)} 
+				style="transition: all 50ms ease-in-out"
 				script={hs.hideDropdown}>
 			<slot/>
 			</ul>
@@ -434,7 +435,7 @@ To use this component 'as is' in  your Astro project, click the `Copy` button on
 
 To use this hyperComponent in another Astro component just import the file and use angle brackets (with a Capitalized name) to create a custom html tag as shown in the example below.
 
-```js title="UsingADropdown.astro"
+```js title="UsingADropdown.astro" "ClickDropdown_A"
 ---
 import ClickDropdown_A from '/components/ClickDropdown_A.astro';
 
