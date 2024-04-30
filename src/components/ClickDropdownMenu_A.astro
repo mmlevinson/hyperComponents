@@ -58,12 +58,12 @@ const hs = {
 		end -- function to calculate dropdown container's height based on it's content
 			
 		def repositionDropdown
-			set offset to my @moveXY.split(',')
-			set leftOffset to the offset[0] as Int
-			set topOffset to the offset[1] as Int
+			set offsets to my @moveXY.split(',')
+			set xOffset to the offsets[0] as Int
+			set yOffset to the offsets[1] as Int
 			measure me then put the result.bounds into buttonLocation
-			set the *left of the #{:dropdownContainer} to (buttonLocation.left + leftOffset + window.pageXOffset) px
-			set the *top of the #{:dropdownContainer} to (buttonLocation.bottom  + topOffset + window.pageYOffset) px
+			set the *left of the #{:dropdownContainer} to (buttonLocation.left + xOffset + window.pageXOffset) px
+			set the *top of the #{:dropdownContainer} to (buttonLocation.bottom  + yOffset + window.pageYOffset) px
 		end  -- function to move dropdown by x,y pixels
 		
 		on openDropdown from me
