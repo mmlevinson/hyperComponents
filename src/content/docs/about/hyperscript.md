@@ -4,15 +4,26 @@ title: "Hyperscript"
 description: "Hyperscript  -- the new player in Front End interactivity"
 ---
 
-## Hyperscript Options
+## Hyperscript Options (A and B)
 
 Hyperscript is a new front-end scripting language with syntax patterned after xTalk and the popular HyperTalk control language of HyperCard.
 
 The syntax is English prose-like with emphasis on self-documenting code by using familiar phraseology.
 
-HS emphasizes Locality of Behavior (LoB) to keep functionality at the site of intent.   LoB also emphasizes understanding the action of code simply by inspection, reducing the cryptic nature of programming logic, improving understanding and code maintenance.
+HS emphasizes [Locality of Behavior (LoB)](https://htmx.org/essays/locality-of-behaviour/) to keep functionality at the site of intent.   LoB also emphasizes understanding the action of code simply by inspection, reducing the cryptic nature of programming logic, improving understanding and code maintenance.
 
-Hyperscript presents some unique features as well as possiblities which are worthy of a brief summary.   The official docs are the best place to explort HS in depth, but a review of some of the important topics here will help the facilitate understanding of the example Components in this library.
+Hyperscript presents some unique features as well as possiblities which are worthy of a brief summary.   The [official docs](https://hyperscript.org/docs/) are the best place to explort HS in depth, but a review of some of the important topics here will help the facilitate understanding of the example Components in this library.
+
+The examples in this library use different strategies for placing HS code into an Astro component, as detailed below. 
+To assist the library user a `brief naming convention is put forward` which is a small attempt to indicate for the user which embedding stragey for HS code is being used in that particular example.   
+
+**Style A**:  Examples with names ending in `_A` utilize `attribute embedded Hyperscript` code
+
+**Style B**:  Examples ending with `_B` utilize `behaviors to embed Hyperscript` code
+
+For educational purposes, some examples in this libary are offered in both embedding styles.  Whether the `A style` or `B style` of Hyperscript embedding is used, the code functions identically.
+
+Below is an explanation of all the options for embedding Hyperscript into your Astro components.
 
 ### Embedding Hyperscript
 
@@ -67,7 +78,7 @@ Behaviors are one strengths of Hyperscript. Behaviors allow you to encapsulate f
 
 Behaviors are declared with the `Behavior` keyword.  Parameters can be passed into Behaviors.
 
-```js
+```js "Behavior Removable"
   Behavior Removable
 		on click
 			remove me
@@ -77,7 +88,7 @@ Behaviors are declared with the `Behavior` keyword.  Parameters can be passed in
 
 After defining a Behavior in a globally accessible HS, you can apply the Behavior to any html element using the `install	BehaviorName` syntax as in:
 
-```html
+```html "install=\"Removable\""
 
 	<div install="Removable">
 		Click here to use the Behavior
@@ -100,7 +111,7 @@ The shortcut attribute `_="` is very common technique for embedding element leve
 
 The `def` keyword is used to declare a function in HS no matter what embedding strategy you choose.  You can pass parameters to any function.
 
-```html title="Function declaration"
+```html title="Function declaration" "def"
 <script>
 	def sayHello(name)
 		send 'Hello ' + name to me

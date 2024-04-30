@@ -10,17 +10,17 @@ hyperComponents leverages three state-of-the-art utility libraries that facilita
 2. [HyperScript](https://hyperscript.org/): An English-like syntax scripting language for adding rich event management  and client-side interactivity to web pages.
 3. [TailwindCSS](https://tailwindcss.com/): A comprehensive styling library of based on discrete utility classes.
 
-All these libraries advance the [Locality of Behavior](https://htmx.org/essays/locality-of-behaviour/) principle by centralizing the code base at the point of the intended target of those actions, improving code understanding and maintenance.
+All these libraries advance the [Locality of Behavior](https://htmx.org/essays/locality-of-behaviour/) principle by centralizing the code base at the intended target of those actions, improving code understanding and maintenance.
 
-In the components provided, Ajax (XHR) Requests are issued, and DOM updates performed by either [HTMX](https://htmx.org/docs/) or the equivalent fetch method exposed in [HyperScript](https://hyperscript.org/).   
+In the examples provided, Ajax (XHR) requests are issued, and DOM updates performed by either [HTMX](https://htmx.org/docs/) or the equivalent fetch method exposed in [HyperScript](https://hyperscript.org/).   
 
-Browser interactivity is provided by [HyperScript](https://hyperscript.org/).  
+Interactivity on the client side is provided exclusively by [HyperScript](https://hyperscript.org/).  
 
 Both libraries support extensive event listening and management, including standard system events, library specific events and user-defined custom events.  
 
 And finally, elegant and responsive styling is provided by the popular utility class approach of [Tailwind.css](https://tailwindcss.com/).  
 
-Exposing the source code used to create each example component then provides instructional stepping stones upon which you and your team can build, expand and expore the untapped capabilities of these powerful libraries.
+Exposing the source code used to create each example provides instructional stepping stones upon which you and your team can build, expand and explore the untapped capabilities of these powerful libraries.
 
-By making the source code public, with copy and paste directly into your project, the techniques implemented by these powerful libraries can be both functional and instructional.
+By making the source code public, with copy and paste directly into your project, the techniques implemented by these powerful libraries can be both instructional and functional.
 
