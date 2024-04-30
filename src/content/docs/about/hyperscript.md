@@ -14,8 +14,8 @@ HS emphasizes [Locality of Behavior (LoB)](https://htmx.org/essays/locality-of-b
 
 Hyperscript presents some unique features as well as possiblities which are worthy of a brief summary.   The [official docs](https://hyperscript.org/docs/) are the best place to explort HS in depth, but a review of some of the important topics here will help the facilitate understanding of the example Components in this library.
 
-The examples in this library use different strategies for placing HS code into an Astro component, as detailed below. 
-To assist the library user a `brief naming convention is put forward` which is a small attempt to indicate for the user which embedding stragey for HS code is being used in that particular example.   
+Hyperscript allows different options for embedding script code into an Astro component, as detailed below. 
+To assist the library user a `brief naming convention is put forward` which provide a hint as to which embedding style is being used in that particular example.   
 
 **Style A**:  Examples with names ending in `_A` utilize `attribute embedded Hyperscript` code
 
@@ -27,10 +27,10 @@ Below is an explanation of all the options for embedding Hyperscript into your A
 
 ### Embedding Hyperscript
 
-There are several ways to embed HS code into your client side markup:
+There are several ways to embed HS code into your client side markup.
 
 
-###### 2. As a `script=""` or `data-script=""` attribute of any html element
+###### 1. As a `script=""` or `data-script=""` attribute of any html element
 
 ```html title="Hyperscript attributes"
 <div script="on click send 'Hello' to me">
@@ -70,8 +70,6 @@ In Astro projects, these files should be placed in your /public folder and the \
 <script src="/assets/scripts/my-hyperscript-file._hs"></script>
 ```
 
-
-
 ### Using Behaviors
 
 Behaviors are one strengths of Hyperscript. Behaviors allow you to encapsulate functionality in one place that can be used in many other places.   
@@ -95,17 +93,13 @@ After defining a Behavior in a globally accessible HS, you can apply the Behavio
 	</div>
 ```
 
-The hyperComponents library will use of all the above [embedding](#embedding) techniques for HS code.   Not all code examples will use Behaviors.  
+The hyperComponents library will use of all the above [embedding](#embedding) styles for HS code.   Not all code examples will use Behaviors.  
 
 In some situations, the same hyperComponent will be presented differently using Behaviors, `<script>` tags, or  `script=""` attributes.
 
-The shortcut attribute `_="` is very common technique for embedding element level Hyperscipts.
+The shortcut attribute `_="` is the most common technique for embedding element level Hyperscipts.
 
 **However, the hyperCompnents library is principally for instructional purposes so it is the author's preference to use the more descriptive `script=""` attribute to explicitly indicate that an element has HS code attached.**
-
-**As a naming convention, hyperComponents embedding  Hyperscript code using attribute will display an `(A)` suffix in the Component name (symbolic of 'attribute').**
-
-**hyperComponents where HS is installed from a Behavior will display an `(B)` suffix in the Component name (symbolic of 'behavior').**
 
 ### Declaring Functions
 
@@ -121,13 +115,13 @@ The `def` keyword is used to declare a function in HS no matter what embedding s
 
 ### Operator Precedence (not!)
 
-Unlike most programming languages where a defined precedence is established for mathematical operators, Hyperscript expects the programmer to explicitly define the order of operations using parentheses `()`.
+Unlike most programming languages where a defined precedence is established for mathematical operators, Hyperscript expects the programmer to explicitly define the order of operations using parentheses `()`.  This avoids some side-effects typical of other languages where the precedence is baked in and sometimes leads to unexpected results.
 
 ### Async Agnostic
 
-Many method calls, such as the 'fetch()' method are asynchronous behind the scenes.   All Promise resolutions and error management are handled for you behind the scenes in Hyperscript.
+Many method calls, including Hyperscripts 'fetch()' method are implemented asynchronously behind the scenes.   Hyperscript handles Promise resolution and error management for you.  You can expect a Promise to be resolved before the next HS code line is executed, as would be for the async/await syntax in vanilla JS.
 
-You can explicitly designate a function as synchronous with the `async` keyword but any system or server side Promise based methods will be resolved before HS proceeds with the next code line.   
+You can explicitly designate a function as asynchronous with the `async` keyword but any system or server side Promise based methods are still resolved before HS proceeds with the next code line.   
 
 ### Using Objects
 
