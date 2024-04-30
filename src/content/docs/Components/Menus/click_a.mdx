@@ -19,11 +19,14 @@ export const tw = {
 
 export const hs = "on click call alert('You selected ' + my innerHTML) "
 
-import ClickDropdown_A from '../../../../components/ClickDropdown_A.astro';
+
 
 <div id='exampleContainer' class={tw.exampleContainer} >
 <div id='title' class="bg-gray-900 font-semibold py-2 mb-4">Click Activated Dropdown</div>
-<ClickDropdown_A id="click-dropdown-id" caption="Click Me" duration="300ms" moveXY="5, 5">
+
+import ClickDropdownMenu_A from '../../../../components/ClickDropdownMenu_A.astro';
+
+<ClickDropdownMenu_A id="click-dropdown-id" caption="Click Me" duration="300ms" moveXY="5, 5">
 	 <svg slot="rightIcon" class={tw.icon}  fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
 		<path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6z"/>
 	</svg>
@@ -31,7 +34,8 @@ import ClickDropdown_A from '../../../../components/ClickDropdown_A.astro';
    <li class={tw.menuItem} script={hs}>Choice 2</li>
    <li class={tw.menuItem} script={hs}>Choice 3</li>
    <li class={tw.menuItem} script="on click send closeDropdown to #{'click-dropdown-id'} then settle then go to url '/' ">Go Home</li>
-</ClickDropdown_A>
+</ClickDropdownMenu_A>
+
 </div>
 
 
@@ -44,7 +48,7 @@ The unordered list is populated by passing multiple `<li>` into the component's 
 
 ```js title="Click Activated Dropdown Example" "class={tw.menuItem}" "script={hs}" /const hs/ /const tw/
 ---
-import ClickDropdown_A from '/components/ClickDropdown_A.astro';
+import ClickDropdownMenu_A from '/components/ClickDropdownMenu_A.astro';
 
 const tw = {
 	menuItem: 'px-4 hover:bg-stone-200 hover:dark:bg-stone-300 ' +
@@ -54,7 +58,7 @@ const tw = {
 const hs = "on click call alert('You selected ' + my innerHTML) "
 
 ---
-<ClickDropdown_A id="click-dropdown-id" caption="Click Me" duration="300ms" moveXY="10, 5">
+<ClickDropdownMenu_A id="click-dropdown-id" caption="Click Me" duration="300ms" moveXY="10, 5">
   <svg slot="rightIcon" class={tw.icon}  fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
 		<path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6z"/>
 	</svg>
@@ -62,7 +66,7 @@ const hs = "on click call alert('You selected ' + my innerHTML) "
    <li class={tw.menuItem} script={hs}>Choice 2</li>
    <li class={tw.menuItem} script={hs}>Choice 3</li>
    <li class={tw.menuItem} script="on click send closeDropdown to #{'click-dropdown-id'} then settle then go to url '/' ">Go Home</li>
-</ClickDropdown_A>
+</ClickDropdownMenu_A>
 
 ```
 The `dropdown container` is hidden by setting it's height to 0 and the opacity of it's `<ul>` to 0.  
@@ -397,7 +401,6 @@ const hs = {
 
 }
 ---
-<div class="not-content">
 	<!-- Trigger -->
 	<button 
 		id={id}  
@@ -419,7 +422,6 @@ const hs = {
 			<slot/>
 			</ul>
 	</div>
-</div>
 
 
 ```
@@ -435,9 +437,9 @@ To use this component 'as is' in  your Astro project, click the `Copy` button on
 
 To use this hyperComponent in another Astro component just import the file and use angle brackets (with a Capitalized name) to create a custom html tag as shown in the example below.
 
-```js title="UsingADropdown.astro" "ClickDropdown_A"
+```js title="UsingADropdown.astro" "ClickDropdownMenu_A"
 ---
-import ClickDropdown_A from '/components/ClickDropdown_A.astro';
+import ClickDropdownMenu_A from '/components/ClickDropdownMenu_A.astro';
 
 const tw = {
 	menuItem: 'px-4 hover:bg-stone-200 hover:dark:bg-stone-300 ' +
@@ -447,7 +449,7 @@ const tw = {
 const hs = "on click call alert('You selected ' + my innerHTML) "
 
 ---
-<ClickDropdown_A id="click_dropdown_id" caption="Hover Me" duration="300ms" moveXY="10, 5">
+<ClickDropdownMenu_A id="click_dropdown_id" caption="Hover Me" duration="300ms" moveXY="10, 5">
   <svg slot="rightIcon" class={tw.icon}  fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
 		<path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6z"/>
 	</svg>
@@ -455,7 +457,7 @@ const hs = "on click call alert('You selected ' + my innerHTML) "
    <li class={tw.menuItem} script={hs}>Choice 2</li>
    <li class={tw.menuItem} script={hs}>Choice 3</li>
    <li class={tw.menuItem} script="on click send closeDropdown to #{'click_dropdown_id'} then settle then go to url '/' ">Go Home</li>
-</ClickDropdown_A>
+</ClickDropdownMenu_A>
 
 ```
 
