@@ -167,7 +167,7 @@ The advantage of this strategy is to allow long run-on strings to be formatted a
 
 ## Transitions
 
-Hyperscript exposes the `transition` keyword so you can explicitly utilize CSS selectors to invoke transitions within your HS code.  However, this technique is [blocking](https://hyperscript.org/docs/#transitions), and you will need to explicitly call the `settle` keyword after each `transition` statement which tells HS to wait briefly (20ms by default) to allow for swapping of all HS specific CSS classes used to implement the transition.
+[Hyperscript](https://hyperscript.org/) exposes the `transition` keyword so you can explicitly utilize CSS selectors to invoke transitions within your HS code.  However, this technique is [blocking](https://hyperscript.org/docs/#transitions), and you will need to explicitly call the `settle` keyword after each `transition` statement which tells HS to wait briefly (20ms by default) to allow for swapping of all HS specific CSS classes used to implement the transition.
 
 A simpler, but less flexible, technique is to apply a  CSS transition rule directly on the element being transitioned using an inline `<style>` tag.  This technique is not blocking and reduces the amount of code in the script itself.  This is the technique chosen for this hyperComponent. 
 
