@@ -90,9 +90,9 @@ const hs = {
 		moveXY={moveXY} 
 		class={twMerge(tw.triggerButton, buttonStyles)} 
 		script={hs.toggleDropdown}>
-			<slot name='startIcon'/>
+			<slot name='leftIcon'/>
 			{caption}
-			<slot name='endIcon'/>
+			<slot name='rightIcon'/>
 	</button>
 	<!-- Dropdown -->
 	<div id=`${id}-container` 

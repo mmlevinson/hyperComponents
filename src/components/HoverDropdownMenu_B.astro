@@ -71,7 +71,7 @@ const tw = {
 		end  -- Escape key handler
 
 		def calcHeight
-			set dropdownHeight to 0 then set items to the children of #{:dropdownContainer}
+			set dropdownHeight to 0 then set items to the children of the #{:dropdownContainer}
 			for item in items increment the dropdownHeight by the item's offsetHeight end
 			return dropdownHeight
 		end -- function to calculate dropdown container's height based on it's content
@@ -81,20 +81,20 @@ const tw = {
 			set leftOffset to offset[0] as Int
 			set bottomOffset to offset[1] as Int
 			measure me then put the result.bounds into myBounds
-			set *left of #{:dropdownContainer} to (myBounds.left + leftOffset + window.pageXOffset) px
-			set *top of #{:dropdownContainer} to (myBounds.bottom  + bottomOffset + window.pageYOffset) px
+			set the *left of the #{:dropdownContainer} to (myBounds.left + leftOffset + window.pageXOffset) px
+			set the *top of the #{:dropdownContainer} to (myBounds.bottom  + bottomOffset + window.pageYOffset) px
 		end  -- function to reposition dropdown by x,y pixels
 		
 		on openDropdown from me
 			resetPosition()
-			set *height of #{:dropdownContainer} to (calcHeight() + 'px') then wait 20ms then
-			set *opacity of #{:itemsList} to 1
+			set the *height of the #{:dropdownContainer} to (calcHeight() + 'px') then wait 20ms then
+			set the *opacity of the #{:itemsList} to 1
 			add .open to me
 		end  -- handler to open dropdown
 
 		on closeDropdown 
-			set *opacity of the #{:itemsList} to 0
-			set *height of the #{:dropdownContainer} to 0 then settle then
+			set the *opacity of the #{:itemsList} to 0
+			set the *height of the #{:dropdownContainer} to 0 then settle then
 			remove .open from me
 		end -- handler to close dropdown
 
@@ -128,7 +128,7 @@ const tw = {
 			<ul id=`${id}-items`
 				class={twMerge(tw.itemsList, listStyles)}
 				style="transition: all 50ms ease-in-out"
-			script="install HideDropdown">
+				script="install HideDropdown">
 			<slot/>
 			</ul>
 	</div>

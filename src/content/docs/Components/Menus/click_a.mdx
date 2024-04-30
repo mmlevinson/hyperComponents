@@ -178,7 +178,6 @@ interface Props {
  duration: string, //duration (in milliseconds) for dropdown height transition
 }
 
-import {twMerge} from 'tailwind-merge'
 const {
 	id, 
 	caption, 
@@ -201,9 +200,9 @@ const {
 		moveXY={moveXY} 
 		class={twMerge(tw.triggerButton, buttonStyles)} 
 		script={hs.toggleDropdown}>
-			<slot name='startIcon'/>
+			<slot name='leftIcon'/>
 			{caption}
-			<slot name='endIcon'/>
+			<slot name='rightIcon'/>
 	</button>
 	<!-- Dropdown -->
 	<div id=`${id}-container` 
@@ -215,55 +214,55 @@ const {
 			<slot/>
 			</ul>
 	</div>
+	
 		```
   </TabItem>
   <TabItem label="Scripts">
     ```js
 		const hs = {
-		toggleDropdown:  `
-			init
-				set :dropdownContainer to my @id + '-container'
-				set :itemsList to my @id + '-items'
-			end -- init
+	toggleDropdown: `
+		init
+			set :dropdownContainer to my @id + '-container'
+			set :itemsList to my @id + '-items'
+		end -- init
 
-			on click or blur from me
-				if I match .open then trigger closeDropdown on me 
-				otherwise trigger openDropdown on me
-			end -- handler for click within trigger button
+		on click or blur from me
+			if I match .open then trigger closeDropdown on me 
+			otherwise trigger openDropdown on me
+		end -- click handler
 
-			on keydown[key=='Escape']
-				trigger closeDropdown on me
-			end  -- handler for closing dropdown with Escape key when element has focus
+		on keydown[key=='Escape']
+			trigger closeDropdown on me
+		end  -- Escape key handler
 
-			def calcHeight
-				set dropdownHeight to 0 then set items to the children of #{:dropdownContainer}
-				for item in items increment the dropdownHeight by the item's offsetHeight end
-				return dropdownHeight
-			end -- function to calculate actual height of dropdown based on it's contents
-				
-			def resetPosition
-				set offset to my @moveXY.split(',')
-				set leftOffset to offset[0] as Int
-				set bottomOffset to offset[1] as Int
-				measure me then put the result.bounds into myBounds
-				set *left of #{:dropdownContainer} to (myBounds.left + leftOffset) px
-				set *top of #{:dropdownContainer} to (myBounds.bottom  + bottomOffset) px
-			end  -- handler to reposition dropdown by x,y pixels
+		def calcHeight
+			set dropdownHeight to 0 then set items to the children of the #{:dropdownContainer}
+			for item in items increment the dropdownHeight by the item's offsetHeight end
+			return dropdownHeight
+		end -- function to calculate dropdown container's height based on it's content
 			
-			on openDropdown from me
-				resetPosition()
-				set *height of #{my @id + '-container'} to (calcHeight() + 'px') then wait 20ms then
-				set *opacity of #{my @id + '-items'} to 1
-				add .open to me
-			end -- handler to open dropdown
+		def resetPosition
+			set offset to my @moveXY.split(',')
+			set leftOffset to the offset[0] as Int
+			set bottomOffset to the offset[1] as Int
+			measure me then put the result.bounds into myBounds
+			set the *left of the #{:dropdownContainer} to (myBounds.left + leftOffset + window.pageXOffset) px
+			set the *top of the #{:dropdownContainer} to (myBounds.bottom  + bottomOffset + window.pageYOffset) px
+		end  -- function to reposition dropdown by x,y pixels
+		
+		on openDropdown from me
+			resetPosition()
+			set the *height of the #{:dropdownContainer} to (calcHeight() + 'px') then wait 20ms then
+			set the *opacity of the #{:itemsList} to 1
+			add .open to me
+		end -- handler to open dropdown
 
-			on closeDropdown
-				set *opacity of #{:itemsList} to 0
-				set *height of #{:dropdownContainer} to 0 then settle then
-				remove .open from me
-			end -- handler to close dropdown `,
-		hideDropdown: `on click or mouseleave send closeDropdown to the previous <button/> end`
-
+		on closeDropdown
+			set the *opacity of the #{:itemsList} to 0
+			set the *height of the #{:dropdownContainer} to 0 then settle then
+			remove .open from me
+		end -- handler to close dropdown `,
+  hideDropdown: `on click or mouseleave send closeDropdown to the previous <button/> end`
 }
 		```
   </TabItem>
@@ -273,8 +272,8 @@ const tw = {
 	triggerButton: 'inline-block rounded-lg p-3 ' +
 		'font-semibold text-lg lg:text-xl text-zinc-100 hover:text-zinc-400 hover:dark:text-zinc-300 ' + 
 		'bg-indigo-600 hover:bg-indigo-800 ' +
-		'focus:ring-4 focus:outline-none focus:ring-indigo-300 ',
-	dropdownContainer  :'h-0 absolute z-10 ' + 
+		'focus:ring-4 focus:outline-none focus:ring-indigo-300',
+	dropdownContainer:'h-0 absolute z-10 ' + 
 		'rounded-lg drop-shadow-2xl overflow-hidden ' + 
 		'text-lg font-medium ' +
 		'bg-white dark:bg-gray-800 ',
@@ -287,26 +286,34 @@ const tw = {
 	<TabItem label="Everything">
 ```js
 ---
+import {twMerge} from 'tailwind-merge'
+
 interface Props {
- id:string   //a unique identifier for this component, allowing multiple dropdowns on a page without collisions
- caption:string   //the text displayed in the button that triggers the dropdown
- dropdownStyles:string   //any additional styles to apply to the overall wrapper <div>
- buttonStyles:string   //any additional Tailwind classes for customizing the trigger button
- listStyles:string   //any additional styles to apply to the dropdown list
- moveXY:string //comma separated integer values specifying top,left shift in dropdown location
- duration:string //duration (in milliseconds) for dropdown height transition
+ id: string   //a unique identifier for this component, allowing multiple dropdowns on a page without collisions
+ caption: string   //the text displayed in the trigger button
+ buttonStyles?: string   //any additional Tailwind classes for customizing the trigger button
+ dropdownStyles?: string   //any additional styles to apply to the dropdown container <div>
+ listStyles?: string   //any additional styles to apply to the <ul>
+ moveXY?: string //comma separated integer values specifying x,y shift in dropdown position
+ duration?: string, //duration (in milliseconds) for dropdown height transition
 }
 
-import {twMerge} from 'tailwind-merge'
-const {id, caption, dropdownStyles, buttonStyles, listStyles, moveXY = "0,0", duration = '100ms'} = Astro.props
+const {
+	id, 
+	caption, 
+	buttonStyles, 
+	dropdownStyles, 
+	listStyles, 
+	moveXY = "0,0", 
+	duration = '100ms'
+} = Astro.props
 
-const title = 'Dropdown Menus';
 const tw = {
 	triggerButton: 'inline-block rounded-lg p-3 ' +
 		'font-semibold text-lg lg:text-xl text-zinc-100 hover:text-zinc-400 hover:dark:text-zinc-300 ' + 
 		'bg-indigo-600 hover:bg-indigo-800 ' +
-		'focus:ring-4 focus:outline-none focus:ring-indigo-300 ',
-	dropdownContainer  :'h-0 absolute z-10 ' + 
+		'focus:ring-4 focus:outline-none focus:ring-indigo-300',
+	dropdownContainer:'h-0 absolute z-10 ' + 
 		'rounded-lg drop-shadow-2xl overflow-hidden ' + 
 		'text-lg font-medium ' +
 		'bg-white dark:bg-gray-800 ',
@@ -315,7 +322,7 @@ const tw = {
 }
 
 const hs = {
-	toggleDropdown:  `
+	toggleDropdown: `
 		init
 			set :dropdownContainer to my @id + '-container'
 			set :itemsList to my @id + '-items'
@@ -324,45 +331,43 @@ const hs = {
 		on click or blur from me
 			if I match .open then trigger closeDropdown on me 
 			otherwise trigger openDropdown on me
-		end -- handler for click within trigger button
+		end -- click handler
 
 		on keydown[key=='Escape']
 			trigger closeDropdown on me
-		end  -- handler for closing dropdown with Escape key when element has focus
+		end  -- Escape key handler
 
 		def calcHeight
-			set dropdownHeight to 0 then set items to the children of #{:dropdownContainer}
+			set dropdownHeight to 0 then set items to the children of the #{:dropdownContainer}
 			for item in items increment the dropdownHeight by the item's offsetHeight end
 			return dropdownHeight
-		end -- function to calculate actual height of dropdown based on it's contents
+		end -- function to calculate dropdown container's height based on it's content
 			
 		def resetPosition
 			set offset to my @moveXY.split(',')
-			set leftOffset to offset[0] as Int
-			set bottomOffset to offset[1] as Int
+			set leftOffset to the offset[0] as Int
+			set bottomOffset to the offset[1] as Int
 			measure me then put the result.bounds into myBounds
-			set *left of #{:dropdownContainer} to (myBounds.left + leftOffset) px
-			set *top of #{:dropdownContainer} to (myBounds.bottom  + bottomOffset) px
-		end  -- handler to reposition dropdown by x,y pixels
+			set the *left of the #{:dropdownContainer} to (myBounds.left + leftOffset + window.pageXOffset) px
+			set the *top of the #{:dropdownContainer} to (myBounds.bottom  + bottomOffset + window.pageYOffset) px
+		end  -- function to reposition dropdown by x,y pixels
 		
 		on openDropdown from me
 			resetPosition()
-			set *height of #{my @id + '-container'} to (calcHeight() + 'px') then wait 20ms then
-			set *opacity of #{my @id + '-items'} to 1
+			set the *height of the #{:dropdownContainer} to (calcHeight() + 'px') then wait 20ms then
+			set the *opacity of the #{:itemsList} to 1
 			add .open to me
 		end -- handler to open dropdown
 
 		on closeDropdown
-			set *opacity of #{:itemsList} to 0
-			set *height of #{:dropdownContainer} to 0 then settle then
+			set the *opacity of the #{:itemsList} to 0
+			set the *height of the #{:dropdownContainer} to 0 then settle then
 			remove .open from me
 		end -- handler to close dropdown `,
   hideDropdown: `on click or mouseleave send closeDropdown to the previous <button/> end`
 
 }
-
 ---
-
 <div class="not-content">
 	<!-- Trigger -->
 	<button 
@@ -371,13 +376,13 @@ const hs = {
 		moveXY={moveXY} 
 		class={twMerge(tw.triggerButton, buttonStyles)} 
 		script={hs.toggleDropdown}>
-			<slot name='startIcon'/>
+			<slot name='leftIcon'/>
 			{caption}
-			<slot name='endIcon'/>
+			<slot name='rightIcon'/>
 	</button>
 	<!-- Dropdown -->
-	<div id=`${id}-wrapper` 
-		class={twMerge(tw.dropdownContainer  , dropdownStyles)} 
+	<div id=`${id}-container` 
+		class={twMerge(tw.dropdownContainer, dropdownStyles)} 
 		style=`transition: all ${duration} ease-in-out`>
 			<ul id=`${id}-items` 
 				class={twMerge(tw.itemsList, listStyles)} style="transition: all 50ms ease-in-out"
@@ -386,7 +391,6 @@ const hs = {
 			</ul>
 	</div>
 </div>
-
 
 
 ```
