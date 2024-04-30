@@ -8,9 +8,9 @@ description: Dropdown Menu Component activated by a click event
 :::note
 This hyperComponent is identical to the  [Click Activated Dropdown (A)](/components/menus/click_a/) except:
 
--Activation is by either hover or click
+-Activation is by _either_ hover or click
 
--Hyperscript code is located in a \<script\> tag with [Behaviors](https://hyperscript.org/docs/#behaviors) installed into elements inside the Component
+-Hyperscript code is located in a separate \<script\> tag with [Behaviors](https://hyperscript.org/docs/#behaviors) installed into elements inside the component
 
 The explanations are otherwise identical so you may simply [jump to the Code](#code) section.
 :::
@@ -34,7 +34,7 @@ import HoverDropdownMenu_B from '../../../../components/HoverDropdownMenu_B.astr
 
 <div id='exampleContainer' class={tw.exampleContainer} >
 <div id='title' class={tw.exampleTitle}>Hover Activated Dropdown</div>
-<HoverDropdownMenu_B id="hover_dropdown_id" caption="Hover Me" duration="300ms" moveXY="5, 5">
+<HoverDropdownMenu_B id="hover_dropdown_id" caption="Hover Me" duration="300ms" moveXY="10, 5">
   <svg slot="rightIcon" class={tw.icon}  fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
 		<path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6z"/>
 	</svg>
@@ -53,7 +53,7 @@ The example above is an Astro component comprised of a `<button>` and a `dropdow
 The unordered list is populated by passing multiple `<li>` into the component's default slot.
 
 ```html
-<HoverDropdownMenu_B id="hover_dropdown_id" caption="Hover Me" duration="300ms" moveXY="5, 5">
+<HoverDropdownMenu_B id="hover_dropdown_id" caption="Hover Me" duration="300ms" moveXY="10, 5">
    <li class={tw.menuItem} script={hs}>Choice 1</li>
    <li class={tw.menuItem} script={hs}>Choice 2</li>
    <li class={tw.menuItem} script={hs}>Choice 3</li>
@@ -61,15 +61,15 @@ The unordered list is populated by passing multiple `<li>` into the component's 
 </HoverDropdownMenu_B>
 
 ```
-The `dropdown container` is hidden by setting it's height to 0 and the opacity of the `<ul>` to 0.  
+The `dropdown container` is hidden by setting it's height to 0 and the opacity of it's `<ul>` to 0.  
 
 The `<button>` listens for either a `mouseenter` or  `click` event which then triggers the items to smoothly appear by transitioning the `dropdown container` to a new height and the `<ul>`'s opacity to 1 over a specified duration. 
 
-Tapping any `<li>` emits a custom event attached to that item followed by dismissal of the dropdown.
+Tapping any `<li>` emits a custom event from a script attribute followed by dismissal of the dropdown.
 
 ## Features
 
-The trigger button and dropdown are initally styled with Tailwind CSS utility classes but are fully customizable by passing additional styling classes through [props](#code).
+The trigger button and dropdown are initally styled with Tailwind CSS utility classes but are fully customizable by passing additional classes through [props](#code).
 
 The dropdown appearance/disappearance is smoothly animated by HyperScript with a timing function adjusted using the `duration` prop. 
 
@@ -81,11 +81,11 @@ The dropdown is dismissed by:
 ###### 4. Mouse leaving the dropdown
 ###### 5. Pressing the Escape key when the button is focused
 
-Custom events emitted by individual menu choices were also written in HyperScript for this example.
+Custom events emitted by individual menu choices were also written in [HyperScript](https://hyperscript.org/).
 
 ## Props
 
-Below is a summary of the Component props which can optionally be used to configure the Component from the markup where it is being used.
+Below is a summary of the component props which can optionally be used to configure the component from the markup where it is being used.
 
 
 ```js
@@ -113,7 +113,7 @@ const {
 
 ### id
 
-Each DropdownMenu component requires a unique id.  This is to ensure that multiple dropdowns do not interact with each other.
+Each dropdown component requires a unique id.  This is to ensure that multiple dropdowns do not interact with each other.
 
 ### caption
 
@@ -121,7 +121,7 @@ The `caption` prop is a text string that will be displayed in the trigger button
 
 ### buttonStyles
 
-The `buttonStyles` prop allows you to customize the appearance of the trigger button.  Use this prop if you want to change the button's hover behavior,  background or text color, apply a dropshadow, etc.
+The `buttonStyles` prop allows you to customize the appearance of the trigger button.  Use this prop if you want to change the button's hover styles,  background or text color, apply a dropshadow, etc.
 
 ### listStyles
 
@@ -129,7 +129,7 @@ The `listStyles` prop allows you to customize the appearance of the `<ul>` flex 
 
 ### dropdownStyles
 
-The `dropdownStyles` prop allows you to style the dropdown container itself. 
+The `dropdownStyles` prop allows you to style the `dropdown container` itself. 
 
 ### moveXY
 
@@ -139,13 +139,13 @@ For example, to move the dropdown 5 pixels to the left and 5 pixels down relativ
 
 ### duration
 
-The duration of the height transition for the `dropdown container` can be specified by passing a string (in milliseconds) into the `duration` prop. 
+The duration of the height transition for the `dropdown container` can be specified by passing a string (in milliseconds) into the `duration` prop, for example "300ms".
 
 ## Styling
 
-Default Tailwind classes are used for initial styling of all elements within the Component, including the trigger `<button>`, `<ul>` and `dropdown container`. For accesssibility, the trigger button also receives a focus ring when activated.
+The component's `<button>`, `<ul>` and `dropdown container` are initally styled with a default selection of Tailwind classes  For accesssibility, the trigger `<button>` also receives a focus ring when activated.
 
-Custom styles sent via [props](#code) are merged with the default styles and any conflicts resolved with a 'last wins' rule.
+You can override the default styling by sending additional Tailwind classes via [props](#code) which are then merged with the default styles and any conflicts resolved with a 'last wins' rule.
 
 To improve readability, the Tailwind classes are extracted from the markup and encapsulated into an Astro `tw` local variable within the [Component Script](https://docs.astro.build/en/basics/astro-components/#the-component-script) which is then referenced in the html markup. 
 
@@ -153,30 +153,30 @@ The advantage of this strategy is to allow long run-on strings to be formatted a
 
 ## Transitions
 
-You can use the `transition` keyword to explicitly designate a CSS selector, element, and transition effect within your Hyperscript code.  However, this technique is [blocking](https://hyperscript.org/docs/#transitions), and you will need to explicitly call the `settle` keyword after each `transition` statement which tells HS to wait briefly (20ms by default) to allow for swapping of all HS specific CSS classes used to implement the transition.
+Hyperscript exposes the `transition` keyword so you can explicitly utilize CSS selectors to invoke transitions within your HS code.  However, this technique is [blocking](https://hyperscript.org/docs/#transitions), and you will need to explicitly call the `settle` keyword after each `transition` statement which tells HS to wait briefly (20ms by default) to allow for swapping of all HS specific CSS classes used to implement the transition.
 
-A simpler, but less flexible, technique is to apply a  CSS transition rule on the element being transitioned using an inline `<style>` tag.  This technique is not blocking and reduces the amount of code in the script itself.  This is the technique chosen for this hyperComponent. 
+A simpler, but less flexible, technique is to apply a  CSS transition rule directly on the element being transitioned using an inline `<style>` tag.  This technique is not blocking and reduces the amount of code in the script itself.  This is the technique chosen for this hyperComponent. 
 
 ## Slots
 ### Default Slot
 
-All menu items should be placed between the Component's opening and closing tags thus positioning them within the default slot inside the Component's `<ul>`.
+All menu items should be placed between the component's opening and closing tags thus positioning them within the default slot inside the component's `<ul>`.
 
 ### Left Icon Slot
 
-The `leftIcon` slot is used to install any icon or image markup of your choic.   If you also pass a `caption` prop, the `leftIcon` will be displayed to the left of the caption text.
+The `leftIcon` slot is used to install any icon or image markup of your choice.   If you also pass a `caption` prop, the `leftIcon` will be displayed to the left of the caption text.
 
 ### Right Icon Slot
 
 The `rightIcon` slot is used to install any icon or image markup of your choice which is then positioned to the right of the caption text.  
 
-In the example code, a down-caret svg is used to present a visual clue that interacting with the `<button>` will reveal additional choices.
+In the [example code above](#example), a down-caret svg is used to present a visual clue that interacting with the `<button>` will reveal additional choices.
 
 ### Icon Styling
 
-In Astro, you specify a named slot by including a `slot="name"` attribute in the parent element of the markup you are passing into the slot. 
+In Astro, you target a named slot by including a `slot="name"` attribute in the parent element of the markup you are passing into the slot. 
 
-You will also need to attach Tailwind styling classes to your slot markup because the receiving Component has no way to apply Tailwind classes to markup it does not know about yet. 
+You will need to attach Tailwind styling classes to your slot markup because the receiving component has no way to apply Tailwind classes to elements it does not know about yet. 
 
 For example, icon sizes, padding, margins, and  colors will need to be annotated  directly on the markup passed into any `<slot>`.
 
@@ -191,7 +191,7 @@ The code below illustrates Tailwind styling of a down-caret svg passed into the 
 
 ## Code
 
-The full source code for this hyperComponent is available in the Tabs below.  Us the Everything tab to copy/paste the entire Astro component into your project.
+The full source code for this hyperComponent is visible in the various Tabs below.  Use the Everything tab to `copy/paste` the entire component into your Astro project.
 
 import {Tabs, TabItem } from '@astrojs/starlight/components'
 
@@ -243,7 +243,7 @@ const {
 			<ul id=`${id}-items`
 				class={twMerge(tw.itemsList, listStyles)}
 				style="transition: all 50ms ease-in-out"
-			script="install HideDropdown">
+				script="install HideDropdown">
 			<slot/>
 			</ul>
 	</div>
@@ -265,23 +265,23 @@ const {
 		on mouseenter from me
 			call me.focus()
 			trigger openDropdown on me
-		end
+		end -- listener for hover
 
 		on mouseleave from me
 			call me.blur()
 			wait 50ms then
 				if not :dropdownHasMouse trigger closeDropdown on me
 			end
-		end
+		end -- close on mouseleave
 
 		on click from me
 		 if I match .open then trigger closeDropdown on me 
 			otherwise trigger openDropdown on me
-		end
+		end -- click handler
 
 		on mouseWithinDropdown(value)
 			set :dropdownHasMouse to value
-		end 
+		end -- update state of mouse location
 
 		on keydown[key=='Escape']
 			trigger closeDropdown on me
@@ -291,7 +291,7 @@ const {
 			set dropdownHeight to 0 then set items to the children of #{:dropdownContainer}
 			for item in items increment the dropdownHeight by the item's offsetHeight end
 			return dropdownHeight
-		end -- calculate dropdown container's height based on content
+		end -- calculate dropdown container's height based on it's content
 
 		def resetPosition
 			set offset to my @moveXY.split(',')
@@ -315,7 +315,7 @@ const {
 			remove .open from me
 		end -- handler to close dropdown
 
-		end -- behavior ToggleDropdown
+	end -- behavior ToggleDropdown
 
 	behavior HideDropdown
 	  on mouseenter send mouseWithinDropdown(value:true) to the previous <button/> end
@@ -348,6 +348,7 @@ const tw = {
 	<TabItem label="Everything">
 ```js
 ---
+import {twMerge} from 'tailwind-merge'
 
 interface Props {
  id: string   //a unique identifier for this component, allowing multiple dropdowns on a page without collisions
@@ -385,7 +386,7 @@ const tw = {
 
 <script type="text/hyperscript">
 
-  behavior ToggleDropdown
+behavior ToggleDropdown
 		init
 			set :dropdownContainer to my @id + '-container'
 			set :itemsList to my @id + '-items'
@@ -395,23 +396,23 @@ const tw = {
 		on mouseenter from me
 			call me.focus()
 			trigger openDropdown on me
-		end
+		end -- listener for hover
 
 		on mouseleave from me
 			call me.blur()
 			wait 50ms then
 				if not :dropdownHasMouse trigger closeDropdown on me
 			end
-		end
+		end -- close on mouseleave
 
 		on click from me
 		 if I match .open then trigger closeDropdown on me 
 			otherwise trigger openDropdown on me
-		end
+		end -- click handler
 
 		on mouseWithinDropdown(value)
 			set :dropdownHasMouse to value
-		end 
+		end -- update state of mouse location
 
 		on keydown[key=='Escape']
 			trigger closeDropdown on me
@@ -421,7 +422,7 @@ const tw = {
 			set dropdownHeight to 0 then set items to the children of #{:dropdownContainer}
 			for item in items increment the dropdownHeight by the item's offsetHeight end
 			return dropdownHeight
-		end -- calculate dropdown container's height based on content
+		end -- calculate dropdown container's height based on it's content
 
 		def resetPosition
 			set offset to my @moveXY.split(',')
@@ -445,7 +446,7 @@ const tw = {
 			remove .open from me
 		end -- handler to close dropdown
 
-		end -- behavior ToggleDropdown
+	end -- behavior ToggleDropdown
 
 	behavior HideDropdown
 	  on mouseenter send mouseWithinDropdown(value:true) to the previous <button/> end
@@ -474,7 +475,7 @@ const tw = {
 			<ul id=`${id}-items`
 				class={twMerge(tw.itemsList, listStyles)}
 				style="transition: all 50ms ease-in-out"
-			script="install HideDropdown">
+				script="install HideDropdown">
 			<slot/>
 			</ul>
 	</div>
@@ -490,7 +491,7 @@ const tw = {
 
 The most common use case for dropdowns are in navigation components such as a top `<nav>` bar or an `<aside>` navigation drawer.  Dropdowns can also provide a more customizable equivalent to `<select>` elements.
 
-To use this Component 'as is' in  your Astro project, click the `Copy` button on the Everything tab in the [code](#code) section above.  Paste all the code into a new file with a `.astro` extension.
+To use this component 'as is' in  your Astro project, click the `Copy` button on the Everything tab in the [code](#code) section above.  Paste all the code into a new file with a `.astro` extension.
 
 
 To use this hyperComponent in another document just import the file and use angle brackets (with a Capitalized name) to create a custom html tag as shown in the example below.

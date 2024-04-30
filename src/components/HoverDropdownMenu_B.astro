@@ -48,23 +48,23 @@ const tw = {
 		on mouseenter from me
 			call me.focus()
 			trigger openDropdown on me
-		end
+		end -- listener for hover
 
 		on mouseleave from me
 			call me.blur()
 			wait 50ms then
 				if not :dropdownHasMouse trigger closeDropdown on me
 			end
-		end
+		end -- close on mouseleave
 
 		on click from me
 		 if I match .open then trigger closeDropdown on me 
 			otherwise trigger openDropdown on me
-		end
+		end -- click handler
 
 		on mouseWithinDropdown(value)
 			set :dropdownHasMouse to value
-		end 
+		end -- update state of mouse location
 
 		on keydown[key=='Escape']
 			trigger closeDropdown on me
@@ -74,7 +74,7 @@ const tw = {
 			set dropdownHeight to 0 then set items to the children of #{:dropdownContainer}
 			for item in items increment the dropdownHeight by the item's offsetHeight end
 			return dropdownHeight
-		end -- calculate dropdown container's height based on content
+		end -- calculate dropdown container's height based on it's content
 
 		def resetPosition
 			set offset to my @moveXY.split(',')
@@ -98,7 +98,7 @@ const tw = {
 			remove .open from me
 		end -- handler to close dropdown
 
-		end -- behavior ToggleDropdown
+	end -- behavior ToggleDropdown
 
 	behavior HideDropdown
 	  on mouseenter send mouseWithinDropdown(value:true) to the previous <button/> end
