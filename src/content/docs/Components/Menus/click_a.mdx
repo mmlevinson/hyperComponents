@@ -17,7 +17,7 @@ export const tw = {
 	icon:'inline-block size-6'
 }
 
-export const hs = "on click call alert('You selected ' + my innerHTML) "
+export const hs = "on click send closeDropdown to #{'click-dropdown-id'} then settle then call alert('You selected ' + my innerHTML)"
 
 
 
@@ -55,7 +55,7 @@ const tw = {
 	'hover:text-cyan-100 hover:dark:text-sky-950',
 }
 
-const hs = "on click call alert('You selected ' + my innerHTML) "
+const hs = "on click send closeDropdown to #{'click-dropdown-id'} then settle then call alert('You selected ' + my innerHTML)"
 
 ---
 <ClickDropdownMenu_A id="click-dropdown-id" caption="Click Me" duration="300ms" moveXY="10, 5">
@@ -252,50 +252,50 @@ const {
   </TabItem>
   <TabItem label="Scripts">
     ```js "const hs" "toggleDropdown" "hideDropdown"
-		const hs = {
-			toggleDropdown: `
-				init
-					set :dropdownContainer to my @id + '-container'
-					set :itemsList to my @id + '-items'
-				end -- init
+const hs = {
+	toggleDropdown: `
+		init
+			set :dropdownContainer to my @id + '-container'
+			set :itemsList to my @id + '-items'
+		end -- init 
 
-				on click or blur from me
-					if I match .open then trigger closeDropdown on me 
-					otherwise trigger openDropdown on me
-				end -- click handler
+		on click from me
+			if I match .open then trigger closeDropdown on me 
+			otherwise trigger openDropdown on me
+		end -- click toggles open/closed
 
-				on keydown[key=='Escape']
-					trigger closeDropdown on me
-				end  -- Escape key handler
+		on keydown[key=='Escape'] or blur
+			trigger closeDropdown on me 
+		end  -- close on blur or Escape key when focused
 
-				def calcHeight
-					set dropdownHeight to 0 then set items to the children of the #{:dropdownContainer}
-					for item in items increment the dropdownHeight by the item's offsetHeight end
-					return dropdownHeight
-				end -- function to calculate dropdown container's height based on it's content
-					
-				def resetPosition
-					set offset to my @moveXY.split(',')
-					set leftOffset to the offset[0] as Int
-					set bottomOffset to the offset[1] as Int
-					measure me then put the result.bounds into myBounds
-					set the *left of the #{:dropdownContainer} to (myBounds.left + leftOffset + window.pageXOffset) px
-					set the *top of the #{:dropdownContainer} to (myBounds.bottom  + bottomOffset + window.pageYOffset) px
-				end  -- function to reposition dropdown by x,y pixels
-				
-				on openDropdown from me
-					resetPosition()
-					set the *height of the #{:dropdownContainer} to (calcHeight() + 'px') then wait 20ms then
-					set the *opacity of the #{:itemsList} to 1
-					add .open to me
-				end -- handler to open dropdown
+		def calculatedHeight
+			set dropdownHeight to 0 then set items to the children of the #{:dropdownContainer}
+			for item in items increment the dropdownHeight by the item's offsetHeight end
+			return dropdownHeight
+		end -- function to calculate dropdown container's height based on it's content
+			
+		def resetPosition
+			set offset to my @moveXY.split(',')
+			set leftOffset to the offset[0] as Int
+			set bottomOffset to the offset[1] as Int
+			measure me then put the result.bounds into buttonLocation
+			set the *left of the #{:dropdownContainer} to (buttonLocation.left + leftOffset + window.pageXOffset) px
+			set the *top of the #{:dropdownContainer} to (buttonLocation.bottom  + bottomOffset + window.pageYOffset) px
+		end  -- function to reposition dropdown by x,y pixels
+		
+		on openDropdown from me
+			resetPosition()
+			set the *height of the #{:dropdownContainer} to the calculatedHeight() px then wait 20ms then
+			set the *opacity of the #{:itemsList} to 1
+			add .open to me
+		end -- handler to open dropdown
 
-				on closeDropdown
-					set the *opacity of the #{:itemsList} to 0
-					set the *height of the #{:dropdownContainer} to 0 then settle then
-					remove .open from me
-				end -- handler to close dropdown `,
-			hideDropdown: `on click or mouseleave send closeDropdown to the previous <button/> end`
+		on closeDropdown
+			set the *opacity of the #{:itemsList} to 0
+			set the *height of the #{:dropdownContainer} to 0 then settle then
+			remove .open from me
+		end -- handler to close dropdown `,
+  hideDropdown: `on click or mouseleave send closeDropdown to the previous <button/> end`
 }
 		```
   </TabItem>
@@ -359,18 +359,18 @@ const hs = {
 		init
 			set :dropdownContainer to my @id + '-container'
 			set :itemsList to my @id + '-items'
-		end -- init
+		end -- init 
 
-		on click or blur from me
+		on click from me
 			if I match .open then trigger closeDropdown on me 
 			otherwise trigger openDropdown on me
-		end -- click handler
+		end -- click toggles open/closed
 
-		on keydown[key=='Escape']
-			trigger closeDropdown on me
-		end  -- Escape key handler
+		on keydown[key=='Escape'] or blur
+			trigger closeDropdown on me 
+		end  -- close on blur or Escape key when focused
 
-		def calcHeight
+		def calculatedHeight
 			set dropdownHeight to 0 then set items to the children of the #{:dropdownContainer}
 			for item in items increment the dropdownHeight by the item's offsetHeight end
 			return dropdownHeight
@@ -380,14 +380,14 @@ const hs = {
 			set offset to my @moveXY.split(',')
 			set leftOffset to the offset[0] as Int
 			set bottomOffset to the offset[1] as Int
-			measure me then put the result.bounds into myBounds
-			set the *left of the #{:dropdownContainer} to (myBounds.left + leftOffset + window.pageXOffset) px
-			set the *top of the #{:dropdownContainer} to (myBounds.bottom  + bottomOffset + window.pageYOffset) px
+			measure me then put the result.bounds into buttonLocation
+			set the *left of the #{:dropdownContainer} to (buttonLocation.left + leftOffset + window.pageXOffset) px
+			set the *top of the #{:dropdownContainer} to (buttonLocation.bottom  + bottomOffset + window.pageYOffset) px
 		end  -- function to reposition dropdown by x,y pixels
 		
 		on openDropdown from me
 			resetPosition()
-			set the *height of the #{:dropdownContainer} to (calcHeight() + 'px') then wait 20ms then
+			set the *height of the #{:dropdownContainer} to the calculatedHeight() px then wait 20ms then
 			set the *opacity of the #{:itemsList} to 1
 			add .open to me
 		end -- handler to open dropdown
@@ -398,7 +398,6 @@ const hs = {
 			remove .open from me
 		end -- handler to close dropdown `,
   hideDropdown: `on click or mouseleave send closeDropdown to the previous <button/> end`
-
 }
 ---
 	<!-- Trigger -->

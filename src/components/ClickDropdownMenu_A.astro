@@ -40,18 +40,18 @@ const hs = {
 		init
 			set :dropdownContainer to my @id + '-container'
 			set :itemsList to my @id + '-items'
-		end -- init
+		end -- init 
 
-		on click or blur from me
+		on click from me
 			if I match .open then trigger closeDropdown on me 
 			otherwise trigger openDropdown on me
-		end -- click handler
+		end -- click toggles open/closed
 
-		on keydown[key=='Escape']
-			trigger closeDropdown on me
-		end  -- Escape key handler
+		on keydown[key=='Escape'] or blur
+			trigger closeDropdown on me 
+		end  -- close on blur or Escape key when focused
 
-		def calcHeight
+		def calculatedHeight
 			set dropdownHeight to 0 then set items to the children of the #{:dropdownContainer}
 			for item in items increment the dropdownHeight by the item's offsetHeight end
 			return dropdownHeight
@@ -61,14 +61,14 @@ const hs = {
 			set offset to my @moveXY.split(',')
 			set leftOffset to the offset[0] as Int
 			set bottomOffset to the offset[1] as Int
-			measure me then put the result.bounds into myBounds
-			set the *left of the #{:dropdownContainer} to (myBounds.left + leftOffset + window.pageXOffset) px
-			set the *top of the #{:dropdownContainer} to (myBounds.bottom  + bottomOffset + window.pageYOffset) px
+			measure me then put the result.bounds into buttonLocation
+			set the *left of the #{:dropdownContainer} to (buttonLocation.left + leftOffset + window.pageXOffset) px
+			set the *top of the #{:dropdownContainer} to (buttonLocation.bottom  + bottomOffset + window.pageYOffset) px
 		end  -- function to reposition dropdown by x,y pixels
 		
 		on openDropdown from me
 			resetPosition()
-			set the *height of the #{:dropdownContainer} to (calcHeight() + 'px') then wait 20ms then
+			set the *height of the #{:dropdownContainer} to the calculatedHeight() px then wait 20ms then
 			set the *opacity of the #{:itemsList} to 1
 			add .open to me
 		end -- handler to open dropdown
@@ -79,7 +79,6 @@ const hs = {
 			remove .open from me
 		end -- handler to close dropdown `,
   hideDropdown: `on click or mouseleave send closeDropdown to the previous <button/> end`
-
 }
 ---
 <div class="not-content">
