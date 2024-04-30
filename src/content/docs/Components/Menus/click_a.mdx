@@ -16,17 +16,17 @@ export const tw = {
 
 export const hs = "on click call alert('You selected ' + my innerHTML) "
 
-import DropdownMenu from '../../../../components/DropdownMenu.astro';
+import ClickDropdown_A from '../../../../components/ClickDropdown_A.astro';
 
 <div id='dropdownContainer' class={tw.dropdownContainer} >
 <div id='title' class="bg-gray-900 font-semibold py-2 mb-4">Click Activated Dropdown</div>
-<DropdownMenu id={'dropdown-example-1'} caption="Click Me" duration="300ms" moveXY="5, 5">
+<ClickDropdown_A id={'dropdown-example-1'} caption="Click Me" duration="300ms" moveXY="5, 5">
 	 <span slot="endIcon" class="w-6 h-6 text-gray-400 ml-2">&#9207;</span>
    <li class={tw.menuItem} script={hs}>Choice 1</li>
    <li class={tw.menuItem} script={hs}>Choice 2</li>
    <li class={tw.menuItem} script={hs}>Choice 3</li>
    <li class={tw.menuItem} script="on click trigger closeDropdown then settle then go to url '/' ">Go Home</li>
-</DropdownMenu>
+</ClickDropdown_A>
 </div>
 
 
@@ -35,12 +35,12 @@ import DropdownMenu from '../../../../components/DropdownMenu.astro';
 The example above is an Astro component comprised of a button and a dropdown container which wraps an unordered list of choices.  The unordered list is populated by passing `<li>` elements into the component's default slot.
 
 ```html
-<DropdownMenu id={'dropdown-example-1'} caption="Click Me" duration="300ms" moveXY="5, 5">
+<ClickDropdown_A id={'dropdown-example-1'} caption="Click Me" duration="300ms" moveXY="5, 5">
    <li class={tw.menuItem} script={hs}>Choice 1</li>
    <li class={tw.menuItem} script={hs}>Choice 2</li>
    <li class={tw.menuItem} script={hs}>Choice 3</li>
    <li class={tw.menuItem} script="on click trigger closeDropdown then settle then go to url '/' ">Go Home</li>
-</DropdownMenu>
+</Click>
 
 ```
 The dropdown container is hidden by setting it's height to 0 and the opacity of the `<ul>` to 0.  
@@ -404,14 +404,14 @@ To use this Component in another Astro file just import and embed it between ang
 
 ```html title="UsingADropdown.astro"
 
-import DropdownMenu from './components/DropdownMenu.astro'
+import ClickDropdown_A from './components/ClickDropdown_A.astro'
 
-<DropdownMenu id={'dropdown-example-1'} caption="Click Me" duration="300ms" moveXY="-5, 5">
+<ClickDropdown_A id={'click-dropdown-1'} caption="Click Me" duration="300ms" moveXY="-5, 5">
    <li class={tw.menuItem} script={hs}>Choice 1</li>
    <li class={tw.menuItem} script={hs}>Choice 2</li>
    <li class={tw.menuItem} script={hs}>Choice 3</li>
    <li class={tw.menuItem} script="on click trigger closeDropdown then settle then go to url '/' ">Go Home</li>
-</DropdownMenu>
+</Cli_A>
 
 ```
 

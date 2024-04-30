@@ -74,7 +74,7 @@ const tw = {
 			set dropdownHeight to 0 then set items to the children of #{:dropdownContainer}
 			for item in items increment the dropdownHeight by the item's offsetHeight end
 			return dropdownHeight
-		end -- calculate dropdown container's height based on it's content
+		end -- function to calculate dropdown container's height based on it's content
 
 		def resetPosition
 			set offset to my @moveXY.split(',')
@@ -83,7 +83,7 @@ const tw = {
 			measure me then put the result.bounds into myBounds
 			set *left of #{:dropdownContainer} to (myBounds.left + leftOffset + window.pageXOffset) px
 			set *top of #{:dropdownContainer} to (myBounds.bottom  + bottomOffset + window.pageYOffset) px
-		end  -- handler to reposition dropdown by x,y pixels
+		end  -- function to reposition dropdown by x,y pixels
 		
 		on openDropdown from me
 			resetPosition()
@@ -93,8 +93,8 @@ const tw = {
 		end  -- handler to open dropdown
 
 		on closeDropdown 
-			set *opacity of #{:itemsList} to 0
-			set *height of #{:dropdownContainer} to 0 then settle then
+			set *opacity of the #{:itemsList} to 0
+			set *height of the #{:dropdownContainer} to 0 then settle then
 			remove .open from me
 		end -- handler to close dropdown
 
