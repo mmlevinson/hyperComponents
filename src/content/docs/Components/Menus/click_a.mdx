@@ -42,7 +42,7 @@ The example above is an Astro component comprised of a `<button>` and a `dropdow
 The unordered list is populated by passing multiple `<li>` into the component's default slot.
 
 
-```js title="Click Activated Dropdown Example"
+```js title="Click Activated Dropdown Example" "class={tw.menuItem}" "script={hs}" /const hs/ /const tw/
 ---
 import ClickDropdown_A from '/components/ClickDropdown_A.astro';
 
@@ -220,7 +220,7 @@ const {
 	</TabItem>
 
   <TabItem label="HTML">
-    ```html "script={hs.hideDropdown}" 
+    ```html "script={hs.hideDropdown}" "script={hs.toggleDropdown}" 
 	<!-- Trigger -->
 	<button 
 		id={id}  
@@ -246,51 +246,51 @@ const {
 		```
   </TabItem>
   <TabItem label="Scripts">
-    ```js
+    ```js "const hs" "toggleDropdown" "hideDropdown"
 		const hs = {
-	toggleDropdown: `
-		init
-			set :dropdownContainer to my @id + '-container'
-			set :itemsList to my @id + '-items'
-		end -- init
+			toggleDropdown: `
+				init
+					set :dropdownContainer to my @id + '-container'
+					set :itemsList to my @id + '-items'
+				end -- init
 
-		on click or blur from me
-			if I match .open then trigger closeDropdown on me 
-			otherwise trigger openDropdown on me
-		end -- click handler
+				on click or blur from me
+					if I match .open then trigger closeDropdown on me 
+					otherwise trigger openDropdown on me
+				end -- click handler
 
-		on keydown[key=='Escape']
-			trigger closeDropdown on me
-		end  -- Escape key handler
+				on keydown[key=='Escape']
+					trigger closeDropdown on me
+				end  -- Escape key handler
 
-		def calcHeight
-			set dropdownHeight to 0 then set items to the children of the #{:dropdownContainer}
-			for item in items increment the dropdownHeight by the item's offsetHeight end
-			return dropdownHeight
-		end -- function to calculate dropdown container's height based on it's content
-			
-		def resetPosition
-			set offset to my @moveXY.split(',')
-			set leftOffset to the offset[0] as Int
-			set bottomOffset to the offset[1] as Int
-			measure me then put the result.bounds into myBounds
-			set the *left of the #{:dropdownContainer} to (myBounds.left + leftOffset + window.pageXOffset) px
-			set the *top of the #{:dropdownContainer} to (myBounds.bottom  + bottomOffset + window.pageYOffset) px
-		end  -- function to reposition dropdown by x,y pixels
-		
-		on openDropdown from me
-			resetPosition()
-			set the *height of the #{:dropdownContainer} to (calcHeight() + 'px') then wait 20ms then
-			set the *opacity of the #{:itemsList} to 1
-			add .open to me
-		end -- handler to open dropdown
+				def calcHeight
+					set dropdownHeight to 0 then set items to the children of the #{:dropdownContainer}
+					for item in items increment the dropdownHeight by the item's offsetHeight end
+					return dropdownHeight
+				end -- function to calculate dropdown container's height based on it's content
+					
+				def resetPosition
+					set offset to my @moveXY.split(',')
+					set leftOffset to the offset[0] as Int
+					set bottomOffset to the offset[1] as Int
+					measure me then put the result.bounds into myBounds
+					set the *left of the #{:dropdownContainer} to (myBounds.left + leftOffset + window.pageXOffset) px
+					set the *top of the #{:dropdownContainer} to (myBounds.bottom  + bottomOffset + window.pageYOffset) px
+				end  -- function to reposition dropdown by x,y pixels
+				
+				on openDropdown from me
+					resetPosition()
+					set the *height of the #{:dropdownContainer} to (calcHeight() + 'px') then wait 20ms then
+					set the *opacity of the #{:itemsList} to 1
+					add .open to me
+				end -- handler to open dropdown
 
-		on closeDropdown
-			set the *opacity of the #{:itemsList} to 0
-			set the *height of the #{:dropdownContainer} to 0 then settle then
-			remove .open from me
-		end -- handler to close dropdown `,
-  hideDropdown: `on click or mouseleave send closeDropdown to the previous <button/> end`
+				on closeDropdown
+					set the *opacity of the #{:itemsList} to 0
+					set the *height of the #{:dropdownContainer} to 0 then settle then
+					remove .open from me
+				end -- handler to close dropdown `,
+			hideDropdown: `on click or mouseleave send closeDropdown to the previous <button/> end`
 }
 		```
   </TabItem>
