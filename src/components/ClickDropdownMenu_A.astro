@@ -57,7 +57,7 @@ const hs = {
 			return dropdownHeight
 		end -- function to calculate dropdown container's height based on it's content
 			
-		def resetPosition
+		def repositionDropdown
 			set offset to my @moveXY.split(',')
 			set leftOffset to the offset[0] as Int
 			set bottomOffset to the offset[1] as Int
@@ -67,7 +67,7 @@ const hs = {
 		end  -- function to reposition dropdown by x,y pixels
 		
 		on openDropdown from me
-			resetPosition()
+			repositionDropdown()
 			set the *height of the #{:dropdownContainer} to the calculatedHeight() px then wait 20ms then
 			set the *opacity of the #{:itemsList} to 1
 			add .open to me

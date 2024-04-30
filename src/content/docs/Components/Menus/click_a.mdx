@@ -201,25 +201,24 @@ import {Tabs, TabItem } from '@astrojs/starlight/components'
 	```js
 interface Props {
  id: string   //a unique identifier for this component, allowing multiple dropdowns on a page without collisions
- caption: string   //the text displayed in the button that triggers the dropdown
- dropdownStyles: string   //any additional styles to apply to the overall wrapper <div>
- buttonStyles: string   //any additional Tailwind classes for customizing the trigger button
- listStyles: string   //any additional styles to apply to the dropdown list
- moveXY: string //comma separated integer values specifying x,y shift in dropdown position
- hover: boolean, //responds to mouseenter/leave
- duration: string, //duration (in milliseconds) for dropdown height transition
+ caption: string   //the text displayed in the trigger button
+ buttonStyles?: string   //any additional Tailwind classes for customizing the trigger button
+ dropdownStyles?: string   //any additional styles to apply to the dropdown container <div>
+ listStyles?: string   //any additional styles to apply to the <ul>
+ moveXY?: string //comma separated integer values specifying x,y shift in dropdown position
+ duration?: string, //duration (in milliseconds) for dropdown height transition
 }
 
 const {
 	id, 
 	caption, 
-	dropdownStyles, 
 	buttonStyles, 
+	dropdownStyles, 
 	listStyles, 
 	moveXY = "0,0", 
-	hover = true, 
-	duration = '100js'
+	duration = '100ms'
 } = Astro.props
+
 ```
 	</TabItem>
 
@@ -274,7 +273,7 @@ const hs = {
 			return dropdownHeight
 		end -- function to calculate dropdown container's height based on it's content
 			
-		def resetPosition
+		def repositionDropdown
 			set offset to my @moveXY.split(',')
 			set leftOffset to the offset[0] as Int
 			set bottomOffset to the offset[1] as Int
@@ -284,7 +283,7 @@ const hs = {
 		end  -- function to reposition dropdown by x,y pixels
 		
 		on openDropdown from me
-			resetPosition()
+			repositionDropdown()
 			set the *height of the #{:dropdownContainer} to the calculatedHeight() px then wait 20ms then
 			set the *opacity of the #{:itemsList} to 1
 			add .open to me
@@ -376,7 +375,7 @@ const hs = {
 			return dropdownHeight
 		end -- function to calculate dropdown container's height based on it's content
 			
-		def resetPosition
+		def repositionDropdown
 			set offset to my @moveXY.split(',')
 			set leftOffset to the offset[0] as Int
 			set bottomOffset to the offset[1] as Int
@@ -386,7 +385,7 @@ const hs = {
 		end  -- function to reposition dropdown by x,y pixels
 		
 		on openDropdown from me
-			resetPosition()
+			repositionDropdown()
 			set the *height of the #{:dropdownContainer} to the calculatedHeight() px then wait 20ms then
 			set the *opacity of the #{:itemsList} to 1
 			add .open to me
