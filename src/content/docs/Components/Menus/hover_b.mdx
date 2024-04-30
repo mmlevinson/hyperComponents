@@ -10,9 +10,9 @@ This hyperComponent is identical to the  [Click Activated Dropdown (A)](/compone
 
 -Activation is by _either_ hover or click
 
--Hyperscript code is located in a separate \<script\> tag with [Behaviors](https://hyperscript.org/docs/#behaviors) installed into elements inside the component
+-Hyperscript code is extracted into a \<script\> tag with [Behaviors](https://hyperscript.org/docs/#behaviors) installed into elements inside the component
 
-The explanations are otherwise identical so you may simply [jump to the Code](#code) section.
+The explanations are otherwise identical so you may simply [jump to the Code](#code) section below.
 :::
 
 
@@ -21,10 +21,10 @@ The explanations are otherwise identical so you may simply [jump to the Code](#c
 ###### A commonly used web component is a Button which reveals a list of choices when activated.
 
 export const tw = {
-	exampleContainer: 'not-content w-full pb-4 w-max-lg text-center mx-auto dark:bg-gray-800 rounded-xl my-6',
-	exampleTitle: 'bg-gray-300 dark:bg-gray-900 font-semibold py-2 mb-4',
+	exampleContainer: 'not-content w-full pb-4 w-max-lg text-center mx-auto bg-gray-300 dark:bg-gray-800 rounded-xl my-6',
+	exampleTitle: 'bg-gray-300 dark:bg-gray-900 text-gray-300 dark:text-zinc-300 font-semibold py-2 mb-4',
 	menuItem: 'px-4 hover:bg-stone-200 hover:dark:bg-stone-300 ' +
-	'hover:text-cyan-100 hover:dark:text-sky-950',
+	'hover:text-cyan-100 hover:dark:text-sky-800',
 	icon:'inline-block size-6'
 }
 
@@ -52,8 +52,22 @@ The example above is an Astro component comprised of a `<button>` and a `dropdow
 
 The unordered list is populated by passing multiple `<li>` into the component's default slot.
 
-```html
+```js title="Hover Activated Dropdown Example"
+---
+import HoverDropdownMenu_B from '/components/HoverDropdownMenu_B.astro';
+
+const tw = {
+	menuItem: 'px-4 hover:bg-stone-200 hover:dark:bg-stone-300 ' +
+	'hover:text-cyan-100 hover:dark:text-sky-950',
+}
+
+const hs = "on click call alert('You selected ' + my innerHTML) "
+
+---
 <HoverDropdownMenu_B id="hover_dropdown_id" caption="Hover Me" duration="300ms" moveXY="10, 5">
+  <svg slot="rightIcon" class={tw.icon}  fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+		<path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6z"/>
+	</svg>
    <li class={tw.menuItem} script={hs}>Choice 1</li>
    <li class={tw.menuItem} script={hs}>Choice 2</li>
    <li class={tw.menuItem} script={hs}>Choice 3</li>
@@ -496,21 +510,27 @@ To use this component 'as is' in  your Astro project, click the `Copy` button on
 
 To use this hyperComponent in another document just import the file and use angle brackets (with a Capitalized name) to create a custom html tag as shown in the example below.
 
-```html title="UsingADropdown.astro"
+```js title="UsingADropdown.astro"
 ---
-import DropdownMenu from './components/DropdownMenu.astro'
-const tw = {
-	menuItem: 'p-3 hover:bg-indigo-600 hover:text-white'
-}
-const hs = "on click call alert('You selected ' + my innerHTML) "
----
+import HoverDropdownMenu_B from '/components/HoverDropdownMenu_B.astro';
 
-<DropdownMenu id="hover_dropdown_id" caption="Hover Me" duration="300ms" moveXY="-5, 5">
+const tw = {
+	menuItem: 'px-4 hover:bg-stone-200 hover:dark:bg-stone-300 ' +
+	'hover:text-cyan-100 hover:dark:text-sky-950',
+}
+
+const hs = "on click call alert('You selected ' + my innerHTML) "
+
+---
+<HoverDropdownMenu_B id="hover_dropdown_id" caption="Hover Me" duration="300ms" moveXY="10, 5">
+  <svg slot="rightIcon" class={tw.icon}  fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+		<path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6z"/>
+	</svg>
    <li class={tw.menuItem} script={hs}>Choice 1</li>
    <li class={tw.menuItem} script={hs}>Choice 2</li>
    <li class={tw.menuItem} script={hs}>Choice 3</li>
    <li class={tw.menuItem} script="on click send closeDropdown to #{'hover_dropdown_id'} then settle then go to url '/' ">Go Home</li>
-</DropdownMenu>
+</HoverDropdownMenu_B>
 
 ```
 
