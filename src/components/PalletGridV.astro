@@ -1,0 +1,26 @@
+---
+import PalletItem from './PalletItem.astro';
+
+const tw = {
+  grid: 'grid grid-cols-2 grid-rows-1 gap-2 px-4',
+  palleteWrapper: 'mt-0 flex flex-col gap-y-2',
+}
+
+const colorFamilies = ['slate', 'gray', 'zinc', 'neutral', 'stone', 'red', 'orange', 'amber', 'yellow', 'lime', 'green', 'emerald', 'teal', 'cyan', 'sky', 'blue', 'indigo', 'violet', 'purple', 'fuchsia', 'pink', 'rose']
+const shades = [950, 900, 800, 700, 600, 500, 400, 300, 200, 100, 50]
+const hexValues = [
+	['f8fafc', 'f9fafb', 'fafafa', 'fafafa', 'fafaf9', 'f3f2f2', 'fff7ed', 'fffbeb', 'fefce8', 'f7fee7', 'f0fdf4', 'ecfdf5', 'f0fdfa', 'ecfeff', 'f0f9ff', 'eff6ff', 'eef2ff', 'f5f3ff', 'faf5ff', 'fdf4ff', 'fdf2f8', 'fff1f2'], //950
+	['0f172a','111827', '18181b', '171717', '1c1917', '7f1d1d', '7c2d12','78350f', '713f12', '365214', '14532d', '064e3b', '1334e4a', '164e63', '0c4a6e','1e3a8a','312e81d', '4c1d95', '581c87','701a75', '831843', '881337', ], //900
+]
+
+
+---
+<div class={tw.grid}>
+  {colorFamilies.map((family, index) => (
+    <div class={tw.palleteWrapper}>
+      {hexValues[index] && hexValues[index].map((codeValue, shadeIndex) => (
+        <PalletItem twColor={`bg-${family}-${shades[shadeIndex]}`} hexCode={codeValue} />
+      ))}
+    </div>
+  ))}
+</div>
