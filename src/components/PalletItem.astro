@@ -14,13 +14,13 @@ function capitalizeFirstCharacter(str) {
 const color = capitalizeFirstCharacter(twColor.replace(/^bg-/, ''))
 
 const tw = {
-	paletteItem: 'size-3 rounded-sm overflow-hidden ring-1 ring-slate-600 hover:scale-125',
+	PalletItem: 'size-3 rounded-sm overflow-hidden ring-1 ring-slate-600 hover:scale-125',
 }
 
 ---
 
 <span 
-	class={`${twColor} ` + tw.paletteItem} title={`${color} (#${hexCode})`}
-	script="on click send closeDropdown to the .colorPalette then settle then alert( 'You selected ' + my @title)">
+	class={`${twColor} ` + tw.PalletItem} title={`${color} (#${hexCode})`}
+	script="on click send closeDropdown to the .colorPallet then settle then alert( 'You selected ' + my @title)">
 </span>
 

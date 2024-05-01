@@ -1,0 +1,303 @@
+---
+
+import PalletItem from './PalletItem.astro';
+
+const tw = {
+	grid:'grid align-items-start gap-2 px-4',
+	palleteWrapper: 'mt-0 flex flex-col gap-y-2',
+}
+
+---
+<div 
+	class={tw.grid} 
+	style="grid-template-columns: repeat(22, 1fr);">
+	<div class={tw.palleteWrapper} >
+		<PalletItem twColor='bg-slate-50' hexCode='f8fafc' />
+		<PalletItem twColor='bg-slate-100' hexCode='f1f5f9' />
+		<PalletItem twColor='bg-slate-200' hexCode='e2e8f0' />
+		<PalletItem twColor='bg-slate-300' hexCode='cbd5e1' />
+		<PalletItem twColor='bg-slate-400' hexCode='94a3b8' />
+		<PalletItem twColor='bg-slate-500' hexCode='64748b' />
+		<PalletItem twColor='bg-slate-600' hexCode='475569' />
+		<PalletItem twColor='bg-slate-700' hexCode='334155' />
+		<PalletItem twColor='bg-slate-800' hexCode='1e293b' />
+		<PalletItem twColor='bg-slate-900' hexCode='0f172a' />
+		<PalletItem twColor='bg-slate-950' hexCode='020617' />
+	</div>
+	<div class={tw.palleteWrapper} style="margin-top:0;">
+		<PalletItem twColor='bg-gray-50' hexCode='#f9fafb' />
+		<PalletItem twColor='bg-gray-100' hexCode='f3f4f6' />
+		<PalletItem twColor='bg-gray-200' hexCode='e5e7eb' />
+		<PalletItem twColor='bg-gray-300' hexCode='d1d5db' />
+		<PalletItem twColor='bg-gray-400' hexCode='9ca3af' />
+		<PalletItem twColor='bg-gray-500' hexCode='6b7280' />
+		<PalletItem twColor='bg-gray-600' hexCode='4b5563' />
+		<PalletItem twColor='bg-gray-700' hexCode='374151' />
+		<PalletItem twColor='bg-gray-800' hexCode='1f2937' />
+		<PalletItem twColor='bg-gray-900' hexCode='111827' />
+		<PalletItem twColor='bg-gray-950' hexCode='030712' />
+	</div>
+	<div class={tw.palleteWrapper} style="margin-top: 0;">
+		<PalletItem twColor='bg-zinc-50' hexCode='fafafa' />
+		<PalletItem twColor='bg-zinc-100' hexCode='f4f4f5' />
+		<PalletItem twColor='bg-zinc-200' hexCode='e4e4e7' />
+		<PalletItem twColor='bg-zinc-300' hexCode='d4d4d8' />
+		<PalletItem twColor='bg-zinc-400' hexCode='a1a1aa' />
+		<PalletItem twColor='bg-zinc-500' hexCode='71717a' />
+		<PalletItem twColor='bg-zinc-600' hexCode='52525b' />
+		<PalletItem twColor='bg-zinc-700' hexCode='3f3f46' />
+		<PalletItem twColor='bg-zinc-800' hexCode='27272a' />
+		<PalletItem twColor='bg-zinc-900' hexCode='18181b' />
+		<PalletItem twColor='bg-zinc-950' hexCode='09090b' />
+	</div>
+	<div class={tw.palleteWrapper} style="margin-top: 0;">
+		<PalletItem twColor='bg-neutral-50' hexCode='fafafa' />
+		<PalletItem twColor='bg-neutral-100' hexCode='f5f5f5' />
+		<PalletItem twColor='bg-neutral-200' hexCode='e5e5e5' />
+		<PalletItem twColor='bg-neutral-300' hexCode='d4d4d4' />
+		<PalletItem twColor='bg-neutral-400' hexCode='a3a3a3' />
+		<PalletItem twColor='bg-neutral-500' hexCode='737373' />
+		<PalletItem twColor='bg-neutral-600' hexCode='525252' />
+		<PalletItem twColor='bg-neutral-700' hexCode='404040' />
+		<PalletItem twColor='bg-neutral-800' hexCode='262626' />
+		<PalletItem twColor='bg-neutral-900' hexCode='171717' />
+		<PalletItem twColor='bg-neutral-950' hexCode='0a0a0a' />
+	</div>
+	<div class={tw.palleteWrapper} style="margin-top: 0;">
+		<PalletItem twColor='bg-stone-50' hexCode='fafaf9' />
+		<PalletItem twColor='bg-stone-100' hexCode='f5f5f4' />
+		<PalletItem twColor='bg-stone-200' hexCode='e7e5e4' />
+		<PalletItem twColor='bg-stone-300' hexCode='d6d3d1' />
+		<PalletItem twColor='bg-stone-400' hexCode='a8a29e' />
+		<PalletItem twColor='bg-stone-500' hexCode='78716c' />
+		<PalletItem twColor='bg-stone-600' hexCode='57534e' />
+		<PalletItem twColor='bg-stone-700' hexCode='44403c' />
+		<PalletItem twColor='bg-stone-800' hexCode='292524' />
+		<PalletItem twColor='bg-stone-900' hexCode='1c1917' />
+		<PalletItem twColor='bg-stone-950' hexCode='0c0a09' />
+	</div>
+	<div class={tw.palleteWrapper} style="margin-top: 0;">
+		<PalletItem twColor='bg-red-50' hexCode='f3f2f2' />
+		<PalletItem twColor='bg-red-100' hexCode='fee2e2' />
+		<PalletItem twColor='bg-red-200' hexCode='fecaca' />
+		<PalletItem twColor='bg-red-300' hexCode='fca5a5' />
+		<PalletItem twColor='bg-red-400' hexCode='f87171' />
+		<PalletItem twColor='bg-red-500' hexCode='ef4444' />
+		<PalletItem twColor='bg-red-600' hexCode='dc2626' />
+		<PalletItem twColor='bg-red-700' hexCode='b91c1c' />
+		<PalletItem twColor='bg-red-800' hexCode='991b1b' />
+		<PalletItem twColor='bg-red-900' hexCode='7f1d1d' />
+		<PalletItem twColor='bg-red-950' hexCode='450a0a' />
+</div>
+<div class={tw.palleteWrapper} style="margin-top: 0;">
+	<PalletItem twColor='bg-orange-50' hexCode='fff7ed' />
+	<PalletItem twColor='bg-orange-100' hexCode='ffedd5' />
+	<PalletItem twColor='bg-orange-200' hexCode='fed7aa' />
+	<PalletItem twColor='bg-orange-300' hexCode='fdba74' />
+	<PalletItem twColor='bg-orange-400' hexCode='fb923c' />
+	<PalletItem twColor='bg-orange-500' hexCode='f97316' />
+	<PalletItem twColor='bg-orange-600' hexCode='ea580c' />
+	<PalletItem twColor='bg-orange-700' hexCode='c2410c' />
+	<PalletItem twColor='bg-orange-800' hexCode='9a3412' />
+	<PalletItem twColor='bg-orange-900' hexCode='7c2d12' />
+	<PalletItem twColor='bg-orange-950' hexCode='431407' />
+</div>
+<div class={tw.palleteWrapper} style="margin-top: 0;">
+	<PalletItem twColor='bg-amber-50' hexCode='fffbeb' />
+	<PalletItem twColor='bg-amber-100' hexCode='fef3c7' />
+	<PalletItem twColor='bg-amber-200' hexCode='fd368a' />
+	<PalletItem twColor='bg-amber-300' hexCode='fcd34d' />
+	<PalletItem twColor='bg-amber-400' hexCode='fbbf24' />
+	<PalletItem twColor='bg-amber-500' hexCode='f59e0b' />
+	<PalletItem twColor='bg-amber-600' hexCode='d97706' />
+	<PalletItem twColor='bg-amber-700' hexCode='b45309' />
+	<PalletItem twColor='bg-amber-800' hexCode='92400e' />
+	<PalletItem twColor='bg-amber-900' hexCode='78350f' />
+	<PalletItem twColor='bg-amber-950' hexCode='451a03' />
+</div>
+<div class={tw.palleteWrapper} style="margin-top: 0;">
+	<PalletItem twColor='bg-yellow-50' hexCode='fefce8' />
+	<PalletItem twColor='bg-yellow-100' hexCode='fef9c3' />
+	<PalletItem twColor='bg-yellow-200' hexCode='fef08a' />
+	<PalletItem twColor='bg-yellow-300' hexCode='fde047' />
+	<PalletItem twColor='bg-yellow-400' hexCode='facc15' />
+	<PalletItem twColor='bg-yellow-500' hexCode='eab308' />
+	<PalletItem twColor='bg-yellow-600' hexCode='ca8a04' />
+	<PalletItem twColor='bg-yellow-700' hexCode='a16207' />
+	<PalletItem twColor='bg-yellow-800' hexCode='854d0e' />
+	<PalletItem twColor='bg-yellow-900' hexCode='713f12' />
+	<PalletItem twColor='bg-yellow-950' hexCode='422006' />
+</div>
+
+<div class={tw.palleteWrapper} style="margin-top: 0;">
+	<PalletItem twColor='bg-lime-50' hexCode='f7fee7' />
+	<PalletItem twColor='bg-lime-100' hexCode='ecfccb' />
+	<PalletItem twColor='bg-lime-200' hexCode='d9f99d' />
+	<PalletItem twColor='bg-lime-300' hexCode='bef264' />
+	<PalletItem twColor='bg-lime-400' hexCode='a3e635' />
+	<PalletItem twColor='bg-lime-500' hexCode='84cc16' />
+	<PalletItem twColor='bg-lime-600' hexCode='65a30d' />
+	<PalletItem twColor='bg-lime-700' hexCode='4d7c0f' />
+	<PalletItem twColor='bg-lime-800' hexCode='3f6212' />
+	<PalletItem twColor='bg-lime-900' hexCode='365214' />
+	<PalletItem twColor='bg-lime-950' hexCode='1a2e05' />
+</div>
+<div class={tw.palleteWrapper} style="margin-top: 0;">
+	<PalletItem twColor='bg-green-50' hexCode='f0fdf4' />
+	<PalletItem twColor='bg-green-100' hexCode='dcfce7' />
+	<PalletItem twColor='bg-green-200' hexCode='bbf7d0' />
+	<PalletItem twColor='bg-green-300' hexCode='86efac' />
+	<PalletItem twColor='bg-green-400' hexCode='4ade80' />
+	<PalletItem twColor='bg-green-500' hexCode='22c55e' />
+	<PalletItem twColor='bg-green-600' hexCode='16a34a' />
+	<PalletItem twColor='bg-green-700' hexCode='15803d' />
+	<PalletItem twColor='bg-green-800' hexCode='166534' />
+	<PalletItem twColor='bg-green-900' hexCode='14532d' />
+	<PalletItem twColor='bg-green-950' hexCode='052e16' />
+</div>
+<div class={tw.palleteWrapper} style="margin-top: 0;">
+	<PalletItem twColor='bg-emerald-50' hexCode='ecfdf5' />
+	<PalletItem twColor='bg-emerald-100' hexCode='d1fae5' />
+	<PalletItem twColor='bg-emerald-200' hexCode='a7f3d0' />
+	<PalletItem twColor='bg-emerald-300' hexCode='6ee7b7' />
+	<PalletItem twColor='bg-emerald-400' hexCode='34d399' />
+	<PalletItem twColor='bg-emerald-500' hexCode='10b981' />
+	<PalletItem twColor='bg-emerald-600' hexCode='059669' />
+	<PalletItem twColor='bg-emerald-700' hexCode='047857' />
+	<PalletItem twColor='bg-emerald-800' hexCode='065f46' />
+	<PalletItem twColor='bg-emerald-900' hexCode='064e3b' />
+	<PalletItem twColor='bg-emerald-950' hexCode='022c22' />
+</div>
+<div class={tw.palleteWrapper} style="margin-top: 0;">
+	<PalletItem twColor='bg-teal-50' hexCode='f0fdfa' />
+	<PalletItem twColor='bg-teal-100' hexCode='ccfbf1' />
+	<PalletItem twColor='bg-teal-200' hexCode='99f6e4' />
+	<PalletItem twColor='bg-teal-300' hexCode='5eead4' />
+	<PalletItem twColor='bg-teal-400' hexCode='2dd4bf' />
+	<PalletItem twColor='bg-teal-500' hexCode='14b8a6' />
+	<PalletItem twColor='bg-teal-600' hexCode='0d9488' />
+	<PalletItem twColor='bg-teal-700' hexCode='0f766e' />
+	<PalletItem twColor='bg-teal-800' hexCode='115e59' />
+	<PalletItem twColor='bg-teal-900' hexCode='134e4a' />
+	<PalletItem twColor='bg-teal-950' hexCode='042f2e' />
+</div>
+
+<div class={tw.palleteWrapper} style="margin-top: 0;">
+	<PalletItem twColor='bg-cyan-50' hexCode='ecfeff' />
+	<PalletItem twColor='bg-cyan-100' hexCode='cffafe' />
+	<PalletItem twColor='bg-cyan-200' hexCode='a5f3fc' />
+	<PalletItem twColor='bg-cyan-300' hexCode='67e8f9' />
+	<PalletItem twColor='bg-cyan-400' hexCode='22d3ee' />
+	<PalletItem twColor='bg-cyan-500' hexCode='06b6d4' />
+	<PalletItem twColor='bg-cyan-600' hexCode='0891b2' />
+	<PalletItem twColor='bg-cyan-700' hexCode='0e7490' />
+	<PalletItem twColor='bg-cyan-800' hexCode='155e75' />
+	<PalletItem twColor='bg-cyan-900' hexCode='164e63' />
+	<PalletItem twColor='bg-cyan-950' hexCode='083344' />
+</div>
+<div class={tw.palleteWrapper} style="margin-top: 0;">
+	<PalletItem twColor='bg-sky-50' hexCode='f0f9ff' />
+	<PalletItem twColor='bg-sky-100' hexCode='e0f2fe' />
+	<PalletItem twColor='bg-sky-200' hexCode='bae6fd' />
+	<PalletItem twColor='bg-sky-300' hexCode='7ddefc' />
+	<PalletItem twColor='bg-sky-400' hexCode='38bdf8' />
+	<PalletItem twColor='bg-sky-500' hexCode='0ea5e9' />
+	<PalletItem twColor='bg-sky-600' hexCode='0284c7' />
+	<PalletItem twColor='bg-sky-700' hexCode='0369a1' />
+	<PalletItem twColor='bg-sky-800' hexCode='075985' />
+	<PalletItem twColor='bg-sky-900' hexCode='0c4a6e' />
+	<PalletItem twColor='bg-sky-950' hexCode='082f49' />
+</div>
+<div class={tw.palleteWrapper} style="margin-top: 0;">
+	<PalletItem twColor='bg-blue-50' hexCode='eff6ff' />
+	<PalletItem twColor='bg-blue-100' hexCode='dbeafe' />
+	<PalletItem twColor='bg-blue-200' hexCode='bfdbfe' />
+	<PalletItem twColor='bg-blue-300' hexCode='93c5fd' />
+	<PalletItem twColor='bg-blue-400' hexCode='60a5fa' />
+	<PalletItem twColor='bg-blue-500' hexCode='3b82f6' />
+	<PalletItem twColor='bg-blue-600' hexCode='2563eb' />
+	<PalletItem twColor='bg-blue-700' hexCode='1d4ed8' />
+	<PalletItem twColor='bg-blue-800' hexCode='1e40af' />
+	<PalletItem twColor='bg-blue-900' hexCode='1e3a8a' />
+	<PalletItem twColor='bg-blue-950' hexCode='172554' />
+</div>
+<div class={tw.palleteWrapper} style="margin-top: 0;">
+	<PalletItem twColor='bg-indigo-50' hexCode='eef2ff' />
+	<PalletItem twColor='bg-indigo-100' hexCode='e0e7ff' />
+	<PalletItem twColor='bg-indigo-200' hexCode='c7d2fe' />
+	<PalletItem twColor='bg-indigo-300' hexCode='a5b4fc' />
+	<PalletItem twColor='bg-indigo-400' hexCode='818cf8' />
+	<PalletItem twColor='bg-indigo-500' hexCode='6366f1' />
+	<PalletItem twColor='bg-indigo-600' hexCode='4746e5' />
+	<PalletItem twColor='bg-indigo-700' hexCode='4338ca' />
+	<PalletItem twColor='bg-indigo-800' hexCode='3730a3' />
+	<PalletItem twColor='bg-indigo-900' hexCode='312e81' />
+	<PalletItem twColor='bg-indigo-950' hexCode='1e1b4b' />
+</div>
+<div class={tw.palleteWrapper} style="margin-top: 0;">
+	<PalletItem twColor='bg-violet-50' hexCode='f5f3ff' />
+	<PalletItem twColor='bg-violet-100' hexCode='ede9fe' />
+	<PalletItem twColor='bg-violet-200' hexCode='ddd6fe' />
+	<PalletItem twColor='bg-violet-300' hexCode='c4b5fd' />
+	<PalletItem twColor='bg-violet-400' hexCode='a78bfa' />
+	<PalletItem twColor='bg-violet-500' hexCode='8b5cf6' />
+	<PalletItem twColor='bg-violet-600' hexCode='7c3aed' />
+	<PalletItem twColor='bg-violet-700' hexCode='6d28d9' />
+	<PalletItem twColor='bg-violet-800' hexCode='5b21b6' />
+	<PalletItem twColor='bg-violet-900' hexCode='4c1d95' />
+	<PalletItem twColor='bg-violet-950' hexCode='2e1065' />
+</div>
+<div class={tw.palleteWrapper} style="margin-top: 0;">
+	<PalletItem twColor='bg-purple-50' hexCode='faf5ff' />
+	<PalletItem twColor='bg-purple-100' hexCode='f3e8ff' />
+	<PalletItem twColor='bg-purple-200' hexCode='dd9d5ff' />
+	<PalletItem twColor='bg-purple-300' hexCode='d8b4fe' />
+	<PalletItem twColor='bg-purple-400' hexCode='c084fc' />
+	<PalletItem twColor='bg-purple-500' hexCode='a855f7' />
+	<PalletItem twColor='bg-purple-600' hexCode='9333ea' />
+	<PalletItem twColor='bg-purple-700' hexCode='7322ce' />
+	<PalletItem twColor='bg-purple-800' hexCode='6b21a8' />
+	<PalletItem twColor='bg-purple-900' hexCode='581c87' />
+	<PalletItem twColor='bg-purple-950' hexCode='3b0764' />
+</div>
+<div class={tw.palleteWrapper} style="margin-top: 0;">
+	<PalletItem twColor='bg-fuchsia-50' hexCode='fdf4ff' />
+	<PalletItem twColor='bg-fuchsia-100' hexCode='fae8ff' />
+	<PalletItem twColor='bg-fuchsia-200' hexCode='f5d0fe' />
+	<PalletItem twColor='bg-fuchsia-300' hexCode='f0abfc' />
+	<PalletItem twColor='bg-fuchsia-400' hexCode='e879f9' />
+	<PalletItem twColor='bg-fuchsia-500' hexCode='d946ef' />
+	<PalletItem twColor='bg-fuchsia-600' hexCode='c026d3' />
+	<PalletItem twColor='bg-fuchsia-700' hexCode='a21caf' />
+	<PalletItem twColor='bg-fuchsia-800' hexCode='86198f' />
+	<PalletItem twColor='bg-fuchsia-900' hexCode='701a75' />
+	<PalletItem twColor='bg-fuchsia-950' hexCode='4a044e' />
+</div>
+<div class={tw.palleteWrapper} style="margin-top: 0;">
+	<PalletItem twColor='bg-pink-50' hexCode='fdf2f8' />
+	<PalletItem twColor='bg-pink-100' hexCode='fce7f3' />
+	<PalletItem twColor='bg-pink-200' hexCode='fbcfe8' />
+	<PalletItem twColor='bg-pink-300' hexCode='f9a8d4' />
+	<PalletItem twColor='bg-pink-400' hexCode='f472b6' />
+	<PalletItem twColor='bg-pink-500' hexCode='ec4899' />
+	<PalletItem twColor='bg-pink-600' hexCode='db2777' />
+	<PalletItem twColor='bg-pink-700' hexCode='be185d' />
+	<PalletItem twColor='bg-pink-800' hexCode='86198f' />
+	<PalletItem twColor='bg-pink-900' hexCode='831843' />
+	<PalletItem twColor='bg-pink-950' hexCode='500724' />
+</div>
+<div class={tw.palleteWrapper} style="margin-top: 0;">
+	<PalletItem twColor='bg-rose-50' hexCode='fff1f2' />
+	<PalletItem twColor='bg-rose-100' hexCode='ffe4e6' />
+	<PalletItem twColor='bg-rose-200' hexCode='fecdd3' />
+	<PalletItem twColor='bg-rose-300' hexCode='fda4af' />
+	<PalletItem twColor='bg-rose-400' hexCode='fb7185' />
+	<PalletItem twColor='bg-rose-500' hexCode='f43f5e' />
+	<PalletItem twColor='bg-rose-600' hexCode='e11d48' />
+	<PalletItem twColor='bg-rose-700' hexCode='be123c' />
+	<PalletItem twColor='bg-rose-800' hexCode='9f1239' />
+	<PalletItem twColor='bg-rose-900' hexCode='881337' />
+	<PalletItem twColor='bg-rose-950' hexCode='4c0519' />
+</div>  
+
+

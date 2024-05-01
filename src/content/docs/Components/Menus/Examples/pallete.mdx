@@ -11,9 +11,9 @@ A common use case for a custom dropdown is to present a Pallet of colors.   Sele
 Two examples are presented which  illustrate a drop down menu with a grid of color swatches.  In particular, the default color set of Tailwind is displayed.
 
 
-The first example uses the [ClickDropdownMenu_A](/components/menus/click_a/) parent component to wrap a custom [PaletteGrid](#palettegrid) component.   The code block used to embed the click activated version into this page is listed below the example.
+The first example uses the [ClickDropdownMenu_A](/components/menus/click_a/) parent component to wrap a custom [PalletGrid](#Palletgrid) component.   The code block used to embed the click activated version into this page is listed below the example.
 
-import PaletteGrid from '../../../../../components/PaletteGrid.astro'
+import PalletGrid from '../../../../../components/PalletGrid.astro'
 
 export const tw = {
 	exampleContainer: 'not-content w-full pb-4 w-max-lg text-center mx-auto bg-gray-300 dark:bg-gray-800 rounded-xl my-6',
@@ -26,23 +26,23 @@ export const tw = {
 
 import ClickDropdownMenu_A from '../../../../../components/ClickDropdownMenu_A.astro'
 
-<ClickDropdownMenu_A id='click-activated-Pallet' moveXY='-200,18' buttonStyles='colorPalette bg-gray-700' duration='180ms'>
+<ClickDropdownMenu_A id='click-activated-Pallet' moveXY='-200,18' buttonStyles='colorPallet bg-gray-700' duration='180ms'>
 	<img slot="leftIcon" src='/images/tailwind_icon.svg' alt='tailwind icon' class={tw.icon}/>
-	<PaletteGrid/>
+	<PalletGrid/>
 </ClickDropdownMenu_A>
 </div>
 
-```js title="Click Activated Color Pallet" "ClickDropdownMenu_A" "PaletteGrid"
+```js title="Click Activated Color Pallet" "ClickDropdownMenu_A" "PalletGrid"
 ---
-import PaletteGrid from '../../../../../components/PaletteGrid.astro'
+import PalletGrid from '../../../../../components/PalletGrid.astro'
 import ClickDropdownMenu_A from '../../../../../components/ClickDropdownMenu_A.astro'
 const tw = {
 	icon:'inline-block size-6'
 }
 ---
-<ClickDropdownMenu_A id='click-activated-Pallet' moveXY='-200,18' buttonStyles='colorPalette bg-gray-700' duration='180ms'>
+<ClickDropdownMenu_A id='click-activated-Pallet' moveXY='-200,18' buttonStyles='colorPallet bg-gray-700' duration='180ms'>
 	<img slot="leftIcon" src='/images/tailwind_icon.svg' alt='tailwind icon' class={tw.icon}/>
-	<PaletteGrid/>
+	<PalletGrid/>
 </ClickDropdownMenu_A>
 
 ```
@@ -54,24 +54,24 @@ The second example is the same component with hover activation built with the Ho
 
 import HoverDropdownMenu_B from '../../../../../components/HoverDropdownMenu_B.astro'
 
-<HoverDropdownMenu_B id='hover-activated-Pallet' moveXY='-200,18' buttonStyles='colorPalette bg-gray-700' duration='180ms'>
+<HoverDropdownMenu_B id='hover-activated-Pallet' moveXY='-200,18' buttonStyles='colorPallet bg-gray-700' duration='180ms'>
 	<img slot="leftIcon" src='/images/tailwind_icon.svg' alt='tailwind icon' class={tw.icon}/>
-	<PaletteGrid/>
+	<PalletGrid/>
 </HoverDropdownMenu_B>
 </div>
 
 
-```js title="Hover Activated Color Pallet"  "HoverDropdownMenu_B" "PaletteGrid"
+```js title="Hover Activated Color Pallet"  "HoverDropdownMenu_B" "PalletGrid"
 ---
-import PaletteGrid from '../../../../../components/PaletteGrid.astro'
+import PalletGrid from '../../../../../components/PalletGrid.astro'
 import HoverDropdownMenu_B from '../../../../../components/HoverDropdownMenu_B.astro'
 const tw = {
 	icon:'inline-block size-6'
 }
 ---
-<HoverDropdownMenu_B id='hover-activated-Pallet' moveXY='-200,18' buttonStyles='colorPalette bg-gray-700' duration='180ms'>
+<HoverDropdownMenu_B id='hover-activated-Pallet' moveXY='-200,18' buttonStyles='colorPallet bg-gray-700' duration='180ms'>
 	<img slot="leftIcon" src='/images/tailwind_icon.svg' alt='tailwind icon' class={tw.icon}/>
-	<PaletteGrid/>
+	<PalletGrid/>
 </HoverDropdownMenu_B>
 
 
@@ -90,7 +90,7 @@ The choices passed to the component default slot, in this case, are another cust
 3. The `duration` attribute is set to '180ms' to make the menu open and close a bit faster.
 4. Hovering over an individual swatch reveals a tooltip with the Tailwind color name and corresponding hex value.
 5. Clicking a swatch dismisses the dropdown smoothly and then displays an alert showing the color value selected.
-4. A class of `.colorPalette` is added to the `buttonStyles` prop of the parent component so that the Hyperscript in each PaletteItem can send it a custom event which closes the dropdown after a selection is made.
+4. A class of `.colorPallet` is added to the `buttonStyles` prop of the parent component so that the Hyperscript in each PalletItem can send it a custom event which closes the dropdown after a selection is made.
 
 The dropdown is dismissed by:
 
@@ -114,18 +114,18 @@ The Tailwind logo is passed into the `leftIcon` slot in these examples.
 
 ## Code
 
-### PaletteGrid
+### PalletGrid
 
 This component is the overall wrapper for all the swatchess and is placed into the default slot of each dropdown menu component.
 
  To include all the Tailwind default theme colors, a 22 column grid is needed.    Since Tailwind itself does not offer a 'grid-cols-22' and the 'grid-cols-[22]' did not work, a component `<style>` tag was used to create the 22 column grid and make is responsive with media queries.
 
-Inside the PaletteGrid are 22 separate wrapper `<div>`s, each containing the individual swatches.  The wrappers are styled as `flex flex-col` to present the variants of each TW base color in a column layout.
+Inside the PalletGrid are 22 separate wrapper `<div>`s, each containing the individual swatches.  The wrappers are styled as `flex flex-col` to present the variants of each TW base color in a column layout.
 
-```js title="PaletteGrid.astro" "class={tw.paletteWrapper}"  
+```js title="PalletGrid.astro" "class={tw.PalletWrapper}"  
 ---
 
-import PaletteItem from './PaletteItem.astro';
+import PalletItem from './PalletItem.astro';
 
 const tw = {
 	grid:'grid align-items-start gap-2 px-4',
@@ -137,53 +137,53 @@ const tw = {
 	class={tw.grid} 
 	style="grid-template-columns: repeat(22, 1fr);">
 	<div class={tw.palleteWrapper} >
-		<PaletteItem twColor='bg-slate-50' hexCode='f8fafc' />
-		<PaletteItem twColor='bg-slate-100' hexCode='f1f5f9' />
-		<PaletteItem twColor='bg-slate-200' hexCode='e2e8f0' />
-		<PaletteItem twColor='bg-slate-300' hexCode='cbd5e1' />
-		<PaletteItem twColor='bg-slate-400' hexCode='94a3b8' />
-		<PaletteItem twColor='bg-slate-500' hexCode='64748b' />
-		<PaletteItem twColor='bg-slate-600' hexCode='475569' />
-		<PaletteItem twColor='bg-slate-700' hexCode='334155' />
-		<PaletteItem twColor='bg-slate-800' hexCode='1e293b' />
-		<PaletteItem twColor='bg-slate-900' hexCode='0f172a' />
-		<PaletteItem twColor='bg-slate-950' hexCode='020617' />
+		<PalletItem twColor='bg-slate-50' hexCode='f8fafc' />
+		<PalletItem twColor='bg-slate-100' hexCode='f1f5f9' />
+		<PalletItem twColor='bg-slate-200' hexCode='e2e8f0' />
+		<PalletItem twColor='bg-slate-300' hexCode='cbd5e1' />
+		<PalletItem twColor='bg-slate-400' hexCode='94a3b8' />
+		<PalletItem twColor='bg-slate-500' hexCode='64748b' />
+		<PalletItem twColor='bg-slate-600' hexCode='475569' />
+		<PalletItem twColor='bg-slate-700' hexCode='334155' />
+		<PalletItem twColor='bg-slate-800' hexCode='1e293b' />
+		<PalletItem twColor='bg-slate-900' hexCode='0f172a' />
+		<PalletItem twColor='bg-slate-950' hexCode='020617' />
 	</div>
 
 	...
 
 	<div class={tw.palleteWrapper} style="margin-top: 0;">
-	<PaletteItem twColor='bg-rose-50' hexCode='fff1f2' />
-	<PaletteItem twColor='bg-rose-100' hexCode='ffe4e6' />
-	<PaletteItem twColor='bg-rose-200' hexCode='fecdd3' />
-	<PaletteItem twColor='bg-rose-300' hexCode='fda4af' />
-	<PaletteItem twColor='bg-rose-400' hexCode='fb7185' />
-	<PaletteItem twColor='bg-rose-500' hexCode='f43f5e' />
-	<PaletteItem twColor='bg-rose-600' hexCode='e11d48' />
-	<PaletteItem twColor='bg-rose-700' hexCode='be123c' />
-	<PaletteItem twColor='bg-rose-800' hexCode='9f1239' />
-	<PaletteItem twColor='bg-rose-900' hexCode='881337' />
-	<PaletteItem twColor='bg-rose-950' hexCode='4c0519' />
+	<PalletItem twColor='bg-rose-50' hexCode='fff1f2' />
+	<PalletItem twColor='bg-rose-100' hexCode='ffe4e6' />
+	<PalletItem twColor='bg-rose-200' hexCode='fecdd3' />
+	<PalletItem twColor='bg-rose-300' hexCode='fda4af' />
+	<PalletItem twColor='bg-rose-400' hexCode='fb7185' />
+	<PalletItem twColor='bg-rose-500' hexCode='f43f5e' />
+	<PalletItem twColor='bg-rose-600' hexCode='e11d48' />
+	<PalletItem twColor='bg-rose-700' hexCode='be123c' />
+	<PalletItem twColor='bg-rose-800' hexCode='9f1239' />
+	<PalletItem twColor='bg-rose-900' hexCode='881337' />
+	<PalletItem twColor='bg-rose-950' hexCode='4c0519' />
 </div>  
 
 ```
 
 
-### PaletteItem
+### PalletItem
 
-The essential component rendering a single swatch is the PaletteIte comprised of a simple `<span>` tag as detail below.
+The essential component rendering a single swatch is the PalletIte comprised of a simple `<span>` tag as detail below.
 
-The designated name of the specific Tailwind color variant is passed into the PaletteItem component through the `twColor` prop, for example, "red-500".   The corresponding hex code value is passed through the `hexCode` prop.  
+The designated name of the specific Tailwind color variant is passed into the PalletItem component through the `twColor` prop, for example, "red-500".   The corresponding hex code value is passed through the `hexCode` prop.  
 
-A function in the component script capitalizes the first letter of the color name which is then used in the `title` prop to display (along with the hex value) as a tooltip when the user hovers over the PaletteItem.  
+A function in the component script capitalizes the first letter of the color name which is then used in the `title` prop to display (along with the hex value) as a tooltip when the user hovers over the PalletItem.  
 
 Since the swatch is styled using background colors, the 'bg-' prefix is stripped before the name is displayed.
 
-Finally, a Hyperscript attribute on each PaletteItem listens for a click event and then sends the `closeDropdown` custom event back to the parent button (which has the .colorPalette class)
+Finally, a Hyperscript attribute on each PalletItem listens for a click event and then sends the `closeDropdown` custom event back to the parent button (which has the .colorPallet class)
 
 After the dropdown is transitioned off the screen, a alert pops up showing the Name and hex value the user selected.
 
-```js title="PaletteItem.astro" "span"
+```js title="PalletItem.astro" "span"
 ---
 interface Props {
 	twColor: string
@@ -200,14 +200,14 @@ function capitalizeFirstCharacter(str) {
 const color = capitalizeFirstCharacter(twColor.replace(/^bg-/, ''))
 
 const tw = {
-	paletteItem: 'size-3 rounded-sm overflow-hidden ring-1 ring-slate-600 hover:scale-125',
+	PalletItem: 'size-3 rounded-sm overflow-hidden ring-1 ring-slate-600 hover:scale-125',
 }
 
 ---
 
 <span 
-	class={`${twColor} ` + tw.paletteItem} title={`${color} (#${hexCode})`}
-	script="on click send closeDropdown to the .colorPalette then settle then alert( 'You selected ' + my @title)">
+	class={`${twColor} ` + tw.PalletItem} title={`${color} (#${hexCode})`}
+	script="on click send closeDropdown to the .colorPallet then settle then alert( 'You selected ' + my @title)">
 </span>
 
 
@@ -219,11 +219,11 @@ const tw = {
 
 There are two Astro components used to create this Pallet:
 
-1.  PaletteItem
-2.  PaletteGrid
+1.  PalletItem
+2.  PalletGrid
 
 
- Tailwind offers 12 variants for each theme color.  Each variant is represented by one PaletteItem.  In turn, each PaletteItem is a wrapper for a `<span>`.   Each span contains HS code which closes the dropdown after a swatch is chosen.
+ Tailwind offers 12 variants for each theme color.  Each variant is represented by one PalletItem.  In turn, each PalletItem is a wrapper for a `<span>`.   Each span contains HS code which closes the dropdown after a swatch is chosen.
 
 
 
