@@ -215,7 +215,17 @@ const tw = {
 
 ## Code
 
-Use the Tabs below to explore all the code for these examples.   
+Use the Tabs below to explore all the code used to create these examples.  
+
+To apply  one of these palettes in your Astro project, copy/paste the code from either the Click or Hover activated Tabs into the Astro file where it will be used.
+
+You will also need to copy/paste both the PalletGrid and PalletItem code and put them into separate `.astro` files.
+
+The import file paths in the sample code are not specific for your project structure so they will need to be adjusted depending on where in your src folder you place the `.astro` files.
+
+You should change the action associated with clicking a color swatch by updating the Hyperscript in the `<span>` of the PaletteItem.   You  probably don't want to just show an alert when the swatch is clicked  but actually perform some more useful action.   Adjusting script in the PaletteItem propogates the your intended action to every color swatch.  
+
+However, before your custom action is triggered, you should  `send closeDropodown to the .colorPallet then settle` to smoothly dismiss the dropdown before the user is taken away to something else.
 
 
 import {Tabs, TabItem } from '@astrojs/starlight/components'
@@ -563,7 +573,7 @@ const tw = {
 
 ```
 </TabItem>
-<TabItem label="PalettItem">
+<TabItem label="PaletteItem">
 ```js
 ---
 interface Props {
