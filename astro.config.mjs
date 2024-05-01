@@ -56,6 +56,10 @@ export default defineConfig({
 				{
 					label: 'Disclaimers',
 					link: '/about/disclaimers/'
+				},
+				{
+					label: 'Licensing',
+					link: '/about/licensing/'
 				}
 			]
     }, {
