@@ -450,22 +450,7 @@ const tw = {
 ## Usage
 
 
-Although this hyperComponent is more complicated than other examples, it provides a means to build widget construction interfaces whereby the color values can be picked from a pallet and applied to the styling of an element.    Conveinently, the Tailwind library color families are now pickable from swatches. 
+Although this hyperComponent is more complicated than other examples, it provides a means to build widget construction interfaces whereby the color values can be picked from a pallet and applied to the styling of an element.    Conveniently, the Tailwind library color families are now pickable from swatches. 
 
 
-<div id='background-switch-example' class={tw.exampleContainer} >
-<div id='background-switch-title' class={tw.exampleTitle}>Change My Background Color </div>
-
-import twMerge from 'tailwind-merge'
-
-export const switchBackgroundHS = "on click send closeDropdown to the .colorPallet then settle then " +
-   "set classList to @class of the #{'background-switch-example'} " + 
-	 "set updatedClassList to js twMerge(classList,  my @bgColor) " + 
-	 "set @class of the #{'background-switch-example'} to updatedClassList"
-
-<HoverDropdownMenu_B id='background-color-example' moveXY='-100,18' buttonStyles='colorPallet bg-gray-700' duration='180ms'>
-	<img slot="leftIcon" src='/images/tailwind_icon.svg' alt='tailwind icon' class={tw.icon}/>
-	<PalletGrid orientation='vertical' hs={switchBackgroundHS}/>
-</HoverDropdownMenu_B>
-</div>
 
