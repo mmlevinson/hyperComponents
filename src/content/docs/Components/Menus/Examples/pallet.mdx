@@ -14,6 +14,7 @@ Two examples are presented which  illustrate a drop down menu with a grid of col
 The first example uses the [ClickDropdownMenu_A](/components/menus/click_a/) parent component to wrap a custom [PalletGrid](#palletgrid) component.   The code block used to present  this example is listed to follow.
 
 import PalletGridH from '../../../../../components/PalletGridH.astro'
+import PalletGridV from '../../../../../components/PalletGridV.astro'
 
 export const tw = {
 	exampleContainer: 'not-content w-full pb-4 w-max-lg text-center mx-auto bg-gray-300 dark:bg-gray-800 rounded-xl my-6',
@@ -47,7 +48,7 @@ const tw = {
 
 ```
 
-The second example creates the identical pallet  but  with hover activation  built with the [HoverDropdownMenu_B](/components/menus/hover_b) component outlined earlier.  
+The second example creates the identical pallet but  with hover activation built with the [HoverDropdownMenu_B](/components/menus/hover_b) component outlined earlier.  Also, the orientation is vertical for small screens which is set by passing a string to the `orientation` prop.
 
 The code block used to embed the hover activated pallet is shown following the example.
 
@@ -56,9 +57,9 @@ The code block used to embed the hover activated pallet is shown following the e
 
 import HoverDropdownMenu_B from '../../../../../components/HoverDropdownMenu_B.astro'
 
-<HoverDropdownMenu_B id='hover-activated-Pallet' moveXY='-200,18' buttonStyles='colorPallet bg-gray-700' duration='180ms'>
+<HoverDropdownMenu_B id='hover-activated-pallet' moveXY='-100,18' buttonStyles='colorPallet bg-gray-700' duration='180ms'>
 	<img slot="leftIcon" src='/images/tailwind_icon.svg' alt='tailwind icon' class={tw.icon}/>
-	<PalletGridH/>
+	<PalletGridV/>
 </HoverDropdownMenu_B>
 </div>
 
@@ -80,8 +81,6 @@ const tw = {
 ```
 
 This is a vertically oriented pallet:
-
-import PalletGridV from '../../../../../components/PalletGridV.astro'
 
 <HoverDropdownMenu_B id='vertical-pallet' moveXY='0,18' buttonStyles='colorPallet bg-gray-700' duration='180ms'>
 	<img slot="leftIcon" src='/images/tailwind_icon.svg' alt='tailwind icon' class={tw.icon}/>
