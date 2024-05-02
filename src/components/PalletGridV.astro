@@ -1,26 +1,28 @@
----
-import PalletItem from './PalletItem.astro';
+	---
+	import PalletItem from './PalletItem.astro';
 
-const tw = {
-  grid: 'grid grid-cols-2 grid-rows-1 gap-2 px-4',
-  palleteWrapper: 'mt-0 flex flex-col gap-y-2',
-}
+	const tw = {
+		grid: 'grid grid-cols-11 grid-rows-1 gap-2 px-4',
+		palleteWrapper: 'mt-0 flex flex-col gap-y-2',
+	}
 
-const colorFamilies = ['slate', 'gray', 'zinc', 'neutral', 'stone', 'red', 'orange', 'amber', 'yellow', 'lime', 'green', 'emerald', 'teal', 'cyan', 'sky', 'blue', 'indigo', 'violet', 'purple', 'fuchsia', 'pink', 'rose']
-const shades = [950, 900, 800, 700, 600, 500, 400, 300, 200, 100, 50]
-const hexValues = [
-	['f8fafc', 'f9fafb', 'fafafa', 'fafafa', 'fafaf9', 'f3f2f2', 'fff7ed', 'fffbeb', 'fefce8', 'f7fee7', 'f0fdf4', 'ecfdf5', 'f0fdfa', 'ecfeff', 'f0f9ff', 'eff6ff', 'eef2ff', 'f5f3ff', 'faf5ff', 'fdf4ff', 'fdf2f8', 'fff1f2'], //950
-	['0f172a','111827', '18181b', '171717', '1c1917', '7f1d1d', '7c2d12','78350f', '713f12', '365214', '14532d', '064e3b', '1334e4a', '164e63', '0c4a6e','1e3a8a','312e81d', '4c1d95', '581c87','701a75', '831843', '881337', ], //900
-]
+	const colorFamilies = ['slate', 'gray', 'zinc', 'neutral', 'stone', 'red', 'orange', 'amber', 'yellow', 'lime', 'green', 'emerald', 'teal', 'cyan', 'sky', 'blue', 'indigo', 'violet', 'purple', 'fuchsia', 'pink', 'rose']
+	const shades = [50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950]
+	const hexValues = [
+		['f8fafc', 'f9fafb', 'fafafa', 'fafafa', 'fafaf9', 'f3f2f2', 'fff7ed', 'fffbeb', 'fefce8', 'f7fee7', 'f0fdf4', 'ecfdf5', 'f0fdfa', 'ecfeff', 'f0f9ff', 'eff6ff', 'eef2ff', 'f5f3ff', 'faf5ff', 'fdf4ff', 'fdf2f8', 'fff1f2'], //950
+		['0f172a','111827', '18181b', '171717', '1c1917', '7f1d1d', '7c2d12','78350f', '713f12', '365214', '14532d', '064e3b', '1334e4a', '164e63', '0c4a6e','1e3a8a','312e81d', '4c1d95', '581c87','701a75', '831843', '881337', ], //900
+		['1e293b', '1f2937', '27272a', '262626', '292524', '991b1b', '9a3412','92400e', '854d0e','3f6212', '166534', '065f45', '115e59', '155375', '075985', '1e40af', '3730a3', '5b21b6', '6b21a8', '86198f', '86198f', '9f1239'],  //800
+		['334155','374151', '3f3f46', '404040', '44403c', 'b91c1c', 'c2410c', 'b45309', 'a16207','4d7c0f', '15803d', '047857', '0f766e', '0e7490', '03609a1', '1d4ed8', '4338ca', '6d28d9', '7322ce', 'a21caf','be185d', 'be123c'] //700
+	]
 
-
----
-<div class={tw.grid}>
-  {colorFamilies.map((family, index) => (
-    <div class={tw.palleteWrapper}>
-      {hexValues[index] && hexValues[index].map((codeValue, shadeIndex) => (
-        <PalletItem twColor={`bg-${family}-${shades[shadeIndex]}`} hexCode={codeValue} />
-      ))}
-    </div>
-  ))}
-</div>
+	const hs = "on click send closeDropdown to the .colorPallet then settle then alert(You selected color my @title)"
+	---
+	<div class={tw.grid}>
+		{shades.map((shade, shadeIndex) => (
+			<div class={tw.palleteWrapper}>
+				{colorFamilies.map((family, index) => (
+					<PalletItem twColor={`bg-${family}-${shades[shadeIndex]}`} hexCode={hexValues[index][shadeIndex]} />
+				))}
+			</div>
+		))}
+	</div>
