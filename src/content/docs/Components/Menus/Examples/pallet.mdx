@@ -15,6 +15,7 @@ The first example uses the [ClickDropdownMenu_A](/components/menus/click_a/) par
 
 import PalletGridH from '../../../../../components/PalletGridH.astro'
 import PalletGridV from '../../../../../components/PalletGridV.astro'
+import PalletGridMain from '../../../../../components/PalletGridMain.astro'
 
 export const tw = {
 	exampleContainer: 'not-content w-full pb-4 w-max-lg text-center mx-auto bg-gray-300 dark:bg-gray-800 rounded-xl my-6',
@@ -29,7 +30,7 @@ import ClickDropdownMenu_A from '../../../../../components/ClickDropdownMenu_A.a
 
 <ClickDropdownMenu_A id='click-activated-pallet' moveXY='-200,18' buttonStyles='colorPallet bg-gray-700' duration='180ms'>
 	<img slot="leftIcon" src='/images/tailwind_icon.svg' alt='tailwind icon' class={tw.icon}/>
-	<PalletGridH/>
+	<PalletGridMain />
 </ClickDropdownMenu_A>
 </div>
 
@@ -59,7 +60,7 @@ import HoverDropdownMenu_B from '../../../../../components/HoverDropdownMenu_B.a
 
 <HoverDropdownMenu_B id='hover-activated-pallet' moveXY='-100,18' buttonStyles='colorPallet bg-gray-700' duration='180ms'>
 	<img slot="leftIcon" src='/images/tailwind_icon.svg' alt='tailwind icon' class={tw.icon}/>
-	<PalletGridV/>
+	<PalletGridMain orientation='vertical'/>
 </HoverDropdownMenu_B>
 </div>
 
