@@ -2,7 +2,7 @@
 	import PalletItem from './PalletItem.astro';
 
 	const tw = {
-		grid: 'grid grid-cols-11 gap-2 px-4',
+		grid: 'grid  grid-rows-1 gap-2 px-4',
 		palleteWrapper: 'mt-0 flex flex-col gap-y-2',
 	}
 
@@ -24,10 +24,10 @@
 
 	const hs = "on click send closeDropdown to the .colorPallet then settle then alert(You selected color +  my @title)"
 	---
-	<div class={tw.grid}>
-		{shades.map((shade, shadeIndex) => (
+	<div class={tw.grid} style="grid-template-columns:repeat(22, 1fr);">
+		{colorFamilies.map((family, index) => (
 			<div class={tw.palleteWrapper}>
-				{colorFamilies.map((family, index) => (
+				{shades.map((_, shadeIndex) => (
 					<PalletItem twColor={`bg-${family}-${shades[shadeIndex]}`} hexCode={hexValues[shadeIndex][index]} />
 				))}
 			</div>
