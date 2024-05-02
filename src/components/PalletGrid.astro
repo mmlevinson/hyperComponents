@@ -4,13 +4,14 @@ import PalletGridV from "./PalletGridV.astro"
 
 interface Props {
 	orientation:string
+	hs?:string
 }
 
-const {orientation = "horizontal"} = Astro.props
+const {orientation = "horizontal", hs} = Astro.props
 ---
 
 <div >
-	{orientation === 'horizontal' ? <PalletGridH/> : <PalletGridV/>}
+	{orientation === 'horizontal' ? <PalletGridH hs={hs}/> : <PalletGridV hs={hs}/>}
 </div>
 
 

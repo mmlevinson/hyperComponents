@@ -1,6 +1,12 @@
 	---
 	import PalletItem from './PalletItem.astro';
 
+	interface Props {
+		hs: string
+	}
+
+	const {hs} = Astro.props
+
 	const tw = {
 		grid: 'grid grid-cols-11 gap-2 px-4',
 		palleteWrapper: 'mt-0 flex flex-col gap-y-2',
@@ -27,7 +33,7 @@
 		{shades.map((shade, shadeIndex) => (
 			<div class={tw.palleteWrapper}>
 				{colorFamilies.map((family, index) => (
-					<PalletItem twColor={`bg-${family}-${shades[shadeIndex]}`} hexCode={hexValues[shadeIndex][index]} />
+					<PalletItem script={hs} twColor={`bg-${family}-${shades[shadeIndex]}`} hexCode={hexValues[shadeIndex][index]} />
 				))}
 			</div>
 		))}

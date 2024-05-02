@@ -2,9 +2,10 @@
 interface Props {
 	twColor: string
 	hexCode:string
+	script?:string
 }
 
-const {twColor, hexCode } = Astro.props
+const {twColor, hexCode, script } = Astro.props
 
 function capitalizeFirstCharacter(str) {
     if (!str) return str;
@@ -17,10 +18,13 @@ const tw = {
 	palletItem: 'size-3 rounded-sm overflow-hidden ring-1 ring-slate-600 hover:scale-125',
 }
 
+const defaultScript = "on click send closeDropdown to the .colorPallet then settle then alert( 'You selected ' + my @title)"
+
 ---
 
 <span 
 	class={`${twColor} ` + tw.palletItem} title={`${color} (#${hexCode})`}
-	script="on click send closeDropdown to the .colorPallet then settle then alert( 'You selected ' + my @title)">
+	bgcolor={twColor}
+	script={script}>
 </span>
 
