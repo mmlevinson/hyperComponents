@@ -8,14 +8,11 @@ A common use case for a custom dropdown is to present a Pallet of colors.   Clic
 
 ## Examples
 
-Two examples are presented which  illustrate a drop down menu with a grid of color swatches.  For illustration purposes we choose the default color set of Tailwind.
-
+Two examples are presented which  illustrate a drop down menu with a grid of color swatches.  For illustration purposes we are using Tailwind's color families.
 
 The first example uses the [ClickDropdownMenu_A](/components/menus/click_a/) parent component to wrap a custom [PalletGrid](#palletgrid) component.   The code block used to present  this example is listed to follow.
 
-import PalletGridH from '../../../../../components/PalletGridH.astro'
-import PalletGridV from '../../../../../components/PalletGridV.astro'
-import PalletGridMain from '../../../../../components/PalletGridMain.astro'
+import PalletGrid from '../../../../../components/PalletGrid.astro'
 
 export const tw = {
 	exampleContainer: 'not-content w-full pb-4 w-max-lg text-center mx-auto bg-gray-300 dark:bg-gray-800 rounded-xl my-6',
@@ -30,7 +27,7 @@ import ClickDropdownMenu_A from '../../../../../components/ClickDropdownMenu_A.a
 
 <ClickDropdownMenu_A id='click-activated-pallet' moveXY='-200,18' buttonStyles='colorPallet bg-gray-700' duration='180ms'>
 	<img slot="leftIcon" src='/images/tailwind_icon.svg' alt='tailwind icon' class={tw.icon}/>
-	<PalletGridMain />
+	<PalletGrid />
 </ClickDropdownMenu_A>
 </div>
 
@@ -44,12 +41,12 @@ const tw = {
 ---
 <ClickDropdownMenu_A id='click-activated-pallet' moveXY='-200,18' buttonStyles='colorPallet bg-gray-700' duration='180ms'>
 	<img slot="leftIcon" src='/images/tailwind_icon.svg' alt='tailwind icon' class={tw.icon}/>
-	<PalletGrid/>
+	<PalletGrid />
 </ClickDropdownMenu_A>
 
 ```
 
-The second example creates the identical pallet but  with hover activation built with the [HoverDropdownMenu_B](/components/menus/hover_b) component outlined earlier.  Also, the orientation is vertical for small screens which is set by passing a string to the `orientation` prop.
+The second example creates the vertically oriented pallet (for small screens) with hover activation.  This example is  built with the [HoverDropdownMenu_B](/components/menus/hover_b) component outlined earlier. 
 
 The code block used to embed the hover activated pallet is shown following the example.
 
@@ -60,7 +57,7 @@ import HoverDropdownMenu_B from '../../../../../components/HoverDropdownMenu_B.a
 
 <HoverDropdownMenu_B id='hover-activated-pallet' moveXY='-100,18' buttonStyles='colorPallet bg-gray-700' duration='180ms'>
 	<img slot="leftIcon" src='/images/tailwind_icon.svg' alt='tailwind icon' class={tw.icon}/>
-	<PalletGridMain orientation='vertical'/>
+	<PalletGrid orientation='vertical'/>
 </HoverDropdownMenu_B>
 </div>
 
@@ -81,32 +78,27 @@ const tw = {
 
 ```
 
-This is a vertically oriented pallet:
-
-<HoverDropdownMenu_B id='vertical-pallet' moveXY='0,18' buttonStyles='colorPallet bg-gray-700' duration='180ms'>
-	<img slot="leftIcon" src='/images/tailwind_icon.svg' alt='tailwind icon' class={tw.icon}/>
-	<PalletGridV/>
-</HoverDropdownMenu_B>
-
 ### Description
 
-This hyperComponent utilizes the both  [ClickDropdownMenu_A](/components/menus/click_a) or [HoverDropdownMenu_B](/components/menus/hover_b) parent components presented in earlier.
+This hyperComponent utilizes either the  [ClickDropdownMenu_A](/components/menus/click_a) or [HoverDropdownMenu_B](/components/menus/hover_b) parent components presented in earlier.
 
-The choices passed to the component default slot are another custom Astro component which encapsulates a single color choice into a `<span>` formatted as a small rectangular color swatch by setting its background color to one of the Tailwind color classes.   In addition, the Tailwind designated colorname and hexadecimal value are attached to the  `title` attribute of the `<span>` so they will appear as a tooltip when the user hovers over the color swatch.
+The default slot for the dropdown component(s) receives a [PalletGrid](#palletgrid) custom component.   The PalletGrid takes an `orientation` prop which returns either a horizontally or vertically oriented grid of color swatches.  
+
+Each swatch is comprised of  a [PalletItem](#palettitem) component  which accepts a `twColor` and `hexCode` prop.   The `twColor` is the Tailwind color class and the `hexCode` is the equivalent hexadecimal value of the color.   
 
 ### Features
 
--The trigger button has no caption text so its appearance is only indicated by its icon
+-The trigger button receives `caption` prop so the dropdown's  appearance is only indicated by its icon
 
--The Tailwind logo icon is passed into the `leftIcon` slot, with appropriate styling classes to size it.
+-The Tailwind logo icon is passed into the `leftIcon` slot, with appropriate styling classes applied.
 
--The `duration` prop is set to '180ms' to make the menu open and close a bit faster.
+-The `duration` prop is set to '180ms' but can be any value.
 
--Hovering over an individual swatch reveals a tooltip with the Tailwind color name and corresponding hex value.
+-Hovering over an individual swatch reveals a tooltip displaying the Tailwind color name and corresponding hex value.
 
--Clicking a swatch dismisses the dropdown smoothly and then displays an alert showing the color value selected.
+-Clicking a swatch dismisses the dropdown smoothly and then displays an alert showing the color name and hexidecimal value of the selection.
 
--A class of `.colorPallet` is added to the `buttonStyles` prop of the parent component so that the Hyperscript associated with each swatch  can send it a custom event which closes the dropdown after a selection is made.
+-A class of `.colorPallet` is added to the `buttonStyles` prop of the parent component so that the Hyperscript associated with each swatch  can send it a custom event which triggers closure of the dropdown after a selection is made.
 
 The dropdown is dismissed by:
 
@@ -116,81 +108,124 @@ The dropdown is dismissed by:
 ###### 4. Tapping any color swatch
 ###### 5. Pressing the Escape key when the trigger button is focused
 
-In the hover activated example, HS behaviors are installed into the  `<button>` and dropdown container from a `<script>` tag in the [HoverDropdownMenu_B](/components/menus/hover_b) component. This behavior adds tracking of the mouseenter and mouseleave system events to toggle dropdown visibility based on hover state. 
+In the hover activated example, HS behaviors are installed into the  `<button>` and dropdown container from a `<script>` tag in the [HoverDropdownMenu_B](/components/menus/hover_b) component. This behavior adds tracking of the mouseenter and mouseleave system events in order to toggle dropdown visibility based on hover state. 
 
 
 ## Components
 
 ### PalletGrid
 
-This component is the overall wrapper for all  swatches and is placed into the default slot of each dropdown menu parent component.
+This component is passed into the default slot of each dropdown parent component.  The PalletGrid takes an `orientation` prop. The default orientation is `horizontal`. In the hHorizontal orientation a total of 22 Tailwind color families are placed into columns  across a grid layout.   Since Tailwind itself does not offer a 'grid-cols-22' utility class and  'grid-cols-[22]' did not work, a  `<style>` tag was used in the PalletGrid component to create the 22 column layout.
 
- To include all the Tailwind default theme colors, a 22 column layout is needed.    Since Tailwind itself does not offer a 'grid-cols-22' and  'grid-cols-[22]' did not work, a component `<style>` tag was used to create the 22 column layout and make is responsive with media queries.
+The Vertical orientation is organized differently with the same color shaed in column with a different color family in each row.
 
-Inside the PalletGrid are 22 separate wrapper `<div>`s, each containing  11  [PalettItem](#palettitem) components, one for each variant of the theme color.    The wrappers are styled as `flex flex-col` to present the variants of each TW base color vertically.
+Here is the code for the PalletGrid component.  The horizontal and vertical pallets are imported and a JSX style ternary expression used to decide which orientation is returned depending on the value of the  `orientation` prop.
 
-```js title="PalletGrid.astro" "class={tw.PalletWrapper}"  
+```js title="PalletGrid.astro"
 ---
+import PalletGridH from "./PalletGridH.astro"
+import PalletGridV from "./PalletGridV.astro"
 
-import PalletItem from './PalletItem.astro';
-
-const tw = {
-	grid:'grid align-items-start gap-2 px-4',
-	palleteWrapper: 'mt-0 flex flex-col gap-y-2',
+interface Props {
+	orientation:string
 }
 
+const {orientation = "horizontal"} = Astro.props
+
 ---
-<div 
-	class={tw.grid} 
-	style="grid-template-columns: repeat(22, 1fr);">
-	<div class={tw.palleteWrapper} >
-		<PalletItem twColor='bg-slate-50' hexCode='f8fafc' />
-		<PalletItem twColor='bg-slate-100' hexCode='f1f5f9' />
-		<PalletItem twColor='bg-slate-200' hexCode='e2e8f0' />
-		<PalletItem twColor='bg-slate-300' hexCode='cbd5e1' />
-		<PalletItem twColor='bg-slate-400' hexCode='94a3b8' />
-		<PalletItem twColor='bg-slate-500' hexCode='64748b' />
-		<PalletItem twColor='bg-slate-600' hexCode='475569' />
-		<PalletItem twColor='bg-slate-700' hexCode='334155' />
-		<PalletItem twColor='bg-slate-800' hexCode='1e293b' />
-		<PalletItem twColor='bg-slate-900' hexCode='0f172a' />
-		<PalletItem twColor='bg-slate-950' hexCode='020617' />
+
+<div >
+
+	{orientation === 'horizontal' ? <PalletGridH/> : <PalletGridV/>}
+
+</div>
+
+
+```
+
+### PalletGridH (horizontal)
+
+Here is the code for the horizontal pallet variant.  The color families and shades are contained in separate arrays.   A JSX expression in the component markup loops the two arrays to build the grid of swatches.
+
+
+```js title="PalletGridH.astro" "colorFamilies" "shades" "hexValues"
+	---
+	import PalletItem from './PalletItem.astro';
+
+	const tw = {
+		grid: 'grid  grid-rows-1 gap-2 px-4',
+		palleteWrapper: 'mt-0 flex flex-col gap-y-2',
+	}
+
+	const colorFamilies = ['slate', 'gray', 'zinc', 'neutral', 'stone', 'red', 'orange', 'amber', 'yellow', 'lime', 'green', 'emerald', 'teal', 'cyan', 'sky', 'blue', 'indigo', 'violet', 'purple', 'fuchsia', 'pink', 'rose']
+	const shades = [50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950]
+	const hexValues = [
+		['f8fafc', 'f9fafb', 'fafafa', 'fafafa', 'fafaf9', 'f3f2f2', 'fff7ed', 'fffbeb', 'fefce8', 'f7fee7', 'f0fdf4', 'ecfdf5', 'f0fdfa', 'ecfeff', 'f0f9ff', 'eff6ff', 'eef2ff', 'f5f3ff', 'faf5ff', 'fdf4ff', 'fdf2f8', 'fff1f2'], //950
+		['0f172a','111827', '18181b', '171717', '1c1917', '7f1d1d', '7c2d12','78350f', '713f12', '365214', '14532d', '064e3b', '1334e4a', '164e63', '0c4a6e','1e3a8a','312e81d', '4c1d95', '581c87','701a75', '831843', '881337', ], //900
+		['1e293b', '1f2937', '27272a', '262626', '292524', '991b1b', '9a3412','92400e', '854d0e','3f6212', '166534', '065f45', '115e59', '155375', '075985', '1e40af', '3730a3', '5b21b6', '6b21a8', '86198f', '86198f', '9f1239'],  //800
+		['334155','374151', '3f3f46', '404040', '44403c', 'b91c1c', 'c2410c', 'b45309', 'a16207','4d7c0f', '15803d', '047857', '0f766e', '0e7490', '03609a1', '1d4ed8', '4338ca', '6d28d9', '7322ce', 'a21caf','be185d', 'be123c'], //700
+		['475569', '4b5563', '52525b', '525252', '57534e', 'dc2626', 'ea580c', 'd97706', 'ca8a04', '65a30d', '16a34a','059669', '0d9488', '0891b2', '0284c7', '2563eb', '4746e5', '7c3aed', '9333ea', 'c026d3', 'db2777', 'e11d48' ], //600
+		['64748b',  '6b7280', '71717a', '737373', '78716c', 'ef4444', 'f97316', 'f59e0b', 'eab308', '84cc16', '22c55e', '10b981', '14b8a6', '06b6d4', '0ea5e9', '3b82f6', '6366f1', '8b5cf6', 'a855f7', 'd946ef', 'ec4899', 'f43f5e'], //500
+		['94a3b8', '9ca3af', 'a1a1aa', 'a3a3a3', 'a8a29e', 'f87171', 'fb923c', 'fbbf24', 'facc15', 'a3e635', '4ade80', '34d399', '2dd4bf', '22de33', '38bdf8', '60a5fa', '818cf8', 'a78bfa', 'c084fc', 'e879f9', 'f472b6', 'fb7185'], //400
+		['cbd5e1', 'd1d5db', 'd4d4d8', 'd4d4d4', 'd6d3d1', 'fca5a5', 'fdba74', 'fcd34d', 'fde047', 'bef264', '86efac', '6337b7', '5eed4', '67e8f9', '7ddefc', '93c5fd', 'a5b4fc', 'c4b5fd', 'd8b4fe', 'f0abfc', 'f9a8d4', 'fda4af'],  //300
+		['e2e8f0', 'e5e7eb', 'e4e4e7', 'e5e5e5', 'e7e5e4', 'fecaca', 'fed7aa', 'fde68a', 'fef08a', 'd9f99d', 'bbf7d0', 'a7fed0', '99f6e4', 'a5f3fc', 'bae6fd', 'bfdbfe', 'c7d2fe', 'ddd6fe', 'e9d5ff', 'f5d0fe', 'fbcfe8', 'fecdd3'],  //200
+		['f1f5f9', 'f3f4f6', 'f4f4f5', 'f5f5f5', 'f5f5f4', 'fee2e2', 'ffedd5', 'fefec7', 'fef9c3', 'ecfccb', 'dcfce7', 'a7fed0', 'ccfbf1', 'cffafe, e0f2fe', 'dbeafe', 'e0e7ff', 'ede9fe', 'f3e8ff', 'fae8ff', 'fce7f3', 'ffe4e6'],  //100
+		['f8fafc', 'f9fafb', 'fafafa', 'fafafa', 'fafaf9', 'f3f2f2', 'fff7ed', 'fffbeb', 'fefce8', 'f7fee7', 'f0fdf4', 'ecfdf5', 'f0fdfa', 'ecfeff', 'f0f9ff', 'eff6ff', 'eef2ff', 'f5f3ff', 'faf5ff', 'fdf4ff', 'fdf2f8', 'fffaf2'] //50
+	]
+
+	---
+	<div class={tw.grid} style="grid-template-columns:repeat(22, 1fr);">
+		{colorFamilies.map((family, index) => (
+			<div class={tw.palleteWrapper}>
+				{shades.map((_, shadeIndex) => (
+					<PalletItem twColor={`bg-${family}-${shades[shadeIndex]}`} hexCode={hexValues[shadeIndex][index]} />
+				))}
+			</div>
+		))}
 	</div>
 
-	...
+```
 
-	<div class={tw.palleteWrapper} style="margin-top: 0;">
-	<PalletItem twColor='bg-rose-50' hexCode='fff1f2' />
-	<PalletItem twColor='bg-rose-100' hexCode='ffe4e6' />
-	<PalletItem twColor='bg-rose-200' hexCode='fecdd3' />
-	<PalletItem twColor='bg-rose-300' hexCode='fda4af' />
-	<PalletItem twColor='bg-rose-400' hexCode='fb7185' />
-	<PalletItem twColor='bg-rose-500' hexCode='f43f5e' />
-	<PalletItem twColor='bg-rose-600' hexCode='e11d48' />
-	<PalletItem twColor='bg-rose-700' hexCode='be123c' />
-	<PalletItem twColor='bg-rose-800' hexCode='9f1239' />
-	<PalletItem twColor='bg-rose-900' hexCode='881337' />
-	<PalletItem twColor='bg-rose-950' hexCode='4c0519' />
-</div>  
+### PalletGridV (vertical)
+
+The data structures of the vertically oriented variant are exactly the same, so won't be repeated here.   However, the JSX loop which builds the grid is different so as to place all the color families in columns and the same shades across rows.
+
+```js title="PalletGridV.astro" "colorFamilies" "shades" "hexValues"
+
+	<div class={tw.grid}>
+		{shades.map((shade, shadeIndex) => (
+			<div class={tw.palleteWrapper}>
+				{colorFamilies.map((family, index) => (
+					<PalletItem twColor={`bg-${family}-${shades[shadeIndex]}`} hexCode={hexValues[shadeIndex][index]} />
+				))}
+			</div>
+		))}
+	</div>
 
 ```
 
 
 ### PalletItem
 
-The essential component rendering a single swatch is the `PalletItem` comprised of a simple `<span>`.
+The essential component rendering a single swatch is the `PalletItem` comprised of a simple `<span>` with a Hyperscript attribute that fires a custom event closing the dropdown after a selection.
 
-The name of the  Tailwind color variant is passed into the `PalletItem` component through the `twColor` prop, for example, "red-500".   The corresponding hex value is passed through the `hexCode` prop.  
+The PalletItem component accepts two props.   The `twColor prop is the name of the Tailwind color such as 'red-500'.    The `hexCode` prop is the corresponding hexidecimal value for that color.  
 
-A function in the component script capitalizes the first letter of the color name which is then used in the `title` prop to display a tooltip when the user hovers over the color swatch.
+A function in the component script capitalizes the first letter of the color name which is then used in the `title` prop to display for a tooltip that is displayed when the user hovers over the color swatch.
 
 Since the swatch is styled using background colors, the 'bg-' prefix is stripped before the name is displayed.
 
-Finally, a Hyperscript attribute on each `PalletItem` listens for a click event and then sends the `closeDropdown` custom event back to the parent button.  To make this happen, a `.colorPalett` class is explicitly added to the `<button>` of each dropdown component by passing this class name into the `buttonStyles` prop.
+Finally, a Hyperscript attribute on each `PalletItem` listens for a click event and then sends the `closeDropdown` custom event back to the parent button.  To make this happen, a `.colorPalett` class is explicitly added to the `<button>` of each dropdown component by passing this class name into the `buttonStyles` prop of the dropdown component. 
 
-After the dropdown is transitioned off the screen, an alert pops up showing the Name and hex value the user selected.
+After the dropdown is transitioned off the screen, an alert pops up showing the name and hex value the user selected.
 
-```js title="PalletItem.astro" "span"
+To set the background color of the swatch a simple back-tick interpolated expression is used to combine the default styles with the `twColor` prop.   Since there are no default background colors, twMerge() not needed since there will not be any conflicts with the initial styles. 
+
+:::tip
+Notice the space char between the variables composing the class list in the example code.  Since you are essentially concatenating strings to build the class list, leaving out this space character would concat two adjacent classes which breaks the styling."
+:::
+
+```js title="PalletItem.astro" "span" "twColor" "hexCode"
 ---
 interface Props {
 	twColor: string
@@ -207,15 +242,16 @@ function capitalizeFirstCharacter(str) {
 const color = capitalizeFirstCharacter(twColor.replace(/^bg-/, ''))
 
 const tw = {
-	PalletItem: 'size-3 rounded-sm overflow-hidden ring-1 ring-slate-600 hover:scale-125',
+	palletItem: 'size-3 rounded-sm overflow-hidden ring-1 ring-slate-600 hover:scale-125',
 }
 
 ---
 
 <span 
-	class={`${twColor} ` + tw.PalletItem} title={`${color} (#${hexCode})`}
+	class={`${twColor} ` + tw.palletItem} title={`${color} (#${hexCode})`}
 	script="on click send closeDropdown to the .colorPallet then settle then alert( 'You selected ' + my @title)">
 </span>
+
 
 
 
@@ -226,9 +262,9 @@ const tw = {
 
 Use the Tabs below to explore all the code used to create these examples.  
 
-To apply  one of these palettes in your Astro project, copy/paste the code from either the Click or Hover activated Tabs into the Astro file where it will be used.
+To apply  one of these palettes in your Astro project, copy/paste the code from either the Click or Hover activated examples into the Astro file where it will be used.
 
-You will also need to copy/paste both the PalletGrid and PalletItem code and put them into separate `.astro` files.
+You will also need to copy/paste the PalletGrid, PalletGridH, PalletGridV, and  PalletItem code and put them into separate `.astro` files.
 
 The import file paths in the sample code are not specific for your project structure so they will need to be adjusted depending on where in your src folder you place the `.astro` files.
 
@@ -242,8 +278,8 @@ import {Tabs, TabItem } from '@astrojs/starlight/components'
 <Tabs>
 
 
-<TabItem label="Click Activated">
-```js
+<TabItem label="Click">
+```js title="Click Activated Color Pallet" "ClickDropdownMenu_A" "colorPallet"
 ---
 import PalletGrid from './components/PalletGrid.astro'
 import ClickDropdownMenu_A from './components/ClickDropdownMenu_A.astro'
@@ -253,23 +289,24 @@ const tw = {
 ---
 <ClickDropdownMenu_A id='click-activated-pallet' moveXY='-200,18' buttonStyles='colorPallet bg-gray-700' duration='180ms'>
 	<img slot="leftIcon" src='/images/tailwind_icon.svg' alt='tailwind icon' class={tw.icon}/>
-	<PalletGrid/>
+	<PalletGrid />
 </ClickDropdownMenu_A>
+</div>
 ```
 
 </TabItem>
-<TabItem label="Hover Activated">
-```js
+<TabItem label="Hover">
+```js title="Hover Activated Color Pallet" "HoverDropdownMenu_B" "colorPallet"
 ---
 import PalletGrid from './components/PalletGrid.astro'
-import HoverDropdownMenu_B from '../../../../../components/HoverDropdownMenu_B.astro'
+import HoverDropdownMenu_B from '/components/HoverDropdownMenu_B.astro'
 const tw = {
 	icon:'inline-block size-6'
 }
 ---
-<HoverDropdownMenu_B id='hover-activated-Pallet' moveXY='-200,18' buttonStyles='colorPallet bg-gray-700' duration='180ms'>
+<HoverDropdownMenu_B id='hover-activated-pallet' moveXY='-100,18' buttonStyles='colorPallet bg-gray-700' duration='180ms'>
 	<img slot="leftIcon" src='/images/tailwind_icon.svg' alt='tailwind icon' class={tw.icon}/>
-	<PalletGrid/>
+	<PalletGrid orientation='vertical'/>
 </HoverDropdownMenu_B>
 ```
 </TabItem>
@@ -277,311 +314,63 @@ const tw = {
 <TabItem label="PalletGrid">
 ```js title="PalletGrid.astro"
 ---
+import PalletGridH from "./PalletGridH.astro"
+import PalletGridV from "./PalletGridV.astro"
 
-import PalletItem from './PalletItem.astro';
-
-const tw = {
-	grid:'grid align-items-start gap-2 px-4',
-	palleteWrapper: 'mt-0 flex flex-col gap-y-2',
+interface Props {
+	orientation:string
 }
 
+const {orientation = "horizontal"} = Astro.props
 ---
-<div 
-	class={tw.grid} 
-	style="grid-template-columns: repeat(22, 1fr);">
-	<div class={tw.palleteWrapper} >
-		<PalletItem twColor='bg-slate-50' hexCode='f8fafc' />
-		<PalletItem twColor='bg-slate-100' hexCode='f1f5f9' />
-		<PalletItem twColor='bg-slate-200' hexCode='e2e8f0' />
-		<PalletItem twColor='bg-slate-300' hexCode='cbd5e1' />
-		<PalletItem twColor='bg-slate-400' hexCode='94a3b8' />
-		<PalletItem twColor='bg-slate-500' hexCode='64748b' />
-		<PalletItem twColor='bg-slate-600' hexCode='475569' />
-		<PalletItem twColor='bg-slate-700' hexCode='334155' />
-		<PalletItem twColor='bg-slate-800' hexCode='1e293b' />
-		<PalletItem twColor='bg-slate-900' hexCode='0f172a' />
-		<PalletItem twColor='bg-slate-950' hexCode='020617' />
-	</div>
-	<div class={tw.palleteWrapper} style="margin-top:0;">
-		<PalletItem twColor='bg-gray-50' hexCode='#f9fafb' />
-		<PalletItem twColor='bg-gray-100' hexCode='f3f4f6' />
-		<PalletItem twColor='bg-gray-200' hexCode='e5e7eb' />
-		<PalletItem twColor='bg-gray-300' hexCode='d1d5db' />
-		<PalletItem twColor='bg-gray-400' hexCode='9ca3af' />
-		<PalletItem twColor='bg-gray-500' hexCode='6b7280' />
-		<PalletItem twColor='bg-gray-600' hexCode='4b5563' />
-		<PalletItem twColor='bg-gray-700' hexCode='374151' />
-		<PalletItem twColor='bg-gray-800' hexCode='1f2937' />
-		<PalletItem twColor='bg-gray-900' hexCode='111827' />
-		<PalletItem twColor='bg-gray-950' hexCode='030712' />
-	</div>
-	<div class={tw.palleteWrapper} style="margin-top: 0;">
-		<PalletItem twColor='bg-zinc-50' hexCode='fafafa' />
-		<PalletItem twColor='bg-zinc-100' hexCode='f4f4f5' />
-		<PalletItem twColor='bg-zinc-200' hexCode='e4e4e7' />
-		<PalletItem twColor='bg-zinc-300' hexCode='d4d4d8' />
-		<PalletItem twColor='bg-zinc-400' hexCode='a1a1aa' />
-		<PalletItem twColor='bg-zinc-500' hexCode='71717a' />
-		<PalletItem twColor='bg-zinc-600' hexCode='52525b' />
-		<PalletItem twColor='bg-zinc-700' hexCode='3f3f46' />
-		<PalletItem twColor='bg-zinc-800' hexCode='27272a' />
-		<PalletItem twColor='bg-zinc-900' hexCode='18181b' />
-		<PalletItem twColor='bg-zinc-950' hexCode='09090b' />
-	</div>
-	<div class={tw.palleteWrapper} style="margin-top: 0;">
-		<PalletItem twColor='bg-neutral-50' hexCode='fafafa' />
-		<PalletItem twColor='bg-neutral-100' hexCode='f5f5f5' />
-		<PalletItem twColor='bg-neutral-200' hexCode='e5e5e5' />
-		<PalletItem twColor='bg-neutral-300' hexCode='d4d4d4' />
-		<PalletItem twColor='bg-neutral-400' hexCode='a3a3a3' />
-		<PalletItem twColor='bg-neutral-500' hexCode='737373' />
-		<PalletItem twColor='bg-neutral-600' hexCode='525252' />
-		<PalletItem twColor='bg-neutral-700' hexCode='404040' />
-		<PalletItem twColor='bg-neutral-800' hexCode='262626' />
-		<PalletItem twColor='bg-neutral-900' hexCode='171717' />
-		<PalletItem twColor='bg-neutral-950' hexCode='0a0a0a' />
-	</div>
-	<div class={tw.palleteWrapper} style="margin-top: 0;">
-		<PalletItem twColor='bg-stone-50' hexCode='fafaf9' />
-		<PalletItem twColor='bg-stone-100' hexCode='f5f5f4' />
-		<PalletItem twColor='bg-stone-200' hexCode='e7e5e4' />
-		<PalletItem twColor='bg-stone-300' hexCode='d6d3d1' />
-		<PalletItem twColor='bg-stone-400' hexCode='a8a29e' />
-		<PalletItem twColor='bg-stone-500' hexCode='78716c' />
-		<PalletItem twColor='bg-stone-600' hexCode='57534e' />
-		<PalletItem twColor='bg-stone-700' hexCode='44403c' />
-		<PalletItem twColor='bg-stone-800' hexCode='292524' />
-		<PalletItem twColor='bg-stone-900' hexCode='1c1917' />
-		<PalletItem twColor='bg-stone-950' hexCode='0c0a09' />
-	</div>
-	<div class={tw.palleteWrapper} style="margin-top: 0;">
-		<PalletItem twColor='bg-red-50' hexCode='f3f2f2' />
-		<PalletItem twColor='bg-red-100' hexCode='fee2e2' />
-		<PalletItem twColor='bg-red-200' hexCode='fecaca' />
-		<PalletItem twColor='bg-red-300' hexCode='fca5a5' />
-		<PalletItem twColor='bg-red-400' hexCode='f87171' />
-		<PalletItem twColor='bg-red-500' hexCode='ef4444' />
-		<PalletItem twColor='bg-red-600' hexCode='dc2626' />
-		<PalletItem twColor='bg-red-700' hexCode='b91c1c' />
-		<PalletItem twColor='bg-red-800' hexCode='991b1b' />
-		<PalletItem twColor='bg-red-900' hexCode='7f1d1d' />
-		<PalletItem twColor='bg-red-950' hexCode='450a0a' />
-</div>
-<div class={tw.palleteWrapper} style="margin-top: 0;">
-	<PalletItem twColor='bg-orange-50' hexCode='fff7ed' />
-	<PalletItem twColor='bg-orange-100' hexCode='ffedd5' />
-	<PalletItem twColor='bg-orange-200' hexCode='fed7aa' />
-	<PalletItem twColor='bg-orange-300' hexCode='fdba74' />
-	<PalletItem twColor='bg-orange-400' hexCode='fb923c' />
-	<PalletItem twColor='bg-orange-500' hexCode='f97316' />
-	<PalletItem twColor='bg-orange-600' hexCode='ea580c' />
-	<PalletItem twColor='bg-orange-700' hexCode='c2410c' />
-	<PalletItem twColor='bg-orange-800' hexCode='9a3412' />
-	<PalletItem twColor='bg-orange-900' hexCode='7c2d12' />
-	<PalletItem twColor='bg-orange-950' hexCode='431407' />
-</div>
-<div class={tw.palleteWrapper} style="margin-top: 0;">
-	<PalletItem twColor='bg-amber-50' hexCode='fffbeb' />
-	<PalletItem twColor='bg-amber-100' hexCode='fef3c7' />
-	<PalletItem twColor='bg-amber-200' hexCode='fd368a' />
-	<PalletItem twColor='bg-amber-300' hexCode='fcd34d' />
-	<PalletItem twColor='bg-amber-400' hexCode='fbbf24' />
-	<PalletItem twColor='bg-amber-500' hexCode='f59e0b' />
-	<PalletItem twColor='bg-amber-600' hexCode='d97706' />
-	<PalletItem twColor='bg-amber-700' hexCode='b45309' />
-	<PalletItem twColor='bg-amber-800' hexCode='92400e' />
-	<PalletItem twColor='bg-amber-900' hexCode='78350f' />
-	<PalletItem twColor='bg-amber-950' hexCode='451a03' />
-</div>
-<div class={tw.palleteWrapper} style="margin-top: 0;">
-	<PalletItem twColor='bg-yellow-50' hexCode='fefce8' />
-	<PalletItem twColor='bg-yellow-100' hexCode='fef9c3' />
-	<PalletItem twColor='bg-yellow-200' hexCode='fef08a' />
-	<PalletItem twColor='bg-yellow-300' hexCode='fde047' />
-	<PalletItem twColor='bg-yellow-400' hexCode='facc15' />
-	<PalletItem twColor='bg-yellow-500' hexCode='eab308' />
-	<PalletItem twColor='bg-yellow-600' hexCode='ca8a04' />
-	<PalletItem twColor='bg-yellow-700' hexCode='a16207' />
-	<PalletItem twColor='bg-yellow-800' hexCode='854d0e' />
-	<PalletItem twColor='bg-yellow-900' hexCode='713f12' />
-	<PalletItem twColor='bg-yellow-950' hexCode='422006' />
-</div>
 
-<div class={tw.palleteWrapper} style="margin-top: 0;">
-	<PalletItem twColor='bg-lime-50' hexCode='f7fee7' />
-	<PalletItem twColor='bg-lime-100' hexCode='ecfccb' />
-	<PalletItem twColor='bg-lime-200' hexCode='d9f99d' />
-	<PalletItem twColor='bg-lime-300' hexCode='bef264' />
-	<PalletItem twColor='bg-lime-400' hexCode='a3e635' />
-	<PalletItem twColor='bg-lime-500' hexCode='84cc16' />
-	<PalletItem twColor='bg-lime-600' hexCode='65a30d' />
-	<PalletItem twColor='bg-lime-700' hexCode='4d7c0f' />
-	<PalletItem twColor='bg-lime-800' hexCode='3f6212' />
-	<PalletItem twColor='bg-lime-900' hexCode='365214' />
-	<PalletItem twColor='bg-lime-950' hexCode='1a2e05' />
+<div >
+	{orientation === 'horizontal' ? <PalletGridH/> : <PalletGridV/>}
 </div>
-<div class={tw.palleteWrapper} style="margin-top: 0;">
-	<PalletItem twColor='bg-green-50' hexCode='f0fdf4' />
-	<PalletItem twColor='bg-green-100' hexCode='dcfce7' />
-	<PalletItem twColor='bg-green-200' hexCode='bbf7d0' />
-	<PalletItem twColor='bg-green-300' hexCode='86efac' />
-	<PalletItem twColor='bg-green-400' hexCode='4ade80' />
-	<PalletItem twColor='bg-green-500' hexCode='22c55e' />
-	<PalletItem twColor='bg-green-600' hexCode='16a34a' />
-	<PalletItem twColor='bg-green-700' hexCode='15803d' />
-	<PalletItem twColor='bg-green-800' hexCode='166534' />
-	<PalletItem twColor='bg-green-900' hexCode='14532d' />
-	<PalletItem twColor='bg-green-950' hexCode='052e16' />
-</div>
-<div class={tw.palleteWrapper} style="margin-top: 0;">
-	<PalletItem twColor='bg-emerald-50' hexCode='ecfdf5' />
-	<PalletItem twColor='bg-emerald-100' hexCode='d1fae5' />
-	<PalletItem twColor='bg-emerald-200' hexCode='a7f3d0' />
-	<PalletItem twColor='bg-emerald-300' hexCode='6ee7b7' />
-	<PalletItem twColor='bg-emerald-400' hexCode='34d399' />
-	<PalletItem twColor='bg-emerald-500' hexCode='10b981' />
-	<PalletItem twColor='bg-emerald-600' hexCode='059669' />
-	<PalletItem twColor='bg-emerald-700' hexCode='047857' />
-	<PalletItem twColor='bg-emerald-800' hexCode='065f46' />
-	<PalletItem twColor='bg-emerald-900' hexCode='064e3b' />
-	<PalletItem twColor='bg-emerald-950' hexCode='022c22' />
-</div>
-<div class={tw.palleteWrapper} style="margin-top: 0;">
-	<PalletItem twColor='bg-teal-50' hexCode='f0fdfa' />
-	<PalletItem twColor='bg-teal-100' hexCode='ccfbf1' />
-	<PalletItem twColor='bg-teal-200' hexCode='99f6e4' />
-	<PalletItem twColor='bg-teal-300' hexCode='5eead4' />
-	<PalletItem twColor='bg-teal-400' hexCode='2dd4bf' />
-	<PalletItem twColor='bg-teal-500' hexCode='14b8a6' />
-	<PalletItem twColor='bg-teal-600' hexCode='0d9488' />
-	<PalletItem twColor='bg-teal-700' hexCode='0f766e' />
-	<PalletItem twColor='bg-teal-800' hexCode='115e59' />
-	<PalletItem twColor='bg-teal-900' hexCode='134e4a' />
-	<PalletItem twColor='bg-teal-950' hexCode='042f2e' />
-</div>
+```
+</TabItem>
 
-<div class={tw.palleteWrapper} style="margin-top: 0;">
-	<PalletItem twColor='bg-cyan-50' hexCode='ecfeff' />
-	<PalletItem twColor='bg-cyan-100' hexCode='cffafe' />
-	<PalletItem twColor='bg-cyan-200' hexCode='a5f3fc' />
-	<PalletItem twColor='bg-cyan-300' hexCode='67e8f9' />
-	<PalletItem twColor='bg-cyan-400' hexCode='22d3ee' />
-	<PalletItem twColor='bg-cyan-500' hexCode='06b6d4' />
-	<PalletItem twColor='bg-cyan-600' hexCode='0891b2' />
-	<PalletItem twColor='bg-cyan-700' hexCode='0e7490' />
-	<PalletItem twColor='bg-cyan-800' hexCode='155e75' />
-	<PalletItem twColor='bg-cyan-900' hexCode='164e63' />
-	<PalletItem twColor='bg-cyan-950' hexCode='083344' />
-</div>
-<div class={tw.palleteWrapper} style="margin-top: 0;">
-	<PalletItem twColor='bg-sky-50' hexCode='f0f9ff' />
-	<PalletItem twColor='bg-sky-100' hexCode='e0f2fe' />
-	<PalletItem twColor='bg-sky-200' hexCode='bae6fd' />
-	<PalletItem twColor='bg-sky-300' hexCode='7ddefc' />
-	<PalletItem twColor='bg-sky-400' hexCode='38bdf8' />
-	<PalletItem twColor='bg-sky-500' hexCode='0ea5e9' />
-	<PalletItem twColor='bg-sky-600' hexCode='0284c7' />
-	<PalletItem twColor='bg-sky-700' hexCode='0369a1' />
-	<PalletItem twColor='bg-sky-800' hexCode='075985' />
-	<PalletItem twColor='bg-sky-900' hexCode='0c4a6e' />
-	<PalletItem twColor='bg-sky-950' hexCode='082f49' />
-</div>
-<div class={tw.palleteWrapper} style="margin-top: 0;">
-	<PalletItem twColor='bg-blue-50' hexCode='eff6ff' />
-	<PalletItem twColor='bg-blue-100' hexCode='dbeafe' />
-	<PalletItem twColor='bg-blue-200' hexCode='bfdbfe' />
-	<PalletItem twColor='bg-blue-300' hexCode='93c5fd' />
-	<PalletItem twColor='bg-blue-400' hexCode='60a5fa' />
-	<PalletItem twColor='bg-blue-500' hexCode='3b82f6' />
-	<PalletItem twColor='bg-blue-600' hexCode='2563eb' />
-	<PalletItem twColor='bg-blue-700' hexCode='1d4ed8' />
-	<PalletItem twColor='bg-blue-800' hexCode='1e40af' />
-	<PalletItem twColor='bg-blue-900' hexCode='1e3a8a' />
-	<PalletItem twColor='bg-blue-950' hexCode='172554' />
-</div>
-<div class={tw.palleteWrapper} style="margin-top: 0;">
-	<PalletItem twColor='bg-indigo-50' hexCode='eef2ff' />
-	<PalletItem twColor='bg-indigo-100' hexCode='e0e7ff' />
-	<PalletItem twColor='bg-indigo-200' hexCode='c7d2fe' />
-	<PalletItem twColor='bg-indigo-300' hexCode='a5b4fc' />
-	<PalletItem twColor='bg-indigo-400' hexCode='818cf8' />
-	<PalletItem twColor='bg-indigo-500' hexCode='6366f1' />
-	<PalletItem twColor='bg-indigo-600' hexCode='4746e5' />
-	<PalletItem twColor='bg-indigo-700' hexCode='4338ca' />
-	<PalletItem twColor='bg-indigo-800' hexCode='3730a3' />
-	<PalletItem twColor='bg-indigo-900' hexCode='312e81' />
-	<PalletItem twColor='bg-indigo-950' hexCode='1e1b4b' />
-</div>
-<div class={tw.palleteWrapper} style="margin-top: 0;">
-	<PalletItem twColor='bg-violet-50' hexCode='f5f3ff' />
-	<PalletItem twColor='bg-violet-100' hexCode='ede9fe' />
-	<PalletItem twColor='bg-violet-200' hexCode='ddd6fe' />
-	<PalletItem twColor='bg-violet-300' hexCode='c4b5fd' />
-	<PalletItem twColor='bg-violet-400' hexCode='a78bfa' />
-	<PalletItem twColor='bg-violet-500' hexCode='8b5cf6' />
-	<PalletItem twColor='bg-violet-600' hexCode='7c3aed' />
-	<PalletItem twColor='bg-violet-700' hexCode='6d28d9' />
-	<PalletItem twColor='bg-violet-800' hexCode='5b21b6' />
-	<PalletItem twColor='bg-violet-900' hexCode='4c1d95' />
-	<PalletItem twColor='bg-violet-950' hexCode='2e1065' />
-</div>
-<div class={tw.palleteWrapper} style="margin-top: 0;">
-	<PalletItem twColor='bg-purple-50' hexCode='faf5ff' />
-	<PalletItem twColor='bg-purple-100' hexCode='f3e8ff' />
-	<PalletItem twColor='bg-purple-200' hexCode='dd9d5ff' />
-	<PalletItem twColor='bg-purple-300' hexCode='d8b4fe' />
-	<PalletItem twColor='bg-purple-400' hexCode='c084fc' />
-	<PalletItem twColor='bg-purple-500' hexCode='a855f7' />
-	<PalletItem twColor='bg-purple-600' hexCode='9333ea' />
-	<PalletItem twColor='bg-purple-700' hexCode='7322ce' />
-	<PalletItem twColor='bg-purple-800' hexCode='6b21a8' />
-	<PalletItem twColor='bg-purple-900' hexCode='581c87' />
-	<PalletItem twColor='bg-purple-950' hexCode='3b0764' />
-</div>
-<div class={tw.palleteWrapper} style="margin-top: 0;">
-	<PalletItem twColor='bg-fuchsia-50' hexCode='fdf4ff' />
-	<PalletItem twColor='bg-fuchsia-100' hexCode='fae8ff' />
-	<PalletItem twColor='bg-fuchsia-200' hexCode='f5d0fe' />
-	<PalletItem twColor='bg-fuchsia-300' hexCode='f0abfc' />
-	<PalletItem twColor='bg-fuchsia-400' hexCode='e879f9' />
-	<PalletItem twColor='bg-fuchsia-500' hexCode='d946ef' />
-	<PalletItem twColor='bg-fuchsia-600' hexCode='c026d3' />
-	<PalletItem twColor='bg-fuchsia-700' hexCode='a21caf' />
-	<PalletItem twColor='bg-fuchsia-800' hexCode='86198f' />
-	<PalletItem twColor='bg-fuchsia-900' hexCode='701a75' />
-	<PalletItem twColor='bg-fuchsia-950' hexCode='4a044e' />
-</div>
-<div class={tw.palleteWrapper} style="margin-top: 0;">
-	<PalletItem twColor='bg-pink-50' hexCode='fdf2f8' />
-	<PalletItem twColor='bg-pink-100' hexCode='fce7f3' />
-	<PalletItem twColor='bg-pink-200' hexCode='fbcfe8' />
-	<PalletItem twColor='bg-pink-300' hexCode='f9a8d4' />
-	<PalletItem twColor='bg-pink-400' hexCode='f472b6' />
-	<PalletItem twColor='bg-pink-500' hexCode='ec4899' />
-	<PalletItem twColor='bg-pink-600' hexCode='db2777' />
-	<PalletItem twColor='bg-pink-700' hexCode='be185d' />
-	<PalletItem twColor='bg-pink-800' hexCode='86198f' />
-	<PalletItem twColor='bg-pink-900' hexCode='831843' />
-	<PalletItem twColor='bg-pink-950' hexCode='500724' />
-</div>
-<div class={tw.palleteWrapper} style="margin-top: 0;">
-	<PalletItem twColor='bg-rose-50' hexCode='fff1f2' />
-	<PalletItem twColor='bg-rose-100' hexCode='ffe4e6' />
-	<PalletItem twColor='bg-rose-200' hexCode='fecdd3' />
-	<PalletItem twColor='bg-rose-300' hexCode='fda4af' />
-	<PalletItem twColor='bg-rose-400' hexCode='fb7185' />
-	<PalletItem twColor='bg-rose-500' hexCode='f43f5e' />
-	<PalletItem twColor='bg-rose-600' hexCode='e11d48' />
-	<PalletItem twColor='bg-rose-700' hexCode='be123c' />
-	<PalletItem twColor='bg-rose-800' hexCode='9f1239' />
-	<PalletItem twColor='bg-rose-900' hexCode='881337' />
-	<PalletItem twColor='bg-rose-950' hexCode='4c0519' />
-</div>  
+<TabItem label="PalletGridH">
+```js title="PalletGridH.astro" "colorFamilies" "shades" "hexValues"
+	---
+	import PalletItem from './PalletItem.astro';
 
+	const tw = {
+		grid: 'grid  grid-rows-1 gap-2 px-4',
+		palleteWrapper: 'mt-0 flex flex-col gap-y-2',
+	}
 
+	const colorFamilies = ['slate', 'gray', 'zinc', 'neutral', 'stone', 'red', 'orange', 'amber', 'yellow', 'lime', 'green', 'emerald', 'teal', 'cyan', 'sky', 'blue', 'indigo', 'violet', 'purple', 'fuchsia', 'pink', 'rose']
+	const shades = [50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950]
+	const hexValues = [
+		['f8fafc', 'f9fafb', 'fafafa', 'fafafa', 'fafaf9', 'f3f2f2', 'fff7ed', 'fffbeb', 'fefce8', 'f7fee7', 'f0fdf4', 'ecfdf5', 'f0fdfa', 'ecfeff', 'f0f9ff', 'eff6ff', 'eef2ff', 'f5f3ff', 'faf5ff', 'fdf4ff', 'fdf2f8', 'fff1f2'], //950
+		['0f172a','111827', '18181b', '171717', '1c1917', '7f1d1d', '7c2d12','78350f', '713f12', '365214', '14532d', '064e3b', '1334e4a', '164e63', '0c4a6e','1e3a8a','312e81d', '4c1d95', '581c87','701a75', '831843', '881337', ], //900
+		['1e293b', '1f2937', '27272a', '262626', '292524', '991b1b', '9a3412','92400e', '854d0e','3f6212', '166534', '065f45', '115e59', '155375', '075985', '1e40af', '3730a3', '5b21b6', '6b21a8', '86198f', '86198f', '9f1239'],  //800
+		['334155','374151', '3f3f46', '404040', '44403c', 'b91c1c', 'c2410c', 'b45309', 'a16207','4d7c0f', '15803d', '047857', '0f766e', '0e7490', '03609a1', '1d4ed8', '4338ca', '6d28d9', '7322ce', 'a21caf','be185d', 'be123c'], //700
+		['475569', '4b5563', '52525b', '525252', '57534e', 'dc2626', 'ea580c', 'd97706', 'ca8a04', '65a30d', '16a34a','059669', '0d9488', '0891b2', '0284c7', '2563eb', '4746e5', '7c3aed', '9333ea', 'c026d3', 'db2777', 'e11d48' ], //600
+		['64748b',  '6b7280', '71717a', '737373', '78716c', 'ef4444', 'f97316', 'f59e0b', 'eab308', '84cc16', '22c55e', '10b981', '14b8a6', '06b6d4', '0ea5e9', '3b82f6', '6366f1', '8b5cf6', 'a855f7', 'd946ef', 'ec4899', 'f43f5e'], //500
+		['94a3b8', '9ca3af', 'a1a1aa', 'a3a3a3', 'a8a29e', 'f87171', 'fb923c', 'fbbf24', 'facc15', 'a3e635', '4ade80', '34d399', '2dd4bf', '22de33', '38bdf8', '60a5fa', '818cf8', 'a78bfa', 'c084fc', 'e879f9', 'f472b6', 'fb7185'], //400
+		['cbd5e1', 'd1d5db', 'd4d4d8', 'd4d4d4', 'd6d3d1', 'fca5a5', 'fdba74', 'fcd34d', 'fde047', 'bef264', '86efac', '6337b7', '5eed4', '67e8f9', '7ddefc', '93c5fd', 'a5b4fc', 'c4b5fd', 'd8b4fe', 'f0abfc', 'f9a8d4', 'fda4af'],  //300
+		['e2e8f0', 'e5e7eb', 'e4e4e7', 'e5e5e5', 'e7e5e4', 'fecaca', 'fed7aa', 'fde68a', 'fef08a', 'd9f99d', 'bbf7d0', 'a7fed0', '99f6e4', 'a5f3fc', 'bae6fd', 'bfdbfe', 'c7d2fe', 'ddd6fe', 'e9d5ff', 'f5d0fe', 'fbcfe8', 'fecdd3'],  //200
+		['f1f5f9', 'f3f4f6', 'f4f4f5', 'f5f5f5', 'f5f5f4', 'fee2e2', 'ffedd5', 'fefec7', 'fef9c3', 'ecfccb', 'dcfce7', 'a7fed0', 'ccfbf1', 'cffafe, e0f2fe', 'dbeafe', 'e0e7ff', 'ede9fe', 'f3e8ff', 'fae8ff', 'fce7f3', 'ffe4e6'],  //100
+		['f8fafc', 'f9fafb', 'fafafa', 'fafafa', 'fafaf9', 'f3f2f2', 'fff7ed', 'fffbeb', 'fefce8', 'f7fee7', 'f0fdf4', 'ecfdf5', 'f0fdfa', 'ecfeff', 'f0f9ff', 'eff6ff', 'eef2ff', 'f5f3ff', 'faf5ff', 'fdf4ff', 'fdf2f8', 'fffaf2'] //50
+	]
+
+	---
+	<div class={tw.grid} style="grid-template-columns:repeat(22, 1fr);">
+		{colorFamilies.map((family, index) => (
+			<div class={tw.palleteWrapper}>
+				{shades.map((_, shadeIndex) => (
+					<PalletItem twColor={`bg-${family}-${shades[shadeIndex]}`} hexCode={hexValues[shadeIndex][index]} />
+				))}
+			</div>
+		))}
+	</div>
 
 ```
 </TabItem>
+
+
 <TabItem label="PalletItem">
 ```js title="PalletItem.astro"
 ---
