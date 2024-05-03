@@ -5,7 +5,7 @@ template: splash
 hero:
   tagline: a hypermedia starter kit featuring HTMX, Hyperscript, Tailwind, and Astro !!
   image:
-    file: ../../assets/houston.webp
+    file: ../../assets/hyperComponents_logo.jpg
   actions:
     - text: Getting Started
       link: /about/background
@@ -26,19 +26,19 @@ import Hyperscript_Logo from '../../components/Hyperscript_Logo.astro';
 
 <CardGrid stagger>
 	<Card>
-	<HTMX_Logo/>
-		Extend any html element with attributes that emit AJAX requests and then swap the hypermedia response directly into the DOM.
+	  <a href="https://htmx.org"><HTMX_Logo/> </a>
+		Give any HTML element the ability to send AJAX requests and then swap a hypermedia response directly into the DOM using a simple suite of custom attributes.
 	</Card>
 	<Card title="Tailwind">
-	  <img src="/images/tailwind_icon.svg" alt="Tailwind CSS" style="height: 30px;"/>
+	  <a href="https://tailwindcss.com"><img src="/images/tailwind_icon.svg" alt="Tailwind CSS" style="height: 30px;"/></a>
 		Responsive mobile-first design using utility classes for rapid prototyping.
 	</Card>
 	<Card>
-	<Hyperscript_Logo/>
+	  <a href="https://hyperscript.org"><Hyperscript_Logo/> </a>
 		Create dynamic client side interactivity with this powerful scripting language featuring prose-like syntax and extensive event management.
 	</Card>
 	<Card>
-	  <img src="/images/astro_logo.png" alt="Astro Build Tool" style="height: 50px;"/>
-		Vite based static/SSR build tool with straight-forward component architecture, file-base routing, and full support for custom API endpoints perfect for serving hypermedia responses to AJAX requests.
+	  <a href="https://astro.build"><img src="/images/astro_logo.png" alt="Astro Build Tool" style="height: 50px;"/></a>
+		Vite based static/SSR build tool with straight-forward component architecture, file-base routing, and full support for custom API endpoints ideal for serving hypermedia responses to AJAX requests.
 	</Card>
 </CardGrid>
