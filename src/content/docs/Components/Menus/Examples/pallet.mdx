@@ -13,6 +13,7 @@ Two examples are presented which  illustrate a drop down menu with a grid of col
 The first example uses the [ClickDropdownMenu_A](/components/menus/click_a/) parent component to wrap a custom [PalletGrid](#palletgrid) component.   The code block used to present  this example is listed to follow.
 
 import PalletGrid from '../../../../../components/PalletGrid.astro'
+import TailwindPallet from '../../../../../components/TailwindPallet.astro'
 
 export const tw = {
 	exampleContainer: 'not-content w-full pb-4 w-max-lg text-center mx-auto bg-gray-300 dark:bg-gray-800 rounded-xl my-6',
@@ -27,7 +28,7 @@ import ClickDropdownMenu_A from '../../../../../components/ClickDropdownMenu_A.a
 
 <ClickDropdownMenu_A id='click-activated-pallet' moveXY='-200,18' buttonStyles='colorPallet bg-gray-700' duration='180ms'>
 	<img slot="leftIcon" src='/images/tailwind_icon.svg' alt='tailwind icon' class={tw.icon}/>
-	<PalletGrid hs="on click send closeDropdown to the .colorPallet then settle then alert( 'You selected ' + my @title)"/>
+	<TailwindPallet />
 </ClickDropdownMenu_A>
 </div>
 
