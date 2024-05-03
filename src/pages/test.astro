@@ -9,7 +9,7 @@ const title = "Logos"
 const tw = {
 	page: 'splash h-screen bg-gray-900',
 	grid: 'grounded-radiants fixed w-3/12 top-20 left-40 h-[300px] w-[350px] flex flex-col items-center gap-y-8  ',
-	container: 'inline-block text-4xl font-bold ',
+	container: 'inline-block text-4xl font-bold mb-2',
 	base: 'text-gray-800 dark:text-zinc-200',
 	alternate: 'text-blue-400'
 }
@@ -23,14 +23,14 @@ const tw = {
 		<div class={tw.container}>
 			<span class={tw.alternate}>///_h<span class={tw.base}>yper</span><span class={tw.alternate}>s</span><span class={tw.base}>cript</span></span>
 		</div>
-		<div class={tw.container}>
+		<div class={tw.container + " mt-1"}>
 			<span class={tw.base}>&lt;</span>
 			<span class={tw.alternate}>/</span>
 			<span class={tw.base}>&gt;</span>
 			<span class={tw.base + " tracking-wider"}>htm<span class={tw.alternate + " -translate-x-6"}>x</span></span>
 		</div>
 		<div>
-			<img class="inline-block h-14 m-2 pt-1"src="/images/astro_icon.png" alt="">
+			<img class="inline-block h-12 m-2 pr-3"src="/images/astro_icon.png" alt="">
 			<img class="inline-block h-14" src="/images/tailwind_icon.svg" alt="">
 		</div>
 	</div>
