@@ -5,11 +5,6 @@
 		hs: string
 	}
 
-	const twVariant = (family, shade) => {
-		return "bg-" + family + "-" + shade
-  // return 'bg-pink-500'
-	}
-
 	const {hs} = Astro.props
 
 	const tw = {
@@ -37,8 +32,8 @@
 	<div class={tw.grid} style="grid-template-columns:repeat(22, 1fr);">
 		{colorFamilies.map((family, index) => (
 			<div class={tw.palleteWrapper}>
-				{shades.map((_, shadeIndex) => (
-					<PalletItem script={hs} twColor={twVariant(family, shades[shadeIndex])} hexCode={hexValues[shadeIndex][index]} />
+				{shades.map((shade, shadeIndex) => (
+					<PalletItem script={hs} twColor={ "bg-" + family + "-" + shade} hexCode={hexValues[shadeIndex][index]} />
 				))}
 			</div> 
 		))}
