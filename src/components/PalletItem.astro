@@ -7,6 +7,8 @@ interface Props {
 
 const {twColor, hexCode, script } = Astro.props
 
+import {twMerge} from 'tailwind-merge'
+
 function capitalizeFirstCharacter(str) {
     if (!str) return str;
     return str.charAt(0).toUpperCase() + str.slice(1);
@@ -23,7 +25,7 @@ const defaultScript = "on click send closeDropdown to the .colorPallet then sett
 ---
 
 <span 
-	class={`${twColor} ` + tw.palletItem} title={`${color} (#${hexCode})`}
+	class={tw.palletItem + ' ' + twColor} title={`${color} (#${hexCode})`}
 	bgcolor={twColor}
 	script={script}>
 </span>

@@ -1,0 +1,26 @@
+---
+
+import StarlightPage from '@astrojs/starlight/components/StarlightPage.astro';
+import ClickDropdownMenu_A from '../components/ClickDropdownMenu_A.astro'
+import PalletGrid from '../components/PalletGrid.astro';
+
+const title = "Pallets"
+
+export const tw = {
+	exampleContainer: 'not-content w-full pb-4 w-max-lg text-center mx-auto bg-gray-300 dark:bg-gray-800 rounded-xl my-6',
+	exampleTitle: 'bg-gray-300 dark:bg-gray-900 text-gray-300 dark:text-zinc-300 font-semibold py-2 mb-4',
+	icon:'inline-block size-6'
+}
+
+---
+
+<StarlightPage frontmatter={{ title: title }}>
+
+	<ClickDropdownMenu_A id='click-activated-pallet' moveXY='-200,18' buttonStyles='colorPallet bg-gray-700' duration='180ms'>
+		<img slot="leftIcon" src='/images/tailwind_icon.svg' alt='tailwind icon' class={tw.icon}/>
+		<PalletGrid hs="on click send closeDropdown to the .colorPallet then settle then alert( 'You selected ' + my @title)"/>
+	</ClickDropdownMenu_A>
+	</div>
+
+</StarlightPage>
+
