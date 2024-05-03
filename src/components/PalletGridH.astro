@@ -15,25 +15,25 @@
 	const colorFamilies = ['slate', 'gray', 'zinc', 'neutral', 'stone', 'red', 'orange', 'amber', 'yellow', 'lime', 'green', 'emerald', 'teal', 'cyan', 'sky', 'blue', 'indigo', 'violet', 'purple', 'fuchsia', 'pink', 'rose']
 	const shades = ['50', '100', '200', '300', '400', '500', '600', '700', '800', '900', '950']
 	const hexValues = [
-		['f8fafc', 'f9fafb', 'fafafa', 'fafafa', 'fafaf9', 'f3f2f2', 'fff7ed', 'fffbeb', 'fefce8', 'f7fee7', 'f0fdf4', 'ecfdf5', 'f0fdfa', 'ecfeff', 'f0f9ff', 'eff6ff', 'eef2ff', 'f5f3ff', 'faf5ff', 'fdf4ff', 'fdf2f8', 'fff1f2'], //950
-		['0f172a','111827', '18181b', '171717', '1c1917', '7f1d1d', '7c2d12','78350f', '713f12', '365214', '14532d', '064e3b', '1334e4a', '164e63', '0c4a6e','1e3a8a','312e81d', '4c1d95', '581c87','701a75', '831843', '881337', ], //900
-		['1e293b', '1f2937', '27272a', '262626', '292524', '991b1b', '9a3412','92400e', '854d0e','3f6212', '166534', '065f45', '115e59', '155375', '075985', '1e40af', '3730a3', '5b21b6', '6b21a8', '86198f', '86198f', '9f1239'],  //800
-		['334155','374151', '3f3f46', '404040', '44403c', 'b91c1c', 'c2410c', 'b45309', 'a16207','4d7c0f', '15803d', '047857', '0f766e', '0e7490', '03609a1', '1d4ed8', '4338ca', '6d28d9', '7322ce', 'a21caf','be185d', 'be123c'], //700
-		['475569', '4b5563', '52525b', '525252', '57534e', 'dc2626', 'ea580c', 'd97706', 'ca8a04', '65a30d', '16a34a','059669', '0d9488', '0891b2', '0284c7', '2563eb', '4746e5', '7c3aed', '9333ea', 'c026d3', 'db2777', 'e11d48' ], //600
-		['64748b',  '6b7280', '71717a', '737373', '78716c', 'ef4444', 'f97316', 'f59e0b', 'eab308', '84cc16', '22c55e', '10b981', '14b8a6', '06b6d4', '0ea5e9', '3b82f6', '6366f1', '8b5cf6', 'a855f7', 'd946ef', 'ec4899', 'f43f5e'], //500
-		['94a3b8', '9ca3af', 'a1a1aa', 'a3a3a3', 'a8a29e', 'f87171', 'fb923c', 'fbbf24', 'facc15', 'a3e635', '4ade80', '34d399', '2dd4bf', '22de33', '38bdf8', '60a5fa', '818cf8', 'a78bfa', 'c084fc', 'e879f9', 'f472b6', 'fb7185'], //400
-		['cbd5e1', 'd1d5db', 'd4d4d8', 'd4d4d4', 'd6d3d1', 'fca5a5', 'fdba74', 'fcd34d', 'fde047', 'bef264', '86efac', '6337b7', '5eed4', '67e8f9', '7ddefc', '93c5fd', 'a5b4fc', 'c4b5fd', 'd8b4fe', 'f0abfc', 'f9a8d4', 'fda4af'],  //300
-		['e2e8f0', 'e5e7eb', 'e4e4e7', 'e5e5e5', 'e7e5e4', 'fecaca', 'fed7aa', 'fde68a', 'fef08a', 'd9f99d', 'bbf7d0', 'a7fed0', '99f6e4', 'a5f3fc', 'bae6fd', 'bfdbfe', 'c7d2fe', 'ddd6fe', 'e9d5ff', 'f5d0fe', 'fbcfe8', 'fecdd3'],  //200
-		['f1f5f9', 'f3f4f6', 'f4f4f5', 'f5f5f5', 'f5f5f4', 'fee2e2', 'ffedd5', 'fefec7', 'fef9c3', 'ecfccb', 'dcfce7', 'a7fed0', 'ccfbf1', 'cffafe, e0f2fe', 'dbeafe', 'e0e7ff', 'ede9fe', 'f3e8ff', 'fae8ff', 'fce7f3', 'ffe4e6'],  //100
-		['f8fafc', 'f9fafb', 'fafafa', 'fafafa', 'fafaf9', 'f3f2f2', 'fff7ed', 'fffbeb', 'fefce8', 'f7fee7', 'f0fdf4', 'ecfdf5', 'f0fdfa', 'ecfeff', 'f0f9ff', 'eff6ff', 'eef2ff', 'f5f3ff', 'faf5ff', 'fdf4ff', 'fdf2f8', 'fffaf2'] //50
+	['f8fafc', 'f9fafb', 'fafafa', 'fafafa', 'fafaf9', 'f3f2f2', 'fff7ed', 'fffbeb', 'fefce8', 'f7fee7', 'f0fdf4', 'ecfdf5', 'f0fdfa', 'ecfeff', 'f0f9ff', 'eff6ff', 'eef2ff', 'f5f3ff', 'faf5ff', 'fdf4ff', 'fdf2f8', 'fffaf2'], //50,
+	['f1f5f9', 'f3f4f6', 'f4f4f5', 'f5f5f5', 'f5f5f4', 'fee2e2', 'ffedd5', 'fefec7', 'fef9c3', 'ecfccb', 'dcfce7', 'a7fed0', 'ccfbf1', 'cffafe, e0f2fe', 'dbeafe', 'e0e7ff', 'ede9fe', 'f3e8ff', 'fae8ff', 'fce7f3', 'ffe4e6'],  //100
+	['e2e8f0', 'e5e7eb', 'e4e4e7', 'e5e5e5', 'e7e5e4', 'fecaca', 'fed7aa', 'fde68a', 'fef08a', 'd9f99d', 'bbf7d0', 'a7fed0', '99f6e4', 'a5f3fc', 'bae6fd', 'bfdbfe', 'c7d2fe', 'ddd6fe', 'e9d5ff', 'f5d0fe', 'fbcfe8', 'fecdd3'],  //200
+	['cbd5e1', 'd1d5db', 'd4d4d8', 'd4d4d4', 'd6d3d1', 'fca5a5', 'fdba74', 'fcd34d', 'fde047', 'bef264', '86efac', '6337b7', '5eed4', '67e8f9', '7ddefc', '93c5fd', 'a5b4fc', 'c4b5fd', 'd8b4fe', 'f0abfc', 'f9a8d4', 'fda4af'],  //300
+	['94a3b8', '9ca3af', 'a1a1aa', 'a3a3a3', 'a8a29e', 'f87171', 'fb923c', 'fbbf24', 'facc15', 'a3e635', '4ade80', '34d399', '2dd4bf', '22de33', '38bdf8', '60a5fa', '818cf8', 'a78bfa', 'c084fc', 'e879f9', 'f472b6', 'fb7185'], //400
+	['64748b',  '6b7280', '71717a', '737373', '78716c', 'ef4444', 'f97316', 'f59e0b', 'eab308', '84cc16', '22c55e', '10b981', '14b8a6', '06b6d4', '0ea5e9', '3b82f6', '6366f1', '8b5cf6', 'a855f7', 'd946ef', 'ec4899', 'f43f5e'], //500
+	['475569', '4b5563', '52525b', '525252', '57534e', 'dc2626', 'ea580c', 'd97706', 'ca8a04', '65a30d', '16a34a','059669', '0d9488', '0891b2', '0284c7', '2563eb', '4746e5', '7c3aed', '9333ea', 'c026d3', 'db2777', 'e11d48'], //600
+	['334155','374151', '3f3f46', '404040', '44403c', 'b91c1c', 'c2410c', 'b45309', 'a16207','4d7c0f', '15803d', '047857', '0f766e', '0e7490', '03609a1', '1d4ed8', '4338ca', '6d28d9', '7322ce', 'a21caf','be185d', 'be123c'], //700
+	['1e293b', '1f2937', '27272a', '262626', '292524', '991b1b', '9a3412','92400e', '854d0e','3f6212', '166534', '065f45', '115e59', '155375', '075985', '1e40af', '3730a3', '5b21b6', '6b21a8', '86198f', '86198f', '9f1239'],  //800
+	['0f172a','111827', '18181b', '171717', '1c1917', '7f1d1d', '7c2d12','78350f', '713f12', '365214', '14532d', '064e3b', '1334e4a', '164e63', '0c4a6e','1e3a8a','312e81d', '4c1d95', '581c87','701a75', '831843', '881337'], //900
+	['f8fafc', 'f9fafb', 'fafafa', 'fafafa', 'fafaf9', 'f3f2f2', 'fff7ed', 'fffbeb', 'fefce8', 'f7fee7', 'f0fdf4', 'ecfdf5', 'f0fdfa', 'ecfeff', 'f0f9ff', 'eff6ff', 'eef2ff', 'f5f3ff', 'faf5ff', 'fdf4ff', 'fdf2f8', 'fff1f2'], //950
 	]
 
 	---
 	<div class={tw.grid} style="grid-template-columns:repeat(22, 1fr);">
-		{colorFamilies.map((family, index) => (
+		{colorFamilies.map((family, familyIndex) => (
 			<div class={tw.palleteWrapper}>
 				{shades.map((shade, shadeIndex) => (
-					<PalletItem script={hs} twColor={ "bg-" + family + "-" + shade} hexCode={hexValues[shadeIndex][index]} />
+					<PalletItem script={hs} twColor={ "bg-" + family + "-" + shade} hexCode={hexValues[shadeIndex][familyIndex]} />
 				))}
 			</div> 
 		))}

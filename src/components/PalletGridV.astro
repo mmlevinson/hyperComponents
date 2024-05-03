@@ -32,8 +32,8 @@
 	<div class={tw.grid}>
 		{shades.map((shade, shadeIndex) => (
 			<div class={tw.palleteWrapper}>
-				{colorFamilies.map((family, index) => (
-					<PalletItem script={hs} twColor={"bg-" + family + "-" + shade} hexCode={hexValues[shadeIndex][index]} />
+				{colorFamilies.map((family, familyIndex) => (
+					<PalletItem script={hs} twColor={"bg-" + family + "-" + shade} hexCode={hexValues[shadeIndex][familyIndex]} />
 				))}
 			</div>
 		))}
