@@ -1,26 +1,43 @@
 ---
 
 import StarlightPage from '@astrojs/starlight/components/StarlightPage.astro';
-import ClickDropdownMenu_A from '../components/ClickDropdownMenu_A.astro'
-import PalletGrid from '../components/PalletGrid.astro';
+import Hyperscript_Logo from '../components/Hyperscript_Logo.astro';
+import HTMXLogo from '../components/HTMX_Logo.astro';
 
-const title = "Pallets"
 
-export const tw = {
-	exampleContainer: 'not-content w-full pb-4 w-max-lg text-center mx-auto bg-gray-300 dark:bg-gray-800 rounded-xl my-6',
-	exampleTitle: 'bg-gray-300 dark:bg-gray-900 text-gray-300 dark:text-zinc-300 font-semibold py-2 mb-4',
-	icon:'inline-block size-6'
+const title = "Logos"
+const tw = {
+	page: 'h-screen bg-gray-900',
+	grid: 'fixed top-20 left-40  p-4 rounded-xl grid grid-cols-1grid-rows-4 bg-gray-900 justify-items-center gap-y-2 border-2 border-pink-500',
+	container: 'inline-block text-2xl font-bold ',
+	base: 'text-gray-800 dark:text-zinc-200',
+	alternate: 'text-blue-400'
 }
+
 
 ---
 
-<StarlightPage frontmatter={{ title: title }}>
 
-	<ClickDropdownMenu_A id='click-activated-pallet' moveXY='-200,18' buttonStyles='colorPallet bg-gray-700' duration='180ms'>
-		<img slot="leftIcon" src='/images/tailwind_icon.svg' alt='tailwind icon' class={tw.icon}/>
-		<PalletGrid hs="on click send closeDropdown to the .colorPallet then settle then alert( 'You selected ' + my @title)"/>
-	</ClickDropdownMenu_A>
+<div class={tw.page}>
+	
+	<div class={tw.grid}>
+		<div class={tw.container}>
+			<span class={tw.alternate}>///_h<span class={tw.base}>yper</span><span class={tw.alternate}>s</span><span class={tw.base}>cript</span></span>
+		</div>
+	
+		<div class={tw.container}>
+			<span class={tw.base}>&lt;</span>
+			<span class={tw.alternate}>/</span>
+			<span class={tw.base}>&gt;</span>
+			<span class={tw.base + " tracking-wider"}>htm<span class={tw.alternate + " -translate-x-6"}>x</span></span>
+		</div>
+		<div>
+			<img class="inline-block h-10 m-2 pt-1"src="/images/astro_icon.png" alt="">
+			<img class="inline-block h-12" src="/images/tailwind_icon.svg" alt="">
+		</div>
 	</div>
+</div>
 
-</StarlightPage>
+
+
 
