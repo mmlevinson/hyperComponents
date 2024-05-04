@@ -52,6 +52,9 @@ export default defineConfig({
       }, {
         label: 'Licensing',
         link: '/about/licensing/'
+      }, {
+        label: 'Contributors',
+        link: '/about/contributors/'
       }]
     }, {
       label: 'Components',
