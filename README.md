@@ -1,54 +1,49 @@
-# Starlight Starter Kit: Basics
+# hyperComponents Library
 
-[![Built with Starlight](https://astro.badg.es/v2/built-with-starlight/tiny.svg)](https://starlight.astro.build)
+1.  Free and Open Source
+2.  Modern Web component library
+2.  Styled with Tailwind
+3.  DOM updating via htmx
+4.  Client side interactivity via HyperScript
+5.  Wrapped together with Astro build toolbar
 
-```
-npm create astro@latest -- --template starlight
-```
+## Background
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/withastro/starlight/tree/main/examples/basics)
-[![Open with CodeSandbox](https://assets.codesandbox.io/github/button-edit-lime.svg)](https://codesandbox.io/p/sandbox/github/withastro/starlight/tree/main/examples/basics)
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fwithastro%2Fstarlight%2Ftree%2Fmain%2Fexamples%2Fbasics&project-name=my-starlight-docs&repository-name=my-starlight-docs)
+###### -Why do only anchor tags and form elements submit requests to backend servers?
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+######  Why are modern APIs sending JSON and not html?
 
-## 🚀 Project Structure
+######  Why cannot any response be directly swapped into the DOM (anywhere !!, and with smooth transitions...)
 
-Inside of your Astro + Starlight project, you'll see the following folders and files:
+Modern web apps are typically built with JavaScript frameworks which provide dynamic updating based on changes of state.  However, state is always held on the server side as the 'one source of truth' and then sent to the browser for spawning into the  appropriate DOM content.
 
-```
-.
-├── public/
-├── src/
-│   ├── assets/
-│   ├── content/
-│   │   ├── docs/
-│   │   └── config.ts
-│   └── env.d.ts
-├── astro.config.mjs
-├── package.json
-└── tsconfig.json
-```
+Is not the browser optimized for manipulating the DOM?    In fact, converting JSON or other raw data into DOM elements is a CPU expensive option when it is much simpler for the server to just provide the final html markup and let the browser do what it is optimized to do ... insert or update elements.
 
-Starlight looks for `.md` or `.mdx` files in the `src/content/docs/` directory. Each file is exposed as a route based on its file name.
+These are the foundations of hypermedia exchanges (instead of data exchanges.)
 
-Images can be added to `src/assets/` and embedded in Markdown with a relative link.
+By writing both the front and backend code the gaps are closed and markup can be built on the server and just sent to the browser with instructions for DOM updating.
 
-Static assets, like favicons, can be placed in the `public/` directory.
+Afterall, 2/3 of the worlds users view the Web exclusively on a mobile device (which is inherantly CPU and RAM limited).   Removing the load from the browser can have significant performance benefits.
 
-## 🧞 Commands
+## Mission
 
-All commands are run from the root of the project, from a terminal:
+With the introduction of htmx, AJAX requests can now  be sent from any DOM element and the html response inserted directly into any DOM element.   T
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
+Using a suite of html attributes which can be attached to any element, htmx extends the capabilities of elements to update the DOM.
 
-## 👀 Want to learn more?
+HyperScript is a new client-side scripting language based on the popular HyperTalk pioneered for Apple's HyperCard application.   HS adds  powerful client side functionality that typically was the territory of JavaScript (with querySelectors and addEventListery calls).
 
-Check out [Starlight’s docs](https://starlight.astro.build/), read [the Astro documentation](https://docs.astro.build), or jump into the [Astro Discord server](https://astro.build/chat).
+## What is hyperComponents?
+
+This library is an instructional set of Web Components (menus, accordions, search inputs, etc.) written to take advantage of htmx and HyperScript.   Styling is mostly via Tailwind utility class so they are easy to modify for your project.
+
+Astro is the preferred build tool because it offers custom API endpoints without the need to spin up a Node/Express or Django server.   Astro provides a simple architecture for both components and custom endpoints.   This puts the developer into the driver seat, with control of both the front and back ends so that hypermedia can be asked for (by AJAX) and delivered (by our endpoints)/.active
+
+## Mission
+
+hyperComponents is a free open source collection of components written to emphasize hypermedia exchanges (as opposed to data exchanges). All examples are offered without fee or licensing restrictions.   The goal is to provide a starter kit for newcomers moving into hypermedia, htmx, and Hyperscript.    
+
+You are encouraged to make any changes or modifications to the example code, and to offer our contributions to the hyperComponents community via pull requests.
+
+
+

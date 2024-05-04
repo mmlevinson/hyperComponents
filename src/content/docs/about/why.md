@@ -18,9 +18,9 @@ Interactivity on the client side is provided exclusively by [HyperScript](https:
 
 Both libraries support extensive event listening and management, including standard system events, library specific events and user-defined custom events.  
 
-And finally, elegant and responsive styling is provided by the popular utility class approach of [Tailwind.css](https://tailwindcss.com/).  
+Elegant and responsive styling is provided by the popular utility class approach of [Tailwind.css](https://tailwindcss.com/).  
 
-Exposing the source code used to create each example provides instructional stepping stones upon which you and your team can build, expand and explore the untapped capabilities of these powerful libraries.
+And finally, the Vite-base [Astro](https://astro.build/docs) build tool wraps everything neatly together by providing  a rich feature set, simple component architecture, file-based routing, and custom API endpoints which makes it an ideal tool for sending hypermedia responses to AJAX requests.
 
 By making the source code public, with copy and paste directly into your project, the techniques implemented by these powerful libraries can be both instructional and functional.
 

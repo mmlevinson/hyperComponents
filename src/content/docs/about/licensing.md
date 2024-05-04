@@ -4,7 +4,7 @@ description: Free usage without restrictions
 
 ---
 
-This is an Open Source project stored on GitHub as a public repository.  [Click here to see the source code on Github]( https://github.com/mmlevinson/hyperComponents)
+This is an Open Source project stored on GitHub as a public repository.  [Click here to see the source code]( https://github.com/mmlevinson/hyperComponents)
 
  The hyperComponents library is for instructional purposes.   The goal is to expose the community to actual source code for hypermedia exchanges and to emphasize the advantages of hypermedia versus  JSON exchanges for building modern Web UIs.
 
