@@ -28,7 +28,7 @@ import ClickDropdownMenu_A from '../../../../../components/ClickDropdownMenu_A.a
 
 <ClickDropdownMenu_A id='click-activated-pallet' moveXY='-200,18' buttonStyles='colorPallet bg-gray-700' duration='180ms'>
 	<img slot="leftIcon" src='/images/tailwind_icon.svg' alt='tailwind icon' class={tw.icon}/>
-	<PalletGrid orientation='horizontal' hs="on click send closeDropdown to the .colorPallet then settle then alert( 'You selected ' + my @title)"/>
+	<PalletGrid hs="on click send closeDropdown to the .colorPallet then settle then alert( 'You selected ' + my @title)"/>
 </ClickDropdownMenu_A>
 </div>
 
@@ -42,7 +42,7 @@ const tw = {
 ---
 <ClickDropdownMenu_A id='click-activated-pallet' moveXY='-200,18' buttonStyles='colorPallet bg-gray-700' duration='180ms'>
 	<img slot="leftIcon" src='/images/tailwind_icon.svg' alt='tailwind icon' class={tw.icon}/>
-	<PalletGrid />
+	<PalletGrid hs="on click send closeDropdown to the .colorPallet then settle then alert( 'You selected ' + my @title)"/>
 </ClickDropdownMenu_A>
 
 ```
@@ -73,7 +73,7 @@ const tw = {
 ---
 <HoverDropdownMenu_B id='hover-activated-pallet' moveXY='-200,18' buttonStyles='colorPallet bg-gray-700' duration='180ms'>
 	<img slot="leftIcon" src='/images/tailwind_icon.svg' alt='tailwind icon' class={tw.icon}/>
-	<PalletGrid/>
+	<PalletGrid orientation='vertical' hs="on click send closeDropdown to the .colorPallet then settle then alert( 'You selected ' + my @title)"/>
 </HoverDropdownMenu_B>
 
 
@@ -95,7 +95,7 @@ Each swatch is comprised of  a [PalletItem](#palettitem) component  which accept
 
 -The `duration` prop is set to '180ms' but can be any value.
 
--Hovering over an individual swatch reveals a tooltip displaying the Tailwind color family, shadew,  and corresponding hex value.
+-Hovering over an individual swatch reveals a tooltip displaying the Tailwind color family, shade,  and corresponding hex value.
 
 -Clicking a swatch dismisses the dropdown smoothly and then displays an alert showing the color name and hexidecimal value of the selection.
 
@@ -109,14 +109,14 @@ The dropdown is dismissed by:
 ###### 4. Tapping any color swatch
 ###### 5. Pressing the Escape key when the trigger button is focused
 
-In the hover activated example, HS behaviors are installed into the  `<button>` and dropdown container from a `<script>` tag in the [HoverDropdownMenu_B](/components/menus/hover_b) component. This behavior adds tracking of the mouseenter and mouseleave system events in order to toggle dropdown visibility based on hover state. 
+In the hover activated example, a Hyperscript behavior (ToggleDropwon) is installed into the  `<button>`from a `<script>` tag in the [HoverDropdownMenu_B](/components/menus/hover_b) component. This behavior adds tracking of the mouseenter and mouseleave system events in order to set dropdown visibility based on hover state. 
 
 
 ## Components
 
 ### PalletGrid
 
-This component is passed into the default slot of each dropdown parent component.  The PalletGrid takes an `orientation` prop. The default orientation is `horizontal`. In the horizontal orientation a total of 22 Tailwind color families are placed into columns across a grid layout with the corresponding shade values in each row.   In the vertical orientation, an 11 column grid is used to display the color shades with the corresponding color families in each row.
+This component is passed into the default slot of each dropdown parent component.  The PalletGrid takes an `orientation` prop. The default orientation is `horizontal`. In the horizontal orientation a total of 22 Tailwind color families are placed into columns across a grid layout with the corresponding shade values in each row.   In the vertical orientation, an 11 column grid is used to display the color shades across the columns with the corresponding color families in each row.
 
 Here is the code for the PalletGrid component.  The horizontal and vertical pallets are imported and a JSX style ternary expression used to decide which orientation is returned depending on the value of the  `orientation` prop.
 
@@ -197,7 +197,7 @@ Since the Tailwind library does not offer a 'grid-cols-22' utility class and 'gr
 
 ### PalletGridV (vertical)
 
-The data structures of the vertically oriented variant are exactly the same, so won't be repeated here.   However, the JSX loop which builds the grid is flipped so as to gather the shades into separate columns  with the color families in different rows.
+The data structures of the vertically oriented pallet are exactly the same so won't be repeated here.   However, the JSX loop which builds the grid is flipped so as to gather the shades into separate columns  with the color families in different rows.
 
 ```js title="PalletGridV.astro" "colorFamilies" "shades" "hexValues"
 
@@ -219,13 +219,13 @@ The data structures of the vertically oriented variant are exactly the same, so 
 
 The essential component rendering a single swatch is the `PalletItem` comprised of a simple `<span>` whose background color is set using props. 
 
-The PalletItem component accepts three props.   The `twColor prop is the name of the Tailwind color such as 'red-500'`.    The `hexCode` prop is the corresponding hexidecimal value for that color.  Finally, the `script` prop receives a HyperScript from the parent components which is used to close the dropdown and then trigger some custom action.
+The PalletItem component accepts three props.   The `twColor prop is the name of the Tailwind color such as 'red-500'`.    The `hexCode` prop is the corresponding hexidecimal value for that color.  Finally, the `script` prop receives a HyperScript from its parents which is used to close the dropdown and then trigger some custom action.
 
 A function in the component script capitalizes the first letter of the color name which is then used to set a `title` attribute creating a tooltip that will be displayed when the user hovers over the color swatch.
 
-Since the swatch is styled using background colors, the 'bg-' prefix is stripped before the `title`string  is created.
+Since the swatch color is created using background colors, the 'bg-' prefix is stripped from the Tailwind class before the `title`string  is created.
 
-Finally, a Hyperscript attribute on each `PalletItem` accepts a `script` prop which should listen for a click  and then send the `closeDropdown` custom event back to the parent button.  To make this happen, a `.colorPalett` class is explicitly added to the `<button>` of each dropdown component by passing this class name into the `buttonStyles` prop. The custom event should target the `.colorPallet` class in order to close the dropdown.
+Finally, a Hyperscript attribute on each `PalletItem` accepts a `script` prop which should listen for a click  and then send the `closeDropdown` custom event back to the parent `<button>`.  To make this happen, a `.colorPalett` class is explicitly added to the `<button>` of each dropdown component by passing this class name into the `buttonStyles` prop. The custom event should target the `.colorPallet` class in order to close the dropdown.
 
 To set the background color of the swatch a simple string concatenation expression is used to combine the default styles with the `twColor` prop.   Since there are no default background colors, twMerge() is not needed here.
 
