@@ -9,7 +9,7 @@
 
 	const tw = {
 		grid: 'grid grid-cols-11 gap-2 px-4',
-		palleteWrapper: 'mt-0 flex flex-col gap-y-2',
+		palletContainer: 'mt-0 flex flex-col gap-y-2',
 	}
 
 	const colorFamilies = ['slate', 'gray', 'zinc', 'neutral', 'stone', 'red', 'orange', 'amber', 'yellow', 'lime', 'green', 'emerald', 'teal', 'cyan', 'sky', 'blue', 'indigo', 'violet', 'purple', 'fuchsia', 'pink', 'rose']
@@ -31,7 +31,7 @@
 	---
 	<div class={tw.grid}>
 		{shades.map((shade, shadeIndex) => (
-			<div class={tw.palleteWrapper}>
+			<div class={tw.palletContainer}>
 				{colorFamilies.map((family, familyIndex) => (
 					<PalletItem script={hs} twColor={"bg-" + family + "-" + shade} hexCode={hexValues[shadeIndex][familyIndex]} />
 				))}
