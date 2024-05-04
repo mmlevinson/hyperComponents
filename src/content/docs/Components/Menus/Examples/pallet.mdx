@@ -273,13 +273,13 @@ const tw = {
 
 Use the Tabs below to explore all the code used to create these examples.  
 
-To apply  one of these palettes in your Astro project, copy/paste the code from either the Click or Hover activated examples into the Astro file where it will be used.
+To apply  one of these palettes in your Astro project, copy/paste the code from either the Click or Hover activated examples into the Astro file where it will be used and then adjust the file import paths.  You will also need the parent dropdown components, either the [ClickDropdownMenu_A](/components/menus/click_a/) or [HoverDropdownMenu_B](/components/menus/hover_b/).
 
 You will also need to copy/paste the PalletGrid, PalletGridH, PalletGridV, and  PalletItem code and put them into separate `.astro` files.
 
-The import file paths in the sample code are for illustration purposes only and not specific for your project structure.  They will need to be adjusted depending on where in your src folder you place the `.astro` files.
+The import file paths in the sample code are for illustration purposes only and not specific for your project structure.  They will all need to be adjusted depending on where in your src folder you place the `.astro` files.
 
- Unlike the examples here, you  probably don't want to just show an alert when the swatch is clicked but actually perform some more useful action.  To give each swatch a custom action, provide a custom Hyperscript for the `hs` prop of the PalletGrid and this will be passed along to the PalettItem component.
+ Unlike the examples here, you  probably don't want to just show an alert when the swatch is clicked but actually perform some more useful action.  To give each swatch a custom action, provide a custom Hyperscript for the `hs` prop of the PalletGrid and this will be passed along eventually reaching the PalettItem component.
 
 However, before your custom action is triggered, you should  `send closeDropodown to the .colorPallet then settle` to smoothly dismiss the dropdown before the user is taken away to something else.
 
@@ -300,7 +300,7 @@ const tw = {
 ---
 <ClickDropdownMenu_A id='click-activated-pallet' moveXY='-200,18' buttonStyles='colorPallet bg-gray-700' duration='180ms'>
 	<img slot="leftIcon" src='/images/tailwind_icon.svg' alt='tailwind icon' class={tw.icon}/>
-	<PalletGrid />
+	<PalletGrid hs="on click send closeDropdown to the .colorPallet then settle then alert( 'You selected ' + my @title)"/>
 </ClickDropdownMenu_A>
 </div>
 ```
@@ -317,7 +317,7 @@ const tw = {
 ---
 <HoverDropdownMenu_B id='hover-activated-pallet' moveXY='-100,18' buttonStyles='colorPallet bg-gray-700' duration='180ms'>
 	<img slot="leftIcon" src='/images/tailwind_icon.svg' alt='tailwind icon' class={tw.icon}/>
-	<PalletGrid orientation='vertical'/>
+	<PalletGrid orientation='vertical' hs="on click send closeDropdown to the .colorPallet then settle then alert( 'You selected ' + my @title)"/>
 </HoverDropdownMenu_B>
 ```
 </TabItem>
