@@ -6,6 +6,7 @@ interface Props {
 	caption:string,
 	prefix?:string
 	headerStyles?:string
+	bodyStyles?:string
 	activeHeaderStyles?:string
 }
 const {
@@ -13,6 +14,7 @@ const {
 	caption, 
 	prefix='- ',
 	headerStyles,
+	bodyStyles,
 	activeHeaderStyles = 'bg-blue-500 dark:bg-blue-900',
 } = Astro.props
 
@@ -23,19 +25,18 @@ const tw = {
 	wrapper:'shadow-lg overflow-hidden ' + 
 	'border-4 border-b-0 last-of-type:border-b-4 border-indigo-500 border-opacity-20  dark:border-gray-700 ' + 
 	'first-of-type:rounded-t-xl last-of-type:rounded-b-xl',
-	accordionHeader:
-		'w-full flex justify-between items-center px-2 py-5 cursor-pointer ' +
+	accordionHeader: twMerge('w-full flex justify-between items-center px-2 py-5 cursor-pointer ' +
 		'font-bold text-lg text-left text-gray-900 dark:text-zinc-300 ' +
 		'bg-blue-100 hover:bg-sky-950 hover:text-yellow-50 ' +
 		'dark:bg-slate-900 dark:hover:bg-purple-950 dark:hover:text-fuchsia-100 ' + 
-		'',
-	accordionBody: 'h-0 px-6 text-left  border-zinc-300 ' + 
-		' bg-gray-100 text-slate-800 dark:bg-violet-50 dark:text-gray-900',
+		'', headerStyles),
+	accordionBody: twMerge('h-0 px-6 text-left  border-zinc-300 ' + 
+		' bg-gray-100 text-slate-800 dark:bg-violet-50 dark:text-gray-900', bodyStyles),
 	icon: 'size-6 shrink-0'
 }
 
 function formatTWClasses(twClasses) {
-    return twClasses.split(' ').map( twClass => '.' + twClass).join(' ');
+    return twClasses.split(' ').map(twClass => '.' + twClass).join(' ');
 }
 
 const activeStyles = formatTWClasses(activeHeaderStyles)
@@ -92,49 +93,6 @@ even if you set h-0.   So, padding must be added/removed for the accordion accor
 The recalcHeight of accordion accordionBody must also take in account the vertical padding value*/
 ---
 
-<script type="text/hyperscript" >
-	behavior ToggleAccordion
-		init
-			set :accordionHeight to 0
-			set :accordionOpen to false
-			set :accordionBody to my @id + '-body'
-			set :twirlIcon to my @id + '-twirl-icon'
-			set accordionContent to the children of the #{:accordionBody}
-			for item in accordionContent 
-				increment :accordionHeight by the item's offsetHeight
-			end -- for
-			increment :accordionHeight by 45  -- to accomodate for py-4 
-		end -- init
-
-		on click from me
-		 if :accordionOpen is true then trigger closeAccordion on me
-		 otherwise trigger openAccordion on me
-		 end 
-		end -- click
-
-		on openAccordion
-		  
-			add .py-4 .border-t-2 to the  #{:accordionBody}
-			if the :accordionHeight is greater than 300
-				transition the #{:accordionBody}'s  *height to 300px using 'all 260ms ease-in'
-				add .overflow-y-auto to the #{:accordionBody}
-			otherwise
-				transition the #{:accordionBody} *height to :accordionHeight px using 'all 260ms ease-in'
-			end -- if > 300 px
-			add .rotate-180 to the #{:twirlIcon}
-			set :accordionOpen to true
-			send closeOpenAccordions to the closest <ul/>
-		end -- openAccordion
-
-		on closeAccordion
-			remove .py-4 .border-t-2 from the #{:accordionBody}
-			remove .rotate-180 from the #{:twirlIcon}
-			transition the #{:accordionBody} *height to 0 using 'all 400ms ease-out'
-			set :accordionOpen to false
-		end -- closeAccordion
-	end -- behavior
-
-</script>
 
 <li class={tw.wrapper}>
 
