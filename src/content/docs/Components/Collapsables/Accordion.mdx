@@ -1,14 +1,14 @@
 ---
 title: Accordion
-description: A collapsable accordion component
+description: A collapsable Accordion component
 ---
 
-A commonly used Web inteface component is an Accordion.   Typically, the Accordion includes a clickable  header which reveals the  body content. The header shows a short string such as a question and the body is initially hidden from view.  Clicking on the header expands the body to reveal the content.  
+A commonly used interface component is an Accordion.     presents a header with tag line and a rotating icon.  Clicking the header exposes additional content with a smooth dropdown like animation.
 
 
 export const tw = {
 	exampleContainer: 'not-content w-full pb-4 w-max-lg text-center mx-auto bg-gray-300 dark:bg-gray-800 rounded-xl my-6',
-	exampleTitle: 'bg-gray-300 dark:bg-gray-900 text-gray-300 dark:text-zinc-300 font-semibold py-2 mb-4',
+	exampleTitle: 'bg-gray-300 dark:bg-sky-900 text-gray-300 dark:text-zinc-300 font-semibold py-2 mb-4 rounded-t-xl',
 	menuItem: 'px-4 hover:bg-stone-200 hover:dark:bg-stone-300 ' +
 	'hover:text-cyan-100 hover:dark:text-sky-800',
 	icon:'inline-block size-6',
@@ -18,14 +18,14 @@ export const tw = {
 
 
 <div id='accordion-example' class={tw.exampleContainer} >
-<div id='accordion-title' class="bg-gray-900 font-semibold py-2 mb-4">Sample Accordion Control</div>
+<div id='accordion-title' class={tw.exampleTitle}>Sample Accordion Control</div>
 
 import AccordionGroup_A from '../../../../components/AccordionGroup_A.astro'
 import AccordionItem_B from '../../../../components/AccordionItem_B.astro'
 
 
 
-<AccordionGroup_A closeSiblings={true}>
+<AccordionGroup_A closeSiblings={true} styles='mx-4'>
 	<AccordionItem_B id='accordion-1' caption="Accordion 1" >
 		<p class={tw.p}>
 		Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quibusdam non sapiente praesentium hic quod error soluta maxime veritatis expedita, fugiat esse cum eligendi corrupti quos molestias ipsum ullam aperiam assumenda in iure omnis vel accusamus? Esse inventore sunt et ducimus aliquam libero laudantium odit earum necessitatibus! Temporibus placeat, quod aliquam, quas adipisci vel hic eveniet corrupti fuga reiciendis quasi vero magnam? At laudantium cupiditate, modi quos ab, unde atque aliquid odio ipsa assumenda cumque veritatis.
