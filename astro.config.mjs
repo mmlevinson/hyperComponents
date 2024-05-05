@@ -9,6 +9,9 @@ export default defineConfig({
   integrations: [starlight({
     title: 'hyperComponents',
     description: 'HyperScript, HTMX, Web Component Library, Tailwind CSS',
+		customCss:[
+			'./tailwind.css'
+		],
     social: {
       github: 'https://github.com/mmlevinson/hyperComponents'
     },
@@ -62,7 +65,11 @@ export default defineConfig({
         directory: 'components'
       }
     }]
-  }), tailwind()],
+  }), 
+	tailwind({
+		applyBaseStyles:false,
+	})
+	],
   output: "server",
   adapter: vercel({imageService:true, devImageService: 'sharp'}),
 });
