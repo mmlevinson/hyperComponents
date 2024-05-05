@@ -14,13 +14,14 @@ const tw = {
 
 const hs =
  `on closeOpenAccordions
+
 	 if ${closeSiblings} is true
-		 set allAccordions to the children of me
-		 set allHeaders to the children of allAccordions
+		 set allAccordions to the <li/> in me
+		 set allHeaders to the <h2/> in allAccordions
+		 log allHeaders
 		 for header in allHeaders
-			 -- header is an HTMLCollection[2] c/o <h2> and <div>
-			 if header[0] is not detail.sender  -- the sender's <h2>
-				 send closeUp to header[0]
+			 if header is not detail.sender  -- the sender's <h2>
+				 send closeAccordion to header
 		 end -- for
 	 end -- if closeSiblings
  end -- closeOpenAccordions
