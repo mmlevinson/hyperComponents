@@ -5,6 +5,7 @@ interface Props {
 	id:string,
 	caption:string,
 	prefix?:string
+	maxHeight:number
 	headerStyles?:string
 	bodyStyles?:string
 	activeHeaderStyles?:string
@@ -13,9 +14,10 @@ const {
 	id, 
 	caption, 
 	prefix='- ',
+	maxHeight=300,
 	headerStyles,
 	bodyStyles,
-	activeHeaderStyles = 'bg-emerald-100 dark:bg-blue-950',
+	activeHeaderStyles = 'bg-orange-100 dark:bg-blue-950',
 } = Astro.props
 
 const defaultOverscrollHeight = 200

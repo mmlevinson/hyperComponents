@@ -3,12 +3,14 @@ title: Accordion
 description: A collapsable Accordion component
 ---
 
-A commonly used interface component is an Accordion.     presents a header with tag line and a rotating icon.  Clicking the header exposes additional content with a smooth dropdown like animation.
+A commonly used interface component is an Accordion.   The user sees a list of titles with an icon opposite the title text which prompts the user to explore by clicking on the header.  Clicking on the header transitions additional content down below the header.  
+
+An example Accordion control written in Hyperscript is shown below.
 
 
 export const tw = {
 	exampleContainer: 'not-content w-full pb-4 w-max-lg text-center mx-auto bg-gray-300 dark:bg-gray-800 rounded-xl my-6',
-	exampleTitle: 'bg-gray-300 dark:bg-sky-900 text-gray-300 dark:text-zinc-300 font-semibold py-2 mb-4 rounded-t-xl',
+	exampleTitle: 'bg-gray-300 dark:bg-sky-900 text-gray-300 dark:text-zinc-200 font-semibold py-2 mb-4 rounded-t-xl',
 	menuItem: 'px-4 hover:bg-stone-200 hover:dark:bg-stone-300 ' +
 	'hover:text-cyan-100 hover:dark:text-sky-800',
 	icon:'inline-block size-6',
@@ -21,29 +23,29 @@ export const tw = {
 <div id='accordion-title' class={tw.exampleTitle}>Sample Accordion Control</div>
 
 import AccordionGroup_A from '../../../../components/AccordionGroup_A.astro'
-import AccordionItem_B from '../../../../components/AccordionItem_B.astro'
+import AccordionItem_A from '../../../../components/AccordionItem_A.astro'
 
 
 
 <AccordionGroup_A closeSiblings={true} styles='mx-4'>
-	<AccordionItem_B id='accordion-1' caption="Accordion 1" >
+	<AccordionItem_A id='accordion-1' caption="HTMX" >
 		<p class={tw.p}>
-		Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quibusdam non sapiente praesentium hic quod error soluta maxime veritatis expedita, fugiat esse cum eligendi corrupti quos molestias ipsum ullam aperiam assumenda in iure omnis vel accusamus? Esse inventore sunt et ducimus aliquam libero laudantium odit earum necessitatibus! Temporibus placeat, quod aliquam, quas adipisci vel hic eveniet corrupti fuga reiciendis quasi vero magnam? At laudantium cupiditate, modi quos ab, unde atque aliquid odio ipsa assumenda cumque veritatis.
+		HTMX extends html with a suite of attributes giving any element the ability to send and respond to AJAX request.   
 		</p>
-	</AccordionItem_B>
+	</AccordionItem_A>
 
-	<AccordionItem_B id='accordion-2' caption='Accordion 2'>
+	<AccordionItem_A id='accordion-2' caption='Hyperscript'>
 		<p class={tw.p}>
-			Lorem ipsum dolor sit amet consectetur adipisicing elit. Quasi, quibusdam.
+			Hyperscript is a front-end scripting language which leverages robust event handling to bring dynamic user interfaces to the browser.
 		</p>
 		<p class={tw.p}>
-		Lorem, ipsum dolor sit amet consectetur adipisicing elit. Commodi, unde nostrum itaque aut explicabo deserunt vel sunt alias? Atque, a eveniet ad rerum labore deleniti tempora nisi commodi officiis quis eius perferendis temporibus id quidem sequi aliquid sapiente doloribus rem. Praesentium impedit magnam molestias nobis incidunt laboriosam odio beatae sapiente!
+		Hyperscript syntax is based on Dan Winkler's HyperTalk language made famous by Apple's HyperCard program.   The syntax boasts an English-prose like grammar which eases the learning curve for new programmers.
 		</p>
-	</AccordionItem_B>
+	</AccordionItem_A>
 
-	<AccordionItem_B id='accordion-3' caption='Accordion 3'>
+	<AccordionItem_A id='accordion-3' caption='Tailwind CSS'>
 		<p class={tw.p}>
-			Lorem ipsum dolor sit amet consectetur adipisicing elit. Quasi, quibusdam.
+			The Tailwind CSS library provides a rich ecosystem of utility classes that simplify responsive design by using prefixes to replace media queries and emphasizing mobile first design.
 		</p>
 		<p class={tw.p}>
 		Lorem, ipsum dolor sit amet consectetur adipisicing elit. Commodi, unde nostrum itaque aut explicabo deserunt vel sunt alias? Atque, a eveniet ad rerum labore deleniti tempora nisi commodi officiis quis eius perferendis.
@@ -51,13 +53,13 @@ import AccordionItem_B from '../../../../components/AccordionItem_B.astro'
 		<p class={tw.p}>
 		Lorem ipsum dolor sit amet consectetur adipisicing elit. Debitis consectetur illum quis ipsam quos quidem eligendi ex blanditiis nihil temporibus veniam adipisci deleniti modi, facilis amet fugiat incidunt atque neque aut qui quia reprehenderit magni fugit aliquam. Hic dolorem consectetur qui libero eius commodi natus, quod fuga tenetur, non doloremque unde at impedit vero. Beatae quas excepturi dignissimos est assumenda quidem ullam quisquam labore! Quaerat veritatis ex sint similique veniam quidem numquam doloremque officiis et accusantium! Non nesciunt ea itaque explicabo ipsa blanditiis iusto, est deserunt inventore voluptas dolorem possimus at exercitationem aliquid, distinctio similique quae! Perferendis ipsam excepturi repudiandae.
 		</p>
-	</AccordionItem_B>
+	</AccordionItem_A>
 
-<AccordionItem_B id='accordion-4' caption='Accordion 4'>
+<AccordionItem_A id='accordion-4' caption='Astro'>
 	<p class={tw.p}>
-		Lorem ipsum dolor sit amet consectetur adipisicing elit. Quasi, quibusdam.
+		Astro is a modern Vite-based build tool meant for speed which ships zero JavaScript by default.  Initially released with support for static site generation, now Astro delivers a full suite of server rendered features.
 	</p>
-</AccordionItem_B>
+</AccordionItem_A>
 
 </AccordionGroup_A>
 
@@ -79,7 +81,33 @@ The following is a brief example of an Accordion with lorem ipsum content in the
 This Accordion hyperComponent
 
 1.  Clicking the header toggles the body open and closed.
-2.  The body height is initially set to 0.
-3.  Height of the accordion body is smoothly transitioned
-4.  An icon indicator turns 180 degrees to indicate state
+4.  An icon indicator turns 180 degrees to indicate open/closed state
+2.  Body content is animated smoothly using a Hyperscript transition
+3.  A max-height value for the Accordion body can be set by props
+5.  Tailwind classes for the header, body, and active header (when opened) can be passed into the AccordionGroup_A component to style the entire component from outside.
+6.  Content for the Accordion body is passed into the default slot and thus can be styled where it is used. 
+
+## Components
+
+The AccordionGroup_A component wraps a list of AccordionItem_A components.  The AccordionItem_A component is responsible for managing the open/closed state of each individual accordion. 
+
+
+## Props
+
+## Styling
+
+
+## Transitions
+
+## Slots
+
+## Code
+
+
+##  Usage
+
+Accordion controls are often used in FAQ or Info sections of a web site.  The advantages of using an Accordion is to hide the majority of the content until the user needs to see it.  By just presenting the content title in the header the user is prompted to explore the content by clicking on the header.   Meanwhile, the extra text in the body of the Accordion is hidden until requested.
+
+This, of course, makes Accordions an ideal choice for lazy loading content. To enhance the UX, content for the Accordion body does not need to be loaded until selected by the user.   Using HTMX, lazy loading is easily done by listening for the click event and then reaching out to the server for html which is loaded into the Accordion body.   The transition animation is done in response to the htmx:load event.
+
 
