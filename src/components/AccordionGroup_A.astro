@@ -2,11 +2,14 @@
 import {twMerge} from 'tailwind-merge'
 
 interface Props {
-	closeSiblings:boolean,
+	closeSiblings?:boolean,
 	styles?:string
 }
 
-const {closeSiblings = false, styles} = Astro.props
+const {
+	closeSiblings = false, 
+	styles
+} = Astro.props
 
 const tw = {
  group: twMerge('mx-auto', styles),
@@ -28,5 +31,5 @@ const hs =
 ---
 	
 <ul class={tw.group} script={hs}>
- <slot />
+	<slot />
 </ul>
