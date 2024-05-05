@@ -59,7 +59,7 @@ export default defineConfig({
     }, {
       label: 'Components',
       autogenerate: {
-        directory: 'Components'
+        directory: 'components'
       }
     }]
   }), tailwind()],

@@ -1,0 +1,33 @@
+---
+import {twMerge} from 'tailwind-merge'
+
+interface Props {
+	closeSiblings:boolean,
+	styles?:string
+}
+
+const {closeSiblings = false, styles} = Astro.props
+
+const tw = {
+ group: twMerge('mx-auto p-2 space-y-4 ', styles),
+}
+
+const hs =
+ `on closeOpenAccordions
+	 if ${closeSiblings} is true
+		 set allAccordions to the children of me
+		 set allHeaders to the children of allAccordions
+		 for header in allHeaders
+			 -- header is an HTMLCollection[2] c/o <h2> and <div>
+			 if header[0] is not detail.sender  -- the sender's <h2>
+				 send closeUp to header[0]
+		 end -- for
+	 end -- if closeSiblings
+ end -- closeOpenAccordions
+`
+
+---
+	
+<ul class={tw.group} script={hs}>
+ <slot />
+</ul>

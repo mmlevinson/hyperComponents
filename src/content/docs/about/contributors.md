@@ -43,6 +43,17 @@ Although HS also supports common C-type comments, please reserve these for multi
 
 Most coders prefer comments at the beginning of a code block.   However, I find a one-line brief comment at the `end` keyword of a code block helpful b/c it also clarifies with expressing has completed.   See the examples for this usage.active
 
+## VSCode Extensions
 
+If you are using VSCode, you will find helpful Extensions for writing hyperComponents:
 
+1.  Astro official extension (by the Astro team) provides color syntax highlighting and code completion in .astro files
+
+2. Houston (by the Astro team) is a color theme that works great in Astro code (derived fromn Sara Drashner's popuular Night Owl theme)
+
+2.  MDX (by unified) for using components withing markdown files (including color syntax highlighting for any JSX code withing markdown)
+
+5. Path Intellisense (by christian kohler) providing autocompletion of file paths making it easier to reference the correct file
+
+3. _hyperscript  extension (by dz4k) which provides syntax highlighting for HS.
 

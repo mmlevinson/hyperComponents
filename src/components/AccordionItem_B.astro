@@ -1,0 +1,102 @@
+---
+import {twMerge} from 'tailwind-merge'
+
+interface Props {
+	id:string,
+	caption:string,
+	prefix?:string
+}
+const {
+	id, 
+	caption, 
+	prefix='- '
+} = Astro.props
+
+const defaultOverscrollHeight = 200
+const defaultDuration = 200
+
+const tw = {
+	wrapper:'shadow-lg rounded-lg m-2 overflow-hidden border-2 border-slate-400  dark:border-gray-700',
+	header:
+		'w-full flex justify-between items-center px-2 py-5 cursor-pointer ' +
+		'font-bold text-left text-gray-900 dark:text-zinc-300 ' + 
+		'bg-gray-300 dark:bg-slate-900 hover:bg-primary-700 hover:text-white ',
+	accordionBody: 'h-0 px-6 font-semibold leading-relaxed overflow-hidden bg-gray-200 dark:bg-slate-200',
+	icon: 'size-6 shrink-0'
+}
+
+/* Transition calls and toggle .rotate-180 gives an error when using an element reference stored in local variable
+You must provide an actual selector instead.
+
+If you add padding to the default styles, the accordion accordionBody has a height equal to the padding
+even if you set h-0.   So, padding must be added/removed for the accordion accordionBody to close up fully.
+The recalcHeight of accordion accordionBody must also take in account the vertical padding value*/
+---
+
+<script type="text/hyperscript">
+	behavior ToggleAccordion
+		init
+			set :accordionHeight to 0
+			set :accordionOpen to false
+			set :accordionBody to my @id + '-body'
+			set :twirlIcon to my @id + '-twirl-icon'
+			set accordionContent to the children of the #{:accordionBody}
+			for item in accordionContent 
+				increment :accordionHeight by the item's offsetHeight
+			end -- for
+			increment :accordionHeight by 45  -- to accomodate for py-4 
+		end -- init
+
+		on click from me
+		 if :accordionOpen is true then trigger closeAccordion on me
+		 otherwise trigger openAccordion on me
+		 end 
+		end -- click
+
+		on openAccordion
+			add .py-4 to the  #{:accordionBody}
+			if the :accordionHeight is greater than 300
+				transition the #{:accordionBody}'s  *height to 300px using 'all 260ms ease-in'
+				add .overflow-y-auto to the #{:accordionBody}
+			otherwise
+				transition the #{:accordionBody} *height to :accordionHeight px using 'all 260ms ease-in'
+			end -- if > 300 px
+			remove .bg-slate-300 from me
+			add .bg-gray-700 .text-white to me
+			add .rotate-180 to the #{:twirlIcon}
+			set :accordionOpen to true
+			send closeOpenAccordions to the closest parent <ul/>
+		end -- openAccordion
+
+		on closeAccordion
+			remove .bg-gray-700 .text-white from me
+			add .bg-slate-300 to me
+			remove .py-4 from the #{:accordionBody}
+			remove .rotate-180 from the #{:twirlIcon}
+			transition the #{:accordionBody} *height to 0 using 'all 400ms ease-out'
+			set :accordionOpen to false
+		end -- closeAccordion
+	end -- behavior
+
+</script>
+
+<li class={tw.wrapper}>
+
+	<!-- Accordion Header -->
+	<h2 
+		id={id} 
+		class={tw.header} 
+		script="install ToggleAccordion">
+			<span>{prefix}{caption}</span>
+			<!-- TwirlIcon -->
+		<svg id={`${id}-twirl-icon`} class={tw.icon} fill='currentColor' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'>
+				<path fill-rule='evenodd' d='M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z' clip-rule='evenodd'></path>
+			</svg>
+	</h2>
+
+	<!-- Accordion accordionBody -->
+	<div 	id={`${id}-body`} class={tw.accordionBody}>
+		<slot />
+	</div>
+
+</li> 

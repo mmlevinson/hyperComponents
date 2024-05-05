@@ -1,0 +1,85 @@
+---
+title: Accordion
+description: A collapsable accordion component
+---
+
+A commonly used Web inteface component is an Accordion.   Typically, the Accordion displays a header and a body. The header shows a short string such as a question and the body is initially hidden from view.  Clicking on the header expands the body to reveal the content.  
+
+
+export const tw = {
+	exampleContainer: 'not-content w-full pb-4 w-max-lg text-center mx-auto bg-gray-300 dark:bg-gray-800 rounded-xl my-6',
+	exampleTitle: 'bg-gray-300 dark:bg-gray-900 text-gray-300 dark:text-zinc-300 font-semibold py-2 mb-4',
+	menuItem: 'px-4 hover:bg-stone-200 hover:dark:bg-stone-300 ' +
+	'hover:text-cyan-100 hover:dark:text-sky-800',
+	icon:'inline-block size-6',
+	image: 'inline-block max-h-6',
+	p: 'pb-3 dark:bg-slate-200 dark:text-slate-800'	
+}
+
+
+<div id='accordion-example' class={tw.exampleContainer} >
+<div id='accordion-title' class="bg-gray-900 font-semibold py-2 mb-4">Sample Accordion Control</div>
+
+import AccordionGroup_A from '../../../../components/AccordionGroup_A.astro'
+import AccordionItem_B from '../../../../components/AccordionItem_B.astro'
+
+
+
+<AccordionGroup_A closeSiblings={true}>
+	<AccordionItem_B id='accordion-1' caption="Accordion 1" >
+		<p class={tw.p}>
+		Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quibusdam non sapiente praesentium hic quod error soluta maxime veritatis expedita, fugiat esse cum eligendi corrupti quos molestias ipsum ullam aperiam assumenda in iure omnis vel accusamus? Esse inventore sunt et ducimus aliquam libero laudantium odit earum necessitatibus! Temporibus placeat, quod aliquam, quas adipisci vel hic eveniet corrupti fuga reiciendis quasi vero magnam? At laudantium cupiditate, modi quos ab, unde atque aliquid odio ipsa assumenda cumque veritatis.
+		</p>
+	</AccordionItem_B>
+
+	<AccordionItem_B id='accordion-2' caption='Accordion 2'>
+		<p class={tw.p}>
+			Lorem ipsum dolor sit amet consectetur adipisicing elit. Quasi, quibusdam.
+		</p>
+		<p class={tw.p}>
+		Lorem, ipsum dolor sit amet consectetur adipisicing elit. Commodi, unde nostrum itaque aut explicabo deserunt vel sunt alias? Atque, a eveniet ad rerum labore deleniti tempora nisi commodi officiis quis eius perferendis temporibus id quidem sequi aliquid sapiente doloribus rem. Praesentium impedit magnam molestias nobis incidunt laboriosam odio beatae sapiente!
+		</p>
+	</AccordionItem_B>
+
+	<AccordionItem_B id='accordion-3' caption='Accordion 3'>
+		<p class={tw.p}>
+			Lorem ipsum dolor sit amet consectetur adipisicing elit. Quasi, quibusdam.
+		</p>
+		<p class={tw.p}>
+		Lorem, ipsum dolor sit amet consectetur adipisicing elit. Commodi, unde nostrum itaque aut explicabo deserunt vel sunt alias? Atque, a eveniet ad rerum labore deleniti tempora nisi commodi officiis quis eius perferendis.
+		</p>
+		<p class={tw.p}>
+		Lorem ipsum dolor sit amet consectetur adipisicing elit. Debitis consectetur illum quis ipsam quos quidem eligendi ex blanditiis nihil temporibus veniam adipisci deleniti modi, facilis amet fugiat incidunt atque neque aut qui quia reprehenderit magni fugit aliquam. Hic dolorem consectetur qui libero eius commodi natus, quod fuga tenetur, non doloremque unde at impedit vero. Beatae quas excepturi dignissimos est assumenda quidem ullam quisquam labore! Quaerat veritatis ex sint similique veniam quidem numquam doloremque officiis et accusantium! Non nesciunt ea itaque explicabo ipsa blanditiis iusto, est deserunt inventore voluptas dolorem possimus at exercitationem aliquid, distinctio similique quae! Perferendis ipsam excepturi repudiandae.
+		</p>
+	</AccordionItem_B>
+
+<AccordionItem_B id='accordion-4' caption='Accordion 4'>
+	<p class={tw.p}>
+		Lorem ipsum dolor sit amet consectetur adipisicing elit. Quasi, quibusdam.
+	</p>
+</AccordionItem_B>
+
+</AccordionGroup_A>
+
+</div>
+
+
+## Description
+
+ An icon (usually opposite the header caption) rotates to indicate the state of the accordion. Accordions conserve screen real estate while allowing considerable content to be displayed when needed.
+
+From a programming standpoint, the key is calculating the content height of the accordion body.   The height of the accordion body is initially set to 0.  In response to a click event, the accordion smoothly transitions to an open state by setting a height and a transition animation.
+
+However, massive content in the accordion body will cause a huge shift in the remaining page content.  Thus, a max-height of the accordion body should be set, and if the content exceeds this max-height value, then the remaining content should be set the scroll vertically.
+
+The following is a brief example of an Accordion with lorem ipsum content in the body.
+
+## Features
+
+This Accordion hyperComponent
+
+1.  Clicking the header toggles the body open and closed.
+2.  The body height is initially set to 0.
+3.  Height of the accordion body is smoothly transitioned
+4.  An icon indicator turns 180 degrees to indicate state
+
