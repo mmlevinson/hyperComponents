@@ -5,7 +5,7 @@ interface Props {
 	id:string,   //a unique identifier allowing multiple AccordionItems on a page without collisions
 	caption:string,   //the text display in the Accordion header
 	prefix?:string   //a tick mark preceeding the caption
-	maxHeight:string  //maximum open height (after which the body content scrolls vertically)
+	maxHeight:number  //maximum open height (after which the body content scrolls vertically)
 	headerStyles?:string   //override or add TW classes to  the header
 	bodyStyles?:string   //override or add TW classes to the body
 	activeHeaderStyles?:string //override, add, remove TW classes for headers of opened Accordions
@@ -16,7 +16,7 @@ const {
 	id, 
 	caption, 
 	prefix='- ',
-	maxHeight='300px',
+	maxHeight=300,
 	headerStyles,
 	bodyStyles,
 	activeHeaderStyles = 'bg-orange-100 dark:bg-blue-800',
@@ -67,8 +67,8 @@ const hs = `
 	on openAccordion
 		add ${activeStyles} to me
 		add .py-4 .border-t-2 to the  #{:accordionBody}
-		if the :accordionHeight is greater than 300
-			transition the #{:accordionBody}'s  *height to ${maxHeight}  using 'all ${openDuration} ease-in'
+		if the :accordionHeight is greater than ${maxHeight}
+			transition the #{:accordionBody}'s  *height to ${maxHeight} px using 'all ${openDuration} ease-in'
 			add .overflow-y-auto to the #{:accordionBody}
 		otherwise
 			transition the #{:accordionBody} *height to :accordionHeight px using 'all ${openDuration} ease-in'

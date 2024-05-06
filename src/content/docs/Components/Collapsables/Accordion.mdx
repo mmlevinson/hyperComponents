@@ -201,8 +201,8 @@ interface Props {
 	headerStyles?:string
 	bodyStyles?:string
 	activeHeaderStyles?:string
-	openDuration?:string   //transition timing when showing body content
-	closeDuration?:string  //transition timing when hiding body content
+	openDuration?:string  
+	closeDuration?:string 
 }
 const {
 	id, 
@@ -231,19 +231,11 @@ This props accepts is a character or short string that is prepended to the capti
 
 #### maxHeight
 
-This prop takes a string which sets the maximum height of the accordion body.  The default is `300px`.  
+This prop takes a number representing the maximum height (in pixels) of the accordion body.  The default is `300`.  
 
-You can pass any value but must include the CSS units for the script to apply correctly.  This technique allows using scalable values (such as rem or %) for limiting the body content height. 
+The HS code checks if the calculated final height of the body is more than the value specified in the maxHeight prop.
 
- Valid examples would be something like :
-
-1.  '300px'
-2.  '40rem'
-3.  '25%'
-
-:::danger
-Passing a value without appending a valid CSS unit will fail.
-::::
+If so, the body height is limited to the maxHeight value and a vertical scroll bar is shown.
 
 #### headerStyles
 
@@ -265,11 +257,11 @@ Use this prop to add styling to the `header` only when it is open.
 
 #### openDuration
 
-This prop takes a string which sets the duration of the transition when the accordion body is shown.  The default is `260ms`.
+This prop takes a string which sets the duration of the transition when the accordion body is shown.  The default is `'260ms'`.
 
 #### closeDuration
 
-This prop takes a string which sets the duration of the transition when the accordion body is hidden.  The default is `400ms`.
+This prop takes a string which sets the duration of the transition when the accordion body is hidden.  The default is `'400ms'`.
 
 
 ## Styling
@@ -288,15 +280,19 @@ For this accordion, the `transition` command of Hyperscript is utilized to speci
 
 What makes this Hyperscript example unique is insertion of props into the script.  
 
-To make component props available to the script, the HS code is placed into a back-tick delimited JS string and stored in a local constant in the Astro [Component Script](https://docs.astro.build/en/basics/astro-components/#the-component-script) (i.e. frontmatter).  This allows prop values to be inserted into the script using simple string interpolation.  
+To make component props available to the script, the HS code is placed into a back-tick delimited JS string and stored in a local constant in the Astro [Component Script](https://docs.astro.build/en/basics/astro-components/#the-component-script) (i.e. frontmatter).  Dynamic values can thus be passed into the script itself with simple string interpolation creating another level of functionality. 
 
-```astro  "${maxHeight}" "${openDuration}"
+Here is a brief code snippet of from AccordionItem_A where the `maxHeight` and `openDuration` component props are relayed into the script itself using string interpolation.  Using this technique is analagous to sending parameters to the script from an outside source.
+
+This 'trick' allows you to change the transition duration and other actions of the Hyperscript from outside of the component simply by sending new values to the script code via props.
+
+```astro title="Props used within scripts"  "${maxHeight}" "${openDuration}"
 	`transition the #{:accordionBody}'s *height to ${maxHeight}  using 'all ${openDuration} ease-in' `
 ```
 
-The local `hs` constant storing the code block is then referenced in the markup as would any variable in the component frontmatter using curly braces as shown below.
+The local `hs` constant storing the HS code is then referenced in the markup as would any variable in the component frontmatter using curly braces as shown below.
 
-```js "script={hs}"
+```js title="Script reference in markup" "script={hs}"
 
 <li class={tw.wrapper}>
 
@@ -320,30 +316,30 @@ The local `hs` constant storing the code block is then referenced in the markup 
 </li> 
 
 ```
+The syntax for the `transition` command of Hyperscript must be exact or it will not work.  Following the `using` clause you must provide a quoted string analogous to how a transition in vanilla CSS would be written.  If you leave out the quotes, the transition will fail silently.
 
-Now, using back-tick strings to wrap the entire Hyperscript  allows for string interpolation of the props directly into the script itself.  Dynamic values can thus be passed into the script itself via props creating another level of functionality.
-
-Here is a snippet of code from the accordion HyperScript where the `maxHeight` and `openDuration` component props are relayed  into the script using string interpolation which are then used to configure the `transition` for the accordion body.
-
-
-
-The syntax for the `transition` method of Hyperscript must be exact or it will not work.  After `using` clause you provide a quoted string analogous to how a transition in vanilla CSS would be written.  If you leave out the quotes, the transition will fail silently.
-
-This 'trick' allows you to change the transition duration and other actions of the Hyperscript from outside of the component simply by sending new values to the script code via props.
-
-See the [Code](#code) section below for all the scripts  and how they are populated with the values of component props using this technique.
+See the [Code](#code) section below for all the scripts  and how they are populated with the values of the component props using this technique.
 
 
 ## Slots
+
+Both components use a default `<slot>` to receive child elements.
+
+The AccordionGroup_A default `<slot>` is populated with accordion items.
+
+The AccordionItem_A default `<slot>` is populated with whatever markup you wish to place into the accordion body.
 
 ## Code
 
 ### AccordionGroup_A
 
+This example accordion is comprised of a wrapper component (AccordionGroup_A) which contains a default slot into which multiple accordion items (AccordionItem_A) are placed.
 
-This Accordion example consists of a wrapper (AccordionGroup_A) which contains a default slot into which multiple AccordionItems (AccordionItem_A) are placed.
+A minimal set of default styles are provided but can be overridden or added to by passing additional TW classes to the [styles](#styles) prop.
 
-A minimal set of default styles are provided but can be overridden or added to by passing additional TW classes to the `styles` prop.
+Explore the Tabs below to review all the code and styling which makes up the accordion group wrapper.   
+
+Copy/paste the contents of the `Everything` tab to use this component in your projects.
 
 import {Tabs, TabItem } from '@astrojs/starlight/components'
 
@@ -352,7 +348,7 @@ import {Tabs, TabItem } from '@astrojs/starlight/components'
 ```js
 
 interface Props {
-	closeSiblings?:boolean,   //all other Accordions sent a closeOpenAccordions event
+	closeSiblings?:boolean,   //all other Accordions are sent a closeOpenAccordions event
 	styles?:string   //override or add TW classes for stying the Group
 }
 
@@ -365,7 +361,7 @@ const {
 </TabItem>
 
 <TabItem label="HTML">
-```html
+```html "script={hs}"
 <ul class={tw.group} script={hs}>
 	<slot />
 </ul>
@@ -374,7 +370,7 @@ const {
 
 
 <TabItem label="Scripts">
-```js
+```js "${closeSiblings}"
 
 const hs =
  `on closeOpenAccordions
@@ -408,7 +404,7 @@ const tw = {
 import {twMerge} from 'tailwind-merge'
 
 interface Props {
-	closeSiblings?:boolean,   //all other Accordions sent a closeOpenAccordions event
+	closeSiblings?:boolean,   //all other Accordions aresent a closeOpenAccordions event
 	styles?:string   //override or add TW classes for stying the Group
 }
 
@@ -447,13 +443,15 @@ const hs =
 
 ### AccordionItem_A
 
-Each Accordion Group should receive multiple AccordioItems between the parent tags which are then placed into the default slot.
+Most of the functionality of this control resides in the styling and actions of the AccordionItem_A component.
 
-Each AccordionItem_A consists of a list item  with a trigger button  and a div  which holds the actual body content.
+Each  group should receive multiple AccordionItem_A components
 
-Content for the body is passed into the default slot of the AccordionItem_A.
+Each AccordionItem_A consists of a `<li>` with a trigger `<button>` for the accordion header  and a	 `<div>` which presents a default `<slot>` for the actual content.
 
-Below is the code for the AccordionItem_A component.
+Explore the Tabs below to review all the code and styling for the accordion item component.
+
+Copy/paste the contents of the `Everything` tab to use this component in your projects.
 
 
 <Tabs>
@@ -490,7 +488,7 @@ const {
 
 <TabItem label="HTML">
 
-```html
+```html "script={hs}"
 <li class={tw.wrapper}>
 
 	<!-- Accordion Header -->
@@ -680,16 +678,7 @@ const hs = `
 	end -- closeAccordion
 `
 
-
-
-/* Transition calls and toggle .rotate-180 gives an error when using an element reference stored in local variable
-You must provide an actual selector instead.
-
-If you add padding to the default styles, the accordion accordionBody has a height equal to the padding
-even if you set h-0.   So, padding must be added/removed for the accordion accordionBody to close up fully.
-The recalcHeight of accordion accordionBody must also take in account the vertical padding value*/
 ---
-
 
 <li class={tw.wrapper}>
 
