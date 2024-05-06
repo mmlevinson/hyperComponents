@@ -1,0 +1,12 @@
+---
+
+---
+	 
+<ReadMoreGroup closeSiblings={true}>
+	{histories.map((history, index) => (
+		<ReadMoreItem id={`${index}`}>
+			<h2 class={tw.heading}>{history.heading}</h2>
+			<p class={tw.subheading}>{history.subheading}</p>
+		</ReadMoreItem>
+	))}
+</ReadMoreGroup>

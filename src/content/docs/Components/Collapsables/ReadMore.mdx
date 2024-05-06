@@ -1,9 +1,255 @@
 ---
-
 title: ReadMore
-description: A collapsable ReadMore lazy loading additional content
+description: A component which displays a short introductory prompt followed by  a Read More... link to load additional content on demand.
+tableOfContents: 
+  minHeadingLevel: 2
+  maxHeadingLevel: 4
+---
+		 
+	{/* Introduction */}
+Blog sites typically use a ReadMore control to display a short introductory prompt followed by  a Read More... link which load additional content on demand.
+		 
+## Example
+		 
+export const tw = {
+		exampleContainer: 'not-content w-full pb-4 w-max-lg text-center mx-auto bg-gray-300 dark:bg-gray-800 rounded-xl my-6',
+		exampleTitle: 'bg-gray-300 dark:bg-sky-900 text-gray-300 dark:text-zinc-200 font-semibold py-2 mb-4 rounded-t-xl',
+		icon:'inline-block size-6',
+		image: 'inline-block max-h-6',
+		p: 'pb-3'	
+}
+		 
+<div id='ReadMore-example' class={tw.exampleContainer} >
+<div id='ReadMore-title' class={tw.exampleTitle}>Sample ReadMore Control</div>
+
+</div>
+	{/* Example Control in Action */}
+	```astro
+import { getCollection } from 'astro:content' 
+
+const collection = await getCollection('history')
+const histories = collection[0].data
+
+
+const tw = {
+	wrapper: 'w-full columns-1 text-zinc-800 dark:text-zinc-200 bg-zinc-200 dark:bg-transparent',
+	heading: 'pb-4 text-xl font-bold text-center',
+	subheading:'leadingline pb-8',
+}
+---
+
+	 <div class={tw.wrapper}>
+
+		<ReadMoreGroup closeSiblings={true}>
+			{histories.map((history, index) => (
+				<ReadMoreItem id={`${index}`}>
+					<h2 class={tw.heading}>{history.heading}</h2>
+					<p class={tw.subheading}>{history.subheading}</p>
+				</ReadMoreItem>
+			))}
+		</ReadMoreGroup>
+
+	 </div>
+
+	```
+
+		 
+## Description
+	{/* General Description */}
+	{/* Example  Code block showing the  control in action. */}
+## Features
+		 
+## Components
+	{/* Breakdown of each Astro Components used for this control */}
+## Props
+	{/* Each component, with code block showing the props interface */}
+## Styling
+To improve readability, the Tailwind classes and Hyperscripts are both extracted from the markup and encapsulated into  Astro `tw` and `hs` local variables within the [Component Script](https://docs.astro.build/en/basics/astro-components/#the-component-script) which are then referenced in the html markup. 
+		 
+The advantage of this strategy is to allow long run-on strings to be formatted as concatenated, multi-line strings which aids readability and code maintenance.
+		 
+## Transitions
+	{/* Description of the animations used in the control */}
+## Slots
+	{/* Outline the name/function of each slot */}
+## Code
+	{/* Brief explanation of the component */}
+import {Tabs, TabItem } from '@astrojs/starlight/components'
+		 
+<Tabs>
+	<TabItem label='Props'>
+	```js
+		const {id} = Astro.props 
+	```
+	</TabItem>
+		 
+	<TabItem label='HTML'>
+	```html
+		 
+	<li id={id} class={tw.li}>
+		<div>
+			<slot/>
+			<button class={tw.button} script='install readMore'>Read More &#11015;</button>
+		</div>
+		{/* Must leave this div empty, will be lazy loaded by the above fetch call*/}
+		<div  class={tw.body} style="transition: all 250ms ease-out"></div>	
+	</li>
+	
+	```
+	</TabItem>
+		 
+	<TabItem label='Scripts'>
+	```js
+
+<script type="text/hyperscript">
+
+	behavior readMore
+
+		def calcHeight()
+			set openHeight to 0
+			set readMoreContent to the children of the next .body
+			for item in readMoreContent 
+				increment openHeight by the item's offsetHeight
+			end -- for
+			increment openHeight by 25  -- for bottom padding
+			return openHeight 
+		end 
+
+	  on mouseenter from me
+			get the innerHTML of the next .body
+			if it is empty then 
+				set path to '/api/history/' + @id of the closest <li/>
+				fetch `${path}` as html then put it into the next .body
+		end 
+
+		on click from me
+			add .bg-green-950 to me
+			remove .bg-indigo-950 from me then settle then
+			measure the next .body
+			if the result.height is greater than 0 then send closeUp to me
+			otherwise send openUp to me end
+			remove .bg-green-950 from me
+			add .bg-indigo-950 to me then settle
+		end
+
+		on openUp
+			send closeOtherReadMores to closest parent <ul/>
+			put "Read Less &#11014;" into me
+			set newHeight to calcHeight()
+			if newHeight is less than 500 then
+				set the *height of the next .body to (newHeight + 'px') then settle
+			otherwise
+				set the *height of the next .body to 500 px then settle
+			end -- if
+		end
+
+		on closeUp
+			put "Read More &#11015;" into me
+			set the *height of the next .body to 0 then settle
+		end
+
+</script>
+	```
+	</TabItem>
+		 
+	<TabItem label='Tailwind'>
+	```js
+
+export const tw = {
+	li: 'mb-8 shadow-lg rounded-lg',
+	body: 'body h-0 px-4 text-pretty text-gray-700 dark:text-zinc-200 dark:bg-slate-900 overflow-y-auto',
+	button: 'block w-full mx-auto px-4 py-1 rounded-lg ' + 
+	'text-sm font-fjalla text-end ' + 
+	'text-gray-400 bg-indigo-950 opacity-50 hover:opacity-70 ' +
+	'dark:text-zinc-200 dark:bg-sky-900 '
+}
+	```
+	</TabItem>
+		 
+	<TabItem label='Everything'>
+	```astro
+	---
+import {twMerge} from 'tailwind-merge'
+
+
+const defaultOverscrollHeight = 400
+const defaultDuration = 200
+
+const {id} = Astro.props
+
+export const tw = {
+	li: 'mb-8 shadow-lg rounded-lg',
+	body: 'body h-0 px-4 text-pretty text-gray-700 dark:text-zinc-200 dark:bg-slate-900 overflow-y-auto',
+	button: 'block w-full mx-auto px-4 py-1 rounded-lg ' + 
+	'text-sm font-fjalla text-end ' + 
+	'text-gray-400 bg-indigo-950 opacity-50 hover:opacity-70 ' +
+	'dark:text-zinc-200 dark:bg-sky-900 '
+}
+
 ---
 
 
+<script type="text/hyperscript">
 
----
+	
+
+	behavior readMore
+
+		def calcHeight()
+			set openHeight to 0
+			set readMoreContent to the children of the next .body
+			for item in readMoreContent 
+				increment openHeight by the item's offsetHeight
+			end -- for
+			increment openHeight by 25  -- for bottom padding
+			return openHeight 
+		end 
+
+	  on mouseenter from me
+			get the innerHTML of the next .body
+			if it is empty then 
+				set path to '/api/history/' + @id of the closest <li/>
+				fetch `${path}` as html then put it into the next .body
+		end 
+
+		on click from me
+			add .bg-green-950 to me
+			remove .bg-indigo-950 from me then settle then
+			measure the next .body
+			if the result.height is greater than 0 then send closeUp to me
+			otherwise send openUp to me end
+			remove .bg-green-950 from me
+			add .bg-indigo-950 to me then settle
+		end
+
+		on openUp
+			send closeOtherReadMores to closest parent <ul/>
+			put "Read Less &#11014;" into me
+			set newHeight to calcHeight()
+			if newHeight is less than 500 then
+				set the *height of the next .body to (newHeight + 'px') then settle
+			otherwise
+				set the *height of the next .body to 500 px then settle
+			end -- if
+		end
+
+		on closeUp
+			put "Read More &#11015;" into me
+			set the *height of the next .body to 0 then settle
+		end
+</script>
+
+	<li id={id} class={tw.li}>
+		<div>
+			<slot/>
+			<button class={tw.button} script='install readMore'>Read More &#11015;</button>
+		</div>
+		{/* Must leave this div empty, will be lazy loaded by the above fetch call*/}
+		<div  class={tw.body} style="transition: all 250ms ease-out"></div>	
+	</li>
+	```
+	</TabItem>
+</Tabs>
+		 
+##  Usage
+	{/* Discuss use cases */}	
