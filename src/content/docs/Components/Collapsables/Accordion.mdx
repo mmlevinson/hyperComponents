@@ -1,6 +1,9 @@
 ---
 title: Accordion
 description: A collapsable Accordion component
+tableOfContents:
+  minHeadingLevel: 2
+  maxHeadingLevel: 4
 ---
 
 A commonly used interface component is an Accordion.   The user sees a list of titles with an icon opposite the title text which prompts the user to explore by clicking on the header.  Clicking on the header transitions additional content down below the header.  
@@ -256,6 +259,52 @@ The recalcHeight of accordion accordionBody must also take in account the vertic
 ```
 
 ## Props
+
+### AccordionGroup
+
+Both the AccordionGroup_A and AccordionItem_A components can be configured from the point of usage by props.
+
+#### closeSiblings
+
+Use this prop to signal if opening an Accordion causes other Accordions to close.
+
+The default value is `false`.  Passing `true` will trigger a custom `closeOpenAccordions` event to be fired.  All Accordions except the one sending this event will be closed
+
+#### styles
+
+This prop takes a string containing any Tailwind classes of your choosing.   These classes will be merged with AccordionGroup_A's default styles (which you find in the [Code](#code) section below.
+
+TW classes passed in the `styles` prop alter the appearance of the group, such as border appearance, width, margins, etc.
+
+### AccordionItem
+
+#### id
+
+Each AccordionItem_A should have a unique id.  This is used to help manage the accordion state.
+
+#### caption
+
+The caption is the text that appears in the accordion header.
+
+#### prefix
+
+This is a string that is prepended to the caption.  The default is `- `
+
+#### maxHeight
+
+This prop sets the maximum height of the accordion body.  The default is `300`.
+
+#### headerStyles
+
+This prop takes a string containing any Tailwind classes of your choosing.   These classes will be merged with AccordionGroup_A's default styles (which you find in the [Code](#code) section below.
+
+#### bodyStyles
+
+This prop takes a string containing any Tailwind classes of your choosing.   These classes will be merged with AccordionGroup_A's default styles (which you find in the [Code](#code) section below.
+
+#### activeHeaderStyles
+
+This prop takes a string containing any Tailwind classes of your choosing.   These classes will be merged with AccordionGroup_A's default styles (which you find in the [Code](#code) section below.
 
 ### AccordionGroup_A
 
