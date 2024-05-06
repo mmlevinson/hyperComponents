@@ -5,23 +5,25 @@ interface Props {
 	id:string,
 	caption:string,
 	prefix?:string
-	maxHeight:number
+	maxHeight:string
 	headerStyles?:string
 	bodyStyles?:string
 	activeHeaderStyles?:string
+	openDuration?:string
+	closeDuration?:string
 }
 const {
 	id, 
 	caption, 
 	prefix='- ',
-	maxHeight=300,
+	maxHeight='300px',
 	headerStyles,
 	bodyStyles,
 	activeHeaderStyles = 'bg-orange-100 dark:bg-blue-950',
+	openDuration='260ms',
+	closeDuration='400ms'
 } = Astro.props
 
-const defaultOverscrollHeight = 200
-const defaultDuration = 200
 
 const tw = {
 	wrapper:'shadow-lg overflow-hidden ' + 
@@ -34,7 +36,7 @@ const tw = {
 		'', headerStyles),
 	accordionBody: twMerge('h-0 px-6 text-left  border-zinc-300 ' + 
 		' bg-gray-100 text-slate-800 dark:bg-violet-50 dark:text-gray-900', bodyStyles),
-	icon: 'size-6 shrink-0'
+	icon: 'twirl-icon size-6 shrink-0'
 }
 
 function formatTWClasses(twClasses) {
@@ -66,10 +68,10 @@ const hs = `
 		add ${activeStyles} to me
 		add .py-4 .border-t-2 to the  #{:accordionBody}
 		if the :accordionHeight is greater than 300
-			transition the #{:accordionBody}'s  *height to 300px using 'all 260ms ease-in'
+			transition the #{:accordionBody}'s  *height to ${maxHeight}  using 'all ${openDuration} ease-in'
 			add .overflow-y-auto to the #{:accordionBody}
 		otherwise
-			transition the #{:accordionBody} *height to :accordionHeight px using 'all 260ms ease-in'
+			transition the #{:accordionBody} *height to :accordionHeight px using 'all ${openDuration} ease-in'
 		end -- if > 300 px
 		add .rotate-180 to the #{:twirlIcon}
 		set :accordionOpen to true
@@ -80,7 +82,7 @@ const hs = `
 		remove ${activeStyles} from me
 		remove .py-4 .border-t-2 from the #{:accordionBody}
 		remove .rotate-180 from the #{:twirlIcon}
-		transition the #{:accordionBody} *height to 0 using 'all 400ms ease-out'
+		transition the #{:accordionBody} *height to 0 using 'all ${closeDuration} ease-out'
 		set :accordionOpen to false
 	end -- closeAccordion
 `
