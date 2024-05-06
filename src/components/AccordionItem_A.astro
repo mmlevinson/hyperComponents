@@ -5,7 +5,7 @@ interface Props {
 	id:string,   //a unique identifier allowing multiple AccordionItems on a page without collisions
 	caption:string,   //the text display in the Accordion header
 	prefix?:string   //a tick mark preceeding the caption
-	maxHeight:number  //maximum open height (after which the body content scrolls vertically)
+	maxHeight:number  //maximum open height in px (after which the body content scrolls vertically)
 	headerStyles?:string   //override or add TW classes to  the header
 	bodyStyles?:string   //override or add TW classes to the body
 	activeHeaderStyles?:string //override, add, remove TW classes for headers of opened Accordions
@@ -19,7 +19,7 @@ const {
 	maxHeight=300,
 	headerStyles,
 	bodyStyles,
-	activeHeaderStyles = 'bg-orange-100 dark:bg-blue-800',
+	activeHeaderStyles = 'bg-orange-100 dark:bg-sky-950',
 	openDuration='260ms',
 	closeDuration='400ms'
 } = Astro.props
@@ -29,7 +29,7 @@ const tw = {
 	wrapper:'shadow-lg overflow-hidden ' + 
 	'border-4 border-b-0 last-of-type:border-b-4 border-indigo-500 border-opacity-20  dark:border-gray-700 ' + 
 	'first-of-type:rounded-t-xl last-of-type:rounded-b-xl',
-	accordionHeader: twMerge('w-full flex justify-between items-center px-2 py-5 cursor-pointer ' +
+	accordionHeader: twMerge('w-full flex justify-between items-center px-2 py-5 select-none cursor-pointer ' +
 		'font-bold text-lg text-left text-gray-900 dark:text-zinc-300 ' +
 		'bg-blue-100 hover:bg-sky-950 hover:text-yellow-50 ' +
 		'dark:bg-slate-900 dark:hover:bg-purple-950 dark:hover:text-fuchsia-100 ' + 
@@ -72,7 +72,7 @@ const hs = `
 			add .overflow-y-auto to the #{:accordionBody}
 		otherwise
 			transition the #{:accordionBody} *height to :accordionHeight px using 'all ${openDuration} ease-in'
-		end -- if > 300 px
+		end -- if > maxHeight
 		add .rotate-180 to the #{:twirlIcon}
 		set :accordionOpen to true
 		send closeOpenAccordions to the closest <ul/>
@@ -88,13 +88,6 @@ const hs = `
 `
 
 
-
-/* Transition calls and toggle .rotate-180 gives an error when using an element reference stored in local variable
-You must provide an actual selector instead.
-
-If you add padding to the default styles, the accordion accordionBody has a height equal to the padding
-even if you set h-0.   So, padding must be added/removed for the accordion accordionBody to close up fully.
-The recalcHeight of accordion accordionBody must also take in account the vertical padding value*/
 ---
 
 

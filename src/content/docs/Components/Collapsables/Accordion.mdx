@@ -463,7 +463,7 @@ interface Props {
 	id:string,   //a unique identifier allowing multiple AccordionItems on a page without collisions
 	caption:string,   //the text display in the Accordion header
 	prefix?:string   //a tick mark preceeding the caption
-	maxHeight:string  //maximum open height (after which the body content scrolls vertically)
+	maxHeight:number  //maximum open height in px (after which the body content scrolls vertically)
 	headerStyles?:string   //override or add TW classes to  the header
 	bodyStyles?:string   //override or add TW classes to the body
 	activeHeaderStyles?:string //override, add, remove TW classes for headers of opened Accordions
@@ -474,10 +474,10 @@ const {
 	id, 
 	caption, 
 	prefix='- ',
-	maxHeight='300px',
+	maxHeight=300,
 	headerStyles,
 	bodyStyles,
-	activeHeaderStyles = 'bg-orange-100 dark:bg-blue-950',
+	activeHeaderStyles = 'bg-orange-100 dark:bg-blue-800',
 	openDuration='260ms',
 	closeDuration='400ms'
 } = Astro.props
@@ -540,12 +540,12 @@ const hs = `
 	on openAccordion
 		add ${activeStyles} to me
 		add .py-4 .border-t-2 to the  #{:accordionBody}
-		if the :accordionHeight is greater than 300
-			transition the #{:accordionBody}'s  *height to ${maxHeight}  using 'all ${openDuration} ease-in'
+		if the :accordionHeight is greater than ${maxHeight}
+			transition the #{:accordionBody}'s  *height to ${maxHeight} px using 'all ${openDuration} ease-in'
 			add .overflow-y-auto to the #{:accordionBody}
 		otherwise
 			transition the #{:accordionBody} *height to :accordionHeight px using 'all ${openDuration} ease-in'
-		end -- if > 300 px
+		end -- if > maxHeight
 		add .rotate-180 to the #{:twirlIcon}
 		set :accordionOpen to true
 		send closeOpenAccordions to the closest <ul/>
@@ -559,7 +559,6 @@ const hs = `
 		set :accordionOpen to false
 	end -- closeAccordion
 `
-
 ```
 
 </TabItem>
@@ -571,7 +570,7 @@ const tw = {
 	wrapper:'shadow-lg overflow-hidden ' + 
 	'border-4 border-b-0 last-of-type:border-b-4 border-indigo-500 border-opacity-20  dark:border-gray-700 ' + 
 	'first-of-type:rounded-t-xl last-of-type:rounded-b-xl',
-	accordionHeader: twMerge('w-full flex justify-between items-center px-2 py-5 cursor-pointer ' +
+	accordionHeader: twMerge('w-full flex justify-between items-center px-2 py-5 select-none cursor-pointer ' +
 		'font-bold text-lg text-left text-gray-900 dark:text-zinc-300 ' +
 		'bg-blue-100 hover:bg-sky-950 hover:text-yellow-50 ' +
 		'dark:bg-slate-900 dark:hover:bg-purple-950 dark:hover:text-fuchsia-100 ' + 
@@ -588,7 +587,6 @@ const tw = {
 <TabItem label="Everything">
 
 ```astro
-
 ---
 import {twMerge} from 'tailwind-merge'
 
@@ -596,7 +594,7 @@ interface Props {
 	id:string,   //a unique identifier allowing multiple AccordionItems on a page without collisions
 	caption:string,   //the text display in the Accordion header
 	prefix?:string   //a tick mark preceeding the caption
-	maxHeight:string  //maximum open height (after which the body content scrolls vertically)
+	maxHeight:number  //maximum open height in px (after which the body content scrolls vertically)
 	headerStyles?:string   //override or add TW classes to  the header
 	bodyStyles?:string   //override or add TW classes to the body
 	activeHeaderStyles?:string //override, add, remove TW classes for headers of opened Accordions
@@ -607,10 +605,10 @@ const {
 	id, 
 	caption, 
 	prefix='- ',
-	maxHeight='300px',
+	maxHeight=300,
 	headerStyles,
 	bodyStyles,
-	activeHeaderStyles = 'bg-orange-100 dark:bg-blue-950',
+	activeHeaderStyles = 'bg-orange-100 dark:bg-blue-800',
 	openDuration='260ms',
 	closeDuration='400ms'
 } = Astro.props
@@ -620,7 +618,7 @@ const tw = {
 	wrapper:'shadow-lg overflow-hidden ' + 
 	'border-4 border-b-0 last-of-type:border-b-4 border-indigo-500 border-opacity-20  dark:border-gray-700 ' + 
 	'first-of-type:rounded-t-xl last-of-type:rounded-b-xl',
-	accordionHeader: twMerge('w-full flex justify-between items-center px-2 py-5 cursor-pointer ' +
+	accordionHeader: twMerge('w-full flex justify-between items-center px-2 py-5 select-none cursor-pointer ' +
 		'font-bold text-lg text-left text-gray-900 dark:text-zinc-300 ' +
 		'bg-blue-100 hover:bg-sky-950 hover:text-yellow-50 ' +
 		'dark:bg-slate-900 dark:hover:bg-purple-950 dark:hover:text-fuchsia-100 ' + 
@@ -658,12 +656,12 @@ const hs = `
 	on openAccordion
 		add ${activeStyles} to me
 		add .py-4 .border-t-2 to the  #{:accordionBody}
-		if the :accordionHeight is greater than 300
-			transition the #{:accordionBody}'s  *height to ${maxHeight}  using 'all ${openDuration} ease-in'
+		if the :accordionHeight is greater than ${maxHeight}
+			transition the #{:accordionBody}'s  *height to ${maxHeight} px using 'all ${openDuration} ease-in'
 			add .overflow-y-auto to the #{:accordionBody}
 		otherwise
 			transition the #{:accordionBody} *height to :accordionHeight px using 'all ${openDuration} ease-in'
-		end -- if > 300 px
+		end -- if > maxHeight
 		add .rotate-180 to the #{:twirlIcon}
 		set :accordionOpen to true
 		send closeOpenAccordions to the closest <ul/>
@@ -678,7 +676,16 @@ const hs = `
 	end -- closeAccordion
 `
 
+
+
+/* Transition calls and toggle .rotate-180 gives an error when using an element reference stored in local variable
+You must provide an actual selector instead.
+
+If you add padding to the default styles, the accordion accordionBody has a height equal to the padding
+even if you set h-0.   So, padding must be added/removed for the accordion accordionBody to close up fully.
+The recalcHeight of accordion accordionBody must also take in account the vertical padding value*/
 ---
+
 
 <li class={tw.wrapper}>
 
@@ -711,8 +718,9 @@ const hs = `
 
 ##  Usage
 
-Accordion controls are often used in FAQ or Info sections of a web site.  The advantages of using an Accordion is to hide the majority of the content until the user needs to see it.  By just presenting the content title in the header the user is prompted to explore the content by clicking on the header.   Meanwhile, the extra text in the body of the Accordion is hidden until requested.
+Accordion controls are often used in FAQ or Info sections of a web site.  The advantages of using an Accordion is to hide the majority of the content until the user needs to see it.  
 
-This, of course, makes Accordions an ideal choice for lazy loading content. To enhance the UX, content for the Accordion body does not need to be loaded until selected by the user.   Using HTMX, lazy loading is easily done by listening for the click event and then reaching out to the server for html which is loaded into the Accordion body.   The transition animation is done in response to the htmx:load event.
+By presenting just the title in the header the user is prompted to explore the hidden content.   
+
 
 
