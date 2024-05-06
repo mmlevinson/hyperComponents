@@ -2,9 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
-ul, ol {
+ul {
 	list-style-type: none;
 	padding: 0;
+	margin:0;
+}
+
+ol {
+	padding-left: 1rem;
 	margin:0;
 }
 

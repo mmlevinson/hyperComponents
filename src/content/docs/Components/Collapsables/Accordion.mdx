@@ -6,10 +6,11 @@ tableOfContents:
   maxHeadingLevel: 4
 ---
 
-A commonly used interface component is an Accordion.   The user sees a list of titles with an icon opposite the title text which prompts the user to explore by clicking on the header.  Clicking on the header transitions additional content down below the header.  
+A commonly used interface component is an Accordion.   The user sees a list of titles with an icon opposite the title text.  Clicking on the header smoothly reveals additional content directly below the header.  The icon rotates to indicate the open/closed state of the Accordion.
 
 An example Accordion control written in Hyperscript is shown below.
 
+## Example
 
 export const tw = {
 	exampleContainer: 'not-content w-full pb-4 w-max-lg text-center mx-auto bg-gray-300 dark:bg-gray-800 rounded-xl my-6',
@@ -70,22 +71,20 @@ import AccordionItem_A from '../../../../components/AccordionItem_A.astro'
 
 ## Description
 
- An icon (usually opposite the header caption) rotates to indicate the state of the accordion. Accordions conserve screen real estate while allowing considerable content to be displayed when needed.
+Accordions conserve screen real estate while still allowing considerable content to be displayed when needed.
 
-From a programming standpoint, the key is calculating the content height of the accordion body.   The height of the accordion body is initially set to 0.  In response to a click event, the accordion smoothly transitions to an open state by setting a height and a transition animation.
+In the collapsed state, the the height of the accordion body is initially set to 0.  In response to a click event, the accordion smoothly transitions to an open state by setting a final height and a transition animation. From a programming standpoint, the key is calculating the final height of the accordion body based on the proposed content.  
 
-However, massive content in the accordion body will cause a huge shift in the remaining page content.  Thus, a max-height of the accordion body should be set, and if the content exceeds this max-height value, then the remaining content should be set the scroll vertically.
+If too much content is loaded into the Accordion body, a huge vertical shift occurs on the page which is distracting.   Thus it is best to set a max-height after which extra content simply scrolls vertically.
 
-The following is a brief example of an Accordion with lorem ipsum content in the body.
+The following is a Hyperscript implementation of an Accordion control.
 
 ## Features
 
-This Accordion hyperComponent
-
 1.  Clicking the header toggles the body open and closed.
-4.  An indicator icon  rotates 180 degrees to indicate open/closed state
-2.  Body content is animated smoothly using a Hyperscript transition
-3.  A max-height value for the Accordion body can be set by props
+2.  An indicator icon  rotates 180 degrees to indicate open/closed state
+3.  Body content is animated smoothly using a Hyperscript transition
+4.  A max-height value for the Accordion body can be set by props
 5.  Tailwind classes for the header, body, and active header (when opened) can be passed into the AccordionGroup_A component to style the entire component from outside.
 6.  Content for the Accordion body is passed into the default slot and thus can be styled where it is used. 
 
@@ -307,6 +306,7 @@ This prop takes a string containing any Tailwind classes of your choosing.   The
 
 ### AccordionGroup_A
 
+
 ```js title = "Props for AccordionGroup_A"
 
 interface Props {
@@ -356,6 +356,12 @@ const {
 ## Code
 
 ### AccordionGroup_A
+
+
+
+This Accordion example consists of a wrapper (AccordionGroup_A) which contains a default slot into which multiple AccordionItems (AccordionItem_A) are placed.
+
+A minimal set of default styles are provided but can be overridden or added to by passing additional TW classes to the `styles` prop.
 
 import {Tabs, TabItem } from '@astrojs/starlight/components'
 
@@ -458,6 +464,14 @@ const hs =
 
 
 ### AccordionItem_A
+
+Each Accordion Group should receive multiple AccordioItems between the parent tags which are then placed into the default slot.
+
+Each AccordionItem_A consists of a list item  with a trigger button  and a div  which holds the actual body content.
+
+Content for the body is passed into the default slot of the AccordionItem_A.
+
+Below is the code for the AccordionItem_A component.
 
 
 <Tabs>
