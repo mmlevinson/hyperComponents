@@ -73,16 +73,16 @@ import AccordionItem_A from '../../../../components/AccordionItem_A.astro'
 
 Accordions conserve screen real estate while still allowing considerable content to be displayed when needed.
 
-To implement this control two parts are needed:
+To implement this control you need:
 
 1.  A header (with a clickable title)
 2.  A body (with hidden content that can  be revealed)
 
 In the collapsed state, the height of the  body is  set to 0.  In response to a click event in the header, the body smoothly transitions to an open state by setting a final height and a transition animation. From a programming standpoint, the key is calculating the body's final height based on the proposed content.  
 
-If too much content is loaded into the body, a huge vertical shift occurs on the page which is distracting.   Thus it is best to set a maxxHeight after which extra content simply scrolls vertically.
+If too much content is revealed then a huge vertical shift occurs on the page which is distracting.   Thus it is best to set a maxHeight after which extra content simply scrolls vertically.
 
-The source code to create the example accordion is shown below.
+The source code to create the example accordion is shown next with highlights indicating the Astro used.  The complete source code for each component is presented in the [Code](#code) section.
 
 ```astro title="UsingAnAccordion.astro" "AccordionGroup_A" "AccordionItem_A"
 ----
@@ -137,10 +137,10 @@ const tw - {
 
 1.  Clicking the header toggles the body open or closed.
 2.  An indicator icon  rotates 180 degrees to indicate open/closed state
-3.  Revealing body content is animated smoothly using a Hyperscript `transition`
+3.  Body content is revealed  smoothly using a Hyperscript `transition` on the body's *height.
 4.  A maxHeight prop prevents the body height from exceeding a set value.
-5.  Tailwind classes for the header, body, and active header (when opened) can be passed in via props to style the entire component from outside.
-6.  Content for the body is passed into the default slot and thus can be styled from where the accordion is used. 
+5.  Tailwind classes for the header, body, and active header (when opened) can be passed in through props to customize the appearance of the entire control from outside.
+6.  Content for the body is simplhy placed into the default slot of the AccordionItem_A component and thus can be styled to your liking from where the accordion is used. 
 
 ## Components
 
@@ -153,9 +153,9 @@ All of the source code, including the scripts and styling, is found in the [Code
 
 ## Props
 
-Props are used to configure both Accordion components from where they are used.  This strategy allows full customization without having to rewrite the  source code itself.
+Props are used to configure both components from where they are used.  This strategy allows full customization without having to rewrite the  source code itself.
 
-All  props except strings unless otherwise specified.
+All  props accept strings unless otherwise specified.
 
 ### AccordionGroup_A
 
@@ -178,13 +178,13 @@ const {
 
 #### closeSiblings
 
-If opening an accordion should cause  all other accordions to close then pass `true` to the `closeSiblings` prop.  This will cause a custom `closeOpenAccordions` event to be fired.  All accordions except the one sending this event will be then closed.
+You can designate if opening an accordion should cause all other accordions to close.  When  passing `true` to the `closeSiblings` prop  a custom `closeOpenAccordions` event is fired.  All accordions except the one sending this event will be then closed. This was done in the example code above.
 
-The default value is `false`.
+The default value for closeSiblings is `false`.
 
 #### styles
 
-This prop takes a string containing any Tailwind classes of your choosing.   These classes will be merged with default styles (which you find in the [Code](#code) section below.
+This prop takes a string containing any Tailwind classes of your choosing.   These classes will be merged with the default styles for AccordionGroup_A (which you find in the [Code](#code) section below.
 
 TW classes passed in the `styles` prop only affect the whole group and thus should be mostly positioning values such as width, margins, etc.
 
@@ -201,6 +201,8 @@ interface Props {
 	headerStyles?:string
 	bodyStyles?:string
 	activeHeaderStyles?:string
+	openDuration?:string   //transition timing when showing body content
+	closeDuration?:string  //transition timing when hiding body content
 }
 const {
 	id, 
@@ -210,6 +212,8 @@ const {
 	headerStyles,
 	bodyStyles,
 	activeHeaderStyles = 'bg-orange-100 dark:bg-blue-950',
+	openDuration='260ms',
+	closeDuration='400ms'
 } = Astro.props
 ```
 
@@ -227,9 +231,11 @@ This props accepts is a character or short string that is prepended to the capti
 
 #### maxHeight
 
-This prop sets the maximum height of the accordion body.  The default is `300px`.
+This prop takes a string which sets the maximum height of the accordion body.  The default is `300px`.  
 
-You can pass any value but must include the CSS units for the script to apply correctly.  Valid examples would be like :
+You can pass any value but must include the CSS units for the script to apply correctly.  This technique allows using scalable values (such as rem or %) for limiting the body content height. 
+
+ Valid examples would be something like :
 
 1.  '300px'
 2.  '40rem'
@@ -241,28 +247,36 @@ Passing a value without appending a valid CSS unit will fail.
 
 #### headerStyles
 
-This prop takes a string containing any Tailwind classes of your choosing.   These classes will be merged with the default  styles for the `header` section of AccordionItem_A (which you find in the [Code](#code) section below.  
+This prop takes a string containing any Tailwind classes of your choosing.   These classes will be merged with the default  styles for the `<button>` element in the  AccordionItem_A (which you find in the [Code](#code) section below.  
 
-Use this prop to override or add styling to the `header` section of the accordion.
+Use this prop to add or override styling of the accordion `header`.
 
 #### bodyStyles
 
-This prop takes a string containing any Tailwind classes of your choosing.   These classes will be merged with the default  styles for the `body` section of AccordionItem_A (which you find in the [Code](#code) section below.
+This prop takes a string containing any Tailwind classes of your choosing.   These classes will be merged with the default  styles for the `<div>` element  of AccordionItem_A (which you find in the [Code](#code) section below.
 
-Use this prop to override or add styling to the `body` section of the accordion.
+Use this prop to add or override styling of the accordion `body`.
 
 #### activeHeaderStyles
 
-This prop takes a string containing any Tailwind classes of your choosing.   These classes will be added to the `header` when the accordion is open.
+This prop takes a string containing any Tailwind classes of your choosing.   These classes will be added to the `<button>` element when the accordion is open.
 
 Use this prop to add styling to the `header` only when it is open.
+
+#### openDuration
+
+This prop takes a string which sets the duration of the transition when the accordion body is shown.  The default is `260ms`.
+
+#### closeDuration
+
+This prop takes a string which sets the duration of the transition when the accordion body is hidden.  The default is `400ms`.
 
 
 ## Styling
 
-Both the AccordionGroup_A and AccordionItem_A components can be styled with suitable TW utility classes from outside of the component code base using props.   This allows the appearance of both the group and individual items to be customized without having to modify the source code.
+Both the AccordionGroup_A and AccordionItem_A components can be styled with suitable TW utility classes from outside of the component code base using props.   This allows the appearance of both the group and individual components to be customized without having to modify the source code.
 
-You can override the default styling by sending additional Tailwind classes via [props](#code) which are then merged with the default styles and any conflicts resolved with a 'last wins' rule.
+You can override the default styling by sending additional Tailwind classes via the above [props](#code) which are then merged with the default styles and any conflicts resolved with a 'last wins' rule.
 
 To improve readability, the Tailwind classes and Hyperscripts are both extracted from the markup and encapsulated into  Astro `tw` and `hs` local variables within the [Component Script](https://docs.astro.build/en/basics/astro-components/#the-component-script) which are then referenced in the html markup. 
 
@@ -270,11 +284,17 @@ The advantage of this strategy is to allow long run-on strings to be formatted a
 
 ## Transitions
 
-For this accordion, the `transition` method of Hyperscript is utilized to specify the CSS properties, duration and timing function used to smoothly reveal the accordion body. 
+For this accordion, the `transition` command of Hyperscript is utilized to specify the CSS properties, duration, and timing function used to smoothly reveal the accordion body. 
 
-What makes this Hyperscript example unique is the interpolation of the component props into the script.  
+What makes this Hyperscript example unique is insertion of props into the script.  
 
-To make the values of external props available to the script, the script text is extracted from the markup and placed into a local `hs` constant within the Astro Component Script (i.e. frontmatter).   The script itself is referenced into the html markup as would be for any value in the frontmatter/
+To make component props available to the script, the HS code is placed into a back-tick delimited JS string and stored in a local constant in the Astro [Component Script](https://docs.astro.build/en/basics/astro-components/#the-component-script) (i.e. frontmatter).  This allows prop values to be inserted into the script using simple string interpolation.  
+
+```astro  "${maxHeight}" "${openDuration}"
+	`transition the #{:accordionBody}'s *height to ${maxHeight}  using 'all ${openDuration} ease-in' `
+```
+
+The local `hs` constant storing the code block is then referenced in the markup as would any variable in the component frontmatter using curly braces as shown below.
 
 ```js "script={hs}"
 
@@ -305,11 +325,14 @@ Now, using back-tick strings to wrap the entire Hyperscript  allows for string i
 
 Here is a snippet of code from the accordion HyperScript where the `maxHeight` and `openDuration` component props are relayed  into the script using string interpolation which are then used to configure the `transition` for the accordion body.
 
-```astro  "${maxHeight}" "${openDuration}"
-	`transition the #{:accordionBody}'s *height to ${maxHeight}  using 'all ${openDuration} ease-in' `
-```
+
 
 The syntax for the `transition` method of Hyperscript must be exact or it will not work.  After `using` clause you provide a quoted string analogous to how a transition in vanilla CSS would be written.  If you leave out the quotes, the transition will fail silently.
+
+This 'trick' allows you to change the transition duration and other actions of the Hyperscript from outside of the component simply by sending new values to the script code via props.
+
+See the [Code](#code) section below for all the scripts  and how they are populated with the values of component props using this technique.
+
 
 ## Slots
 
