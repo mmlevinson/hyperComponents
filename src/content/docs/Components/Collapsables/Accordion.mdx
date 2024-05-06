@@ -31,13 +31,13 @@ import AccordionGroup_A from '../../../../components/AccordionGroup_A.astro'
 import AccordionItem_A from '../../../../components/AccordionItem_A.astro'
 
 <AccordionGroup_A closeSiblings={true} styles='mx-4'>
-	<AccordionItem_A id='accordion-1' caption="HTMX" >
+	<AccordionItem_A id='accordion-htmx' caption="HTMX" >
 		<p class={tw.p}>
 		HTMX extends html with a suite of attributes giving any element the ability to send and respond to AJAX request.   
 		</p>
 	</AccordionItem_A>
 
-	<AccordionItem_A id='accordion-2' caption='Hyperscript'>
+	<AccordionItem_A id='accordion-hyperscript' caption='Hyperscript'>
 		<p class={tw.p}>
 			Hyperscript is a front-end scripting language which leverages robust event handling to bring dynamic user interfaces to the browser.
 		</p>
@@ -46,7 +46,7 @@ import AccordionItem_A from '../../../../components/AccordionItem_A.astro'
 		</p>
 	</AccordionItem_A>
 
-	<AccordionItem_A id='accordion-3' caption='Tailwind CSS'>
+	<AccordionItem_A id='accordion-tailwind' caption='Tailwind CSS'>
 		<p class={tw.p}>
 			The Tailwind CSS library provides a rich ecosystem of utility classes that simplify responsive design by using prefixes to replace media queries and emphasizing mobile first design.
 		</p>
@@ -58,7 +58,7 @@ import AccordionItem_A from '../../../../components/AccordionItem_A.astro'
 		</p>
 	</AccordionItem_A>
 
-<AccordionItem_A id='accordion-4' caption='Astro'>
+<AccordionItem_A id='accordion-astro' caption='Astro'>
 	<p class={tw.p}>
 		Astro is a modern Vite-based build tool meant for speed which ships zero JavaScript by default.  Initially released with support for static site generation, now Astro delivers a full suite of server rendered features.
 	</p>
@@ -81,6 +81,57 @@ To implement this control two parts are needed:
 In the collapsed state, the height of the  body is  set to 0.  In response to a click event in the header, the body smoothly transitions to an open state by setting a final height and a transition animation. From a programming standpoint, the key is calculating the body's final height based on the proposed content.  
 
 If too much content is loaded into the body, a huge vertical shift occurs on the page which is distracting.   Thus it is best to set a maxxHeight after which extra content simply scrolls vertically.
+
+The source code to create the example accordion is shown below.
+
+```astro title="UsingAnAccordion.astro" "AccordionGroup_A" "AccordionItem_A"
+----
+import AccordionGroup_A from '../../../../components/AccordionGroup_A.astro'
+import AccordionItem_A from '../../../../components/AccordionItem_A.astro'
+
+const tw - {
+	p: 'pb-3'
+}
+---
+
+<AccordionGroup_A closeSiblings={true} styles='mx-4'>
+
+	<AccordionItem_A id='accordion-htmx' caption="HTMX" >
+		<p class={tw.p}>
+		HTMX extends html with a suite of attributes giving any element the ability to send and respond to AJAX request.   
+		</p>
+	</AccordionItem_A>
+
+	<AccordionItem_A id='accordion-hyperscript' caption='Hyperscript'>
+		<p class={tw.p}>
+			Hyperscript is a front-end scripting language which leverages robust event handling to bring dynamic user interfaces to the browser.
+		</p>
+		<p class={tw.p}>
+		Hyperscript syntax is based on Dan Winkler's HyperTalk language made famous by Apple's HyperCard program.   The syntax boasts an English-prose like grammar which eases the learning curve for new programmers.
+		</p>
+	</AccordionItem_A>
+
+	<AccordionItem_A id='accordion-tailwind' caption='Tailwind CSS'>
+		<p class={tw.p}>
+			The Tailwind CSS library provides a rich ecosystem of utility classes that simplify responsive design by using prefixes to replace media queries and emphasizing mobile first design.
+		</p>
+		<p class={tw.p}>
+		Lorem, ipsum dolor sit amet consectetur adipisicing elit. Commodi, unde nostrum itaque aut explicabo deserunt vel sunt alias? Atque, a eveniet ad rerum labore deleniti tempora nisi commodi officiis quis eius perferendis.
+		</p>
+		<p class={tw.p}>
+		Lorem ipsum dolor sit amet consectetur adipisicing elit. Debitis consectetur illum quis ipsam quos quidem eligendi ex blanditiis nihil temporibus veniam adipisci deleniti modi, facilis amet fugiat incidunt atque neque aut qui quia reprehenderit magni fugit aliquam. Hic dolorem consectetur qui libero eius commodi natus, quod fuga tenetur, non doloremque unde at impedit vero. Beatae quas excepturi dignissimos est assumenda quidem ullam quisquam labore! Quaerat veritatis ex sint similique veniam quidem numquam doloremque officiis et accusantium! Non nesciunt ea itaque explicabo ipsa blanditiis iusto, est deserunt inventore voluptas dolorem possimus at exercitationem aliquid, distinctio similique quae! Perferendis ipsam excepturi repudiandae.
+		</p>
+	</AccordionItem_A>
+
+	<AccordionItem_A id='accordion-astro' caption='Astro'>
+		<p class={tw.p}>
+			Astro is a modern Vite-based build tool meant for speed which ships zero JavaScript by default.  Initially released with support for static site generation, now Astro delivers a full suite of server rendered features.
+		</p>
+	</AccordionItem_A>
+
+</AccordionGroup_A>
+
+```
 
 ## Features
 
