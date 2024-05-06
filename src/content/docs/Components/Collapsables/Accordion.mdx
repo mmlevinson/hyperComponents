@@ -202,15 +202,63 @@ Use this prop to override or add styling to the `body` section of the accordion.
 
 #### activeHeaderStyles
 
-This prop takes a string containing any Tailwind classes of your choosing.   These classes will be applied to the `header` when the accordion is open.
+This prop takes a string containing any Tailwind classes of your choosing.   These classes will be added to the `header` when the accordion is open.
 
-Use this prop to override or add styling to the `header` only when it is open.
+Use this prop to add styling to the `header` only when it is open.
 
 
 ## Styling
 
+Both the AccordionGroup_A and AccordionItem_A components can be styled with suitable TW utility classes from outside of the component code base using props.   This allows the appearance of both the group and individual items to be customized without having to modify the source code.
+
+You can override the default styling by sending additional Tailwind classes via [props](#code) which are then merged with the default styles and any conflicts resolved with a 'last wins' rule.
+
+To improve readability, the Tailwind classes and Hyperscripts are both extracted from the markup and encapsulated into  Astro `tw` and `hs` local variables within the [Component Script](https://docs.astro.build/en/basics/astro-components/#the-component-script) which are then referenced in the html markup. 
+
+The advantage of this strategy is to allow long run-on strings to be formatted as concatenated, multi-line strings which aids readability and code maintenance.
 
 ## Transitions
+
+For this accordion, the `transition` method of Hyperscript is utilized to specify the CSS properties, duration and timing function used to smoothly reveal the accordion body. 
+
+What makes this Hyperscript example unique is the interpolation of the component props into the script.  
+
+To make the values of external props available to the script, the script text is extracted from the markup and placed into a local `hs` constant within the Astro Component Script (i.e. frontmatter).   The script itself is referenced into the html markup as would be for any value in the frontmatter/
+
+```js "script={hs}"
+
+<li class={tw.wrapper}>
+
+	<!-- Accordion Header -->
+	<button 
+		id={id} 
+		class={tw.accordionHeader} 
+		script={hs}>
+			<span>{prefix}{caption}</span>
+			<!-- TwirlIcon -->
+			<svg id={`${id}-twirl-icon`} class={tw.icon} fill='currentColor' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'>
+					<path fill-rule='evenodd' d='M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z' clip-rule='evenodd'></path>
+				</svg>
+	</button>
+
+	<!-- Accordion Body -->
+	<div 	id={`${id}-body`} class={tw.accordionBody}>
+		<slot />
+	</div>
+
+</li> 
+
+```
+
+Now, using back-tick strings to wrap the entire Hyperscript  allows for string interpolation of the props directly into the script itself.  Dynamic values can thus be passed into the script itself via props creating another level of functionality.
+
+Here is a snippet of code from the accordion HyperScript where the `maxHeight` and `openDuration` component props are relayed  into the script using string interpolation which are then used to configure the `transition` for the accordion body.
+
+```astro  "${maxHeight}" "${openDuration}"
+	`transition the #{:accordionBody}'s *height to ${maxHeight}  using 'all ${openDuration} ease-in' `
+```
+
+The syntax for the `transition` method of Hyperscript must be exact or it will not work.  After `using` clause you provide a quoted string analogous to how a transition in vanilla CSS would be written.  If you leave out the quotes, the transition will fail silently.
 
 ## Slots
 
