@@ -6,9 +6,11 @@ tableOfContents:
   maxHeadingLevel: 4
 ---
 
-A commonly used interface component is an Accordion.   The user sees a list of titles with an icon opposite the title text.  Clicking on the header smoothly reveals additional content directly below the header.  The icon rotates to indicate the open/closed state of the Accordion.
+A commonly used interface component is an `Accordion`.   
 
-An example Accordion control written in Hyperscript is shown below.
+The user sees a list of titles with an icon opposite the title text.  Clicking on the title smoothly reveals additional content directly below the title.  The icon rotates to indicate the open/closed state of the control.
+
+An example accordion control written in Hyperscript is shown below.
 
 ## Example
 
@@ -27,8 +29,6 @@ export const tw = {
 
 import AccordionGroup_A from '../../../../components/AccordionGroup_A.astro'
 import AccordionItem_A from '../../../../components/AccordionItem_A.astro'
-
-
 
 <AccordionGroup_A closeSiblings={true} styles='mx-4'>
 	<AccordionItem_A id='accordion-1' caption="HTMX" >
@@ -73,241 +73,43 @@ import AccordionItem_A from '../../../../components/AccordionItem_A.astro'
 
 Accordions conserve screen real estate while still allowing considerable content to be displayed when needed.
 
-In the collapsed state, the the height of the accordion body is initially set to 0.  In response to a click event, the accordion smoothly transitions to an open state by setting a final height and a transition animation. From a programming standpoint, the key is calculating the final height of the accordion body based on the proposed content.  
+To implement this control two parts are needed:
 
-If too much content is loaded into the Accordion body, a huge vertical shift occurs on the page which is distracting.   Thus it is best to set a max-height after which extra content simply scrolls vertically.
+1.  A header (with a clickable title)
+2.  A body (with hidden content that can  be revealed)
 
-The following is a Hyperscript implementation of an Accordion control.
+In the collapsed state, the height of the  body is  set to 0.  In response to a click event in the header, the body smoothly transitions to an open state by setting a final height and a transition animation. From a programming standpoint, the key is calculating the body's final height based on the proposed content.  
+
+If too much content is loaded into the body, a huge vertical shift occurs on the page which is distracting.   Thus it is best to set a maxxHeight after which extra content simply scrolls vertically.
 
 ## Features
 
-1.  Clicking the header toggles the body open and closed.
+1.  Clicking the header toggles the body open or closed.
 2.  An indicator icon  rotates 180 degrees to indicate open/closed state
-3.  Body content is animated smoothly using a Hyperscript transition
-4.  A max-height value for the Accordion body can be set by props
-5.  Tailwind classes for the header, body, and active header (when opened) can be passed into the AccordionGroup_A component to style the entire component from outside.
-6.  Content for the Accordion body is passed into the default slot and thus can be styled where it is used. 
+3.  Revealing body content is animated smoothly using a Hyperscript `transition`
+4.  A maxHeight prop prevents the body height from exceeding a set value.
+5.  Tailwind classes for the header, body, and active header (when opened) can be passed in via props to style the entire component from outside.
+6.  Content for the body is passed into the default slot and thus can be styled from where the accordion is used. 
 
 ## Components
 
-The AccordionGroup_A component wraps a list of AccordionItem_A components. 
+This control is comprised of two Astro components:
 
-Here is the code for the parent wrapper AccordionGroup_A component.
+1.  `AccordionGroup_A` which functions as a wrapper for all the individual items, and
+2.  `AccordionItem_A` which consists of a button for the header and a div for the body content.
 
-```astro title="AccordionGroup_A.astro"
----
-import {twMerge} from 'tailwind-merge'
-
-interface Props {
-	closeSiblings:boolean,
-	styles?:string
-}
-
-const {closeSiblings = false, styles} = Astro.props
-
-const tw = {
- group: twMerge('mx-auto', styles),
-}
-
-const hs =
- `on closeOpenAccordions
-	 if ${closeSiblings} is true
-		 set allAccordions to the <li/> in me
-		 set allHeaders to the <button/> in allAccordions
-		 for header in allHeaders
-			 if header is not sender
-				 send closeAccordion to header
-		 end -- for
-	 end -- if closeSiblings
- end -- closeOpenAccordions
-`
-
----
-	
-<ul class={tw.group} script={hs}>
- <slot />
-</ul>
-```
-
-
-Each group receives a series of AccordionItem_A components as children by placing them inside the parent component using the default slot.
-
-Here is the code for the AccordionItem_A component.
-
-```astro title="AccordionItem_A.astro"
----
-import {twMerge} from 'tailwind-merge'
-
-interface Props {
-	id:string,
-	caption:string,
-	prefix?:string
-	maxHeight:number
-	headerStyles?:string
-	bodyStyles?:string
-	activeHeaderStyles?:string
-}
-const {
-	id, 
-	caption, 
-	prefix='- ',
-	maxHeight=300,
-	headerStyles,
-	bodyStyles,
-	activeHeaderStyles = 'bg-orange-100 dark:bg-blue-950',
-} = Astro.props
-
-const defaultOverscrollHeight = 200
-const defaultDuration = 200
-
-const tw = {
-	wrapper:'shadow-lg overflow-hidden ' + 
-	'border-4 border-b-0 last-of-type:border-b-4 border-indigo-500 border-opacity-20  dark:border-gray-700 ' + 
-	'first-of-type:rounded-t-xl last-of-type:rounded-b-xl',
-	accordionHeader: twMerge('w-full flex justify-between items-center px-2 py-5 cursor-pointer ' +
-		'font-bold text-lg text-left text-gray-900 dark:text-zinc-300 ' +
-		'bg-blue-100 hover:bg-sky-950 hover:text-yellow-50 ' +
-		'dark:bg-slate-900 dark:hover:bg-purple-950 dark:hover:text-fuchsia-100 ' + 
-		'', headerStyles),
-	accordionBody: twMerge('h-0 px-6 text-left  border-zinc-300 ' + 
-		' bg-gray-100 text-slate-800 dark:bg-violet-50 dark:text-gray-900', bodyStyles),
-	icon: 'size-6 shrink-0'
-}
-
-function formatTWClasses(twClasses) {
-    return twClasses.split(' ').map(twClass => '.' + twClass).join(' ');
-}
-
-const activeStyles = formatTWClasses(activeHeaderStyles)
-
-const hs = `
-	init
-		set :accordionHeight to 0
-		set :accordionOpen to false
-		set :accordionBody to my @id + '-body'
-		set :twirlIcon to my @id + '-twirl-icon'
-		set accordionContent to the children of the #{:accordionBody}
-		for item in accordionContent 
-			increment :accordionHeight by the item's offsetHeight
-		end -- for
-		increment :accordionHeight by 45  -- to accomodate for py-4 
-	end -- init
-
-	on click from me
-		if :accordionOpen is true then trigger closeAccordion on me
-		otherwise trigger openAccordion on me
-		end 
-	end -- click
-
-	on openAccordion
-		add ${activeStyles} to me
-		add .py-4 .border-t-2 to the  #{:accordionBody}
-		if the :accordionHeight is greater than 300
-			transition the #{:accordionBody}'s  *height to 300px using 'all 260ms ease-in'
-			add .overflow-y-auto to the #{:accordionBody}
-		otherwise
-			transition the #{:accordionBody} *height to :accordionHeight px using 'all 260ms ease-in'
-		end -- if > 300 px
-		add .rotate-180 to the #{:twirlIcon}
-		set :accordionOpen to true
-		send closeOpenAccordions to the closest <ul/>
-	end -- openAccordion
-
-	on closeAccordion
-		remove ${activeStyles} from me
-		remove .py-4 .border-t-2 from the #{:accordionBody}
-		remove .rotate-180 from the #{:twirlIcon}
-		transition the #{:accordionBody} *height to 0 using 'all 400ms ease-out'
-		set :accordionOpen to false
-	end -- closeAccordion
-`
-
-
-
-/* Transition calls and toggle .rotate-180 gives an error when using an element reference stored in local variable
-You must provide an actual selector instead.
-
-If you add padding to the default styles, the accordion accordionBody has a height equal to the padding
-even if you set h-0.   So, padding must be added/removed for the accordion accordionBody to close up fully.
-The recalcHeight of accordion accordionBody must also take in account the vertical padding value*/
----
-
-
-<li class={tw.wrapper}>
-
-	<!-- Accordion Header -->
-	<button 
-		id={id} 
-		class={tw.accordionHeader} 
-		script={hs}>
-			<span>{prefix}{caption}</span>
-			<!-- TwirlIcon -->
-		<svg id={`${id}-twirl-icon`} class={tw.icon} fill='currentColor' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'>
-				<path fill-rule='evenodd' d='M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z' clip-rule='evenodd'></path>
-			</svg>
-	</button>
-
-	<!-- Accordion accordionBody -->
-	<div 	id={`${id}-body`} class={tw.accordionBody}>
-		<slot />
-	</div>
-
-</li> 
-
-```
+All of the source code, including the scripts and styling, is found in the [Code](#code) section below.
 
 ## Props
 
-### AccordionGroup
+Props are used to configure both Accordion components from where they are used.  This strategy allows full customization without having to rewrite the  source code itself.
 
-Both the AccordionGroup_A and AccordionItem_A components can be configured from the point of usage by props.
-
-#### closeSiblings
-
-Use this prop to signal if opening an Accordion causes other Accordions to close.
-
-The default value is `false`.  Passing `true` will trigger a custom `closeOpenAccordions` event to be fired.  All Accordions except the one sending this event will be closed
-
-#### styles
-
-This prop takes a string containing any Tailwind classes of your choosing.   These classes will be merged with AccordionGroup_A's default styles (which you find in the [Code](#code) section below.
-
-TW classes passed in the `styles` prop alter the appearance of the group, such as border appearance, width, margins, etc.
-
-### AccordionItem
-
-#### id
-
-Each AccordionItem_A should have a unique id.  This is used to help manage the accordion state.
-
-#### caption
-
-The caption is the text that appears in the accordion header.
-
-#### prefix
-
-This is a string that is prepended to the caption.  The default is `- `
-
-#### maxHeight
-
-This prop sets the maximum height of the accordion body.  The default is `300`.
-
-#### headerStyles
-
-This prop takes a string containing any Tailwind classes of your choosing.   These classes will be merged with AccordionGroup_A's default styles (which you find in the [Code](#code) section below.
-
-#### bodyStyles
-
-This prop takes a string containing any Tailwind classes of your choosing.   These classes will be merged with AccordionGroup_A's default styles (which you find in the [Code](#code) section below.
-
-#### activeHeaderStyles
-
-This prop takes a string containing any Tailwind classes of your choosing.   These classes will be merged with AccordionGroup_A's default styles (which you find in the [Code](#code) section below.
+All  props except strings unless otherwise specified.
 
 ### AccordionGroup_A
 
 
-```js title = "Props for AccordionGroup_A"
+```js
 
 interface Props {
 	closeSiblings?:boolean,
@@ -322,9 +124,23 @@ const {
 ```
 
 
-	### AccordionItem_A
 
-```js title="Props for AccordionItem_A"
+#### closeSiblings
+
+If opening an accordion should cause  all other accordions to close then pass `true` to the `closeSiblings` prop.  This will cause a custom `closeOpenAccordions` event to be fired.  All accordions except the one sending this event will be then closed.
+
+The default value is `false`.
+
+#### styles
+
+This prop takes a string containing any Tailwind classes of your choosing.   These classes will be merged with default styles (which you find in the [Code](#code) section below.
+
+TW classes passed in the `styles` prop only affect the whole group and thus should be mostly positioning values such as width, margins, etc.
+
+### AccordionItem_A
+
+
+```js
 
 interface Props {
 	id:string,
@@ -346,6 +162,51 @@ const {
 } = Astro.props
 ```
 
+#### id
+
+Each item should have a unique id to prevent naming collisions with other items.
+
+#### caption
+
+The caption is the text that appears in the accordion header.
+
+#### prefix
+
+This props accepts is a character or short string that is prepended to the caption.  It acts as a tick mark. The default is `- `
+
+#### maxHeight
+
+This prop sets the maximum height of the accordion body.  The default is `300px`.
+
+You can pass any value but must include the CSS units for the script to apply correctly.  Valid examples would be like :
+
+1.  '300px'
+2.  '40rem'
+3.  '25%'
+
+:::danger
+Passing a value without appending a valid CSS unit will fail.
+::::
+
+#### headerStyles
+
+This prop takes a string containing any Tailwind classes of your choosing.   These classes will be merged with the default  styles for the `header` section of AccordionItem_A (which you find in the [Code](#code) section below.  
+
+Use this prop to override or add styling to the `header` section of the accordion.
+
+#### bodyStyles
+
+This prop takes a string containing any Tailwind classes of your choosing.   These classes will be merged with the default  styles for the `body` section of AccordionItem_A (which you find in the [Code](#code) section below.
+
+Use this prop to override or add styling to the `body` section of the accordion.
+
+#### activeHeaderStyles
+
+This prop takes a string containing any Tailwind classes of your choosing.   These classes will be applied to the `header` when the accordion is open.
+
+Use this prop to override or add styling to the `header` only when it is open.
+
+
 ## Styling
 
 
@@ -356,7 +217,6 @@ const {
 ## Code
 
 ### AccordionGroup_A
-
 
 
 This Accordion example consists of a wrapper (AccordionGroup_A) which contains a default slot into which multiple AccordionItems (AccordionItem_A) are placed.
