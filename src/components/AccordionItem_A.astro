@@ -2,15 +2,15 @@
 import {twMerge} from 'tailwind-merge'
 
 interface Props {
-	id:string,
-	caption:string,
-	prefix?:string
-	maxHeight:string
-	headerStyles?:string
-	bodyStyles?:string
-	activeHeaderStyles?:string
-	openDuration?:string
-	closeDuration?:string
+	id:string,   //a unique identifier allowing multiple AccordionItems on a page without collisions
+	caption:string,   //the text display in the Accordion header
+	prefix?:string   //a tick mark preceeding the caption
+	maxHeight:string  //maximum open height (after which the body content scrolls vertically)
+	headerStyles?:string   //override or add TW classes to  the header
+	bodyStyles?:string   //override or add TW classes to the body
+	activeHeaderStyles?:string //override, add, remove TW classes for headers of opened Accordions
+	openDuration?:string   //transition timing when showing body content
+	closeDuration?:string  //transition timing when hiding body content
 }
 const {
 	id, 
@@ -36,7 +36,7 @@ const tw = {
 		'', headerStyles),
 	accordionBody: twMerge('h-0 px-6 text-left  border-zinc-300 ' + 
 		' bg-gray-100 text-slate-800 dark:bg-violet-50 dark:text-gray-900', bodyStyles),
-	icon: 'twirl-icon size-6 shrink-0'
+	icon: 'size-6 shrink-0'
 }
 
 function formatTWClasses(twClasses) {
@@ -107,12 +107,12 @@ The recalcHeight of accordion accordionBody must also take in account the vertic
 		script={hs}>
 			<span>{prefix}{caption}</span>
 			<!-- TwirlIcon -->
-		<svg id={`${id}-twirl-icon`} class={tw.icon} fill='currentColor' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'>
-				<path fill-rule='evenodd' d='M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z' clip-rule='evenodd'></path>
-			</svg>
+			<svg id={`${id}-twirl-icon`} class={tw.icon} fill='currentColor' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'>
+					<path fill-rule='evenodd' d='M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z' clip-rule='evenodd'></path>
+				</svg>
 	</button>
 
-	<!-- Accordion accordionBody -->
+	<!-- Accordion Body -->
 	<div 	id={`${id}-body`} class={tw.accordionBody}>
 		<slot />
 	</div>

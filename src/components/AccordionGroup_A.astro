@@ -2,8 +2,8 @@
 import {twMerge} from 'tailwind-merge'
 
 interface Props {
-	closeSiblings?:boolean,
-	styles?:string
+	closeSiblings?:boolean,   //all other Accordions sent a closeOpenAccordions event
+	styles?:string   //override or add TW classes for stying the Group
 }
 
 const {
