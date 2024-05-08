@@ -7,7 +7,7 @@ tableOfContents:
 ---
 		 
 	{/* Introduction */}
-Blog sites typically use a ReadMore control to display a short introductory prompt followed by  a Read More... link which load additional content on demand.
+Blog sites typically use a ReadMore control to display a short introductory prompt followed by  a Read More... link which loads the remaining post content on demand.
 		 
 ## Example
 		 
@@ -25,31 +25,7 @@ export const tw = {
 </div>
 	{/* Example Control in Action */}
 	```astro
-import { getCollection } from 'astro:content' 
 
-const collection = await getCollection('history')
-const histories = collection[0].data
-
-
-const tw = {
-	wrapper: 'w-full columns-1 text-zinc-800 dark:text-zinc-200 bg-zinc-200 dark:bg-transparent',
-	heading: 'pb-4 text-xl font-bold text-center',
-	subheading:'leadingline pb-8',
-}
----
-
-	 <div class={tw.wrapper}>
-
-		<ReadMoreGroup closeSiblings={true}>
-			{histories.map((history, index) => (
-				<ReadMoreItem id={`${index}`}>
-					<h2 class={tw.heading}>{history.heading}</h2>
-					<p class={tw.subheading}>{history.subheading}</p>
-				</ReadMoreItem>
-			))}
-		</ReadMoreGroup>
-
-	 </div>
 
 	```
 
