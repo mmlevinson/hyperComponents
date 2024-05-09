@@ -1,0 +1,50 @@
+---
+import StarlightPage from '@astrojs/starlight/components/StarlightPage.astro'
+const title = "Testing API"
+const id = "example-1"
+const caption = 'Read More...'
+
+const tw = {
+	wrapper: 'mb-8 shadow-lg rounded-lg',
+	body: 'body px-4 text-pretty text-gray-700 dar:text-zinc-200 dark:bg-slate-900 overflow-hidden',
+	button: 'block w-full mx-auto px-4 py-2 mb-2 rounded-lg ' +
+		'text-sm font-fjalla text-end '+
+		'text-gray-400 bg-indigo-950 opacity-50 hover:opacity-70 ' +
+		'dark:text-zinc-200 dark:bg-sky-900',
+	output: 'h-0 bg-gray-500 text-white p-2 rounded-md ',
+	icon: 'inline-block size-6 ml-2'
+}
+
+---
+
+<StarlightPage frontmatter={{title}}>
+
+<div class="container">
+	<ul>
+		<li id={id} class={tw.wrapper}>
+		<h3>This is the introductory paragraph for a ReadMore item</h3>
+		<button
+			class={tw.button}
+			hx-trigger="mouseenter"
+			hx-get="api/readmore/1"
+			hx-swap="innerHTML"
+			hx-target="next <output/>"
+			script="on htmx:afterSwap log 'swapped'"
+			>
+			{caption}
+		</button>
+		<output class={tw.output} style="transition:all 250ms ease-out">Here is the original output</output>
+		</li>
+
+		
+	</ul>
+
+
+
+</div>
+
+
+</StarlightPage>
+
+
+---
