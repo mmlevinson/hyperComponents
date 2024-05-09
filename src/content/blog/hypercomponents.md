@@ -3,7 +3,7 @@
 heading: About hyperComponents
 subheading: Web Components built with hypermedia exchanges
 author: Logical Person
-slug: 2
+slug: hyperComponents
 
 ---
 
