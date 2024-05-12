@@ -30,6 +30,8 @@ export const tw = {
 	icon: 'inline-block size-6 ml-2'
 }
 
+const path = 'api/readmore/' + id
+
 const hs = `
 
 	def calcHeight()
@@ -46,9 +48,10 @@ const hs = `
 	on mouseenter from me
 		get the innerHTML of the next .body
 		if it is empty then 
-			set path to '/api/readmore/' + @id of the closest <li/>
-			log path
-			fetch ${'api/readmore/' + 0} as html then put the result into the next .body
+			-- set path to '/api/readmore/' + @id of the closest <li/>
+			-- log path
+			set index to @id of the closest <li/>
+			fetch ${path}  as html then put the result into the next .body
 	end 
 
 	on click from me
