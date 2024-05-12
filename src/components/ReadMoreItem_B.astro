@@ -6,16 +6,16 @@ const defaultOverscrollHeight = 400
 const defaultDuration = 200
 
 interface Props {
-	id:string
+	id:string,
 	caption?:string
-	altCaption?: string
+	altCaption?:string
 	maxHeight?:number
 }
 
 const {
 	id,
-  caption = "Read More ...",
-	altCaption = "Read Less...",
+	caption,
+	altCaption,
 	maxHeight = 500,
 } = Astro.props
 
@@ -31,6 +31,7 @@ export const tw = {
 }
 
 const apiRoute = 'api/readmore/' + id
+
 
 const hs = `
 
@@ -63,7 +64,7 @@ const hs = `
 
 	on openUp
 		-- send closeOtherReadMores to closest parent <ul/>
-		set my innerHTML to ''
+		set my innerHTML to ${caption}
 		set bodyHeight to calcHeight()
 		if bodyHeight is greater than ${maxHeight} then
 			set the *height of the next .body to ${maxHeight} px then settle
@@ -75,7 +76,7 @@ const hs = `
 	end
 
 	on closeUp
-		put 'Read More...' into me
+		put ${altCaption} into me
 		set the *height of the next .body to 0 then settle
 		
 	end
