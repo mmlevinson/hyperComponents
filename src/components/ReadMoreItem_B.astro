@@ -30,7 +30,7 @@ export const tw = {
 	icon: 'inline-block size-6 ml-2'
 }
 
-const path = 'api/readmore/' + id
+const apiRoute = 'api/readmore/' + id
 
 const hs = `
 
@@ -48,17 +48,13 @@ const hs = `
 	on mouseenter from me
 		get the innerHTML of the next .body
 		if it is empty then 
-			-- set path to '/api/readmore/' + @id of the closest <li/>
-			-- log path
-			set index to @id of the closest <li/>
-			fetch ${path}  as html then put the result into the next .body
+			fetch ${apiRoute}  as html then put the result into the next .body
 	end 
 
 	on click from me
 		add .bg-green-950 to me
 		remove .bg-indigo-950 from me then settle then
 		measure the next .body
-		log it
 		if the result.height is greater than 0 then send closeUp to me
 		otherwise send openUp to me end
 		remove .bg-green-950 from me
@@ -67,10 +63,10 @@ const hs = `
 
 	on openUp
 		-- send closeOtherReadMores to closest parent <ul/>
-		set my innerHTML to 'Read Less...'
+		set my innerHTML to ''
 		set bodyHeight to calcHeight()
-		if bodyHeight is greater than 500  then
-			set the *height of the next .body to 500 px then settle
+		if bodyHeight is greater than ${maxHeight} then
+			set the *height of the next .body to ${maxHeight} px then settle
 			add .overflow-y-auto to the next .body
 		otherwise     
 			set the *height of the next .body to the bodyHeight px then settle
