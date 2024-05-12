@@ -30,61 +30,60 @@ export const tw = {
 	icon: 'inline-block size-6 ml-2'
 }
 
+const hs = `
+
+	def calcHeight()
+		set openHeight to 0
+		set readMoreContent to the children of the next .body
+		for item in readMoreContent 
+			increment openHeight by the item's offsetHeight
+		end
+		increment openHeight by 25
+
+		return openHeight 
+	end 
+
+	on mouseenter from me
+		get the innerHTML of the next .body
+		if it is empty then 
+			set path to '/api/readmore/' + @id of the closest <li/>
+			log path
+			fetch ${'api/readmore/' + 0} as html then put the result into the next .body
+	end 
+
+	on click from me
+		add .bg-green-950 to me
+		remove .bg-indigo-950 from me then settle then
+		measure the next .body
+		log it
+		if the result.height is greater than 0 then send closeUp to me
+		otherwise send openUp to me end
+		remove .bg-green-950 from me
+		add .bg-indigo-950 to me then settle
+	end 
+
+	on openUp
+		-- send closeOtherReadMores to closest parent <ul/>
+		set my innerHTML to 'Read Less...'
+		set bodyHeight to calcHeight()
+		if bodyHeight is greater than 500  then
+			set the *height of the next .body to 500 px then settle
+			add .overflow-y-auto to the next .body
+		otherwise     
+			set the *height of the next .body to the bodyHeight px then settle
+			remove .overflow-y-auto from the next .body
+		end 
+	end
+
+	on closeUp
+		put 'Read More...' into me
+		set the *height of the next .body to 0 then settle
+		
+	end
+`
+
 ---
 
-<script type="text/hyperscript">
-
-	behavior readMore
-
-		def calcHeight()
-			set openHeight to 0
-			set readMoreContent to the children of the next .body
-			for item in readMoreContent 
-				increment openHeight by the item's offsetHeight
-			end
-			increment openHeight by 25
-
-			return openHeight 
-		end 
-
-	  on mouseenter from me
-			get the innerHTML of the next .body
-			if it is empty then 
-				set path to '/api/readmore/' + @id of the closest <li/>
-				fetch `${path}` as html then put the result into the next .body
-		end 
-
-		on click from me
-			add .bg-green-950 to me
-			remove .bg-indigo-950 from me then settle then
-			measure the next .body
-			log it
-			if the result.height is greater than 0 then send closeUp to me
-			otherwise send openUp to me end
-			remove .bg-green-950 from me
-			add .bg-indigo-950 to me then settle
-		end 
-
-		on openUp
-			-- send closeOtherReadMores to closest parent <ul/>
-			set my innerHTML to 'Read Less...'
-			set bodyHeight to calcHeight()
-			if bodyHeight is greater than 500  then
-				set the *height of the next .body to 500 px then settle
-				add .overflow-y-auto to the next .body
-			otherwise     
-				set the *height of the next .body to the bodyHeight px then settle
-				remove .overflow-y-auto from the next .body
-			end 
-
-		end
-
-		on closeUp
-			put 'Read More...' into me
-			set the *height of the next .body to 0 then settle
-			
-		end
-</script>
 
 	<li id={id} class={tw.wrapper}>
 		<div>
@@ -94,7 +93,7 @@ export const tw = {
 			<!-- Read More Trigger Button -->
 		<div class="flex justify-end items-center bg-blue-900 w-full rounded-lg ">
 			<button class={tw.button}
-				script='install readMore'>
+				script={hs}>
 				{caption}
 			</button>
 			<slot name='twirl-icon>'> 
