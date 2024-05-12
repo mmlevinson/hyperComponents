@@ -43,7 +43,7 @@ export const tw = {
 				increment openHeight by the item's offsetHeight
 			end
 			increment openHeight by 25
-			beep! openHeight
+
 			return openHeight 
 		end 
 
@@ -69,18 +69,20 @@ export const tw = {
 			-- send closeOtherReadMores to closest parent <ul/>
 			set my innerHTML to 'Read Less...'
 			set bodyHeight to calcHeight()
-			if bodyHeight is greater than `${maxHeight}` then
-				set the *height of the next .body to `${maxHeight}` px then settle
+			if bodyHeight is greater than 500  then
+				set the *height of the next .body to 500 px then settle
 				add .overflow-y-auto to the next .body
 			otherwise     
 				set the *height of the next .body to the bodyHeight px then settle
 				remove .overflow-y-auto from the next .body
 			end 
+
 		end
 
 		on closeUp
 			put `${altCaption}` into me
 			set the *height of the next .body to 0 then settle
+			
 		end
 </script>
 
@@ -97,7 +99,7 @@ export const tw = {
 			</button>
 			<slot name='twirl-icon>'> 
 				<!-- TwirlIcon -->
-			<svg id={`${id}-twirl-icon`} class={tw.icon} fill='currentColor' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'>
+			<svg id={`twirl-icon-${id}`} class={tw.icon} fill='currentColor' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'>
 					<path fill-rule='evenodd' d='M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z' clip-rule='evenodd'></path>
 				</svg>
 			</slot>
