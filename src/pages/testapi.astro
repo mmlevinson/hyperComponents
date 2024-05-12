@@ -1,5 +1,6 @@
 ---
 import StarlightPage from '@astrojs/starlight/components/StarlightPage.astro'
+import ReadMoreItem_B from '../components/ReadMoreItem_B.astro'
 const title = "Testing API"
 const id = "example-1"
 const caption = 'Read More...'
@@ -18,33 +19,14 @@ const tw = {
 ---
 
 <StarlightPage frontmatter={{title}}>
-
-<div class="container">
-	<ul>
-		<li id={id} class={tw.wrapper}>
-		<h3>This is the introductory paragraph for a ReadMore item</h3>
-		<button
-			class={tw.button}
-			hx-trigger="mouseenter"
-			hx-get="api/readmore/1"
-			hx-swap="innerHTML"
-			hx-target="next <output/>"
-			script="on htmx:afterSwap log 'swapped'"
-			>
-			{caption}
-		</button>
-		<output class={tw.output} style="transition:all 250ms ease-out">Here is the original output</output>
-		</li>
-
-		
-	</ul>
-
-
-
-</div>
+<ul>
+	<ReadMoreItem_B id="1">
+		<h3>Intro</h3>
+		<p>First paragraph</p>
+		<p>More complex content</p>
+	</ReadMoreItem_B>
+</ul>
 
 
 </StarlightPage>
 
-
----

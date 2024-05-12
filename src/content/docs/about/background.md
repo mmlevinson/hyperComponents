@@ -6,7 +6,7 @@ description: What is hyperComponents?
 
 ### Component Libraries
 
-Most developers are implementing modern GUIs by downloading pre-rolled Web Components from a library.  There are many public and commercial libraries to choose from including [Flowbite](https://flowbite.com/), [PrimeTech/PrimeView](https://www.primefaces.org/primeview/showcase/),  [twElements](https://tw-elements.com/), [shadcn ui](https://shadcn.com/docs/introduction) etc. 
+Most developers are implementing modern GUIs by downloading pre-rolled Web Components from a library.  There are many public and commercial libraries to choose from including [Flowbite](https://flowbite.com/), [PrimeTech/PrimeView](https://www.primefaces.org/primeview/showcase/),  [twElements](https://tw-elements.com/), [shadcn ui](https://shadcn.com/docs/introduction), [UIKit](https://getuikit.com/), [Bulma](https://bulma.io/),  etc. 
 
 Also, [React](https://reactjs.org/), [Vue](https://vuejs.org/), [Angular](https://angular.io/), [Svelte](https://svelte.dev/), [Stencil](https://stenciljs.com/), etc. are popular JavaScript frameworks for building your own reuseable componenents.
 

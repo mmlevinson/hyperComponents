@@ -7,9 +7,9 @@ const defaultDuration = 200
 
 interface Props {
 	id:string
-	caption:string
-	altCaption: string
-	maxHeight:number
+	caption?:string
+	altCaption?: string
+	maxHeight?:number
 }
 
 const {
@@ -22,7 +22,7 @@ const {
 export const tw = {
 	wrapper: 'mb-8 shadow-lg rounded-lg',
 	body: 'body h-0 px-4 text-pretty text-gray-700 dark:text-zinc-200 dark:bg-slate-900 overflow-y-auto',
-	button: 'block w-full mx-auto px-4 py-1 rounded-lg ' + 
+	button: 'block w-full flex  justify-end  px-4 py-1 rounded-lg cursor-pointer ' + 
 	'text-sm font-fjalla text-end ' + 
 	'text-gray-400 bg-indigo-950 opacity-50 hover:opacity-70 ' +
 	'dark:text-zinc-200 dark:bg-sky-900 ',
@@ -40,8 +40,8 @@ export const tw = {
 			set readMoreContent to the children of the next .body
 			for item in readMoreContent 
 				increment openHeight by the item's offsetHeight
-			end -- for
-			increment openHeight by 25  -- for bottom padding
+			end
+			increment openHeight by 25
 			return openHeight 
 		end 
 
@@ -50,7 +50,7 @@ export const tw = {
 			if it is empty then 
 				set path to '/api/readmore/' + @id of the closest <li/>
 				fetch `${path}` as html then put the result into the next .body
-		end -- lazy load content from a custom API endpoint
+		end 
 
 		on click from me
 			add .bg-green-950 to me
@@ -60,10 +60,10 @@ export const tw = {
 			otherwise send openUp to me end
 			remove .bg-green-950 from me
 			add .bg-indigo-950 to me then settle
-		end -- toggle on click
+		end 
 
 		on openUp
-			- send closeOtherReadMores to closest parent <ul/>
+			-- send closeOtherReadMores to closest parent <ul/>
 			put `${altCaption}` into me
 			set bodyHeight to calcHeight()
 			if bodyHeight is greater than `${maxHeight}` then
@@ -72,7 +72,7 @@ export const tw = {
 			otherwise     
 				set the *height of the next .body to the bodyHeight px  then settle
 				remove .overflow-y-auto from the next .body
-			end -- if
+			end 
 		end
 
 		on closeUp
