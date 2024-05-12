@@ -1,44 +1,20 @@
 <div >
-	<h2>HTMX</h2>
-	<p>HTMX is a small JavaScript library which extends the actions available to html elements.  In particular htmx provides a suite of attributes which can be added to any html to
-		enable server requests and target responses trigger by any event.</p>
-	<p>HTMX extends the core concept of hypermedia exchanges between client and server by</p>
-
-	<ul>
-		<li>
-			<p>Any element can issues HTTP requests</p>
-		</li>
-		<li>
-			<p>Any event can trigger an HTTP request</p>
-		</li>
-		<li>
-			<p>Any HTTP verb (not just GET or POST) can be used</p>
-		</li>
-		<li>
-			<p>Any DOM element can be the target of the response.</p>
-		</li>
-	</ul>
-	<p>To utilize HTMX on the client side, all that is needed is script tag to the CDN source code placed in the document's head </p>
-	<p>Any HTML element can issue HTTP requests to the server by including any of the following attributes</p>
-	<ul>
-		<li>
-			<p>hx-get</p>
-		</li>
-		<li>
-			<p>hx-post</p>
-		</li>
-		<li>
-			<p>hx-put</p>
-		</li>
-		<li>
-			<p>hx-patch</p>
-		</li>
-		<li>
-			<p>hx-delete</p>
-		</li>
-	</ul>
-	<p>The server must responde with hypermedia instead of JSON.   Fully constructed HTML fragment sent by the server (plus HTMX specific headers) allows
-		the browser to selectivley update any part of the DOM using the response hypermedia.
+	<h2>Tailwind CSS</h2>
+	<p>Tailwind CSS is broad set of utility classes which can be used to style any DOM  element. </p>
+	<p>The concept is to provide granular control of element styling using a consistent set of class names which are then converted to
+		actual CSS by the Tailwind compiler.
 	</p>
+	<p>The advantage of using utility classes includs </p>
+	<ul>
+		<li>Rapid prototyping of styles and appearance</li>
+		<li>Mobile first responsive design</li>
+		<li>Avoding media queries using simple prefixes (sm, md, lg, xl etc) to represent different screen breakpoints</li>
+		<li>Locality of Behavior for setting element styling</li>
+	</ul>
+ <p>Using Tailwind can be as simple as including a script tag pointing to the Tailwind CDN></p>
+ <p>For production, Tailwind should be installed in your node_modules folder via npm or other package manager and then configured
+	by updating the properties of the tailwind.config.mjs file in your source folder
+ </p>
+ <p>Implementing Tailwind styling is as simple as adding class names to any html element.  Since the styling changes appear immediately in the resulting DOM, prototyping is quicker and more flexible than relying on independent CSS files that are not separted from the markup they control</p>
 </div>
 

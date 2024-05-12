@@ -1,17 +1,19 @@
 <div >
-	<h2>Hyperscript</h2>
-	<p>Hyperscript is a new client side language which adds functionality to web applications. </p>
-  <p>Based on the popular HyperTalk language developed for Apple's HyperCard application, HyperScript combines an English-prose syntax with powerful event management.</p>
-	<p>Advantages of using HyperScript in the browser include</p>
-	<ul>
-		<li>Self documenting syntax with prose style readability</li>
-		<li>Event listening built in by using simple 'on eventname' construct</li>
-		<li>Custom events can be sent to, and listened for, by any DOM element</li>
-		<li>Asynchronous calls and Promise resolution handled behind the scenes for you</li>
-		<li>Null safety automatically and silently handled</li>
-	</ul>
-
-	<p>Hyperscript can be used via CDN link in the document head tag</p>
+	<h2>Astro</h2>
+ <p>Astro enters the arena of application build tools with an emphasis on speed and small bundle sizes</p>
+ <p>Initially offered as a static site generator, Astro now provides a full suite of server-rendering capabilities as well.</p>
+ <p>Static sites can be generated from Markdown files and shipped with no embedded Javascript code making them load quickly in the client's browser</p>
+ <p>Developers can create Web components simply by creating a .astro file.   Any JavaScript written in the Component Script portion of the .astro file is compiled and executed during initial render of the component</p>
+ <p>This allows for individuality of behavior for components by bundling the code and markup together in the same file</p>
+ <p>Server-rendering of pages can be automatic or individualized by setting a simple constant in the source file</p>
+ <p>Astro also designates islands of behavior allowing the developer to designate which DOM elements are hydrated on the client side and for which events this takes place</p>
+ <p>Web components built with other popular frameworks can be used within any Astro project</p>
+ <p>Routing in an Astro project if file based so not specific configuration is needed by the developer to create specific routes for specific content</p>
+ <p>Any file within the 'pages' folder becomes a route, including markdown files or custom API routes (ie endpoints)</p>
+ <p>Custom API endpoints are easy to create avoiding the need to write a separate backend server in node.js/Express or Django. To create a custom endpoint, the only requirement is 
+	to export a GET or POST constant in any astro file within the pages folder.   A route for that endpoint is then automatically created during the build process
+	and available to any HTTP request sent to that route.
+ </p>
 	
 </div>
 
