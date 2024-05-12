@@ -64,7 +64,7 @@ const hs = `
 
 	on openUp
 		-- send closeOtherReadMores to closest parent <ul/>
-		set my innerHTML to ${caption}
+		set my innerHTML to '${caption}'
 		set bodyHeight to calcHeight()
 		if bodyHeight is greater than ${maxHeight} then
 			set the *height of the next .body to ${maxHeight} px then settle
@@ -76,7 +76,7 @@ const hs = `
 	end
 
 	on closeUp
-		put ${altCaption} into me
+		put '${altCaption}' into me
 		set the *height of the next .body to 0 then settle
 		
 	end
