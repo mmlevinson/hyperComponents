@@ -7,6 +7,10 @@ interface Props {
 	path?:string
 	caption?:string
 	altCaption?:string
+	readMoreStyles?:string
+	buttonStyles?:string
+	iconStyles?:string
+	bodyStyles?:string
 	maxHeight?:number
 	duration?:string
 }
@@ -15,21 +19,25 @@ const {
 	id,
 	path,
 	caption = 'Read More...',
-	altCaption = 'Read Less...',
+	altCaption = 'Read Less...', 
+	readMoreStyles,
+	buttonStyles,
+	iconStyles,
+	bodyStyles,
 	maxHeight = 500,
 	duration='400ms'
 } = Astro.props
 
-export const tw = {
+const tw = {
 	wrapper: 'mb-8 ',
-	readMore: 'flex justify-end items-center rounded-lg ' +
-	 ' bg-gray-300 dark:bg-gray-700 opacity-60 hover:opacity-100 ',
-	button: 'w-full h-8 px-4 py-1 cursor-pointer rounded-l-lg ' + 
+	readMore: twMerge('flex justify-end items-center rounded-lg ' +
+	 ' bg-gray-300 dark:bg-gray-700 opacity-60 hover:opacity-100 ', readMoreStyles),
+	button: twMerge('w-full h-8 px-4 py-1 cursor-pointer rounded-l-lg ' + 
 	'text-sm font-fjalla text-right text-sky-900 dark:text-zinc-200  ' +
-	'bg-transparent ',
-	icon: 'inline-block size-8 shrink-0 ' + 
-	' text-sky-900 dark:text-zinc-200 ',
-	body: 'body h-0 px-4 text-pretty text-gray-700 dark:text-zinc-200 dark:bg-slate-900 overflow-y-auto',
+	'bg-transparent ', buttonStyles),
+				icon: twMerge('inline-block size-8 shrink-0 ' + 
+	' text-sky-900 dark:text-zinc-200 ', iconStyles),
+	body: twMerge('body h-0 px-4 text-pretty text-gray-700 dark:text-zinc-200 dark:bg-slate-900 overflow-y-auto', bodyStyles),
 }
 
 
