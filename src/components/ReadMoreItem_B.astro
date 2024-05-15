@@ -6,7 +6,8 @@ const defaultOverscrollHeight = 400
 const defaultDuration = 200
 
 interface Props {
-	id:string,
+	id:string
+	route?:string
 	caption?:string
 	altCaption?:string
 	maxHeight?:number
@@ -14,6 +15,7 @@ interface Props {
 
 const {
 	id,
+	route,
 	caption = 'Read More...',
 	altCaption = 'Read Less...',
 	maxHeight = 500,
@@ -21,7 +23,6 @@ const {
 
 export const tw = {
 	wrapper: 'mb-8 ',
-
 	body: 'body h-0 px-4 text-pretty text-gray-700 dark:text-zinc-200 dark:bg-slate-900 overflow-y-auto',
 	button: 'text-right w-full  px-4 py-1 cursor-pointer ' + 
 	'text-sm font-fjalla text-end ' + 
@@ -30,7 +31,7 @@ export const tw = {
 	icon: 'inline-block size-6 ml-2'
 }
 
-const apiRoute = 'api/readmore/' + id
+const apiRoute = route + id
 
 
 const hs = `

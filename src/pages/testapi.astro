@@ -2,45 +2,33 @@
 import StarlightPage from '@astrojs/starlight/components/StarlightPage.astro'
 import ReadMoreItem_B from '../components/ReadMoreItem_B.astro'
 const title = "Testing API"
-const id = "example-1"
-const caption = 'Read More...'
 
-const tw = {
-	wrapper: 'mb-8 shadow-lg rounded-lg',
-	body: 'body px-4 text-pretty text-gray-700 dar:text-zinc-200 dark:bg-slate-900 overflow-hidden',
-	button: 'block w-full mx-auto px-4 py-2 mb-2 rounded-lg ' +
-		'text-sm font-fjalla text-end '+
-		'text-gray-400 bg-indigo-950 opacity-50 hover:opacity-70 ' +
-		'dark:text-zinc-200 dark:bg-sky-900',
-	output: 'h-0 bg-gray-500 text-white p-2 rounded-md ',
-	icon: 'inline-block size-6 ml-2'
-}
 
 ---
 
 <StarlightPage frontmatter={{title}}>
 <ul>
-	<ReadMoreItem_B id="0" >
+	<ReadMoreItem_B id="0" route="api/readmore/" >
 		<h3>Hypermedia</h3>
 		<p>HTML as a response to API requests</p>
 		<p>Why are most API calls returing JSON when the browser is optimized to process HTML?</p>
 	</ReadMoreItem_B>
-	<ReadMoreItem_B id="1" >
+	<ReadMoreItem_B id="1"route="api/readmore/" >
 		<h3>HTMX</h3>
 		<p>Adding functionality to any HTML element</p>
 		<p>Can any element issue requests and update the DOM?</p>
 	</ReadMoreItem_B>
-	<ReadMoreItem_B id="2" >
+	<ReadMoreItem_B id="2" route="api/readmore/">
 		<h3>Tailwind CSS</h3>
 		<p>Respnsive, mobile first styling</p>
 		<p>A defined set of utility classes makes it easier to prototype user interfaces.</p>
 	</ReadMoreItem_B>
-	<ReadMoreItem_B id="3" >
+	<ReadMoreItem_B id="3" route="api/readmore/">
 		<h3>HyperScript</h3>
 		<p>New client side scripting language</p>
 		<p>Add client side functionality with an easy to learn English-prose syntax patterned after Hypertalk</p>
 	</ReadMoreItem_B>
-	<ReadMoreItem_B id="4" >
+	<ReadMoreItem_B id="4" route="api/readmore/">
 		<h3>Astro</h3>
 		<p>Fast, robust Vite-based build tool featuring static and server rendered pages</p>
 		<p>Utilize an island architecture to selectively hydrate content on the client side.</p>
