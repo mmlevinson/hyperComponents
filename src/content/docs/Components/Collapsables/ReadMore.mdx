@@ -27,9 +27,6 @@ export const tw = {
 import ReadMoreItem_A from '../../../../components/ReadMoreItem_A.astro'
 import ReadMoreGroup_A from '../../../../components/ReadMoreGroup_A.astro'
 
-
-
-
 <ReadMoreGroup_A closeSiblings={true}	styles="mx-6">
 	<ReadMoreItem_A id="0" path="../../../api/readmore" >
 		<h3>Hypermedia</h3>
@@ -80,38 +77,31 @@ import ReadMoreGroup_A from '../../../../components/ReadMoreGroup_A.astro'
 
 	A `ReadMore` control presents a short introductory text block followed by a clickable "Read More" link which reveals the remaining content in an expandable block below the introduciton.
 	
-	Blog sites are the most common patreons for `ReadMore` controls.   Multiple blog posts can be displayed on one page using ReadMore items.   Each post is introduced with an opening title sentence, often with the author, and posting date.   The remaining content is hidden from view until the user clicks the "Read More" link, at which point the content is revealed.
+	Blog sites are the most common hosts for `ReadMore` controls.   Multiple blog posts can be displayed on one page using ReadMore items.   Each post is introduced with an opening title sentence, often containing the author and posting date.   The remaining content is hidden from view until the user clicks the "Read More" link, at which point the content is revealed.
 
-	The action of a ReadMore controls is very similar to an Accordion control.   The main difference is the button which reveals the hidden content is placed after the introductory text.   Also, an alternative caption is displayed when the content is revealed, for example 'Read Less...'.   A twirl icon offers further confirmation that the hidden content is now being displayed.
+	The action of a ReadMore controls is very similar to an Accordion control.   The main difference is the button which reveals the hidden content is placed after the introductory text.   Also, an alternative caption is displayed when the content is revealed, for example 'Read Less...'.   A twirl icon rotates when opened which offers further confirmation that  hidden content is now being displayed.
 
 	ReadMore controls allow the developer to place multiple blog posts or other titles onto a page while conserving vertical real estate.   The users is still able to access the full text of each post or article by simple clicking.
 
-	For this example, an Astro component named ReadMoreItem_A is utilized.    The introductory text is placed into the components default slot.   An `id` and `path` values are passed as props.  When the user clicks or hovers on the ReadMore text, the remaining content is lazy-loaded in to the body element of the component.   Then, a click event transitions the body elements height from 0 to a calculated height value over the specified duration.
+	For this example, two Astro component  are used (ReadMoreGroup_A and ReadMoreItem_A).   The ReadMoreGroup_A provides a wrapper `<ul>` and a default slot for passing in multiple ReadMoreItems.  
+	
+	 The introductory text is placed into the components default slot of the item component.   An `id` and `path` values are passed as props.  When the user clicks or hovers over the trigger button, the additional content is lazy-loaded using a fetch to the designated api route with the `id` being the `slug` to retrieve the correct data.   When the user  clicks on the trigger button an  event transitions the body elements height from 0 to a calculated height value over the specified duration.
 
-	The basic source code to implement a ReadMore control is shown below.   The [code](#code) section below contains the props, scripts, styling and an Everything tab where you can copy/paste the example into your project.   You will need to set up the custom API routes and appropriate html responses to the fetch request, but the example code should help you get started.
+	The basic source code to implement the examples  is shown below.   The [code](#code) section below contains the props, scripts, and styling of both Astro components.   In order to use this ReadMore example, You will need to set up analagous [custom API endpoints](https://docs.astro.build/en/guides/endpoints/) and return appropriate html responses but the example code should help you get started.
 	
 	{/* Example  Code block showing the  control in action. */}
 
 
-	```astro title="Read More Control Example" "{hs}" "ReadMoreItem_A"
+	```astro title="Read More Control Example" "ReadMoreGroup_A" "ReadMoreItem_A"
 ---
-const closeSiblings = true
+import ReadMoreItem_A from '/components/ReadMoreItem_A.astro'
+import ReadMoreGroup_A from '/components/ReadMoreGroup_A.astro'
 
-const hs =
- `on closeOtherReadMores
-	 if ${closeSiblings} is true
-		 set allReadMores to the children of me
-		 set allButtons to <button/> in me
-		 for button in allButtons
-			if button is not detail.sender
-				send closeUp to the button
-			end -- for
-	 end -- if closeSiblings
- end -- closeOtherReadMores
-`
+const tw = {
+		intro: 'ml-2 mt-2 text-lg'
+}
 ---
-
-<ul class="mx-6" script={hs}>
+<ReadMoreGroup_A closeSiblings={true}	styles="mx-6">
 	<ReadMoreItem_A id="0" path="/api/readmore" >
 		<h3>Hypermedia</h3>
 		<div class={tw.intro}>
@@ -148,15 +138,67 @@ const hs =
 		</div>
 	</ReadMoreItem_A>
 
-</ul>
+</ReadMoreGroup_A>
 
 	```
 ## Features
+
+This ReadMore Control hides the majority of a blog post or article while presenting a short summary inviting the user to click the trigger button to review more content.  
+
+1.  The trigger button caption and alternative caption can be sent as props
+2.  The maximum height of the exposed content can be adjusted via props
+3.  The transition duration is customizable
+4.  Styling for the ReadMore flex container, trigger button, and twirl icon can be customized using Tailwind utility classes passed via props
+5.  A custom twirl icon can be used
+
+
 		 
 ## Components
 	{/* Breakdown of each Astro Components used for this control */}
+
+### ReadMoreGroup_A
+
+This component provides a general `<ul>` wrapper around multiple ReadMoreItem_A components.  This permits the developer to style the entire group, especially with positioning TW classes.  
+
+In additon, a HyperScript in the group component listens for the `closeOtherReadMores` event and then sends the closeUp event to all other ReadMoreItems if the `closeSiblings` prop is true.
+
+See the [Code](#code) section below for a full breakdown of the ReadMoreGroup_A component.
+
+### ReadMoreItem_A
+
+The heart of this control is in the ReadMoreItem_A component.  This component provides a single `<li>` wrapper around both the introductory text and the hidden content.  T
+
+The introductory text is passed into the components default slot.  This strategy allows you to put any amount and any styling you wish into the introductory text. 
+
+Hidden content is lazy-loaded using the fetch command in the accompanying HyperScript.    An `id` and `path` values are passed as props.  For this example, the `id` prop also serves the file `slug` which is concatenated to the `path` to form a valid api enpoint and retrieve the correct hypermedia response from the backend. 
+
+Review the Scripts tab in the [Code](#code) section below for the HyperScript used to implement the hidden content lazy-load.
+
 ## Props
 	{/* Each component, with code block showing the props interface */}
+
+### ReadMoreGroup_A
+
+```js
+
+interface Props {
+	closeSiblings?: boolean 
+	styles?: string  
+}
+
+const {
+	closeSiblings = true,
+	styles
+} = Astro.props
+
+
+```
+
+#### closeSiblings
+
+#### styles
+
+### ReadMoreItem_A
 
 ```js
 
@@ -174,13 +216,19 @@ interface Props {
 }
 
 ```
-## Styling
-To improve readability, the Tailwind classes and Hyperscripts are both extracted from the markup and encapsulated into  Astro `tw` and `hs` local variables within the [Component Script](https://docs.astro.build/en/basics/astro-components/#the-component-script) which are then referenced in the html markup. 
-		 
-The advantage of this strategy is to allow long run-on strings to be formatted as concatenated, multi-line strings which aids readability and code maintenance.
-		 
-## Transitions
-	{/* Description of the animations used in the control */}
+
+#### id
+#### path
+#### caption
+#### altCaption
+#### maxHeight
+#### duration
+#### readMoreStyles
+#### buttonStyles
+#### iconStyles
+#### bodyStyles
+
+
 ## Slots
 	{/* Outline the name/function of each slot */}
 ### Default Slot
@@ -206,6 +254,16 @@ The ReadMoreItem_A component listens for the closeUp event sets the body height 
 ### closeOtherReadMores
 
 This event is fired during the openUp event.   You can opt in to listen for this event in the parent `<ul>` which wraps all your ReadMoreItem_A components.  If you follow the code in the [Example](#example) above, a local constant can be used to set whether to opt in or out.
+
+
+## Styling
+To improve readability, the Tailwind classes and Hyperscripts are both extracted from the markup and encapsulated into  Astro `tw` and `hs` local variables within the [Component Script](https://docs.astro.build/en/basics/astro-components/#the-component-script) which are then referenced in the html markup. 
+		 
+The advantage of this strategy is to allow long run-on strings to be formatted as concatenated, multi-line strings which aids readability and code maintenance.
+		 
+## Transitions
+	{/* Description of the animations used in the control */}
+	
 
 ## Code
 	{/* Brief explanation of the component */}
