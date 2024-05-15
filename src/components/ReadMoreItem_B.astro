@@ -2,9 +2,6 @@
 import {twMerge} from 'tailwind-merge'
 
 
-const defaultOverscrollHeight = 400
-const defaultDuration = 200
-
 interface Props {
 	id:string
 	path?:string
@@ -25,7 +22,7 @@ const {
 
 export const tw = {
 	wrapper: 'mb-8 ',
-	readMore: 'flex justify-end items-center rounded-lg bg-gray-300 opacity-70 hover:opacity-100 ',
+	readMore: 'flex justify-end items-center rounded-lg bg-gray-300 opacity-60 hover:opacity-100 ',
 	button: 'w-full h-8 px-4 py-1 cursor-pointer rounded-l-lg ' + 
 	'text-sm font-fjalla text-right text-sky-900 dark:text-zinc-200  ' +
 	'bg-transparent ',
@@ -33,6 +30,8 @@ export const tw = {
 	' text-sky-900 ',
 	body: 'body h-0 px-4 text-pretty text-gray-700 dark:text-zinc-200 dark:bg-slate-900 overflow-y-auto',
 }
+
+
 const hs = `
 	def calcHeight()
 		set openHeight to 0
@@ -58,7 +57,7 @@ const hs = `
 	end 
 
 	on openUp
-		-- send closeOtherReadMores to closest parent <ul/>
+		send closeOtherReadMores to closest parent <ul/>
 		set my textContent to '${altCaption}'
 		set bodyHeight to calcHeight()
 		add .rotate-180 to the  #{'twirl-icon-'+${id}}
