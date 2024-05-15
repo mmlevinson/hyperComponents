@@ -1,6 +1,6 @@
 ---
 import StarlightPage from '@astrojs/starlight/components/StarlightPage.astro'
-import ReadMoreItem_B from '../components/ReadMoreItem_B.astro'
+import ReadMoreItem_A from '../components/ReadMoreItem_A.astro'
 const title = "Testing API"
 
 const closeSiblings = true
@@ -22,31 +22,31 @@ const hs =
 
 <StarlightPage frontmatter={{title}}>
 <ul script={hs}>
-	<ReadMoreItem_B id="0" path="api/readmore" >
+	<ReadMoreItem_A id="0" path="api/readmore" >
 		<h3>Hypermedia</h3>
 		<h5>HTML as a response to API requests</h5>
 		<h5>Why are most API calls returing JSON when the browser is optimized to process HTML?</h5>
-	</ReadMoreItem_B>
-	<ReadMoreItem_B id="1" path="api/readmore" >
+	</ReadMoreItem_A>
+	<ReadMoreItem_A id="1" path="api/readmore" >
 		<h3>HTMX</h3>
 		<h5>Adding functionality to any HTML element</h5>
 		<h5>Can any element issue requests and update the DOM?</h5>
-	</ReadMoreItem_B>
-	<ReadMoreItem_B id="2" path="api/readmore">
+	</ReadMoreItem_A>
+	<ReadMoreItem_A id="2" path="api/readmore">
 		<h3>Tailwind CSS</h3>
 		<h5>Respnsive, mobile first styling</h5>
 		<h5>A defined set of utility classes makes it easier to prototype user interfaces.</h5>
-	</ReadMoreItem_B>
-	<ReadMoreItem_B id="3" path="api/readmore">
+	</ReadMoreItem_A>
+	<ReadMoreItem_A id="3" path="api/readmore">
 		<h3>HyperScript</h3>
 		<h5>New client side scripting language</h5>
 		<h5>Add client side functionality with an easy to learn English-prose syntax patterned after Hypertalk</h5>
-	</ReadMoreItem_B>
-	<ReadMoreItem_B id="4" path="api/readmore">
+	</ReadMoreItem_A>
+	<ReadMoreItem_A id="4" path="api/readmore">
 		<h3>Astro</h3>
 		<h5>Fast, robust Vite-based build tool featuring static and server rendered pages</h5>
 		<h5>Utilize an island architecture to selectively hydrate content on the client side.</h5>
-	</ReadMoreItem_B>
+	</ReadMoreItem_A>
 
 </ul>
 
