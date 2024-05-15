@@ -3,16 +3,16 @@ import {twMerge} from 'tailwind-merge'
 
 
 interface Props {
-	id:string
-	path?:string
-	caption?:string
-	altCaption?:string
-	readMoreStyles?:string
-	buttonStyles?:string
-	iconStyles?:string
-	bodyStyles?:string
-	maxHeight?:number
-	duration?:string
+	id:string   //a unique identifier which doubles as the file 'slug' for loading content from api route
+	path?:string	//the path to the api route which will return the content for this ReadMore item
+	caption?:string	//the caption for the trigger button
+	altCaption?:string	//the caption for the trigger button when the content is expanded
+	maxHeight?:number	 //maximum open height in px (after which the body content scrolls vertically)
+	duration?:string	//the duration of the height transition
+	readMoreStyles?:string	//override or add TW classes to the readMore flex container
+	buttonStyles?:string	//override or add TW classes to the trigger button
+	iconStyles?:string	//override or add TW classes to the twirl icon
+	bodyStyles?:string	//override or add TW classes to the body element
 }
 
 const {
@@ -20,12 +20,12 @@ const {
 	path,
 	caption = 'Read More...',
 	altCaption = 'Read Less...', 
+	maxHeight = 500,
+	duration='400ms',
 	readMoreStyles,
 	buttonStyles,
 	iconStyles,
-	bodyStyles,
-	maxHeight = 500,
-	duration='400ms'
+	bodyStyles
 } = Astro.props
 
 const tw = {

@@ -12,8 +12,8 @@ Blog sites typically use a ReadMore control to display a short introductory prom
 ## Example
 		 
 export const tw = {
-		exampleContainer: 'not-content w-full pb-4 w-max-lg bg-gray-300 dark:bg-gray-800 rounded-xl my-6',
-		exampleTitle:'text-center bg-gray-300 dark:bg-sky-900 text-gray-300 dark:text-zinc-200 font-semibold py-2 mb-4 rounded-t-xl',
+		exampleContainer: 'not-content w-full pb-4 w-max-lg bg-gray-100 dark:bg-gray-800 rounded-xl my-6',
+		exampleTitle:'text-center bg-sky-900 text-gray-300 dark:text-zinc-50 font-semibold py-2 mb-4 rounded-t-xl',
 		icon:'inline-block size-6',
 		image: 'inline-block max-h-6',
 		p: 'pb-3'	,
@@ -169,6 +169,23 @@ const hs =
 	{/* Breakdown of each Astro Components used for this control */}
 ## Props
 	{/* Each component, with code block showing the props interface */}
+
+```js
+
+interface Props {
+	id:string   
+	path?:string	
+	caption?:string	
+	altCaption?:string	
+	maxHeight?:number	 
+	duration?:string	
+	readMoreStyles?:string	
+	buttonStyles?:string
+	iconStyles?:string	
+	bodyStyles?:string	
+}
+
+```
 ## Styling
 To improve readability, the Tailwind classes and Hyperscripts are both extracted from the markup and encapsulated into  Astro `tw` and `hs` local variables within the [Component Script](https://docs.astro.build/en/basics/astro-components/#the-component-script) which are then referenced in the html markup. 
 		 
@@ -178,180 +195,290 @@ The advantage of this strategy is to allow long run-on strings to be formatted a
 	{/* Description of the animations used in the control */}
 ## Slots
 	{/* Outline the name/function of each slot */}
+### Default Slot
+The default slot is used to place the introductory text for the ReadMore item.   The introductory text is placed into the components default slot.   An `id` and `path` values are passed as props.  When the user clicks or hovers on the ReadMore text, the remaining content is lazy-loaded in to the body element of the component.   Then, a click event transitions the body elements height from 0 to a calculated height value over the specified duration.
+
+### Twirl Icon Slot
+
+The default icon which rotates 180 degrees is a down-caret SVG.   You can override the icon by placing a custom SVG in the `<slot name='twirl-icon'>`.
+
+In order for the rotation behavior to work, you must also encode the id of the svg exactly as `twirl-icon-${id}` (enclosed in back-ticks).  This identifier will then be picked up by the Hyperscript and the .rotate-180 toggled when the openUp or closeUp events are triggered.
+
+## Events
+
+### openUp
+
+The ReadMoreItem_A component listens for the openUp event and then recalculates the height of the body element.  Also the .rotate-180 class is added to the twirl icon and the trigger button text is replaced with the string passed into the `altCaption` prop.
+
+### closeUp
+
+The ReadMoreItem_A component listens for the closeUp event sets the body height to zero,  removes the .rotate-180 class from the twirl icon, and replaces the trigger button text with the string passed into the `caption` prop.
+
+
+### closeOtherReadMores
+
+This event is fired during the openUp event.   You can opt in to listen for this event in the parent `<ul>` which wraps all your ReadMoreItem_A components.  If you follow the code in the [Example](#example) above, a local constant can be used to set whether to opt in or out.
+
 ## Code
 	{/* Brief explanation of the component */}
+
+Below you will find all the code segments for the ReadMoreItem_A component.
+
+To use this component in your Astro project, copy/paste the contents of the Everything tab into a .astro file in your src folder.
+
+You will also need to copy/paste the `const hs` from the [Example](#example)  above in order to provide the closeOtherReadMores script.
+
 import {Tabs, TabItem } from '@astrojs/starlight/components'
 		 
 <Tabs>
 	<TabItem label='Props'>
 	```js
-		const {id} = Astro.props 
+interface Props {
+	id:string   //a unique identifier which doubles as the file 'slug' for loading content from api route
+	path?:string	//the path to the api route which will return the content for this ReadMore item
+	caption?:string	//the caption for the trigger button
+	altCaption?:string	//the caption for the trigger button when the content is expanded
+	maxHeight?:number	 //maximum open height in px (after which the body content scrolls vertically)
+	duration?:string	//the duration of the height transition
+	readMoreStyles?:string	//override or add TW classes to the readMore flex container
+	buttonStyles?:string	//override or add TW classes to the trigger button
+	iconStyles?:string	//override or add TW classes to the twirl icon
+	bodyStyles?:string	//override or add TW classes to the body element
+}
+
+const {
+	id,
+	path,
+	caption = 'Read More...',
+	altCaption = 'Read Less...', 
+	maxHeight = 500,
+	duration='400ms',
+	readMoreStyles,
+	buttonStyles,
+	iconStyles,
+	bodyStyles
+} = Astro.props
 	```
 	</TabItem>
 		 
 	<TabItem label='HTML'>
 	```html
 		 
-	<li id={id} class={tw.li}>
+	<li id={id} class={tw.wrapper}>
 		<div>
+			<!-- Default Slot for introductory content-->
 			<slot/>
-			<button class={tw.button} script='install readMore'>Read More &#11015;</button>
 		</div>
+			<!-- Read More Trigger Button -->
+			<div class={tw.readMore}>
+				<button class={tw.button}
+					script={hs}>
+					{caption}
+				</button>
+				<slot name='twirl-icon>'>
+					<!-- TwirlIcon -->
+				<svg id={`twirl-icon-${id}`} class={tw.icon} style="margin-top:0;" fill='currentColor' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'>
+						<path fill-rule='evenodd' d='M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z' clip-rule='evenodd'></path>
+					</svg>
+				</slot>
+			</div>
+
+		<!-- Body -->
 		{/* Must leave this div empty, will be lazy loaded by the above fetch call*/}
-		<div  class={tw.body} style="transition: all 250ms ease-out"></div>	
+		{/* Add .body class so the script will find this div */}
+		<div  class={tw.body} style=`transition: all ${duration} ease-out`></div>	
 	</li>
-	
 	```
 	</TabItem>
 		 
 	<TabItem label='Scripts'>
 	```js
 
-<script type="text/hyperscript">
+const hs = `
+	def calcHeight()
+		set openHeight to 0
+		set readMoreContent to the children of the next .body
+		for item in readMoreContent 
+			increment openHeight by the item's offsetHeight
+		end
+		increment openHeight by 25   -- for padding
+		return openHeight 
+	end 
 
-	behavior readMore
+	on mouseenter from me
+		get the innerHTML of the next .body
+		if it is empty then 
+			fetch '${path}/${id}' as html then put the result into the next .body
+	end 
 
-		def calcHeight()
-			set openHeight to 0
-			set readMoreContent to the children of the next .body
-			for item in readMoreContent 
-				increment openHeight by the item's offsetHeight
-			end -- for
-			increment openHeight by 25  -- for bottom padding
-			return openHeight 
+	on click from me
+		measure the next .body
+		if the result.height is greater than 0 then send closeUp to me
+		otherwise send openUp to me end
+
+	end 
+
+	on openUp
+		send closeOtherReadMores to closest parent <ul/>
+		set my textContent to '${altCaption}'
+		add .rotate-180 to the  #{'twirl-icon-'+${id}}
+		set bodyHeight to calcHeight()
+		if bodyHeight is greater than ${maxHeight} then
+			set the *height of the next .body to ${maxHeight} px then settle
+		otherwise
+			set the *height of the next .body to the bodyHeight px then settle
+
 		end 
+	end
 
-	  on mouseenter from me
-			get the innerHTML of the next .body
-			if it is empty then 
-				set path to '/api/history/' + @id of the closest <li/>
-				fetch `${path}` as html then put it into the next .body
-		end 
+	on closeUp
+		set my textContent to '${caption}'
+		remove .rotate-180 from the  #{'twirl-icon-'+${id}}
+		set the *height of the next .body to 0 then settle		
+	end
+`
 
-		on click from me
-			add .bg-green-950 to me
-			remove .bg-indigo-950 from me then settle then
-			measure the next .body
-			if the result.height is greater than 0 then send closeUp to me
-			otherwise send openUp to me end
-			remove .bg-green-950 from me
-			add .bg-indigo-950 to me then settle
-		end
 
-		on openUp
-			send closeOtherReadMores to closest parent <ul/>
-			put "Read Less &#11014;" into me
-			set newHeight to calcHeight()
-			if newHeight is less than 500 then
-				set the *height of the next .body to (newHeight + 'px') then settle
-			otherwise
-				set the *height of the next .body to 500 px then settle
-			end -- if
-		end
-
-		on closeUp
-			put "Read More &#11015;" into me
-			set the *height of the next .body to 0 then settle
-		end
-
-</script>
 	```
 	</TabItem>
 		 
 	<TabItem label='Tailwind'>
 	```js
 
-export const tw = {
-	li: 'mb-8 shadow-lg rounded-lg',
-	body: 'body h-0 px-4 text-pretty text-gray-700 dark:text-zinc-200 dark:bg-slate-900 overflow-y-auto',
-	button: 'block w-full mx-auto px-4 py-1 rounded-lg ' + 
-	'text-sm font-fjalla text-end ' + 
-	'text-gray-400 bg-indigo-950 opacity-50 hover:opacity-70 ' +
-	'dark:text-zinc-200 dark:bg-sky-900 '
+
+const tw = {
+	wrapper: 'mb-8 ',
+	readMore: twMerge('mt-6 flex justify-end items-center rounded-lg ' +
+	 ' bg-gray-300 dark:bg-gray-700 opacity-60 hover:opacity-100 ', readMoreStyles),
+	button: twMerge('w-full h-8 px-4 py-1 cursor-pointer rounded-l-lg ' + 
+	'text-sm font-fjalla text-right text-sky-900 dark:text-zinc-200  ' +
+	'bg-transparent ', buttonStyles),
+	icon: twMerge('inline-block size-8 shrink-0 ' + 
+	' text-sky-900 dark:text-zinc-200 ', iconStyles),
+	body: twMerge('body h-0 px-4 text-pretty text-gray-700 dark:text-zinc-200 dark:bg-slate-900 overflow-y-auto', bodyStyles),
 }
+
 	```
 	</TabItem>
 		 
 	<TabItem label='Everything'>
 	```astro
-	---
+---
 import {twMerge} from 'tailwind-merge'
 
 
-const defaultOverscrollHeight = 400
-const defaultDuration = 200
-
-const {id} = Astro.props
-
-export const tw = {
-	li: 'mb-8 shadow-lg rounded-lg',
-	body: 'body h-0 px-4 text-pretty text-gray-700 dark:text-zinc-200 dark:bg-slate-900 overflow-y-auto',
-	button: 'block w-full mx-auto px-4 py-1 rounded-lg ' + 
-	'text-sm font-fjalla text-end ' + 
-	'text-gray-400 bg-indigo-950 opacity-50 hover:opacity-70 ' +
-	'dark:text-zinc-200 dark:bg-sky-900 '
+interface Props {
+	id:string   //a unique identifier which doubles as the file 'slug' for loading content from api route
+	path?:string	//the path to the api route which will return the content for this ReadMore item
+	caption?:string	//the caption for the trigger button
+	altCaption?:string	//the caption for the trigger button when the content is expanded
+	maxHeight?:number	 //maximum open height in px (after which the body content scrolls vertically)
+	duration?:string	//the duration of the height transition
+	readMoreStyles?:string	//override or add TW classes to the readMore flex container
+	buttonStyles?:string	//override or add TW classes to the trigger button
+	iconStyles?:string	//override or add TW classes to the twirl icon
+	bodyStyles?:string	//override or add TW classes to the body element
 }
+
+const {
+	id,
+	path,
+	caption = 'Read More...',
+	altCaption = 'Read Less...', 
+	maxHeight = 500,
+	duration='400ms',
+	readMoreStyles,
+	buttonStyles,
+	iconStyles,
+	bodyStyles
+} = Astro.props
+
+const tw = {
+	wrapper: 'mb-8 ',
+	readMore: twMerge('mt-6 flex justify-end items-center rounded-lg ' +
+	 ' bg-gray-300 dark:bg-gray-700 opacity-60 hover:opacity-100 ', readMoreStyles),
+	button: twMerge('w-full h-8 px-4 py-1 cursor-pointer rounded-l-lg ' + 
+	'text-sm font-fjalla text-right text-sky-900 dark:text-zinc-200  ' +
+	'bg-transparent ', buttonStyles),
+	icon: twMerge('inline-block size-8 shrink-0 ' + 
+	' text-sky-900 dark:text-zinc-200 ', iconStyles),
+	body: twMerge('body h-0 px-4 text-pretty text-gray-700 dark:text-zinc-200 dark:bg-slate-900 overflow-y-auto', bodyStyles),
+}
+
+
+const hs = `
+	def calcHeight()
+		set openHeight to 0
+		set readMoreContent to the children of the next .body
+		for item in readMoreContent 
+			increment openHeight by the item's offsetHeight
+		end
+		increment openHeight by 25   -- for padding
+		return openHeight 
+	end 
+
+	on mouseenter from me
+		get the innerHTML of the next .body
+		if it is empty then 
+			fetch '${path}/${id}' as html then put the result into the next .body
+	end 
+
+	on click from me
+		measure the next .body
+		if the result.height is greater than 0 then send closeUp to me
+		otherwise send openUp to me end
+
+	end 
+
+	on openUp
+		send closeOtherReadMores to closest parent <ul/>
+		set my textContent to '${altCaption}'
+		add .rotate-180 to the  #{'twirl-icon-'+${id}}
+		set bodyHeight to calcHeight()
+		if bodyHeight is greater than ${maxHeight} then
+			set the *height of the next .body to ${maxHeight} px then settle
+		otherwise
+			set the *height of the next .body to the bodyHeight px then settle
+
+		end 
+	end
+
+	on closeUp
+		set my textContent to '${caption}'
+		remove .rotate-180 from the  #{'twirl-icon-'+${id}}
+		set the *height of the next .body to 0 then settle		
+	end
+`
 
 ---
 
 
-<script type="text/hyperscript">
-
-	
-
-	behavior readMore
-
-		def calcHeight()
-			set openHeight to 0
-			set readMoreContent to the children of the next .body
-			for item in readMoreContent 
-				increment openHeight by the item's offsetHeight
-			end -- for
-			increment openHeight by 25  -- for bottom padding
-			return openHeight 
-		end 
-
-	  on mouseenter from me
-			get the innerHTML of the next .body
-			if it is empty then 
-				set path to '/api/history/' + @id of the closest <li/>
-				fetch `${path}` as html then put it into the next .body
-		end 
-
-		on click from me
-			add .bg-green-950 to me
-			remove .bg-indigo-950 from me then settle then
-			measure the next .body
-			if the result.height is greater than 0 then send closeUp to me
-			otherwise send openUp to me end
-			remove .bg-green-950 from me
-			add .bg-indigo-950 to me then settle
-		end
-
-		on openUp
-			send closeOtherReadMores to closest parent <ul/>
-			put "Read Less &#11014;" into me
-			set newHeight to calcHeight()
-			if newHeight is less than 500 then
-				set the *height of the next .body to (newHeight + 'px') then settle
-			otherwise
-				set the *height of the next .body to 500 px then settle
-			end -- if
-		end
-
-		on closeUp
-			put "Read More &#11015;" into me
-			set the *height of the next .body to 0 then settle
-		end
-</script>
-
-	<li id={id} class={tw.li}>
+	<li id={id} class={tw.wrapper}>
 		<div>
+			<!-- Default Slot for introductory content-->
 			<slot/>
-			<button class={tw.button} script='install readMore'>Read More &#11015;</button>
 		</div>
+			<!-- Read More Trigger Button -->
+			<div class={tw.readMore}>
+				<button class={tw.button}
+					script={hs}>
+					{caption}
+				</button>
+				<slot name='twirl-icon>'>
+					<!-- TwirlIcon -->
+				<svg id={`twirl-icon-${id}`} class={tw.icon} style="margin-top:0;" fill='currentColor' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'>
+						<path fill-rule='evenodd' d='M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z' clip-rule='evenodd'></path>
+					</svg>
+				</slot>
+			</div>
+
+
+			
+
+		<!-- Body -->
 		{/* Must leave this div empty, will be lazy loaded by the above fetch call*/}
-		<div  class={tw.body} style="transition: all 250ms ease-out"></div>	
+		{/* Add .body class so the script will find this div */}
+		<div  class={tw.body} style=`transition: all ${duration} ease-out`></div>	
 	</li>
 	```
 	</TabItem>
