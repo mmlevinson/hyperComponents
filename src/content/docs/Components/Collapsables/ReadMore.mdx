@@ -263,10 +263,93 @@ The advantage of this strategy is to allow long run-on strings to be formatted a
 		 
 ## Transitions
 	{/* Description of the animations used in the control */}
-	
+
 
 ## Code
 	{/* Brief explanation of the component */}
+### ReadMoreGroup_A
+Below is the code for the ReadMoreGroup_A component.
+
+<Tabs>
+	<TabItem label='Props'>
+	```js
+	interface Props {
+	closeSiblings?: boolean  //sibling ReadMoreItems will be closed
+	styles?: string  //add tw classes to position/style the entire group
+}
+
+const {
+	closeSiblings = true,
+	styles
+} = Astro.props	 
+	```
+	</TabItem>
+		 
+	<TabItem label='HTML'>
+	```html
+	<ul script={hs} class={styles}>
+	<!-- Default Slot for ReadMoreItems  -->
+ <slot/>
+
+</ul>	 
+	```
+	</TabItem>
+		 
+	<TabItem label='Scripts'>
+	```js
+	const hs =
+ `on closeOtherReadMores
+	 if ${closeSiblings} is true
+		 set allReadMores to the children of me
+		 set allButtons to <button/> in me
+		 for button in allButtons
+			if button is not detail.sender
+				send closeUp to the button
+			end -- for
+	 end -- if closeSiblings
+ end -- closeOtherReadMores
+`
+	```
+	</TabItem>
+	
+		 
+	<TabItem label='Everything'>
+	```astro
+---
+interface Props {
+	closeSiblings?: boolean  //sibling ReadMoreItems will be closed
+	styles?: string  //add tw classes to position/style the entire group
+}
+
+const {
+	closeSiblings = true,
+	styles
+} = Astro.props
+
+const hs =
+ `on closeOtherReadMores
+	 if ${closeSiblings} is true
+		 set allReadMores to the children of me
+		 set allButtons to <button/> in me
+		 for button in allButtons
+			if button is not detail.sender
+				send closeUp to the button
+			end -- for
+	 end -- if closeSiblings
+ end -- closeOtherReadMores
+`
+---
+
+<ul script={hs} class={styles}>
+	<!-- Default Slot for ReadMoreItems  -->
+ <slot/>
+</ul>
+	```
+	</TabItem>
+</Tabs>
+		 
+
+### ReadMoreItem_A
 
 Below you will find all the code segments for the ReadMoreItem_A component.
 
