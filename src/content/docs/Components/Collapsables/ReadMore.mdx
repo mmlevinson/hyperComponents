@@ -12,8 +12,8 @@ Blog sites typically use a ReadMore control to display a short introductory prom
 ## Example
 		 
 export const tw = {
-		exampleContainer: 'not-content w-full pb-4 w-max-lg text-center mx-auto bg-gray-300 dark:bg-gray-800 rounded-xl my-6',
-		exampleTitle: 'bg-gray-300 dark:bg-sky-900 text-gray-300 dark:text-zinc-200 font-semibold py-2 mb-4 rounded-t-xl',
+		exampleContainer: 'not-content w-full pb-4 w-max-lg bg-gray-300 dark:bg-gray-800 rounded-xl my-6',
+		exampleTitle:'text-center bg-gray-300 dark:bg-sky-900 text-gray-300 dark:text-zinc-200 font-semibold py-2 mb-4 rounded-t-xl',
 		icon:'inline-block size-6',
 		image: 'inline-block max-h-6',
 		p: 'pb-3'	
@@ -22,6 +22,38 @@ export const tw = {
 <div id='ReadMore-example' class={tw.exampleContainer} >
 <div id='ReadMore-title' class={tw.exampleTitle}>Sample ReadMore Control</div>
 
+
+import ReadMoreItem_A from '../../../../components/ReadMoreItem_A.astro'
+
+
+<ul class="mx-6" >
+	<ReadMoreItem_A id="0" path="../../../api/readmore" >
+		<h3>Hypermedia</h3>
+		<h5>HTML as a response to API requests</h5>
+		<h5>Why are most API calls returing JSON when the browser is optimized to process HTML?</h5>
+	</ReadMoreItem_A>
+	<ReadMoreItem_A id="1" path="../../../api/readmore" >
+		<h3>HTMX</h3>
+		<h5>Adding functionality to any HTML element</h5>
+		<h5>Can any element issue requests and update the DOM?</h5>
+	</ReadMoreItem_A>
+	<ReadMoreItem_A id="2" path="../../../api/readmore">
+		<h3>Tailwind CSS</h3>
+		<h5>Respnsive, mobile first styling</h5>
+		<h5>A defined set of utility classes makes it easier to prototype user interfaces.</h5>
+	</ReadMoreItem_A>
+	<ReadMoreItem_A id="3" path="../../../api/readmore">
+		<h3>HyperScript</h3>
+		<h5>New client side scripting language</h5>
+		<h5>Add client side functionality with an easy to learn English-prose syntax patterned after Hypertalk</h5>
+	</ReadMoreItem_A>
+	<ReadMoreItem_A id="4" path="../../../api/readmore">
+		<h3>Astro</h3>
+		<h5>Fast, robust Vite-based build tool featuring static and server rendered pages</h5>
+		<h5>Utilize an island architecture to selectively hydrate content on the client side.</h5>
+	</ReadMoreItem_A>
+
+</ul>
 </div>
 	{/* Example Control in Action */}
 	```astro
