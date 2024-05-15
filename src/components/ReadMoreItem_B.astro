@@ -64,8 +64,7 @@ const hs = `
 		set bodyHeight to calcHeight()
 		if bodyHeight is greater than ${maxHeight} then
 			set the *height of the next .body to ${maxHeight} px then settle
-			add .overflow-y-auto to the next .body
-		otherwise     
+		otherwise
 			set the *height of the next .body to the bodyHeight px then settle
 
 		end 
