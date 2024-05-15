@@ -3,7 +3,7 @@ title: ReadMore
 description: A component which displays a short introductory prompt followed by  a Read More... link to load additional content on demand.
 tableOfContents: 
   minHeadingLevel: 2
-  maxHeadingLevel: 4
+  maxHeadingLevel: 5
 ---
 		 
 	{/* Introduction */}
@@ -65,13 +65,10 @@ import ReadMoreGroup_A from '../../../../components/ReadMoreGroup_A.astro'
 	</ReadMoreItem_A>
 </ReadMoreGroup_A>
 
-
-
-
 </div>
-	{/* Example Control in Action */}
 
-		 
+
+	{/* Example Control in Action */}
 ## Description
 	{/* General Description */}
 
@@ -85,12 +82,10 @@ import ReadMoreGroup_A from '../../../../components/ReadMoreGroup_A.astro'
 
 	For this example, two Astro component  are used (ReadMoreGroup_A and ReadMoreItem_A).   The ReadMoreGroup_A provides a wrapper `<ul>` and a default slot for passing in multiple ReadMoreItems.  
 	
-	 The introductory text is placed into the components default slot of the item component.   An `id` and `path` values are passed as props.  When the user clicks or hovers over the trigger button, the additional content is lazy-loaded using a fetch to the designated api route with the `id` being the `slug` to retrieve the correct data.   When the user  clicks on the trigger button an  event transitions the body elements height from 0 to a calculated height value over the specified duration.
+	The introductory text is placed into the components default slot of the item component.   An `id` and `path` values are passed as props.  When the user clicks or hovers over the trigger button, the additional content is lazy-loaded using a fetch to the designated api route with the `id` being the `slug` to retrieve the correct data.   When the user  clicks on the trigger button an  event transitions the body elements height from 0 to a calculated height value over the specified duration.
 
 	The basic source code to implement the examples  is shown below.   The [code](#code) section below contains the props, scripts, and styling of both Astro components.   In order to use this ReadMore example, You will need to set up analagous [custom API endpoints](https://docs.astro.build/en/guides/endpoints/) and return appropriate html responses but the example code should help you get started.
 	
-	{/* Example  Code block showing the  control in action. */}
-
 
 	```astro title="Read More Control Example" "ReadMoreGroup_A" "ReadMoreItem_A"
 ---
@@ -158,26 +153,14 @@ This ReadMore Control hides the majority of a blog post or article while present
 
 ### ReadMoreGroup_A
 
-This component provides a general `<ul>` wrapper around multiple ReadMoreItem_A components.  This permits the developer to style the entire group, especially with positioning TW classes.  
+This component provides a general `<ul>` wrapper around multiple ReadMoreItem_A components.  This wrapper then permits the developer to style the entire group, especially with positioning utility classes.  
 
 In additon, a HyperScript in the group component listens for the `closeOtherReadMores` event and then sends the closeUp event to all other ReadMoreItems if the `closeSiblings` prop is true.
 
 See the [Code](#code) section below for a full breakdown of the ReadMoreGroup_A component.
 
-### ReadMoreItem_A
-
-The heart of this control is in the ReadMoreItem_A component.  This component provides a single `<li>` wrapper around both the introductory text and the hidden content.  T
-
-The introductory text is passed into the components default slot.  This strategy allows you to put any amount and any styling you wish into the introductory text. 
-
-Hidden content is lazy-loaded using the fetch command in the accompanying HyperScript.    An `id` and `path` values are passed as props.  For this example, the `id` prop also serves the file `slug` which is concatenated to the `path` to form a valid api enpoint and retrieve the correct hypermedia response from the backend. 
-
-Review the Scripts tab in the [Code](#code) section below for the HyperScript used to implement the hidden content lazy-load.
-
-## Props
+#### Props
 	{/* Each component, with code block showing the props interface */}
-
-### ReadMoreGroup_A
 
 ```js
 
@@ -194,11 +177,38 @@ const {
 
 ```
 
-#### closeSiblings
+		##### closeSiblings
 
-#### styles
+		This boolean value controls whether or not the ReadMoreGroup_A component should close other ReadMoreItems when one is opened.  The default is true.
+
+		##### styles
+
+		This prop allows the developer to pass in any Tailwind CSS utility classes to style the ReadMoreGroup_A component.   Most useful classes for the group component are positioning, margins, padding, and the like.
+
+#### Slots
+
+	##### default slot
+
+	Multiple ReadMoreItem_A components can be passed into the default slot of the ReadMoreGroup_A component.
+
+#### Events
+
+	##### closeOtherReadMores
+
+	This event is fired during the openUp event.   You can opt in to listen for this event in the parent `<ul>` which wraps all your ReadMoreItem_A components.  If you follow the code in the [Example](#example) above, a local constant can be used to set whether to opt in or out.
+
 
 ### ReadMoreItem_A
+
+The heart of this control is in the ReadMoreItem_A component.  This component provides a single `<li>` wrapper around both the introductory text and the hidden content.  T
+
+The introductory text is passed into the components default slot.  This strategy allows you to put any amount and any styling you wish into the introductory text. 
+
+Hidden content is lazy-loaded using the fetch command in the accompanying HyperScript.    An `id` and `path` values are passed as props.  For this example, the `id` prop also serves the file `slug` which is concatenated to the `path` to form a valid api enpoint and retrieve the correct hypermedia response from the backend. 
+
+Review the Scripts tab in the [Code](#code) section below for the HyperScript used to implement the hidden content lazy-load.
+
+#### Props
 
 ```js
 
@@ -217,43 +227,69 @@ interface Props {
 
 ```
 
-#### id
-#### path
-#### caption
-#### altCaption
-#### maxHeight
-#### duration
-#### readMoreStyles
-#### buttonStyles
-#### iconStyles
-#### bodyStyles
+	##### id
+
+		Each ReadMoreItem_A consists of a `<li>` which in turn encloses a flex container and a div.  
+
+		The flex container hold both the trigger button and the twirl-icon.
+
+		Each item should be given a unique id serves the dual purpose of preventing name collisions with other ReadMoreItem's as well as providing the final `slug` for the file path where the content will be fetched.   If you are using a backend database, the id could be the record identifier as well.
 
 
-## Slots
+	##### path
+
+	This prop carries the route to the api endpoint where the content will be fetched.   String concatenation in the HyperScript builds the final route using both `id` and the `path` values.
+
+	##### caption
+
+	The string value passed in the `caption` prop is the initial text content of the trigger button when the body content is hidden.   The default caption is 'Read More...'
+
+
+	##### altCaption
+
+	The string value pass in the `altCaption` prop is displayed as the text content of the trigger button when the body content is fully displayed.   This text should encourage the user to click again to hide the content.    
+
+	The default `altCaption` is 'Read Less....'
+
+
+	
+	##### maxHeight
+
+	The body content of the ReadMore is clipped to a fixed height, beyound which the content scrolls vertically.
+
+	The default value is 500.   The underlying units used by the script code is pixels.   This prop accespts a number so a mathematical comparison can be performed to determine if the content exceeds the maxHeight value.
+
+	
+	##### duration
+	##### readMoreStyles
+	##### buttonStyles
+	##### iconStyles
+	##### bodyStyles
+
+
+#### Slots
 	{/* Outline the name/function of each slot */}
-### Default Slot
+	##### default
 The default slot is used to place the introductory text for the ReadMore item.   The introductory text is placed into the components default slot.   An `id` and `path` values are passed as props.  When the user clicks or hovers on the ReadMore text, the remaining content is lazy-loaded in to the body element of the component.   Then, a click event transitions the body elements height from 0 to a calculated height value over the specified duration.
 
-### Twirl Icon Slot
+	##### twirl-icon
 
 The default icon which rotates 180 degrees is a down-caret SVG.   You can override the icon by placing a custom SVG in the `<slot name='twirl-icon'>`.
 
 In order for the rotation behavior to work, you must also encode the id of the svg exactly as `twirl-icon-${id}` (enclosed in back-ticks).  This identifier will then be picked up by the Hyperscript and the .rotate-180 toggled when the openUp or closeUp events are triggered.
 
-## Events
+#### Events
 
-### openUp
+	##### openUp
 
-The ReadMoreItem_A component listens for the openUp event and then recalculates the height of the body element.  Also the .rotate-180 class is added to the twirl icon and the trigger button text is replaced with the string passed into the `altCaption` prop.
+	The ReadMoreItem_A component listens for the openUp event and then recalculates the height of the body element.  Also the .rotate-180 class is added to the twirl icon and the trigger button text is replaced with the string passed into the `altCaption` prop.
 
-### closeUp
+	##### closeUp
 
-The ReadMoreItem_A component listens for the closeUp event sets the body height to zero,  removes the .rotate-180 class from the twirl icon, and replaces the trigger button text with the string passed into the `caption` prop.
+	The ReadMoreItem_A component listens for the closeUp event sets the body height to zero,  removes the .rotate-180 class from the twirl icon, and replaces the trigger button text with the string passed into the `caption` prop.
 
 
-### closeOtherReadMores
 
-This event is fired during the openUp event.   You can opt in to listen for this event in the parent `<ul>` which wraps all your ReadMoreItem_A components.  If you follow the code in the [Example](#example) above, a local constant can be used to set whether to opt in or out.
 
 
 ## Styling
