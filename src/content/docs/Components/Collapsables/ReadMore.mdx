@@ -80,17 +80,89 @@ export const hs =
 	</ReadMoreItem_A>
 
 </ul>
+
+
+
 </div>
 	{/* Example Control in Action */}
-	```astro
-
-
-	```
 
 		 
 ## Description
 	{/* General Description */}
+
+	A `ReadMore` control presents a short introductory text block followed by a clickable "Read More" link which reveals the remaining content in an expandable block below the introduciton.
+	
+	Blog sites are the most common patreons for `ReadMore` controls.   Multiple blog posts can be displayed on one page using ReadMore items.   Each post is introduced with an opening title sentence, often with the author, and posting date.   The remaining content is hidden from view until the user clicks the "Read More" link, at which point the content is revealed.
+
+	The action of a ReadMore controls is very similar to an Accordion control.   The main difference is the button which reveals the hidden content is placed after the introductory text.   Also, an alternative caption is displayed when the content is revealed, for example 'Read Less...'.   A twirl icon offers further confirmation that the hidden content is now being displayed.
+
+	ReadMore controls allow the developer to place multiple blog posts or other titles onto a page while conserving vertical real estate.   The users is still able to access the full text of each post or article by simple clicking.
+
+	For this example, an Astro component named ReadMoreItem_A is utilized.    The introductory text is placed into the components default slot.   An `id` and `path` values are passed as props.  When the user clicks or hovers on the ReadMore text, the remaining content is lazy-loaded in to the body element of the component.   Then, a click event transitions the body elements height from 0 to a calculated height value over the specified duration.
+
+	The basic source code to implement a ReadMore control is shown below.   The [code](#code) section below contains the props, scripts, styling and an Everything tab where you can copy/paste the example into your project.   You will need to set up the custom API routes and appropriate html responses to the fetch request, but the example code should help you get started.
+	
 	{/* Example  Code block showing the  control in action. */}
+
+
+	```astro title="Read More Control Example" "{hs}" "ReadMoreItem_A"
+---
+const closeSiblings = true
+
+const hs =
+ `on closeOtherReadMores
+	 if ${closeSiblings} is true
+		 set allReadMores to the children of me
+		 set allButtons to <button/> in me
+		 for button in allButtons
+			if button is not detail.sender
+				send closeUp to the button
+			end -- for
+	 end -- if closeSiblings
+ end -- closeOtherReadMores
+`
+---
+
+<ul class="mx-6" script={hs}>
+	<ReadMoreItem_A id="0" path="/api/readmore" >
+		<h3>Hypermedia</h3>
+		<div class={tw.intro}>
+			<h5>HTML as a response to API requests</h5>
+			<h5>Why are most API calls returing JSON when the browser is optimized to process HTML?</h5>
+		</div>
+	</ReadMoreItem_A>
+	<ReadMoreItem_A id="1" path="/api/readmore" >
+		<h3>HTMX</h3>
+		<div class={tw.intro}>
+			<h5>Adding functionality to any HTML element</h5>
+			<h5>Can any element issue requests and update the DOM?</h5>
+		</div>
+	</ReadMoreItem_A>
+	<ReadMoreItem_A id="2" path="/api/readmore">
+		<h3>Tailwind CSS</h3>
+		<div class={tw.intro}>
+			<h5>Respnsive, mobile first styling</h5>
+			<h5>A defined set of utility classes makes it easier to prototype user interfaces.</h5>
+		</div>
+	</ReadMoreItem_A>
+	<ReadMoreItem_A id="3" path="/api/readmore">
+		<h3>HyperScript</h3>
+		<div class={tw.intro}>
+			<h5>New client side scripting language</h5>
+			<h5>Add client side functionality with an easy to learn English-prose syntax patterned after Hypertalk</h5>
+		</div>
+	</ReadMoreItem_A>
+	<ReadMoreItem_A id="4" path="/api/readmore">
+		<h3>Astro</h3>
+		<div class={tw.intro}>
+			<h5>Fast, robust Vite-based build tool featuring static and server rendered pages</h5>
+			<h5>Utilize an island architecture to selectively hydrate content on the client side.</h5>
+		</div>
+	</ReadMoreItem_A>
+
+</ul>
+
+	```
 ## Features
 		 
 ## Components

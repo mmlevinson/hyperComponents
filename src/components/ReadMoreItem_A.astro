@@ -1,0 +1,117 @@
+---
+import {twMerge} from 'tailwind-merge'
+
+
+interface Props {
+	id:string
+	path?:string
+	caption?:string
+	altCaption?:string
+	readMoreStyles?:string
+	buttonStyles?:string
+	iconStyles?:string
+	bodyStyles?:string
+	maxHeight?:number
+	duration?:string
+}
+
+const {
+	id,
+	path,
+	caption = 'Read More...',
+	altCaption = 'Read Less...', 
+	readMoreStyles,
+	buttonStyles,
+	iconStyles,
+	bodyStyles,
+	maxHeight = 500,
+	duration='400ms'
+} = Astro.props
+
+const tw = {
+	wrapper: 'mb-8 ',
+	readMore: twMerge('mt-6 flex justify-end items-center rounded-lg ' +
+	 ' bg-gray-300 dark:bg-gray-700 opacity-60 hover:opacity-100 ', readMoreStyles),
+	button: twMerge('w-full h-8 px-4 py-1 cursor-pointer rounded-l-lg ' + 
+	'text-sm font-fjalla text-right text-sky-900 dark:text-zinc-200  ' +
+	'bg-transparent ', buttonStyles),
+	icon: twMerge('inline-block size-8 shrink-0 ' + 
+	' text-sky-900 dark:text-zinc-200 ', iconStyles),
+	body: twMerge('body h-0 px-4 text-pretty text-gray-700 dark:text-zinc-200 dark:bg-slate-900 overflow-y-auto', bodyStyles),
+}
+
+
+const hs = `
+	def calcHeight()
+		set openHeight to 0
+		set readMoreContent to the children of the next .body
+		for item in readMoreContent 
+			increment openHeight by the item's offsetHeight
+		end
+		increment openHeight by 25   -- for padding
+		return openHeight 
+	end 
+
+	on mouseenter from me
+		get the innerHTML of the next .body
+		if it is empty then 
+			fetch '${path}/${id}' as html then put the result into the next .body
+	end 
+
+	on click from me
+		measure the next .body
+		if the result.height is greater than 0 then send closeUp to me
+		otherwise send openUp to me end
+
+	end 
+
+	on openUp
+		send closeOtherReadMores to closest parent <ul/>
+		set my textContent to '${altCaption}'
+		add .rotate-180 to the  #{'twirl-icon-'+${id}}
+		set bodyHeight to calcHeight()
+		if bodyHeight is greater than ${maxHeight} then
+			set the *height of the next .body to ${maxHeight} px then settle
+		otherwise
+			set the *height of the next .body to the bodyHeight px then settle
+
+		end 
+	end
+
+	on closeUp
+		set my textContent to '${caption}'
+		remove .rotate-180 from the  #{'twirl-icon-'+${id}}
+		set the *height of the next .body to 0 then settle		
+	end
+`
+
+---
+
+
+	<li id={id} class={tw.wrapper}>
+		<div>
+			<!-- Default Slot for introductory content-->
+			<slot/>
+		</div>
+			<!-- Read More Trigger Button -->
+			<div class={tw.readMore}>
+				<button class={tw.button}
+					script={hs}>
+					{caption}
+				</button>
+				<slot name='twirl-icon>'>
+					<!-- TwirlIcon -->
+				<svg id={`twirl-icon-${id}`} class={tw.icon} style="margin-top:0;" fill='currentColor' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'>
+						<path fill-rule='evenodd' d='M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z' clip-rule='evenodd'></path>
+					</svg>
+				</slot>
+			</div>
+
+
+			
+
+		<!-- Body -->
+		{/* Must leave this div empty, will be lazy loaded by the above fetch call*/}
+		{/* Add .body class so the script will find this div */}
+		<div  class={tw.body} style=`transition: all ${duration} ease-out`></div>	
+	</li>
