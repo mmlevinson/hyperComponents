@@ -23,7 +23,7 @@ const {
 
 export const tw = {
 	wrapper: 'mb-8 ',
-	icon: 'inline-block size-6 ml-2',
+	icon: 'inline-block size-6 ml-2 shrink-0',
 	button: 'flex justify-end items-center w-full rounded-lg px-4 py-1 cursor-pointer ' + 
 	'text-sm font-fjalla text-right text-gray-400 dark:text-zinc-200  ' +
 	'',
@@ -31,22 +31,20 @@ export const tw = {
 }
 
 const hs = `
-
 	def calcHeight()
 		set openHeight to 0
 		set readMoreContent to the children of the next .body
 		for item in readMoreContent 
 			increment openHeight by the item's offsetHeight
 		end
-		increment openHeight by 25
-
+		increment openHeight by 25   -- for padding
 		return openHeight 
 	end 
 
 	on mouseenter from me
 		get the innerHTML of the next .body
 		if it is empty then 
-			fetch '${path}/${id}'  as html then put the result into the next .body
+			fetch '${path}/${id}' as html then put the result into the next .body
 	end 
 
 	on click from me
@@ -55,14 +53,17 @@ const hs = `
 		measure the next .body
 		if the result.height is greater than 0 then send closeUp to me
 		otherwise send openUp to me end
+
 		remove .bg-green-950 from me
 		add .bg-indigo-950 to me then settle
+
 	end 
 
 	on openUp
 		-- send closeOtherReadMores to closest parent <ul/>
-		set my innerHTML to '${altCaption}'
+		set my textContent to '${altCaption}'
 		set bodyHeight to calcHeight()
+		add .rotate-180 to the  #{'twirl-icon-'+${id}}
 		if bodyHeight is greater than ${maxHeight} then
 			set the *height of the next .body to ${maxHeight} px then settle
 			add .overflow-y-auto to the next .body
@@ -73,9 +74,9 @@ const hs = `
 	end
 
 	on closeUp
-		put '${caption}' into me
-		set the *height of the next .body to 0 then settle
-		
+		set my textContent to '${caption}'
+		remove .rotate-180 from the  #{'twirl-icon-'+${id}}
+		set the *height of the next .body to 0 then settle		
 	end
 `
 
@@ -88,19 +89,17 @@ const hs = `
 			<slot/>
 		</div>
 			<!-- Read More Trigger Button -->
-		<div class={tw.readMore}>
 			<button class={tw.button}
 				script={hs}>
 				{caption}
-				<slot name='twirl-icon>'> 
-					<!-- TwirlIcon -->
-				<svg id={`twirl-icon-${id}`} class={tw.icon} fill='currentColor' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'>
-						<path fill-rule='evenodd' d='M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z' clip-rule='evenodd'></path>
-					</svg>
-				</slot>
 			</button>
+			<slot name='twirl-icon>'> 
+				<!-- TwirlIcon -->
+			<svg id={`twirl-icon-${id}`} class={tw.icon} fill='currentColor' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'>
+					<path fill-rule='evenodd' d='M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z' clip-rule='evenodd'></path>
+				</svg>
+			</slot>
 
-		</div>
 			
 
 		<!-- Body -->
