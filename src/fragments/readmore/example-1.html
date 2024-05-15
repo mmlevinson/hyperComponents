@@ -1,40 +1,23 @@
 <div >
-	<p>HTMX is a small JavaScript library which extends the actions available to html elements.  In particular htmx provides a suite of attributes which can be added to any html to
+	<p><a href="http://htmx.org">HTMX</a> is a small JavaScript library which extends the actions available to html elements.  In particular htmx provides a suite of attributes which can be added to any html to
 		enable server requests and target responses trigger by any event.</p>
-	<p>HTMX extends the core concept of hypermedia exchanges between client and server by</p>
+	<p>HTMX extends the core concept of hypermedia exchanges between client and server by allowing</p>
 
-	<ul>
-		<li>
-			<p>Any element can issues HTTP requests</p>
-		</li>
-		<li>
-			<p>Any event can trigger an HTTP request</p>
-		</li>
-		<li>
-			<p>Any HTTP verb (not just GET or POST) can be used</p>
-		</li>
-		<li>
-			<p>Any DOM element can be the target of the response.</p>
-		</li>
+	<ul class="list-disc list-inside">
+		<li>Any element can issues HTTP requests</li>
+		<li>Any event can trigger an HTTP request</li>
+		<li>Any HTTP verb (not just GET or POST) can be used</li>
+		<li>Any event may trigger an HTTP request</li>
+		<li>Any HTTP response may be targeted to any element</li>
 	</ul>
 	<p>To utilize HTMX on the client side, all that is needed is script tag to the CDN source code placed in the document's head </p>
 	<p>Any HTML element can issue HTTP requests to the server by including any of the following attributes</p>
-	<ul>
-		<li>
-			<p>hx-get</p>
-		</li>
-		<li>
-			<p>hx-post</p>
-		</li>
-		<li>
-			<p>hx-put</p>
-		</li>
-		<li>
-			<p>hx-patch</p>
-		</li>
-		<li>
-			<p>hx-delete</p>
-		</li>
+	<ul class="list-disc list-inside">
+		<li>hx-get</li>
+		<li>hx-post</li>
+		<li>hx-put</li>
+		<li>hx-patch</li>
+		<li>hx-delete</li>
 	</ul>
 	<p>The server must responde with hypermedia instead of JSON.   Fully constructed HTML fragment sent by the server (plus HTMX specific headers) allows
 		the browser to selectivley update any part of the DOM using the response hypermedia.

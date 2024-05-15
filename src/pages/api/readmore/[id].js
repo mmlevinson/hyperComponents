@@ -1,6 +1,6 @@
 
 const tw = {
-	p:'text-md font-semibold leading-7 py-3'
+	p:'text-md leading-7 py-2'
 }
 
 import example0 from '../../../fragments/readmore/example-0.html?raw'
