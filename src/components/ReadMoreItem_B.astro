@@ -11,6 +11,7 @@ interface Props {
 	caption?:string
 	altCaption?:string
 	maxHeight?:number
+	duration?:string
 }
 
 const {
@@ -19,14 +20,16 @@ const {
 	caption = 'Read More...',
 	altCaption = 'Read Less...',
 	maxHeight = 500,
+	duration='400ms'
 } = Astro.props
 
 export const tw = {
 	wrapper: 'mb-8 ',
-	icon: 'inline-block size-6 ml-2 shrink-0',
-	button: 'flex justify-end items-center w-full rounded-lg px-4 py-1 cursor-pointer ' + 
+	readMore: 'flex justify-end items-center',
+	button: 'w-full px-4 py-1 cursor-pointer ' + 
 	'text-sm font-fjalla text-right text-gray-400 dark:text-zinc-200  ' +
 	'',
+	icon: 'inline-block size-6 ml-2 shrink-0',
 	body: 'body h-0 px-4 text-pretty text-gray-700 dark:text-zinc-200 dark:bg-slate-900 overflow-y-auto',
 }
 
@@ -48,14 +51,9 @@ const hs = `
 	end 
 
 	on click from me
-		add .bg-green-950 to me
-		remove .bg-indigo-950 from me then settle then
 		measure the next .body
 		if the result.height is greater than 0 then send closeUp to me
 		otherwise send openUp to me end
-
-		remove .bg-green-950 from me
-		add .bg-indigo-950 to me then settle
 
 	end 
 
@@ -89,21 +87,24 @@ const hs = `
 			<slot/>
 		</div>
 			<!-- Read More Trigger Button -->
-			<button class={tw.button}
-				script={hs}>
-				{caption}
-			</button>
-			<slot name='twirl-icon>'> 
-				<!-- TwirlIcon -->
-			<svg id={`twirl-icon-${id}`} class={tw.icon} fill='currentColor' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'>
-					<path fill-rule='evenodd' d='M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z' clip-rule='evenodd'></path>
-				</svg>
-			</slot>
+			<div class={tw.readMore}>
+				<button class={tw.button}
+					script={hs}>
+					{caption}
+				</button>
+				<slot name='twirl-icon>'>
+					<!-- TwirlIcon -->
+				<svg id={`twirl-icon-${id}`} class={tw.icon} style="margin-top:0;" fill='currentColor' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'>
+						<path fill-rule='evenodd' d='M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z' clip-rule='evenodd'></path>
+					</svg>
+				</slot>
+			</div>
+
 
 			
 
 		<!-- Body -->
 		{/* Must leave this div empty, will be lazy loaded by the above fetch call*/}
 		{/* Add .body class so the script will find this div */}
-		<div  class={tw.body} style="transition: all 250ms ease-out"></div>	
+		<div  class={tw.body} style=`transition: all ${duration} ease-out`></div>	
 	</li>
