@@ -50,7 +50,7 @@ const hs = `
 	on mouseenter from me
 		get the innerHTML of the next .body
 		if it is empty then 
-			fetch ${apiRoute}  as html then put the result into the next .body
+			fetch '${route}/${id}'  as html then put the result into the next .body
 	end 
 
 	on click from me
