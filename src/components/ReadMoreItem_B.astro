@@ -7,7 +7,7 @@ const defaultDuration = 200
 
 interface Props {
 	id:string
-	route?:string
+	path?:string
 	caption?:string
 	altCaption?:string
 	maxHeight?:number
@@ -15,7 +15,7 @@ interface Props {
 
 const {
 	id,
-	route,
+	path,
 	caption = 'Read More...',
 	altCaption = 'Read Less...',
 	maxHeight = 500,
@@ -23,16 +23,12 @@ const {
 
 export const tw = {
 	wrapper: 'mb-8 ',
+	icon: 'inline-block size-6 ml-2',
+	button: 'flex justify-end items-center w-full rounded-lg px-4 py-1 cursor-pointer ' + 
+	'text-sm font-fjalla text-right text-gray-400 dark:text-zinc-200  ' +
+	'',
 	body: 'body h-0 px-4 text-pretty text-gray-700 dark:text-zinc-200 dark:bg-slate-900 overflow-y-auto',
-	button: 'text-right w-full  px-4 py-1 cursor-pointer ' + 
-	'text-sm font-fjalla text-end ' + 
-	'text-gray-400 bg-indigo-950 opacity-50 hover:opacity-70 ' +
-	'dark:text-zinc-200 dark:bg-sky-900 ',
-	icon: 'inline-block size-6 ml-2'
 }
-
-const apiRoute = route + id
-
 
 const hs = `
 
@@ -50,7 +46,7 @@ const hs = `
 	on mouseenter from me
 		get the innerHTML of the next .body
 		if it is empty then 
-			fetch '${route}/${id}'  as html then put the result into the next .body
+			fetch '${path}/${id}'  as html then put the result into the next .body
 	end 
 
 	on click from me
@@ -65,7 +61,7 @@ const hs = `
 
 	on openUp
 		-- send closeOtherReadMores to closest parent <ul/>
-		set my innerHTML to '${caption}'
+		set my innerHTML to '${altCaption}'
 		set bodyHeight to calcHeight()
 		if bodyHeight is greater than ${maxHeight} then
 			set the *height of the next .body to ${maxHeight} px then settle
@@ -77,7 +73,7 @@ const hs = `
 	end
 
 	on closeUp
-		put '${altCaption}' into me
+		put '${caption}' into me
 		set the *height of the next .body to 0 then settle
 		
 	end
@@ -92,18 +88,18 @@ const hs = `
 			<slot/>
 		</div>
 			<!-- Read More Trigger Button -->
-		<div class="flex justify-end items-center bg-blue-900 w-full rounded-lg ">
+		<div class={tw.readMore}>
 			<button class={tw.button}
 				script={hs}>
 				{caption}
+				<slot name='twirl-icon>'> 
+					<!-- TwirlIcon -->
+				<svg id={`twirl-icon-${id}`} class={tw.icon} fill='currentColor' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'>
+						<path fill-rule='evenodd' d='M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z' clip-rule='evenodd'></path>
+					</svg>
+				</slot>
 			</button>
-			<slot name='twirl-icon>'> 
-				<!-- TwirlIcon -->
-			<svg id={`twirl-icon-${id}`} class={tw.icon} fill='currentColor' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'>
-					<path fill-rule='evenodd' d='M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z' clip-rule='evenodd'></path>
-				</svg>
-			</slot>
-			
+
 		</div>
 			
 
