@@ -197,6 +197,88 @@ const {
 
 	This event is fired during the openUp event.   You can opt in to listen for this event in the parent `<ul>` which wraps all your ReadMoreItem_A components.  If you follow the code in the [Example](#example) above, a local constant can be used to set whether to opt in or out.
 
+#### Code
+
+Below is the code for the ReadMoreGroup_A component.
+
+<Tabs>
+	<TabItem label='Props'>
+	```js
+	interface Props {
+	closeSiblings?: boolean  //sibling ReadMoreItems will be closed
+	styles?: string  //add tw classes to position/style the entire group
+}
+
+const {
+	closeSiblings = true,
+	styles
+} = Astro.props	 
+	```
+	</TabItem>
+		 
+	<TabItem label='HTML'>
+	```html
+	<ul script={hs} class={styles}>
+	<!-- Default Slot for ReadMoreItems  -->
+ <slot/>
+
+</ul>	 
+	```
+	</TabItem>
+		 
+	<TabItem label='Scripts'>
+	```js
+	const hs =
+ `on closeOtherReadMores
+	 if ${closeSiblings} is true
+		 set allReadMores to the children of me
+		 set allButtons to <button/> in me
+		 for button in allButtons
+			if button is not detail.sender
+				send closeUp to the button
+			end -- for
+	 end -- if closeSiblings
+ end -- closeOtherReadMores
+`
+	```
+	</TabItem>
+	
+		 
+	<TabItem label='Everything'>
+	```astro
+---
+interface Props {
+	closeSiblings?: boolean  //sibling ReadMoreItems will be closed
+	styles?: string  //add tw classes to position/style the entire group
+}
+
+const {
+	closeSiblings = true,
+	styles
+} = Astro.props
+
+const hs =
+ `on closeOtherReadMores
+	 if ${closeSiblings} is true
+		 set allReadMores to the children of me
+		 set allButtons to <button/> in me
+		 for button in allButtons
+			if button is not detail.sender
+				send closeUp to the button
+			end -- for
+	 end -- if closeSiblings
+ end -- closeOtherReadMores
+`
+---
+
+<ul script={hs} class={styles}>
+	<!-- Default Slot for ReadMoreItems  -->
+ <slot/>
+</ul>
+	```
+	</TabItem>
+</Tabs>
+
 
 ### ReadMoreItem_A
 
@@ -305,103 +387,23 @@ In order for the rotation behavior to work, you must also encode the id of the s
 	The ReadMoreItem_A component listens for the closeUp event sets the body height to zero,  removes the .rotate-180 class from the twirl icon, and replaces the trigger button text with the string passed into the `caption` prop.
 
 
-
-
-
-## Styling
-To improve readability, the Tailwind classes and Hyperscripts are both extracted from the markup and encapsulated into  Astro `tw` and `hs` local variables within the [Component Script](https://docs.astro.build/en/basics/astro-components/#the-component-script) which are then referenced in the html markup. 
 		 
-The advantage of this strategy is to allow long run-on strings to be formatted as concatenated, multi-line strings which aids readability and code maintenance.
-		 
-## Transitions
+	#### Transitions
 	{/* Description of the animations used in the control */}
 
+	The ReadMore effect is gained by setting the initial height of the .body to zero.   In addition to TW utility classes a `body` class is added to the div containing the lazy-loaded additional content.   The initial height is set to zero.   This strategy keeps the div within the DOM so that the script can access the offsetHeight property of each child.    
 
-## Code
-	{/* Brief explanation of the component */}
-### ReadMoreGroup_A
-Below is the code for the ReadMoreGroup_A component.
+	The script recalculates the final height based on the offsetHeight of each child within the div.body.   
 
-<Tabs>
-	<TabItem label='Props'>
-	```js
-	interface Props {
-	closeSiblings?: boolean  //sibling ReadMoreItems will be closed
-	styles?: string  //add tw classes to position/style the entire group
-}
+	A style tag with transition timing function is added to the div.body.    When the script sets a new value to the height property of the div.body, this transition is triggered behind the scenes.
 
-const {
-	closeSiblings = true,
-	styles
-} = Astro.props	 
-	```
-	</TabItem>
-		 
-	<TabItem label='HTML'>
-	```html
-	<ul script={hs} class={styles}>
-	<!-- Default Slot for ReadMoreItems  -->
- <slot/>
+  You can set the default duration of the transition using the duration prop.    Using string interpolation, the value of this prop can be accessed by the script.
 
-</ul>	 
-	```
-	</TabItem>
-		 
-	<TabItem label='Scripts'>
-	```js
-	const hs =
- `on closeOtherReadMores
-	 if ${closeSiblings} is true
-		 set allReadMores to the children of me
-		 set allButtons to <button/> in me
-		 for button in allButtons
-			if button is not detail.sender
-				send closeUp to the button
-			end -- for
-	 end -- if closeSiblings
- end -- closeOtherReadMores
-`
-	```
-	</TabItem>
-	
-		 
-	<TabItem label='Everything'>
-	```astro
----
-interface Props {
-	closeSiblings?: boolean  //sibling ReadMoreItems will be closed
-	styles?: string  //add tw classes to position/style the entire group
-}
 
-const {
-	closeSiblings = true,
-	styles
-} = Astro.props
 
-const hs =
- `on closeOtherReadMores
-	 if ${closeSiblings} is true
-		 set allReadMores to the children of me
-		 set allButtons to <button/> in me
-		 for button in allButtons
-			if button is not detail.sender
-				send closeUp to the button
-			end -- for
-	 end -- if closeSiblings
- end -- closeOtherReadMores
-`
----
-
-<ul script={hs} class={styles}>
-	<!-- Default Slot for ReadMoreItems  -->
- <slot/>
-</ul>
-	```
-	</TabItem>
-</Tabs>
 		 
 
-### ReadMoreItem_A
+#### Code
 
 Below you will find all the code segments for the ReadMoreItem_A component.
 
