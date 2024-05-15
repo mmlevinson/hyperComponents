@@ -1,0 +1,29 @@
+---
+interface Props {
+	closeSiblings?: boolean  //sibling ReadMoreItems will be closed
+	styles?: string  //add tw classes to position/style the entire group
+}
+
+const {
+	closeSiblings = true,
+	styles
+} = Astro.props
+
+const hs =
+ `on closeOtherReadMores
+	 if ${closeSiblings} is true
+		 set allReadMores to the children of me
+		 set allButtons to <button/> in me
+		 for button in allButtons
+			if button is not detail.sender
+				send closeUp to the button
+			end -- for
+	 end -- if closeSiblings
+ end -- closeOtherReadMores
+`
+---
+
+<ul script={hs} class={styles}>
+	<!-- Default Slot for ReadMoreItems  -->
+ <slot/>
+</ul>

@@ -252,19 +252,35 @@ interface Props {
 	The default `altCaption` is 'Read Less....'
 
 
-	
 	##### maxHeight
 
 	The body content of the ReadMore is clipped to a fixed height, beyound which the content scrolls vertically.
 
 	The default value is 500.   The underlying units used by the script code is pixels.   This prop accespts a number so a mathematical comparison can be performed to determine if the content exceeds the maxHeight value.
 
-	
+
 	##### duration
+
+	This props accepts a string indicating the timing of the transition for showing and hiding the body content of the ReadMoreItem.
+
+
 	##### readMoreStyles
+
+	The trigger button and twirl-icon are wrapped by a single flex container.  You can set the background, height, hover etc styles by sending in additional TW classes to the readMoreStyles prop.
+
+
 	##### buttonStyles
+
+	Use this prop to individually style the trigger button.
+
+
 	##### iconStyles
+
+	Use this prop to individually style the twirl-icon.
+
 	##### bodyStyles
+
+	This prop can be used to provide general styles to the container where the body content is displayed.  Some of those styles will also be inherited to the actual text of the content, as per usual with CSS inheritance.   For example, text-color TW classes will apply to `<p>` tags within the content.   
 
 
 #### Slots
