@@ -1,27 +1,14 @@
 ---
 import StarlightPage from '@astrojs/starlight/components/StarlightPage.astro'
 import ReadMoreItem_A from '../components/ReadMoreItem_A.astro'
+import ReadMoreGroup_A from '../components/ReadMoreGroup_A.astro'
 const title = "Testing API"
 
-const closeSiblings = true
-
-const hs =
- `on closeOtherReadMores
-	 if ${closeSiblings} is true
-		 set allReadMores to the children of me
-		 set allButtons to <button/> in me
-		 for button in allButtons
-			if button is not detail.sender
-				send closeUp to the button
-			end -- for
-	 end -- if closeSiblings
- end -- closeOtherReadMores
-`
 
 ---
 
 <StarlightPage frontmatter={{title}}>
-<ul script={hs}>
+<ReadMoreGroup_A closeSiblings={true}>
 	<ReadMoreItem_A id="0" path="api/readmore" >
 		<h3>Hypermedia</h3>
 		<h5>HTML as a response to API requests</h5>
@@ -48,7 +35,7 @@ const hs =
 		<h5>Utilize an island architecture to selectively hydrate content on the client side.</h5>
 	</ReadMoreItem_A>
 
-</ul>
+</ReadMoreGroup_A>
 
 
 </StarlightPage>
