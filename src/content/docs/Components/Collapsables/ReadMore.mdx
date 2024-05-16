@@ -72,19 +72,19 @@ import ReadMoreGroup_A from '../../../../components/ReadMoreGroup_A.astro'
 ## Description
 	{/* General Description */}
 
-	A `ReadMore` control presents a short introductory text block followed by a clickable "Read More" link which reveals the remaining content in an expandable block below the introduciton.
-	
-	Blog sites are the most common hosts for `ReadMore` controls.   Multiple blog posts can be displayed on one page using ReadMore items.   Each post is introduced with an opening title sentence, often containing the author and posting date.   The remaining content is hidden from view until the user clicks the "Read More" link, at which point the content is revealed.
-
-	The action of a ReadMore controls is very similar to an Accordion control.   The main difference is the button which reveals the hidden content is placed after the introductory text.   Also, an alternative caption is displayed when the content is revealed, for example 'Read Less...'.   A twirl icon rotates when opened which offers further confirmation that  hidden content is now being displayed.
+	A `ReadMore` control presents a short introductory text block followed by a clickable "Read More" link which reveals the remaining content in an expandable block below the introduction.  
 
 	ReadMore controls allow the developer to place multiple blog posts or other titles onto a page while conserving vertical real estate.   The users is still able to access the full text of each post or article by simple clicking.
-
-	For this example, two Astro component  are used (ReadMoreGroup_A and ReadMoreItem_A).   The ReadMoreGroup_A provides a wrapper `<ul>` and a default slot for passing in multiple ReadMoreItems.  
 	
-	The introductory text is placed into the components default slot of the item component.   An `id` and `path` values are passed as props.  When the user clicks or hovers over the trigger button, the additional content is lazy-loaded using a fetch to the designated api route with the `id` being the `slug` to retrieve the correct data.   When the user  clicks on the trigger button an  event transitions the body elements height from 0 to a calculated height value over the specified duration.
+	Blog sites are the most common use case for `ReadMore` controls.   Multiple blog posts can be displayed on one page using ReadMore items.   Each post is introduced with an opening title sentence, often containing the author and posting date.   The remaining content is hidden from view until the user clicks the "Read More" link, at which point the content is revealed.
 
-	The basic source code to implement the examples  is shown below.   The [code](#code) section below contains the props, scripts, and styling of both Astro components.   In order to use this ReadMore example, You will need to set up analagous [custom API endpoints](https://docs.astro.build/en/guides/endpoints/) and return appropriate html responses but the example code should help you get started.
+	Another variation is the present the blog comments in a ReadMore control below the blog post itself.
+
+	The action of a ReadMore control is very similar to an [Accordion](components/collapsables/accordion/) control.   The main difference is the button which reveals the hidden content is placed after the introductory text.   Also, an alternative caption is displayed when the content is revealed, for example 'Read Less...'.   A twirl icon rotates when opened which offers further confirmation that  hidden content is now being displayed.
+
+	For this example, two Astro components are used (ReadMoreGroup_A and ReadMoreItem_A).   The ReadMoreGroup  provides a wrapper `<ul>` and a default slot for passing in multiple ReadMoreItems.  
+
+	The basic source code to implement the examples  is shown below.   The [code](#code) sections below contains the props, scripts, and styling of both Astro components.   In order to use this ReadMore example, you will need to set up analagous [custom API endpoints](https://docs.astro.build/en/guides/endpoints/) and return appropriate html responses but the example code should help you get started.
 	
 
 	```astro title="Read More Control Example" "ReadMoreGroup_A" "ReadMoreItem_A"
@@ -138,52 +138,48 @@ const tw = {
 	```
 ## Features
 
-This ReadMore Control hides the majority of a blog post or article while presenting a short summary inviting the user to click the trigger button to review more content.  
+This ReadMore Control features include the following:
 
 1.  The trigger button caption and alternative caption can be sent as props
 2.  The maximum height of the exposed content can be adjusted via props
 3.  The transition duration is customizable
-4.  Styling for the ReadMore flex container, trigger button, and twirl icon can be customized using Tailwind utility classes passed via props
+4.  Styling for the readMore flex container, trigger button, and twirl icon can be customized using Tailwind utility classes passed via props
 5.  A custom twirl icon can be used
 
 
 		 
 ## Components
-	{/* Breakdown of each Astro Components used for this control */}
 
 ### ReadMoreGroup_A
 
 This component provides a general `<ul>` wrapper around multiple ReadMoreItem_A components.  This wrapper then permits the developer to style the entire group, especially with positioning utility classes.  
 
-In additon, a HyperScript in the group component listens for the `closeOtherReadMores` event and then sends the closeUp event to all other ReadMoreItems if the `closeSiblings` prop is true.
-
-See the [Code](#code) section below for a full breakdown of the ReadMoreGroup_A component.
+In additon, a HyperScript in the group component listens for the `closeOtherReadMores` event and then optionally ssends the closeUp event to all other ReadMoreItems according to the boolean `closeSiblings` prop.
 
 #### Props
-	{/* Each component, with code block showing the props interface */}
 
-```js
+	```js
 
-interface Props {
-	closeSiblings?: boolean 
-	styles?: string  
-}
+	interface Props {
+		closeSiblings?: boolean 
+		styles?: string  
+	}
 
-const {
-	closeSiblings = true,
-	styles
-} = Astro.props
+	const {
+		closeSiblings = true,
+		styles
+	} = Astro.props
 
 
-```
+	```
 
 		##### closeSiblings
 
-		This boolean value controls whether or not the ReadMoreGroup_A component should close other ReadMoreItems when one is opened.  The default is true.
+		This boolean value controls whether or not the ReadMoreGroup_A component should close other ReadMoreItems before the sending control is opened.  The default is true.
 
 		##### styles
 
-		This prop allows the developer to pass in any Tailwind CSS utility classes to style the ReadMoreGroup_A component.   Most useful classes for the group component are positioning, margins, padding, and the like.
+		This prop allows the developer to pass in any Tailwind CSS utility classes to style the ReadMoreGroup_A component.    Most useful classes for the group component are positioning, margins, padding, and the like.
 
 #### Slots
 
@@ -195,23 +191,23 @@ const {
 
 	##### closeOtherReadMores
 
-	This event is fired during the openUp event.   You can opt in to listen for this event in the parent `<ul>` which wraps all your ReadMoreItem_A components.  If you follow the code in the [Example](#example) above, a local constant can be used to set whether to opt in or out.
+	This event is fired by any ReadMoreItem_A component during it's openUp event.   A HyperScript in the ReadMoreGroup_A listens for this event and optionally closes all other ReadMoreItems within the group.   
 
 #### Code
 
-Below is the code for the ReadMoreGroup_A component.
+Explore the Tabs below to examinea all the code for the ReadMoreGroup_A component.  Use the Everything tab to copy/paste into your project.
 
 <Tabs>
 	<TabItem label='Props'>
 	```js
 	interface Props {
-	closeSiblings?: boolean  //sibling ReadMoreItems will be closed
-	styles?: string  //add tw classes to position/style the entire group
+		closeSiblings?: boolean  //sibling ReadMoreItems will be closed
+		styles?: string  //tw classes to position/style the entire group
 }
 
 const {
-	closeSiblings = true,
-	styles
+		closeSiblings = true,
+		styles
 } = Astro.props	 
 	```
 	</TabItem>
@@ -220,26 +216,25 @@ const {
 	```html
 	<ul script={hs} class={styles}>
 	<!-- Default Slot for ReadMoreItems  -->
- <slot/>
-
-</ul>	 
+		<slot/>
+	</ul>	 
 	```
 	</TabItem>
 		 
 	<TabItem label='Scripts'>
 	```js
 	const hs =
- `on closeOtherReadMores
-	 if ${closeSiblings} is true
-		 set allReadMores to the children of me
-		 set allButtons to <button/> in me
-		 for button in allButtons
-			if button is not detail.sender
-				send closeUp to the button
-			end -- for
-	 end -- if closeSiblings
- end -- closeOtherReadMores
-`
+		`on closeOtherReadMores
+			if ${closeSiblings} is true
+				set allReadMores to the children of me
+				set allButtons to <button/> in me
+				for button in allButtons
+					if button is not detail.sender
+						send closeUp to the button
+					end -- for
+			end -- if closeSiblings
+		end -- closeOtherReadMores
+	`
 	```
 	</TabItem>
 	
@@ -248,32 +243,32 @@ const {
 	```astro
 ---
 interface Props {
-	closeSiblings?: boolean  //sibling ReadMoreItems will be closed
-	styles?: string  //add tw classes to position/style the entire group
+		closeSiblings?: boolean  //sibling ReadMoreItems will be closed
+		styles?: string  //add tw classes to position/style the entire group
 }
 
 const {
-	closeSiblings = true,
-	styles
+		closeSiblings = true,
+		styles
 } = Astro.props
 
 const hs =
- `on closeOtherReadMores
-	 if ${closeSiblings} is true
-		 set allReadMores to the children of me
-		 set allButtons to <button/> in me
-		 for button in allButtons
-			if button is not detail.sender
-				send closeUp to the button
-			end -- for
-	 end -- if closeSiblings
- end -- closeOtherReadMores
+	`on closeOtherReadMores
+		if ${closeSiblings} is true
+			set allReadMores to the children of me
+			set allButtons to <button/> in me
+			for button in allButtons
+				if button is not detail.sender
+					send closeUp to the button
+				end -- for
+		end -- if closeSiblings
+	end -- closeOtherReadMores
 `
 ---
 
 <ul script={hs} class={styles}>
-	<!-- Default Slot for ReadMoreItems  -->
- <slot/>
+		<!-- Default Slot for ReadMoreItems  -->
+	<slot/>
 </ul>
 	```
 	</TabItem>
@@ -282,13 +277,13 @@ const hs =
 
 ### ReadMoreItem_A
 
-The heart of this control is in the ReadMoreItem_A component.  This component provides a single `<li>` wrapper around both the introductory text and the hidden content.  T
+The heart of this control is in the ReadMoreItem_A component.  This component provides a single `<li>` wrapper around both the introductory text and the hidden content.  
 
 The introductory text is passed into the components default slot.  This strategy allows you to put any amount and any styling you wish into the introductory text. 
 
-Hidden content is lazy-loaded using the fetch command in the accompanying HyperScript.    An `id` and `path` values are passed as props.  For this example, the `id` prop also serves the file `slug` which is concatenated to the `path` to form a valid api enpoint and retrieve the correct hypermedia response from the backend. 
+Hidden content is lazy-loaded using the fetch command in the accompanying HyperScript.    An `id` and `path` values are passed as props.  For this example, the `id` prop also serves the file `slug` which is concatenated to the `path` to build a valid route to the backend api endpoint and retrieve the correct hypermedia response. 
 
-Review the Scripts tab in the [Code](#code) section below for the HyperScript used to implement the hidden content lazy-load.
+Review the Scripts tab in the [Code](#code) section below for the HyperScript used to implement lazy-loading of the hidden content.
 
 #### Props
 
@@ -310,12 +305,7 @@ interface Props {
 ```
 
 	##### id
-
-		Each ReadMoreItem_A consists of a `<li>` which in turn encloses a flex container and a div.  
-
-		The flex container hold both the trigger button and the twirl-icon.
-
-		Each item should be given a unique id serves the dual purpose of preventing name collisions with other ReadMoreItem's as well as providing the final `slug` for the file path where the content will be fetched.   If you are using a backend database, the id could be the record identifier as well.
+	Each item should be given a unique id which  serves the dual purpose of preventing name collisions with other ReadMoreItem's as well as providing the `slug` for the file path where the content will be fetched.   If you are using a backend database, the id could also represent the record identifier.
 
 
 	##### path
@@ -329,16 +319,16 @@ interface Props {
 
 	##### altCaption
 
-	The string value pass in the `altCaption` prop is displayed as the text content of the trigger button when the body content is fully displayed.   This text should encourage the user to click again to hide the content.    
+	The string value passed in the `altCaption` prop is displayed as the text content of the trigger button when the body content is unhidden.   This text should encourage the user to click again to hide the content.    
 
 	The default `altCaption` is 'Read Less....'
 
 
 	##### maxHeight
 
-	The body content of the ReadMore is clipped to a fixed height, beyound which the content scrolls vertically.
+	The body content of the ReadMore is clipped to a fixed height beyond which the content scrolls vertically.
 
-	The default value is 500.   The underlying units used by the script code is pixels.   This prop accespts a number so a mathematical comparison can be performed to determine if the content exceeds the maxHeight value.
+	The default value is 500.   The underlying units used by the script code is pixels.   This prop accepts a number so a mathematical comparison can be performed to determine if the calculated height of the body content exceeds the maxHeight value.
 
 
 	##### duration
@@ -348,33 +338,40 @@ interface Props {
 
 	##### readMoreStyles
 
-	The trigger button and twirl-icon are wrapped by a single flex container.  You can set the background, height, hover etc styles by sending in additional TW classes to the readMoreStyles prop.
+	The trigger button and twirl-icon are wrapped by a single flex container.  You can set the background, height, hover, etc. styles by sending in additional TW classes to the readMoreStyles prop.
 
 
 	##### buttonStyles
 
-	Use this prop to individually style the trigger button.
+	Use this prop to separately style the trigger button.
 
 
 	##### iconStyles
 
-	Use this prop to individually style the twirl-icon.
+	Use this prop to separately style the twirl-icon.
 
 	##### bodyStyles
 
-	This prop can be used to provide general styles to the container where the body content is displayed.  Some of those styles will also be inherited to the actual text of the content, as per usual with CSS inheritance.   For example, text-color TW classes will apply to `<p>` tags within the content.   
+	This prop can be used to provide general styles to the container in which the body content is displayed.  Some of those styles, like text-color  will then be inherited by the actual text of the content, as per usual with CSS inheritance.  
 
 
 #### Slots
 	{/* Outline the name/function of each slot */}
 	##### default
-The default slot is used to place the introductory text for the ReadMore item.   The introductory text is placed into the components default slot.   An `id` and `path` values are passed as props.  When the user clicks or hovers on the ReadMore text, the remaining content is lazy-loaded in to the body element of the component.   Then, a click event transitions the body elements height from 0 to a calculated height value over the specified duration.
+The default slot is used to place the introductory text of each  ReadMoreItem.    You can customize the styling of the introductory text by applying TW classes to these elements.
 
 	##### twirl-icon
 
-The default icon which rotates 180 degrees is a down-caret SVG.   You can override the icon by placing a custom SVG in the `<slot name='twirl-icon'>`.
+The default content of the `twirl-icon` slot  is a down-caret SVG.   You can override this by placing a custom SVG with a `slot='twirl-icon'` attribute between the opening and closing ReadMoreItem_A tags.
 
-In order for the rotation behavior to work, you must also encode the id of the svg exactly as `twirl-icon-${id}` (enclosed in back-ticks).  This identifier will then be picked up by the Hyperscript and the .rotate-180 toggled when the openUp or closeUp events are triggered.
+```html title="twirl-icon slot" 
+	<svg id={`twirl-icon-${id}`} class={tw.icon}  fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+		<path d="M12 24a12 12 0 1 1 12-12 12.013 12.013 0 0 1-12 12zm0-22a10 10 0 1 0 10 10A10.011 10.011 0 0 0 12 2z"/><path d="m12 18.414-4.707-4.707 1.414-1.414L12 15.586l3.293-3.293 1.414 1.414L12 18.414z"/>
+		<path d="M11 6h2v11h-2z"/>
+	</svg>
+```
+
+In order for the rotation behavior to work, you must also encode the id of the svg exactly as `twirl-icon-${id}` (enclosed in back-ticks).  This identifier will then be picked up by the Hyperscript and the rotate-180 class toggled when the openUp or closeUp events are triggered.
 
 #### Events
 
