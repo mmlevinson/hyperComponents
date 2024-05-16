@@ -371,30 +371,36 @@ The default content of the `twirl-icon` slot  is a down-caret SVG.   You can ove
 	</svg>
 ```
 
-In order for the rotation behavior to work, you must also encode the id of the svg exactly as `twirl-icon-${id}` (enclosed in back-ticks).  This identifier will then be picked up by the Hyperscript and the rotate-180 class toggled when the openUp or closeUp events are triggered.
+In order for the rotation behavior to work, you must also encode the id of the svg exactly as `twirl-icon-${id}` (enclosed in back-ticks).  This identifier will then be picked up by the Hyperscript and the `rotate-180` class toggled when the openUp or closeUp events are triggered.
 
 #### Events
 
 	##### openUp
 
-	The ReadMoreItem_A component listens for the openUp event and then recalculates the height of the body element.  Also the .rotate-180 class is added to the twirl icon and the trigger button text is replaced with the string passed into the `altCaption` prop.
+	The ReadMoreItem_A component listens for the openUp event and then recalculates the height of the body `<div>`.  
+	
+	Also the .rotate-180 class is added to the twirl icon and the trigger button text is replaced with the string passed into the `altCaption` prop.
 
 	##### closeUp
 
-	The ReadMoreItem_A component listens for the closeUp event sets the body height to zero,  removes the .rotate-180 class from the twirl icon, and replaces the trigger button text with the string passed into the `caption` prop.
+	The ReadMoreItem_A component listens for the closeUp event then sets the body height to zero,  removes the .rotate-180 class from the twirl icon, and replaces the trigger button text with the string passed into the `caption` prop.
 
 
 		 
 	#### Transitions
 	{/* Description of the animations used in the control */}
 
-	The ReadMore effect is gained by setting the initial height of the .body to zero.   In addition to TW utility classes a `body` class is added to the div containing the lazy-loaded additional content.   The initial height is set to zero.   This strategy keeps the div within the DOM so that the script can access the offsetHeight property of each child.    
+	The ReadMore transition effect is implemented by setting the initial height of the .body to zero.   In addition to TW utility classes a `body` class is added to the div containing the lazy-loaded additional content.   This strategy keeps the div within the DOM so that the script can access the offsetHeight property of each child.    
 
-	The script recalculates the final height based on the offsetHeight of each child within the div.body.   
+	The calcHeight() function in the script recalculates the final height based on the offsetHeight of each child within the `div.body`.   
 
-	A style tag with transition timing function is added to the div.body.    When the script sets a new value to the height property of the div.body, this transition is triggered behind the scenes.
+	A `style` attribute with transition timing function is added to the `div.body`.    When the script sets a new value to the height property of the div.body, this transition is triggered behind the scenes.
 
-  You can set the default duration of the transition using the duration prop.    Using string interpolation, the value of this prop can be accessed by the script.
+	```html "transition: all ${duration} ease-out"
+<div  class={tw.body} style=`transition: all ${duration} ease-out`></div>	
+	```
+
+  You can customize the timing using the `duration` prop.    Using string interpolation via back-ticks allows the value of this prop to be accessed by the script.
 
 
 
@@ -406,7 +412,7 @@ Below you will find all the code segments for the ReadMoreItem_A component.
 
 To use this component in your Astro project, copy/paste the contents of the Everything tab into a .astro file in your src folder.
 
-You will also need to copy/paste the `const hs` from the [Example](#example)  above in order to provide the closeOtherReadMores script.
+The ReadMoreItem_A component is meant to be used in conjunction with the parent component [ReadMoreGroup_A](#readmoregroup_a).
 
 import {Tabs, TabItem } from '@astrojs/starlight/components'
 		 
@@ -483,19 +489,19 @@ const hs = `
 			end
 			increment openHeight by 25   -- for padding
 			return openHeight 
-		end 
+		end -- calcHeight 
 
 		on mouseenter from me
 			get the innerHTML of the next .body
 			if it is empty then 
 				fetch '${path}/${id}' as html then put the result into the next .body
-		end 
+		end -- mouseenter handler
 
 		on click from me
 			measure the next .body
 			if the result.height is greater than 0 then send closeUp to me
 			otherwise send openUp to me end
-		end 
+		end -- click handler
 
 		on openUp
 			send closeOtherReadMores to closest parent <ul/>
@@ -507,13 +513,13 @@ const hs = `
 			otherwise
 				set the *height of the next .body to the bodyHeight px then settle
 			end 
-		end
+		end -- openUp event handler
 
 		on closeUp
 			set my textContent to '${caption}'
 			remove .rotate-180 from the  #{'twirl-icon-'+${id}}
 			set the *height of the next .body to 0 then settle		
-		end
+		end -- closeUp event handler
 `
 
 
@@ -583,7 +589,6 @@ const tw = {
 			body: twMerge('body h-0 px-4 text-pretty text-gray-700 dark:text-zinc-200 dark:bg-slate-900 overflow-y-auto', bodyStyles),
 }
 
-
 const hs = `
 		def calcHeight()
 			set openHeight to 0
@@ -593,19 +598,19 @@ const hs = `
 			end
 			increment openHeight by 25   -- for padding
 			return openHeight 
-		end 
+		end -- calcHeight 
 
 		on mouseenter from me
 			get the innerHTML of the next .body
 			if it is empty then 
 				fetch '${path}/${id}' as html then put the result into the next .body
-		end 
+		end -- mouseenter handler
 
 		on click from me
 			measure the next .body
 			if the result.height is greater than 0 then send closeUp to me
 			otherwise send openUp to me end
-		end 
+		end -- click handler
 
 		on openUp
 			send closeOtherReadMores to closest parent <ul/>
@@ -617,14 +622,15 @@ const hs = `
 			otherwise
 				set the *height of the next .body to the bodyHeight px then settle
 			end 
-		end
+		end -- openUp event handler
 
 		on closeUp
 			set my textContent to '${caption}'
 			remove .rotate-180 from the  #{'twirl-icon-'+${id}}
 			set the *height of the next .body to 0 then settle		
-		end
+		end -- closeUp event handler
 `
+
 
 ---
 

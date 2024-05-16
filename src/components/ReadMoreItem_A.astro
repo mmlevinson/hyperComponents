@@ -42,48 +42,47 @@ const tw = {
 
 
 const hs = `
-	def calcHeight()
-		set openHeight to 0
-		set readMoreContent to the children of the next .body
-		for item in readMoreContent 
-			increment openHeight by the item's offsetHeight
-		end
-		increment openHeight by 25   -- for padding
-		return openHeight 
-	end 
+		def calcHeight()
+			set openHeight to 0
+			set readMoreContent to the children of the next .body
+			for item in readMoreContent 
+				increment openHeight by the item's offsetHeight
+			end
+			increment openHeight by 25   -- for padding
+			return openHeight 
+		end -- calcHeight 
 
-	on mouseenter from me
-		get the innerHTML of the next .body
-		if it is empty then 
-			fetch '${path}/${id}' as html then put the result into the next .body
-	end 
+		on mouseenter from me
+			get the innerHTML of the next .body
+			if it is empty then 
+				fetch '${path}/${id}' as html then put the result into the next .body
+		end -- mouseenter handler
 
-	on click from me
-		measure the next .body
-		if the result.height is greater than 0 then send closeUp to me
-		otherwise send openUp to me end
+		on click from me
+			measure the next .body
+			if the result.height is greater than 0 then send closeUp to me
+			otherwise send openUp to me end
+		end -- click handler
 
-	end 
+		on openUp
+			send closeOtherReadMores to closest parent <ul/>
+			set my textContent to '${altCaption}'
+			add .rotate-180 to the  #{'twirl-icon-'+${id}}
+			set bodyHeight to calcHeight()
+			if bodyHeight is greater than ${maxHeight} then
+				set the *height of the next .body to ${maxHeight} px then settle
+			otherwise
+				set the *height of the next .body to the bodyHeight px then settle
+			end 
+		end -- openUp event handler
 
-	on openUp
-		send closeOtherReadMores to closest parent <ul/>
-		set my textContent to '${altCaption}'
-		add .rotate-180 to the  #{'twirl-icon-'+${id}}
-		set bodyHeight to calcHeight()
-		if bodyHeight is greater than ${maxHeight} then
-			set the *height of the next .body to ${maxHeight} px then settle
-		otherwise
-			set the *height of the next .body to the bodyHeight px then settle
-
-		end 
-	end
-
-	on closeUp
-		set my textContent to '${caption}'
-		remove .rotate-180 from the  #{'twirl-icon-'+${id}}
-		set the *height of the next .body to 0 then settle		
-	end
+		on closeUp
+			set my textContent to '${caption}'
+			remove .rotate-180 from the  #{'twirl-icon-'+${id}}
+			set the *height of the next .body to 0 then settle		
+		end -- closeUp event handler
 `
+
 
 ---
 
