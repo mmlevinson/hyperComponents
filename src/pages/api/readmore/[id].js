@@ -19,7 +19,6 @@ const fragments = [
 ]
 //GET route
 export const GET = async ({params, request}) => {
-	console.log(`params`, params)
 	const idx = params.id
 	const markup = fragments[idx]
 	const formattedMarkup = markup.replace(/<p>/g, `<p class="${tw.p}">`)
