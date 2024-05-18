@@ -76,12 +76,9 @@ const updatedMarkup = (user) => {
 
 export const GET = async ({params, request}) => {
 
-// api request to get a single user from the jsonplaceholder database
-const user = await fetch(`${apiRoute}/${params.id}`).then(response => response.json())
-
-
-
-return new Response (updatedMarkup(user), {status: 200})
+	// api request to get a single user from the jsonplaceholder database
+	const user = await fetch(`${apiRoute}/${params.id}`).then(response => response.json())
+	return new Response (updatedMarkup(user), {status: 200})
 	
 	
 }
