@@ -1,0 +1,48 @@
+---
+import StarlightPage from '@astrojs/starlight/components/StarlightPage.astro'
+import { twMerge } from 'tailwind-merge'
+const title = 'TestTabs'
+
+const tw = {
+	tabs: 'not-content flex justify-left gap-2 ',
+	tabItem: 'bg-blue-900 rounded-t-xl cursor-pointer',
+	output: 'bg-gray-900 border-2 border-red-500 w-full h-1/2 block overflow-y-scroll '
+}
+
+const hs = `on htmx:afterSwap log 'afterSwap'`
+---
+
+<StarlightPage frontmatter={{title: title}}>
+
+	<div class={tw.tabs}>
+			<button class={tw.tabItem}
+				hx-trigger="load, click"
+				hx-get="/api/readmore/1"
+				hx-target="next <output/>"
+				hx-swap="innerHTML">
+				HTMX
+			</button>
+			<button class={tw.tabItem}
+				hx-trigger="click"
+				hx-get="/api/readmore/2"
+				hx-target="next <output/>">
+				Tailwind
+			</button>
+			<button class={tw.tabItem}
+				hx-trigger="click"
+				hx-get="/api/readmore/3"
+				hx-target="next <output/>">
+				Hyperscript
+			</button>
+			<button class={tw.tabItem}
+				hx-trigger="click"
+				hx-get="/api/readmore/4"
+				hx-target="next <output/>">
+				Astro
+			</button>
+	</div>
+	<output class={tw.output} script={hs}/>
+
+
+</StarlightPage>
+
