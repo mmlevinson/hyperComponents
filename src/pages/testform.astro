@@ -16,7 +16,7 @@ export const tw = {
  select: "border-2 border-gray-300 dark:border-indigo-600 p-2 rounded-md",
  textarea: "border-2 border-gray-300 p-2 rounded-md",
  buttonContainer: "mt-8 flex flex-col w-full mx-auto items-center md:flex-row md:justify-between gap-4",
- baseButton: "font-bold border-4 border-zinc-300 w-full md:w-40 h-12 space-y-2 px-4 rounded-md cursor-pointer ",
+ baseButton: "font-bold border-4 border-zinc-300 w-full md:w-40 h-12 space-y-2 px-4 rounded-2xl cursor-pointer ",
  delete: "bg-red-700 text-rose-100 border-rose-300",
  reset: "bg-blue-500 text-sky-100 border-blue-600",
  submit: "bg-green-300 text-sky-950 border-green-600",
@@ -28,10 +28,11 @@ const hs = ``
 <StarlightPage frontmatter={{title: title}}>
 
 <form class={tw.form}
-  hx-trigger="load"
-  hx-get="/api/forms/users/1"
+	hx-trigger="load"
+	hx-get="/api/users/1"
+	hx-swap="innerHtml"
 	hx-target="this"
-	hx-swap="innerHtml">
+>
 	<!-- Name -->
 	<label class={tw.label} for="name">Name </label>
 	<span class={tw.error}></span>
@@ -45,7 +46,7 @@ const hs = ``
 	<!-- Password -->
 	<label class={tw.label} for="password" >Password</label>
 	<span class={tw.error}></span>
-	<input class={tw.input} type="password" name="password" id="password" value="" />
+	<input class={tw.input} type="password" name="password" id="password" autocomplete value="" />
 
 	<!-- Age -->
 	<label class={tw.label} for="age">Age</label>
