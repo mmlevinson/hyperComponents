@@ -1,0 +1,42 @@
+---
+import StarlightPage from '@astrojs/starlight/components/StarlightPage.astro';
+import { twMerge } from 'tailwind-merge';
+const title = "Test Form"
+
+export const tw = {
+ form: "not-content w-10/12 flex flex-col gap-4",
+ label: "text-sm font-semibold",
+ input: "border-2 border-gray-300 p-2 rounded-md",
+ checkbox: "border-2 border-gray-300 p-2 rounded-md",
+ radio: "border-2 border-gray-300 p-2 rounded-md",
+ select: "border-2 border-gray-300 p-2 rounded-md",
+ textarea: "border-2 border-gray-300 p-2 rounded-md",
+ buttonContainer: "flex flex-col items-center justify-between gap-4",
+ baseButton: "font-bold border-2 border-gray-500 w-40 h-12 py-2 px-4 rounded-md ",
+ delete: "bg-red-700",
+ reset: "bg-blue-500",
+ submit: "bg-green-500 text-sky-950",
+}
+
+const hs = ``
+---
+
+<StarlightPage frontmatter={{title: title}}>
+
+<form class={tw.form}>
+	<label for="name" class={tw.label}>Name</label>
+	<input type="text" name="name" id="name" class={tw.input} />
+	<label for="email" class={tw.label}>Email</label>
+	<input type="email" name="email" id="email" class={tw.input} />
+	<label for="password" class={tw.label}>Password</label>
+	<input type="password" name="password" id="password" class={tw.input} />
+	<div class={tw.buttonContainer}>
+		<button type="button" class={twMerge(tw.baseButton, tw.delete)}>Delete</button>
+		<button type="reset" class={twMerge(tw.baseButton, tw.reset)}>Reset</button>
+		<button type="submit" class={twMerge(tw.baseButton, tw.submit)}>Submit</button>
+	</div>
+</form>
+
+
+</StarlightPage>
+
