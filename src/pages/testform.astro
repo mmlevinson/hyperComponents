@@ -6,7 +6,7 @@ const title = "Test Form"
 export const tw = {
  form: "not-content w-10/12 mx-auto flex flex-col gap-4",
  label: "mt-4 text-blue-900 dark:text-violet-100 font-semibold",
- input: " font-semibold text-sky-950 dark:text-blue-100 " +
+ input: " font-semibold text-lg text-sky-950 dark:text-blue-100 " +
   "bg-indigo-200 bg-opacity-20 " +
   "border-4 border-slate-200 dark:border-gray-600 p-2 rounded-md " +
 	"focus:outline-none focus:border-4 focus:border-indigo-400 focus:dark:border-fuchsia-700 focus:dark:border-opacity-30 ",
@@ -27,7 +27,11 @@ const hs = ``
 
 <StarlightPage frontmatter={{title: title}}>
 
-<form class={tw.form}>
+<form class={tw.form}
+  hx-trigger="load"
+  hx-get="/api/forms/users/1"
+	hx-target="this"
+	hx-swap="innerHtml">
 	<!-- Name -->
 	<label class={tw.label} for="name">Name </label>
 	<span class={tw.error}></span>
