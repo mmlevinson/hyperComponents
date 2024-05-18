@@ -4,15 +4,16 @@ import { twMerge } from 'tailwind-merge';
 const title = "Test Form"
 
 export const tw = {
- form: "not-content w-10/12 flex flex-col gap-4",
+ form: "not-content w-10/12 mx-auto flex flex-col gap-4",
  label: "text-sm font-semibold",
  input: "border-2 border-gray-300 p-2 rounded-md",
+ error: "text-red-500",
  checkbox: "border-2 border-gray-300 p-2 rounded-md",
  radio: "border-2 border-gray-300 p-2 rounded-md",
  select: "border-2 border-gray-300 p-2 rounded-md",
  textarea: "border-2 border-gray-300 p-2 rounded-md",
- buttonContainer: "flex flex-col items-center justify-between gap-4",
- baseButton: "font-bold border-2 border-gray-500 w-40 h-12 py-2 px-4 rounded-md ",
+ buttonContainer: "mt-8 flex flex-col items-center justify-between gap-4",
+ baseButton: "font-bold border-4 border-gray-500 w-40 h-12 py-2 px-4 rounded-md cursor-pointer ",
  delete: "bg-red-700",
  reset: "bg-blue-500",
  submit: "bg-green-500 text-sky-950",
@@ -24,12 +25,41 @@ const hs = ``
 <StarlightPage frontmatter={{title: title}}>
 
 <form class={tw.form}>
-	<label for="name" class={tw.label}>Name</label>
-	<input type="text" name="name" id="name" class={tw.input} />
-	<label for="email" class={tw.label}>Email</label>
-	<input type="email" name="email" id="email" class={tw.input} />
-	<label for="password" class={tw.label}>Password</label>
-	<input type="password" name="password" id="password" class={tw.input} />
+	<label class={tw.label} for="name">Name </label> 
+	<input class={tw.input} type="text" name="name" id="name" value="" />
+
+	<label class={tw.label} for="email">Email</label>
+	<input class={tw.input} type="email" name="email" id="email" value=""  />
+
+	<label class={tw.label} for="password" >Password</label>
+	<input class={tw.input} type="password" name="password" id="password" value="" />
+
+	<label class={tw.label} for="age">Age</label>
+	<input class={tw.input} type="number" name="age" id="age" value="" />
+
+	<label class={tw.label} for="role">Role</label>
+	<input class={tw.input} type="text" name="role" id="role" value="" />
+
+	<label class={tw.label} for="gender">Gender</label>
+	<input class={tw.input} type="text" name="gender" id="gender" /value="" >
+
+	<label class={tw.label} for="phone">Phone</label>
+	<input class={tw.input} type="text" name="phone" id="phone" value="" />
+
+	<label class={tw.label} for="city">City</label>
+	<input class={tw.input} type="text" name="city" id="city" value="" />
+
+	<label class={tw.label} for="state">State</label>
+	<input class={tw.input} type="text" name="state" id="state" value="" />
+
+	<label class={tw.label} for="address">Address</label>
+	<input class={tw.input} type="text" name="address" id="address" value="" />
+
+	<label class={tw.label} for="country">Country</label>
+	<input class={tw.input} type="text" name="country" id="country" value="" />
+
+
+	
 	<div class={tw.buttonContainer}>
 		<button type="button" class={twMerge(tw.baseButton, tw.delete)}>Delete</button>
 		<button type="reset" class={twMerge(tw.baseButton, tw.reset)}>Reset</button>
