@@ -1,0 +1,91 @@
+{
+	"users":
+	[
+		{
+			"id": 1,
+			"name": "John Don",
+			"email": "john@example.com",
+			"password": "password123",
+			"role": "admin",
+			"age": 30,
+			"gender": "male",
+			"phone": "123-456-7890",
+			"address": {
+				"street": "123 Street",
+				"city": "New York",
+				"state": "NY",
+				"zip": "10002",
+				"country": "USA"
+			}
+		},
+		{
+			"id": 2,
+			"name": "Jane Plain",
+			"email": "jane@example.com",
+			"password": "password123",
+			"role": "user",
+			"age": 25,
+			"gender": "female",
+			"phone": "123-456-7890",
+			"address": {
+				"street": "456 Street",
+				"city": "Los Angeles",
+				"state": "CA",
+				"zip": "90002",
+				"country": "USA"
+			}
+		},
+		{
+			"id": 3,
+			"name": "Jim Win",
+			"email": "jim@example.com",
+			"password": "password123",
+			"role": "developer",
+			"age": 28,
+			"gender": "male",
+			"phone": "123-456-7890",
+			"address": {
+				"street": "789 Street",
+				"city": "Chicago",
+				"state": "IL",
+				"zip": "60002",
+				"country": "USA"
+			}
+		},
+		{
+			"id": 4,
+			"name": "Jill Pill",
+			"email": "jill@example.com",
+			"password": "password123",
+			"role": "client",
+			"age": 26,
+			"gender": "female",
+			"phone": "123-456-7890",
+			"address": {
+				"street": "101 Street",
+				"city": "Dallas",
+				"state": "TX",
+				"zip": "70002",
+				"country": "USA"
+			}
+		},
+		{
+			"id": 5,
+			"name": "Ned Sed",
+			"email": "jill@example.com",
+			"password": "password123",
+			"role": "hacker",
+			"age": 36,
+			"gender": "male",
+			"phone": "123-456-7890",
+			"address": {
+				"street": "123 Street",
+				"city": "Merced",
+				"state": "CA",
+				"zip": "90002",
+				"country": "USA"
+			}
+		}
+	]
+}
+
