@@ -3,28 +3,32 @@ import StarlightPage from '@astrojs/starlight/components/StarlightPage.astro'
 import { twMerge } from 'tailwind-merge'
 const title = 'TestTabs'
 
+const tabBackgrounds = 'dark:bg-gray-700 bg-slate-200 '
+
 const tw = {
 	tabs: 'not-content flex justify-left gap-1 ',
-	tabItem: 'tab-item not-content bg-gray-700 rounded-t-xl cursor-pointer border-2 border-slate-600',
+	tabItem: 'tab-item not-content ' + tabBackgrounds + ' rounded-t-xl cursor-pointer border-2 border-slate-600',
 	output: 'block -translate-y-1 p-4 w-full h-[35rem] overflow-y-scroll ' +
 	  ' bg-gray-900 border-2 border-slate-600 ',
 }
 
-const hs = `on click
-   take .bg-indigo-300 from <button.tab-item/>
-	 add .bg-gray-700 to <button.tab-item/>
-	 -- take .bg-gray-700 from me
-   -- add .bg-indigo-300 to me
-	 send activateTab(tab:@id) to me
+const defaultTabId = '1'
+
+const hs = `
 
 	on load 
-		send activateTab(tab:'1') to me
+		send activateTab(tab:${defaultTabId}) to me
 	end -- load handler
 
 	on activateTab(tab)
-		take .bg-gray-700 from #{tab}
-		add .bg-indigo-300 to #{tab}
+		take .dark:bg-gray-700 from #{tab}
+		add .dark:bg-indigo-300 to #{tab}
 	end
+	
+	on click
+   take .dark:bg-indigo-300 from <button.tab-item/>
+	 add .dark:bg-gray-700 to <button.tab-item/>
+	 send activateTab(tab:@id) to me
 `
 ---
 
