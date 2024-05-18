@@ -8,7 +8,6 @@ const tw = {
 	tabItem: 'tab-item not-content bg-gray-700 rounded-t-xl cursor-pointer  border-2 border-slate-600',
 	output: 'block -translate-y-1 p-4 w-full h-[35rem] overflow-y-scroll ' +
 	  ' bg-gray-900 border-2 border-slate-600 ',
-	active: 'bg-blue-900'
 }
 
 const hs = `on click
@@ -16,6 +15,16 @@ const hs = `on click
 	 add .bg-gray-700 to <button.tab-item/>
 	 take .bg-gray-700 from me
    add .bg-indigo-300 to me
+
+	on load 
+		send activateTab(tab:'1') to me
+	end -- load handler
+
+	on activateTab(tab)
+	  log 'activated'
+		take .bg-gray-700 from #{tab}
+		add .bg-indigo-300 to #{tab}
+	end
 `
 ---
 
@@ -25,19 +34,19 @@ const hs = `on click
 			hx-trigger="click"
 			hx-target="next <output/>"
 			hx-swap="innerHTML">
-			<button id=1 class={tw.tabItem}
+			<button id="1" class={tw.tabItem}
 			  hx-trigger="load, click"
 				hx-get="/api/readmore/1"
 				script={hs}
 			>HTMX</button>
-			<button id=2 class={tw.tabItem}	
+			<button id="2" class={tw.tabItem}	
 				hx-get="/api/readmore/2"
 				script={hs}
 			>Tailwind	</button>
-			<button id=3 class={tw.tabItem}
+			<button id="3" class={tw.tabItem}
 				hx-get="/api/readmore/3"
 				script={hs}>Hyperscript</button>
-			<button id=4 class={tw.tabItem}
+			<button id="4" class={tw.tabItem}
 				hx-get="/api/readmore/4"
 				script={hs}>Astro</button>
 	</div>
