@@ -13,15 +13,15 @@ const tw = {
 const hs = `on click
    take .bg-indigo-300 from <button.tab-item/>
 	 add .bg-gray-700 to <button.tab-item/>
-	 take .bg-gray-700 from me
-   add .bg-indigo-300 to me
+	 -- take .bg-gray-700 from me
+   -- add .bg-indigo-300 to me
+	 send activateTab(tab:@id) to me
 
 	on load 
 		send activateTab(tab:'1') to me
 	end -- load handler
 
 	on activateTab(tab)
-	  log 'activated'
 		take .bg-gray-700 from #{tab}
 		add .bg-indigo-300 to #{tab}
 	end
