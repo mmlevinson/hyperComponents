@@ -5,13 +5,18 @@ const title = 'TestTabs'
 
 const tw = {
 	tabs: 'not-content flex justify-left gap-1 ',
-	tabItem: 'not-content bg-blue-900 rounded-t-xl cursor-pointer  border-2 border-slate-600',
+	tabItem: 'tab-item not-content bg-gray-700 rounded-t-xl cursor-pointer  border-2 border-slate-600',
 	output: 'block -translate-y-1 p-4 w-full h-[35rem] overflow-y-scroll ' +
 	  ' bg-gray-900 border-2 border-slate-600 ',
 	active: 'bg-blue-900'
 }
 
-const hs = `on htmx:afterSwap log 'afterSwap'`
+const hs = `on click
+   take .bg-indigo-300 from <button.tab-item/>
+	 add .bg-gray-700 to <button.tab-item/>
+	 take .bg-gray-700 from me
+   add .bg-indigo-300 to me
+`
 ---
 
 <StarlightPage frontmatter={{title: title}}>
@@ -20,19 +25,23 @@ const hs = `on htmx:afterSwap log 'afterSwap'`
 			hx-trigger="click"
 			hx-target="next <output/>"
 			hx-swap="innerHTML">
-			<button class={tw.tabItem}
+			<button id=1 class={tw.tabItem}
 			  hx-trigger="load, click"
 				hx-get="/api/readmore/1"
+				script={hs}
 			>HTMX</button>
-			<button class={tw.tabItem}	
+			<button id=2 class={tw.tabItem}	
 				hx-get="/api/readmore/2"
+				script={hs}
 			>Tailwind	</button>
-			<button class={tw.tabItem}
-				hx-get="/api/readmore/3">Hyperscript</button>
-			<button class={tw.tabItem}
-				hx-get="/api/readmore/4">Astro</button>
+			<button id=3 class={tw.tabItem}
+				hx-get="/api/readmore/3"
+				script={hs}>Hyperscript</button>
+			<button id=4 class={tw.tabItem}
+				hx-get="/api/readmore/4"
+				script={hs}>Astro</button>
 	</div>
-	<output id="tab-output" class={tw.output} script={hs} style="margin-top:0; transition:all 300ms ease-in-out;"/>
+	<output id="tab-output" class={tw.output}  style="margin-top:0; transition:all 300ms ease-in-out;"/>
 
 
 </StarlightPage>
