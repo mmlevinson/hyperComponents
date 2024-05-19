@@ -13,6 +13,9 @@ export const tw = {
 	container: 'tab-group not-content flex justify-left gap-1 ',
 	output: 'block -translate-y-1 p-4 w-full h-[35rem] overflow-y-scroll ' +
 	  'bg-slate-100 dark:bg-gray-900 border-2 border-slate-600 ',
+	inactiveDark: 'dark:bg-gray-900',
+	activeDark: 'dark:bg-sky-400',
+
 }
 
 export const activeLight = 'bg-orange-300'
@@ -25,8 +28,8 @@ export const inactiveDark = 'dark:bg-gray-900'
 const hs = 
 `
 on activateTab(tab)
-	remove .${inactiveLight} .${inactiveDark} from tab
-	add .${activeLight} .${activeDark} to tab
+	remove .${inactiveLight} .${tw.inactiveDark} from tab
+	add .${activeLight} .${tw.activeDark} to tab
 	send deactivateSiblings(activeTab:tab) to me
 end 
 
@@ -34,8 +37,8 @@ on deactivateSiblings(activeTab)
  set allTabs to my children
  for tab in allTabs
    if tab is not activeTab
-		remove .${activeLight} .${activeDark} from tab
-		add .${inactiveLight} .${inactiveDark} to tab
+		remove .${activeLight} .${tw.activeDark} from tab
+		add .${inactiveLight} .${tw.inactiveDark} to tab
    end
 end
 
