@@ -16,7 +16,7 @@ const {
   trigger = 'click' 
 } = Astro.props
 
-import {inactiveLight, inactiveDark} from './TabGroup.astro'
+// import {inactiveLight, inactiveDark} from './TabGroup.astro'
 import {tw as tabStyles} from './TabGroup.astro'
 
 const tw = {
@@ -26,7 +26,7 @@ const tw = {
 
 const hs = `
   init 
-    add .${inactiveLight} .${inactiveDark} to me
+    add .${tw.inactiveLight} .${tw.inactiveDark} to me
 	end
   
   on click send activateTab(tab:me) to the  closest <div.tab-group/>
