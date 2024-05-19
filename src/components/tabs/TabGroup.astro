@@ -30,8 +30,7 @@ const hs =
 `
 init
 	set defaultTab to #{${defaultTab}}
-	log defaultTab
-	-- send activateTab(tab:defaultTab) to me
+	send activateTab(tab:defaultTab) to me
 end
 
 on activateTab(tab)
