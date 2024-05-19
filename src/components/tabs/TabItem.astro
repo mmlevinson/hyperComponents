@@ -17,7 +17,6 @@ const {
 } = Astro.props
 
 const tabStyles = {
-
 	active: 'bg-slate-300 dark:bg-slate-700',
 	inactive: 'bg-slate-100 dark:bg-slate-900'
 }
@@ -27,13 +26,18 @@ const tw = {
 	  'bg-slate-300 dark:bg-gray-700',
 }
 
+const hs = `
+  on click send activateTab(tab:me) to the  closest <div.tab-group/>
+`
+
 
 ---
 
 <button id={id} 
 	class={tw.tabItem}
 	hx-trigger={trigger}
-	hx-get={`${path}`}>
+	hx-get={`${path}`}
+	script={hs}>
 	{caption}
 </button>
 	 
