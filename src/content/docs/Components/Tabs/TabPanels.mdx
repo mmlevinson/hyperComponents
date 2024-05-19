@@ -118,10 +118,10 @@ import TabPanelItem from '/components/tabs/TabPanelItem.astro'
 
 		```js
 		export const tw = {
-			container: 'tab-group not-content flex justify-left ',
-			output: 'block text-left p-4 w-full  overflow-y-scroll ' +
+			container: 'tab-group flex justify-left ',
+			output: 'block text-left p-4 w-full overflow-y-scroll ' +
 				'bg-gray-100 dark:bg-gray-950 ',
-			tabItem: 'z-10 tab-item not-content select-none ' + 
+			tabItem: 'z-10 tab-item select-none ' + 
 				'font-semibold rounded-t-xl cursor-pointer ' + 
 				'hover:bg-orange-100 dark:hover:bg-purple-900 ' +
 				'border-2  border-slate-600 ',
@@ -167,44 +167,189 @@ import TabPanelItem from '/components/tabs/TabPanelItem.astro'
 
 		This event adds/removes classes to change the appearance of the tab which is passed as the argument.   All other Tabs under control of the container are then deactived by calling deactivateSiblings.
 
-		##### deactivateSiblings
+		##### deactivateSiblings(activeTab)
 
 		Since only one Tab can be activated (and its content displayed) at a time, this event is used to revert all other tabs back to their initial appearance by switching certain tw utility classes.
+
+		The `activeTab` argument is used to ignore the currenlty active tab when inactive all the others.
 
 
 		#### Transitions
 		{/* Description of the animations used in the control */}
+
+		By adding `transition:true` to the `hx-swap` attribute, the ViewTransitions API is invoked to create a smooth fade-in appearance when the panel content is switched.
+
+
 		#### Code
 		{/* Brief explanation of the component */}
+
+		One power feature of htmx is attribute inheritance.   Some hx-attributes can be placed on a parent element and still apply to all the children, saving code duplication. 
+
+		Notice in the markup below, the `hx-trigger`, `hx-target`, and `hx-swap` attributes are placed onto the parent.   However, clicking a child component (i.e. TabPanelItem) still invokes the actions of these attributes.  However, repeating these attributes on every TabPanelItem becomes unnecessary because of attribute inheritance.   
+
+		Also notice the use of back-ticks to allow string interpolation into the Hyperscript code itself.  By removing the script into a local constant and then using back-ticks with string interpolation, it is possible to embed the strings for individual TW utility classes into the HS code while at the same time allowing the markup to utilize the same classes.  
+
+		You could not cross-purpose the styling with the HS code if you kept the TW classes inside the `class` attribute of the DOM elements themselves.
+
+		Also note how the `maxHeight` prop is concatenated into the `class` attribute of the `<output/>` element.   This simple technique permits props to be used in the styling as long as you don't pass a duplicate class via props.   In this case, no default `max-h` as specified in the `tw.output` property used to style the `<output/>` element, so no collision would occur.   If need be, collisions or duplicates can be suppressed by using the `twMerge()` function illustrated in other hyperComponent examples.	
 
 import {Tabs, TabItem } from '@astrojs/starlight/components'
 				
 		<Tabs>
 			<TabItem label='Props'>
 			```js
-				
+			interface Props {
+				defaultTabId?:string  
+				maxHeight?:string  
+			}
+
+			const {
+				defaultTabId = '0',
+				maxHeight = 'max-h-[35rem]'
+			} = Astro.props 
 			```
 			</TabItem>
 				
 			<TabItem label='HTML'>
-			```html
-				
+			```html "transition:true"
+			<div class={tw.container}
+					hx-trigger="click"
+					hx-target="next <output/>"
+					hx-swap="innerHTML transition:true"
+					script={hs}>
+					<slot/>
+			</div>
+			<output class={tw.output + ' ' + maxHeight}/>
 			```
 			</TabItem>
 				
 			<TabItem label='Scripts'>
 			```js
+			const hs = `
+				on load
+					set defaultTab to #{${defaultTabId}}
+					send activateTab(tab:defaultTab) to me
+				end -- load handler
+
+				on activateTab(tab)
+					remove .${tw.inactiveLight} .${tw.inactiveDark} from the tab
+					remove .${tw.textInactiveLight} .${tw.textInactiveDark} from the tab
+					add .${tw.activeLight} .${tw.activeDark} to the tab
+					add .${tw.textActiveLight} .${tw.textActiveDark} to the tab
+					add .border-b-0 to the tab
+					send deactivateSiblings(activeTab:tab) to me
+				end  -- activateTab handler
+
+				on deactivateSiblings(activeTab)
+				set allTabs to my children
+				for tab in allTabs
+					if tab is not the activeTab
+						remove .${tw.activeLight} .${tw.activeDark}  from the tab
+						remove .${tw.textActiveLight} .${tw.textActiveDark} from the tab
+						remove .border-b-0 from the tab
+						add .${tw.inactiveLight} .${tw.inactiveDark} to the tab
+						add .${tw.textInactiveLight} .${tw.textInactiveDark} to the tab
+					end -- for loop	
+				end -- deactivateSiblings handler
+				`
 			```
 			</TabItem>
 				
 			<TabItem label='Tailwind'>
 			```js
+			export const tw = {
+					container: 'tab-group flex justify-left ',
+					output: 'block text-left p-4 w-full overflow-y-scroll ' +
+						'bg-gray-100 dark:bg-gray-950 ',
+					tabItem: 'z-10 tab-item select-none ' + 
+						'font-semibold rounded-t-xl cursor-pointer ' + 
+						'hover:bg-orange-100 dark:hover:bg-purple-900 ' +
+						'border-2  border-slate-600 ',
+					activeLight: 'bg-gray-100',
+					activeDark: 'dark:bg-gray-950',
+					inactiveLight: 'bg-slate-300',
+					inactiveDark: 'dark:bg-gray-800',
+					textActiveLight: 'text-blue-950',
+					textActiveDark: 'dark:text-orange-200',
+					textInactiveLight: 'text-blue-900',
+					textInactiveDark: 'dark:text-zinc-200'
+			}
 			```
 			</TabItem>
 				
 			<TabItem label='Everything'>
 			```astro
-				
+				---
+			import {twMerge} from 'tailwind-merge'
+			
+			interface Props {
+				defaultTabId?:string  // The id of the tab to be activated by default	
+				maxHeight?:string  // The maximum height of the panel content area
+			}
+
+			const {
+				defaultTabId = '0',
+				maxHeight = 'max-h-[30rem]'
+			} = Astro.props 
+			
+			export const tw = {
+				container: 'tab-group flex justify-left ',
+				output: 'block text-left p-4 w-full overflow-y-scroll ' +
+					'bg-gray-100 dark:bg-gray-950 ',
+				tabItem: 'z-10 tab-item select-none ' + 
+					'font-semibold rounded-t-xl cursor-pointer ' + 
+					'hover:bg-orange-100 dark:hover:bg-purple-900 ' +
+					'border-2  border-slate-600 ',
+				activeLight: 'bg-gray-100',
+				activeDark: 'dark:bg-gray-950',
+				inactiveLight: 'bg-slate-300',
+				inactiveDark: 'dark:bg-gray-800',
+				textActiveLight: 'text-blue-950',
+				textActiveDark: 'dark:text-orange-200',
+				textInactiveLight: 'text-blue-900',
+				textInactiveDark: 'dark:text-zinc-200'
+			}
+
+			const hs = 
+				`
+				on load
+					set defaultTab to #{${defaultTabId}}
+					send activateTab(tab:defaultTab) to me
+				end -- load handler
+
+				on activateTab(tab)
+					remove .${tw.inactiveLight} .${tw.inactiveDark} from the tab
+					remove .${tw.textInactiveLight} .${tw.textInactiveDark} from the tab
+					add .${tw.activeLight} .${tw.activeDark} to the tab
+					add .${tw.textActiveLight} .${tw.textActiveDark} to the tab
+					add .border-b-0 to the tab
+					send deactivateSiblings(activeTab:tab) to me
+				end  -- activateTab handler
+
+				on deactivateSiblings(activeTab)
+				set allTabs to my children
+				for tab in allTabs
+					if tab is not the activeTab
+						remove .${tw.activeLight} .${tw.activeDark}  from the tab
+						remove .${tw.textActiveLight} .${tw.textActiveDark} from the tab
+						remove .border-b-0 from the tab
+						add .${tw.inactiveLight} .${tw.inactiveDark} to the tab
+						add .${tw.textInactiveLight} .${tw.textInactiveDark} to the tab
+					end -- for loop	
+				end -- deactivateSiblings handler
+
+				`
+			---
+			
+			<div class={tw.container}
+				hx-trigger="click"
+				hx-target="next <output/>"
+				hx-swap="innerHTML transition:true"
+				script={hs}>
+				<slot/>
+			</div>
+			<output class={tw.output + ' ' + maxHeight}/>
+
 			```
 			</TabItem>
 		</Tabs>

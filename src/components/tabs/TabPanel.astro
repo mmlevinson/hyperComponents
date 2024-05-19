@@ -8,12 +8,12 @@ interface Props {
  
 const {
 	defaultTabId = '0',
-	maxHeight = 'max-h-[35rem]'
+	maxHeight = 'max-h-[30rem]'
 } = Astro.props 
  
 export const tw = {
 	container: 'tab-group not-content flex justify-left ',
-	output: 'block text-left p-4 w-full  overflow-y-scroll ' +
+	output: 'block text-left p-4 w-full overflow-y-scroll ' +
 	  'bg-gray-100 dark:bg-gray-950 ',
 	tabItem: 'z-10 tab-item not-content select-none ' + 
 	'font-semibold rounded-t-xl cursor-pointer ' + 
@@ -30,34 +30,34 @@ export const tw = {
 }
 
 const hs = 
-`
-on load
-	set defaultTab to #{${defaultTabId}}
-	send activateTab(tab:defaultTab) to me
-end
+	`
+	on load
+		set defaultTab to #{${defaultTabId}}
+		send activateTab(tab:defaultTab) to me
+	end -- load handler
 
-on activateTab(tab)
-	remove .${tw.inactiveLight} .${tw.inactiveDark} from the tab
-	remove .${tw.textInactiveLight} .${tw.textInactiveDark} from the tab
-	add .${tw.activeLight} .${tw.activeDark} to the tab
-	add .${tw.textActiveLight} .${tw.textActiveDark} to the tab
-	add .border-b-0 to the tab
-	send deactivateSiblings(activeTab:tab) to me
-end 
+	on activateTab(tab)
+		remove .${tw.inactiveLight} .${tw.inactiveDark} from the tab
+		remove .${tw.textInactiveLight} .${tw.textInactiveDark} from the tab
+		add .${tw.activeLight} .${tw.activeDark} to the tab
+		add .${tw.textActiveLight} .${tw.textActiveDark} to the tab
+		add .border-b-0 to the tab
+		send deactivateSiblings(activeTab:tab) to me
+	end  -- activateTab handler
 
-on deactivateSiblings(activeTab)
- set allTabs to my children
- for tab in allTabs
-   if tab is not the activeTab
-		remove .${tw.activeLight} .${tw.activeDark}  from the tab
-		remove .${tw.textActiveLight} .${tw.textActiveDark} from the tab
-		remove .border-b-0 from the tab
-		add .${tw.inactiveLight} .${tw.inactiveDark} to the tab
-		add .${tw.textInactiveLight} .${tw.textInactiveDark} to the tab
-   end
-end
+	on deactivateSiblings(activeTab)
+	set allTabs to my children
+	for tab in allTabs
+		if tab is not the activeTab
+			remove .${tw.activeLight} .${tw.activeDark}  from the tab
+			remove .${tw.textActiveLight} .${tw.textActiveDark} from the tab
+			remove .border-b-0 from the tab
+			add .${tw.inactiveLight} .${tw.inactiveDark} to the tab
+			add .${tw.textInactiveLight} .${tw.textInactiveDark} to the tab
+		end -- for loop	
+	end -- deactivateSiblings handler
 
-`
+	`
  
 ---
  
@@ -65,7 +65,7 @@ end
 	hx-trigger="click"
 	hx-target="next <output/>"
 	hx-swap="innerHTML transition:true"
-	script={hs} style={`max-height:${maxHeight}`}>
+	script={hs} >
   <slot/>
 </div>
 <output class={tw.output + ' ' + maxHeight}/>
