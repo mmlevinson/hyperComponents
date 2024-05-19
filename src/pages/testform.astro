@@ -1,0 +1,102 @@
+---
+import StarlightPage from '@astrojs/starlight/components/StarlightPage.astro';
+import { twMerge } from 'tailwind-merge';
+const title = "Test Form"
+
+export const tw = {
+ form: "not-content w-10/12 mx-auto flex flex-col gap-4",
+ label: "mt-4 text-blue-900 dark:text-violet-100 font-semibold",
+ input: " font-semibold text-lg text-sky-950 dark:text-blue-100 " +
+  "bg-indigo-200 bg-opacity-20 " +
+  "border-4 border-slate-200 dark:border-gray-600 p-2 rounded-md " +
+	"focus:outline-none focus:border-4 focus:border-indigo-400 focus:dark:border-fuchsia-700 focus:dark:border-opacity-30 ",
+ error: "text-red-500",
+ checkbox: "border-2 border-gray-300 p-2 rounded-md",
+ radio: "border-2 border-gray-300 p-2 rounded-md",
+ select: "border-2 border-gray-300 dark:border-indigo-600 p-2 rounded-md",
+ textarea: "border-2 border-gray-300 p-2 rounded-md",
+ buttonContainer: "mt-8 flex flex-col w-full mx-auto items-center md:flex-row md:justify-between gap-4",
+ baseButton: "font-bold border-4 border-zinc-300 w-full md:w-40 h-12 space-y-2 px-4 rounded-2xl cursor-pointer ",
+ delete: "bg-red-700 text-rose-100 border-rose-300",
+ reset: "bg-blue-500 text-sky-100 border-blue-600",
+ submit: "bg-green-300 text-sky-950 border-green-600",
+}
+
+const hs = ``
+---
+
+<StarlightPage frontmatter={{title: title}}>
+
+<form class={tw.form}
+	hx-trigger="load"
+	hx-get="/api/users/1"
+	hx-swap="innerHtml"
+	hx-target="this"
+>
+	<!-- Name -->
+	<label class={tw.label} for="name">Name </label>
+	<span class={tw.error}></span>
+	<input class={tw.input} type="text" name="name" id="name" value="" />
+
+	<!-- Email -->
+	<label class={tw.label} for="email">Email</label>
+	<span class={tw.error}></span>
+	<input class={tw.input} type="email" name="email" id="email" value=""  />
+
+	<!-- Password -->
+	<label class={tw.label} for="password" >Password</label>
+	<span class={tw.error}></span>
+	<input class={tw.input} type="password" name="password" id="password" autocomplete value="" />
+
+	<!-- Age -->
+	<label class={tw.label} for="age">Age</label>
+	<span class={tw.error}></span>
+	<input class={tw.input} type="number" name="age" id="age" value="" />
+
+	<!-- Role -->
+	<label class={tw.label} for="role">Role</label>
+	<span class={tw.error}></span>
+	<input class={tw.input} type="text" name="role" id="role" value="" />
+
+	<!-- Gender -->
+		<label class={tw.label} for="gender">Gender</label>
+	<span class={tw.error}></span>
+	<input class={tw.input} type="text" name="gender" id="gender" value="" />
+
+	<!-- Phone -->
+	<label class={tw.label} for="phone">Phone</label>
+	<span class={tw.error}></span>
+	<input class={tw.input} type="text" name="phone" id="phone" value="" />
+
+	<!-- City -->	
+	<label class={tw.label} for="city">City</label>
+	<span class={tw.error}></span>
+	<input class={tw.input} type="text" name="city" id="city" value="" />
+
+	<!-- State -->
+	<label class={tw.label} for="state">State</label>
+	<span class={tw.error}></span>
+	<input class={tw.input} type="text" name="state" id="state" value="" />
+
+	<!-- Address -->
+		<label class={tw.label} for="address">Address</label>
+	<span class={tw.error}></span>
+	<input class={tw.input} type="text" name="address" id="address" value="" />
+
+
+	<label class={tw.label} for="country">Country</label>
+	<span class={tw.error}></span>
+	<input class={tw.input} type="text" name="country" id="country" value="" />
+
+
+	
+	<div class={tw.buttonContainer}>
+		<button type="button" class={twMerge(tw.baseButton, tw.delete)}>Delete</button>
+		<button type="reset" class={twMerge(tw.baseButton, tw.reset)}>Reset</button>
+		<button type="submit" class={twMerge(tw.baseButton, tw.submit)}>Submit</button>
+	</div>
+</form>
+
+
+</StarlightPage>
+

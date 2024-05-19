@@ -1,0 +1,39 @@
+---
+
+import {twMerge} from 'tailwind-merge'
+
+interface Props {
+	id: string
+	caption: string
+	path: string
+	trigger?: string
+}
+
+const { 
+	id, 
+	caption, 
+	path,
+  trigger = 'click' 
+} = Astro.props
+
+// import {inactiveLight, inactiveDark} from './TabGroup.astro'
+import {tw} from './TabGroup.astro'
+
+const hs = `
+  init 
+    add .${tw.inactiveLight} .${tw.inactiveDark} to me
+		add .${tw.textInactiveLight} .${tw.textInactiveDark} to me
+	end
+  
+  on click send activateTab(tab:me) to the  closest <div.tab-group/>
+`
+---
+
+<button id={id} 
+	class={tw.tabItem}
+	hx-trigger={trigger}
+	hx-get={`${path}`}
+	script={hs}>
+	{caption}
+</button>
+	 
