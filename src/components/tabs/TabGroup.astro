@@ -19,8 +19,21 @@ const tw = {
 const hs = 
 `
 on activateTab(tab)
-  log tab
-end `
+	remove .bg-slate-300 from tab
+	add .bg-orange-300 to tab
+	send deactivateSiblings(activeTab:tab) to me
+end 
+
+on deactivateSiblings(activeTab)
+ set tabs to my children
+ for tab in tabs
+   if tab is not activeTab
+		remove .bg-orange-300 from tab
+		add .bg-slate-300 to tab
+   end
+end
+
+`
  
 ---
  
