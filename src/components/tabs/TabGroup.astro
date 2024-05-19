@@ -25,7 +25,7 @@ const inactiveDark = 'bg-gray-900'
 const hs = 
 `
 on activateTab(tab)
-	remove .bg-slate-300 from tab
+	remove .${inactiveLight} from tab
 	add .${activeLight} to tab
 	send deactivateSiblings(activeTab:tab) to me
 end 
@@ -34,8 +34,8 @@ on deactivateSiblings(activeTab)
  set allTabs to my children
  for tab in allTabs
    if tab is not activeTab
-		remove .bg-orange-300 from tab
-		add .bg-slate-300 to tab
+		remove .${activeLight} from tab
+		add .${inactiveLight} to tab
    end
 end
 
