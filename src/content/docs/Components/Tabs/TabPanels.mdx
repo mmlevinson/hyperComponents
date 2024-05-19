@@ -3,7 +3,7 @@ title: TabPanel
 description: A panel with switching tabs
 tableOfContents: 
   minHeadingLevel: 2
-  maxHeadingLevel: 4
+  maxHeadingLevel: 5
 ---
 		 
 A utility control for displaying content within separate panels is the TabPanel control.
@@ -150,8 +150,28 @@ import TabPanelItem from '/components/tabs/TabPanelItem.astro'
 
 		#### Slots
 		{/* Outline the name/function of each slot */}
+		The TabPanel has a single default slot which is intended to receive multiple TabPanelItem components as shown in the example above. 
+
+		Each TabPanelItem is comprised of a button whose styling resembles a Tab and whose htmx attributes retrieve a hypermedia response from a custom API endpoint which you specify.   
+
 		#### Events
 		{/* Any custom events emitted by this component*/}
+
+		The TabPanel component does not emit any custom events.  However, the HS code listens for the following events:
+		
+		##### load
+
+		On page load, the defaultTabId prop is picked up by the HS code and used to identify the appropriate Tab which is then activated.   This sets the background and text color to the active styles listed above, and retrieves the content to be displayed in the panel using htmx.
+
+		##### activateTab(tab)
+
+		This event adds/removes classes to change the appearance of the tab which is passed as the argument.   All other Tabs under control of the container are then deactived by calling deactivateSiblings.
+
+		##### deactivateSiblings
+
+		Since only one Tab can be activated (and its content displayed) at a time, this event is used to revert all other tabs back to their initial appearance by switching certain tw utility classes.
+
+
 		#### Transitions
 		{/* Description of the animations used in the control */}
 		#### Code
