@@ -1,0 +1,39 @@
+---
+
+import {twMerge} from 'tailwind-merge'
+
+interface Props {
+	id: string
+	caption: string
+	path: string
+	trigger?: string
+}
+
+const { 
+	id, 
+	caption, 
+	path,
+  trigger = 'click' 
+} = Astro.props
+
+const tabStyles = {
+
+	active: 'bg-slate-300 dark:bg-slate-700',
+	inactive: 'bg-slate-100 dark:bg-slate-900'
+}
+
+const tw = {
+	tabItem: 'tab-item not-content rounded-t-xl cursor-pointer border-2 border-slate-600 ' + 
+	  'bg-slate-300 dark:bg-gray-700',
+}
+
+
+---
+
+<button id={id} 
+	class={tw.tabItem}
+	hx-trigger={trigger}
+	hx-get={`${path}`}>
+	{caption}
+</button>
+	 

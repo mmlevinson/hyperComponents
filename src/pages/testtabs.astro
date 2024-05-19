@@ -1,38 +1,27 @@
 ---
 import StarlightPage from '@astrojs/starlight/components/StarlightPage.astro'
+import TabGroup from '../components/tabs/TabGroup.astro'
+import TabItem from '../components/tabs/TabItem.astro'
+
 import { twMerge } from 'tailwind-merge'
 const title = 'TestTabs'
 
 const tabBackgroundDark = 'bg-gray-700'
-const tabBackgroundLight = 'bg-slate-200'
-const tabBackgroundActiveLight = 'bg-slate-700'
+const tabBackgroundLight = 'bg-slate-300'
+const tabBackgroundActiveLight = 'bg-green-500'
 const tabBackgroundActiveDark = 'bg-indigo-300'
 
 const tw = {
 	tabs: 'not-content flex justify-left gap-1 ',
-	tabItem: 'tab-item not-content bg-slate-200 dark:bg-gray-700 rounded-t-xl cursor-pointer border-2 border-slate-600',
+	tabItem: 'tab-item not-content rounded-t-xl cursor-pointer border-2 border-slate-600 ' + 
+	  'bg-slate-300 dark:bg-gray-700',
 	output: 'block -translate-y-1 p-4 w-full h-[35rem] overflow-y-scroll ' +
-	  ' bg-gray-900 border-2 border-slate-600 ',
+	  'bg-slate-100 dark:bg-gray-900 border-2 border-slate-600 ',
 }
 
 const defaultTabId = '1'
 
-const hs = `
 
-	on load 
-		send activateTab(tab:${defaultTabId}) to me
-	end -- load handler
-
-	on activateTab(tab)
-		take .dark:${tabBackgroundDark} from #{tab}
-		add .dark:${tabBackgroundActiveDark} to #{tab}
-	end
-
-	on click
-   take .dark:${tabBackgroundActiveDark} from <button.tab-item/>
-	 add  .dark:${tabBackgroundDark}  to <button.tab-item/>
-	 send activateTab(tab:@id) to me
-`
 ---
 
 <StarlightPage frontmatter={{title: title}}>
@@ -44,20 +33,24 @@ const hs = `
 			<button id="1" class={tw.tabItem}
 			  hx-trigger="load, click"
 				hx-get="/api/readmore/1"
-				script={hs}
 			>HTMX</button>
 			<button id="2" class={tw.tabItem}	
 				hx-get="/api/readmore/2"
-				script={hs}
 			>Tailwind	</button>
 			<button id="3" class={tw.tabItem}
-				hx-get="/api/readmore/3"
-				script={hs}>Hyperscript</button>
+				hx-get="/api/readmore/3">Hyperscript</button>
 			<button id="4" class={tw.tabItem}
-				hx-get="/api/readmore/4"
-				script={hs}>Astro</button>
+				hx-get="/api/readmore/4">Astro</button>
 	</div>
 	<output id="tab-output" class={tw.output}  style="margin-top:0; "/>
+
+
+	<TabGroup>
+		<TabItem id="1" caption="HTMX" path="/api/readmore/1	" />
+		<TabItem id="2" caption="Tailwind" path="/api/readmore/2" />
+		<TabItem id="3" caption="Hyperscript" path="/api/readmore/3" />
+		<TabItem id="4" caption="Astro" path="/api/readmore/4" />
+	</TabGroup>
 
 
 </StarlightPage>
