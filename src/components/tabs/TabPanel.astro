@@ -3,19 +3,21 @@ import {twMerge} from 'tailwind-merge'
  
 interface Props {
 	defaultTabId?:string
+	maxHeight?:string
 }
  
 const {
 	defaultTabId = '0',
+	maxHeight = 'max-h-[35rem]'
 } = Astro.props 
  
 export const tw = {
 	container: 'tab-group not-content flex justify-left ',
-	output: 'block text-left p-4 w-full h-[35rem] overflow-y-scroll ' +
+	output: 'block text-left p-4 w-full  overflow-y-scroll ' +
 	  'bg-gray-100 dark:bg-gray-950 ',
 	tabItem: 'z-10 tab-item not-content select-none ' + 
 	'font-semibold rounded-t-xl cursor-pointer ' + 
-	'hover:bg-orange-100 dark:hover:bg-purple-950 ' +
+	'hover:bg-orange-100 dark:hover:bg-purple-900 ' +
 	'border-2  border-slate-600 ',
 	activeLight: 'bg-gray-100',
 	activeDark: 'dark:bg-gray-950',
@@ -63,8 +65,8 @@ end
 	hx-trigger="click"
 	hx-target="next <output/>"
 	hx-swap="innerHTML transition:true"
-	script={hs}>
+	script={hs} style={`max-height:${maxHeight}`}>
   <slot/>
 </div>
-<output class={tw.output} style="margin-top:0;"/>
+<output class={tw.output + ' ' + maxHeight}/>
 
