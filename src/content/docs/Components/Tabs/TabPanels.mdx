@@ -6,7 +6,13 @@ tableOfContents:
   maxHeadingLevel: 4
 ---
 		 
-	{/* Introduction */}
+A utility control for displaying content within separate panels is the TabPanel control.
+
+In this example, classic rounded tabs utilize a button which retrieves a hypermedia fragment from a backend API route using htmx.    Panel switching is performed exclusively by HyperScript.   All styling is from Tailwind.
+
+There are two Astro components used to provide this control, a TabPanel component which wraps multiple TabPanelItem components.   
+
+You can style the active and inactive tabs using Tailwind utility classes and they will be picked up and implemented by the Hyperscript code.
 
 		 
 ## Example
@@ -37,15 +43,38 @@ import TabPanelItem from '../../../../components/tabs/TabPanelItem.astro'
 	</div>
 
 
-	```astro
-		 
-	```
 </div>
 		 
 ## Description
 	{/* General Description */}
 	{/* Example  Code block showing the  control in action. */}
+
+
+	```astro
+
+	---
+import TabPanel from '/components/tabs/TabPanel.astro'
+import TabPanelItem from '/components/tabs/TabPanelItem.astro'
+	---
+		 
+<TabPanel defaultTabId="1">
+		<TabPanelItem id="0" caption="Hypermedia" path="/api/readmore/0" trigger="load, click" />
+		<TabPanelItem id="1" caption="HTMX" path="/api/readmore/1" />
+		<TabPanelItem id="2" caption="Tailwind" path="/api/readmore/2" />
+		<TabPanelItem id="3" caption="Hyperscript" path="/api/readmore/3" />
+		<TabPanelItem id="4" caption="Astro" path="/api/readmore/4" />
+</TabPanel>
+
+	```
+
 ## Features
+
+1.  A single panel with multiple tabs
+2.  Content is loaded into panel using AJAX Get requests to custom API route
+3.  Smooth panel Transitions
+4.  Customizable appearance of Tab active and inactive styles
+5.  Customizable appearance of the panel content
+6.  Fixed height of panel which can be changed in code.
 		 
 ## Components
 	{/* Breakdown of each Astro Components used for this control */}
