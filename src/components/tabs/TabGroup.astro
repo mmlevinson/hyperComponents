@@ -3,10 +3,11 @@ import {twMerge} from 'tailwind-merge'
  
 interface Props {
 	defaultTab?:string
+
 }
  
 const {
- defaultTab = '0'
+	defaultTab = '0',
 } = Astro.props 
  
 export const tw = {
