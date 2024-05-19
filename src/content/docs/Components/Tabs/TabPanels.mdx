@@ -1,0 +1,100 @@
+---
+title: TabPanel
+description: A panel with switching tabs
+tableOfContents: 
+  minHeadingLevel: 2
+  maxHeadingLevel: 4
+---
+		 
+	{/* Introduction */}
+
+		 
+## Example
+		 
+export const tw = {
+		exampleContainer: 'not-content w-full w-max-lg text-center mx-auto bg-gray-300 dark:bg-gray-800 rounded-xl my-6',
+		exampleTitle: 'bg-gray-300 dark:bg-sky-900 text-gray-300 dark:text-zinc-200 font-semibold py-2 mb-4 rounded-t-xl',
+		icon:'inline-block size-6',
+		image: 'inline-block max-h-6',
+		p: 'pb-3'	
+}
+		 
+<div id='TabPanel-example' class={tw.exampleContainer} >
+<div id='TabPanel-title' class={tw.exampleTitle}>Sample TabPanel Control</div>
+	{/* Example Control in Action */}
+
+import TabPanel from '../../../../components/tabs/TabPanel.astro'
+import TabPanelItem from '../../../../components/tabs/TabPanelItem.astro'
+
+	<div class="p-4">
+		<TabPanel defaultTabId="1">
+			<TabPanelItem id="0" caption="Hypermedia" path="/api/readmore/0" trigger="load, click" />
+			<TabPanelItem id="1" caption="HTMX" path="/api/readmore/1" />
+			<TabPanelItem id="2" caption="Tailwind" path="/api/readmore/2" />
+			<TabPanelItem id="3" caption="Hyperscript" path="/api/readmore/3" />
+			<TabPanelItem id="4" caption="Astro" path="/api/readmore/4" />
+		</TabPanel>
+	</div>
+
+
+	```astro
+		 
+	```
+</div>
+		 
+## Description
+	{/* General Description */}
+	{/* Example  Code block showing the  control in action. */}
+## Features
+		 
+## Components
+	{/* Breakdown of each Astro Components used for this control */}
+## Props
+	{/* Each component, with code block showing the props interface */}
+## Styling
+To improve readability, the Tailwind classes and Hyperscripts are both extracted from the markup and encapsulated into  Astro `tw` and `hs` local variables within the [Component Script](https://docs.astro.build/en/basics/astro-components/#the-component-script) which are then referenced in the html markup. 
+		 
+The advantage of this strategy is to allow long run-on strings to be formatted as concatenated, multi-line strings which aids readability and code maintenance.
+		 
+## Slots
+	{/* Outline the name/function of each slot */}
+## Events
+	{/* Any custom events emitted by this component*/}
+## Transitions
+	{/* Description of the animations used in the control */}
+## Code
+	{/* Brief explanation of the component */}
+import {Tabs, TabItem } from '@astrojs/starlight/components'
+		 
+<Tabs>
+	<TabItem label='Props'>
+	```js
+		 
+	```
+	</TabItem>
+		 
+	<TabItem label='HTML'>
+	```html
+		 
+	```
+	</TabItem>
+		 
+	<TabItem label='Scripts'>
+	```js
+	```
+	</TabItem>
+		 
+	<TabItem label='Tailwind'>
+	```js
+	```
+	</TabItem>
+		 
+	<TabItem label='Everything'>
+	```astro
+		 
+	```
+	</TabItem>
+</Tabs>
+		 
+##  Usage
+	{/* Discuss use cases */}
