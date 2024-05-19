@@ -17,16 +17,21 @@ const tw = {
 
 export const activeLight = 'bg-orange-300'
 export const inactiveLight = 'bg-slate-300'
-export const activeDark = 'bg-sky-400'
-export const inactiveDark = 'bg-gray-900'
+export const activeDark = 'dark:bg-sky-300'
+export const inactiveDark = 'dark:bg-gray-900'
 
-
+export const twTabItems = {
+	bgLightActive: 'bg-orange-300',
+	bgDarkActive: 'dark:bg-sky-300',
+	bgLightInactive: 'bg-slate-300',
+	bgDarkInactive: 'dark:bg-gray-900'
+}
 
 const hs = 
 `
 on activateTab(tab)
-	remove .${inactiveLight} .dark:${inactiveDark} from tab
-	add .${activeLight} .dark:${activeDark} to tab
+	remove .${inactiveLight} .${inactiveDark} from tab
+	add .${activeLight} .${activeDark} to tab
 	send deactivateSiblings(activeTab:tab) to me
 end 
 
@@ -34,8 +39,8 @@ on deactivateSiblings(activeTab)
  set allTabs to my children
  for tab in allTabs
    if tab is not activeTab
-		remove .${activeLight} .dark:${activeDark} from tab
-		add .${inactiveLight} .dark:${inactiveDark} to tab
+		remove .${activeLight} .${activeDark} from tab
+		add .${inactiveLight} .${inactiveDark} to tab
    end
 end
 

@@ -25,7 +25,7 @@ import {inactiveLight, inactiveDark} from './TabGroup.astro'
 
 const hs = `
   init 
-    add .${inactiveLight} .dark:${inactiveDark} to me
+    add .${inactiveLight} .${inactiveDark} to me
 	end
   
   on click send activateTab(tab:me) to the  closest <div.tab-group/>
