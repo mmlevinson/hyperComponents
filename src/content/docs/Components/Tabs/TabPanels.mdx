@@ -82,19 +82,72 @@ import TabPanelItem from '/components/tabs/TabPanelItem.astro'
    
 	  The main container for this control is the `TabPanel` component.
 
+		Multiple TabPanelItems are passed into the default slot of the `TabPanel` component.
+
 		Included in the TabPanel component is a tw constant containing all the base styles for both the container, the `<output/>` panel, and the individual TabPanelItems visible at the top of the control.
 
 		Exporting the tw constant allows for sharing key styles between the hyperscript code within the container and the tabs themselves.  In order to switch the appearance of the Tabs when activated, the styles must be available to both the container which harbors the Hyperscript code for switching tabs and the individual tab components themselves.  This is done by simply exporting a tw constant from the container and importing it into the TabPanelItem component where some of the utility classes are used to style the tabs themselves.
 
-		
-
 		#### Props
 			{/* Each component, with code block showing the props interface */}
+			
+		```js title="TabPanel.astro"
+		interface Props {
+			defaultTabId?:string 
+			maxHeight?:string  
+		}
+		
+		const {
+			defaultTabId = '0',
+			maxHeight = 'max-h-[35rem]'
+} = Astro.props 
+		```
 		#### Styling
-		To improve readability, the Tailwind classes and Hyperscripts are both extracted from the markup and encapsulated into  Astro `tw` and `hs` local variables within the [Component Script](https://docs.astro.build/en/basics/astro-components/#the-component-script) which are then referenced in the html markup. 
-			
-		The advantage of this strategy is to allow long run-on strings to be formatted as concatenated, multi-line strings which aids readability and code maintenance.
-			
+		
+		All of the Tailwind utility classes are encapsulated into a local constant in the Astro Component Script and then referenced in the markup.  
+
+		In addition, these classes are shared by both the Hyperript code and the children TabPanelItem component.   This is necessary in order for the HS code to add/remove classes when the Tabs are clicked.   
+
+		Below is the tw constant containing the entire styling code for both the container and the individual tabs.   By exporting this constant and then importing into the TabPanelItem, all the Tailwind styling is avaible to the intended markup where it is needed.
+
+		Another advantage of this strategy is code maintenance.  It is easier to make changes and update the styling when everything is gathered into one place, but still in proximity to the markup where it is being used (as per Locality of Behavior).
+
+		In other hyperComponents in this library, props can be used to pass in utility classes in order to customize the component from outside (i.e. where it is being used). The tailwind-merge utility is used to make sure there are no collisions between duplicate tw classes.   However, when exporting a constant in an Astro file,  the twMerge() method as concatenating any values passed in props will not work (an undefined error occurs).
+
+		Thus, this control cannot be styled from outside.  However, it is still easy and straightforward to make any adjustments you wish to the components themselves to suit your own project needs.  Simply change the default styles listed below and test the results.
+
+		```js
+		export const tw = {
+			container: 'tab-group not-content flex justify-left ',
+			output: 'block text-left p-4 w-full  overflow-y-scroll ' +
+				'bg-gray-100 dark:bg-gray-950 ',
+			tabItem: 'z-10 tab-item not-content select-none ' + 
+				'font-semibold rounded-t-xl cursor-pointer ' + 
+				'hover:bg-orange-100 dark:hover:bg-purple-900 ' +
+				'border-2  border-slate-600 ',
+			activeLight: 'bg-gray-100',
+			activeDark: 'dark:bg-gray-950',
+			inactiveLight: 'bg-slate-300',
+			inactiveDark: 'dark:bg-gray-800',
+			textActiveLight: 'text-blue-950',
+			textActiveDark: 'dark:text-orange-200',
+			textInactiveLight: 'text-blue-900',
+			textInactiveDark: 'dark:text-zinc-200'
+}
+		```
+		The `container` styles affect the entire control.  The `tab-group` class is added specifically to make the Hyperscript aware of parent container.  
+
+		The `output` styles affect the content shown within the panel.  You can also apply styles separately to any markup you return from the API used to feed the panel.
+
+		To change the appearance of the active Tab, you should adjust the  `activeLight`, `activeDark`, `textActiveLight` and `textActiveDark` properties of the tw object.
+
+		To change the appearance of the inactive tabs, you should likewise adjust the `inactiveLight`, `inactiveDark`, `textInactiveLight`, and `textInactiveDark` properties of the tw object.
+
+		The hover effect is added to the `tabItem` property only so that is where you would adjust any hover colors you wish.
+
+    The Hyperscript is aware of the tw properties and will add/remove classes that already exist in the tw style object above.  If you need more customizable behaviors for the individual tabs, you may need to provide more classes to the HS code yourself.  Visit the Code section below to review the Hyperscript in the parent TabPanel component where all these actions are taking place.
+
+
 		#### Slots
 		{/* Outline the name/function of each slot */}
 		#### Events
