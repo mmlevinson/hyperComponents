@@ -2,11 +2,11 @@
 import {twMerge} from 'tailwind-merge'
  
 interface Props {
-	defaultTab?:string
+	defaultTabId?:string
 }
  
 const {
-	defaultTab = '0',
+	defaultTabId = '0',
 } = Astro.props 
  
 export const tw = {
@@ -29,7 +29,7 @@ export const tw = {
 const hs = 
 `
 init
-	set defaultTab to #{${defaultTab}}
+	set defaultTab to #{${defaultTabId}}
 	send activateTab(tab:defaultTab) to me
 end
 
