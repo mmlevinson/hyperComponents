@@ -28,15 +28,21 @@ export const tw = {
 // export const activeDark = 'dark:bg-sky-400'
 // export const inactiveDark = 'dark:bg-gray-900'
 
-
+const defaultTabId = '1'
 
 const hs = 
 `
+init
+	set defaultTab to #{${defaultTabId}}
+	log defaultTab
+	send activateTab(tab:defaultTab) to me
+end
+
 on activateTab(tab)
-	remove .${tw.inactiveLight} .${tw.inactiveDark}  from tab
-	remove .${tw.textInactiveLight} .${tw.textInactiveDark} from tab
-	add .${tw.activeLight} .${tw.activeDark} to tab
-	add .${tw.textActiveLight} .${tw.textActiveDark} to tab
+	remove .${tw.inactiveLight} .${tw.inactiveDark} from the tab
+	remove .${tw.textInactiveLight} .${tw.textInactiveDark} from the tab
+	add .${tw.activeLight} .${tw.activeDark} to the tab
+	add .${tw.textActiveLight} .${tw.textActiveDark} to the tab
 	send deactivateSiblings(activeTab:tab) to me
 end 
 
@@ -44,10 +50,10 @@ on deactivateSiblings(activeTab)
  set allTabs to my children
  for tab in allTabs
    if tab is not the activeTab
-		remove .${tw.activeLight} .${tw.activeDark}  from tab
-		remove .${tw.textActiveLight} .${tw.textActiveDark} from tab
-		add .${tw.inactiveLight} .${tw.inactiveDark} to tab
-		add .${tw.textInactiveLight} .${tw.textInactiveDark} to tab
+		remove .${tw.activeLight} .${tw.activeDark}  from the tab
+		remove .${tw.textActiveLight} .${tw.textActiveDark} from the tab
+		add .${tw.inactiveLight} .${tw.inactiveDark} to the tab
+		add .${tw.textInactiveLight} .${tw.textInactiveDark} to the tab
    end
 end
 
