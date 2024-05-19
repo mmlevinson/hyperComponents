@@ -10,18 +10,18 @@ const {
 } = Astro.props 
  
 export const tw = {
-	container: 'tab-group not-content flex justify-left md:gap-1 ',
-	output: 'block -translate-y-1 p-4 w-full h-[35rem] overflow-y-scroll ' +
-	  'bg-slate-100 dark:bg-gray-900 border-2 border-slate-600 ',
-	tabItem: 'tab-item not-content select-none rounded-t-xl cursor-pointer border-2 border-slate-600 font-semibold',
-	activeLight: 'bg-blue-200',
-	activeDark: 'dark:bg-indigo-500',
-	inactiveLight: 'bg-slate-200',
-	inactiveDark: 'dark:bg-gray-900',
+	container: 'tab-group not-content flex justify-left ',
+	output: 'block p-4 w-full h-[35rem] overflow-y-scroll ' +
+	  'bg-zinc-100 dark:bg-gray-950  border-slate-600 ',
+	tabItem: 'z-10 tab-item not-content select-none font-semibold rounded-t-xl cursor-pointer border-2  border-slate-600 ',
+	activeLight: 'bg-zinc-100',
+	activeDark: 'dark:bg-gray-950',
+	inactiveLight: 'bg-slate-300',
+	inactiveDark: 'dark:bg-gray-800',
 	textActiveLight: 'text-blue-950',
-	textActiveDark: 'dark:text-zinc-50',
-	textInactiveLight: 'text-emerald-900',
-	textInactiveDark: 'dark:text-gray-400'
+	textActiveDark: 'dark:text-orange-200',
+	textInactiveLight: 'text-blue-900',
+	textInactiveDark: 'dark:text-zinc-200'
 }
 
 
@@ -38,6 +38,7 @@ on activateTab(tab)
 	remove .${tw.textInactiveLight} .${tw.textInactiveDark} from the tab
 	add .${tw.activeLight} .${tw.activeDark} to the tab
 	add .${tw.textActiveLight} .${tw.textActiveDark} to the tab
+	add .border-b-0 to the tab
 	send deactivateSiblings(activeTab:tab) to me
 end 
 
@@ -47,6 +48,7 @@ on deactivateSiblings(activeTab)
    if tab is not the activeTab
 		remove .${tw.activeLight} .${tw.activeDark}  from the tab
 		remove .${tw.textActiveLight} .${tw.textActiveDark} from the tab
+		remove .border-b-0 from the tab
 		add .${tw.inactiveLight} .${tw.inactiveDark} to the tab
 		add .${tw.textInactiveLight} .${tw.textInactiveDark} to the tab
    end
