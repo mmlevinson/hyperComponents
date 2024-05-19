@@ -10,7 +10,7 @@ const {
 } = Astro.props 
  
 const tw = {
-	tabs: 'not-content flex justify-left gap-1 ',
+	container: 'not-content flex justify-left gap-1 ',
 	output: 'block -translate-y-1 p-4 w-full h-[35rem] overflow-y-scroll ' +
 	  'bg-slate-100 dark:bg-gray-900 border-2 border-slate-600 ',
 }
@@ -20,7 +20,7 @@ const hs = ``
  
 ---
  
-<div class={tw.tabs}
+<div class={tw.container}
 	hx-trigger="click"
 	hx-target="next <output/>"
 	hx-swap="innerHTML transition:true">
