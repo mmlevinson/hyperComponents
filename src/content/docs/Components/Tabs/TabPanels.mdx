@@ -70,64 +70,112 @@ import TabPanelItem from '/components/tabs/TabPanelItem.astro'
 ## Features
 
 1.  A single panel with multiple tabs
-2.  Content is smoothly loaded from backend API route using htmx
+2.  Content is loaded from custom API route using htmx
 3.  Smooth transitions between panel changes
-4.  Customizable appearance of Tab active and inactive styles
+4.  Customizable appearance of active and inactive Tabs
 5.  Customizable appearance of the panel content
-6.  Fixed height of panel which can be changed in code.
+6.  Height of panel which can be changed via props.
 		 
 ## Components
 	{/* Breakdown of each Astro Components used for this control */}
 	### TabPanel
+   
+	  The main container for this control is the `TabPanel` component.
+
+		Included in the TabPanel component is a tw constant containing all the base styles for both the container, the `<output/>` panel, and the individual TabPanelItems visible at the top of the control.
+
+		Exporting the tw constant allows for sharing key styles between the hyperscript code within the container and the tabs themselves.  In order to switch the appearance of the Tabs when activated, the styles must be available to both the container which harbors the Hyperscript code for switching tabs and the individual tab components themselves.  This is done by simply exporting a tw constant from the container and importing it into the TabPanelItem component where some of the utility classes are used to style the tabs themselves.
+
+		
+
+		#### Props
+			{/* Each component, with code block showing the props interface */}
+		#### Styling
+		To improve readability, the Tailwind classes and Hyperscripts are both extracted from the markup and encapsulated into  Astro `tw` and `hs` local variables within the [Component Script](https://docs.astro.build/en/basics/astro-components/#the-component-script) which are then referenced in the html markup. 
+			
+		The advantage of this strategy is to allow long run-on strings to be formatted as concatenated, multi-line strings which aids readability and code maintenance.
+			
+		#### Slots
+		{/* Outline the name/function of each slot */}
+		#### Events
+		{/* Any custom events emitted by this component*/}
+		#### Transitions
+		{/* Description of the animations used in the control */}
+		#### Code
+		{/* Brief explanation of the component */}
+
+import {Tabs, TabItem } from '@astrojs/starlight/components'
+				
+		<Tabs>
+			<TabItem label='Props'>
+			```js
+				
+			```
+			</TabItem>
+				
+			<TabItem label='HTML'>
+			```html
+				
+			```
+			</TabItem>
+				
+			<TabItem label='Scripts'>
+			```js
+			```
+			</TabItem>
+				
+			<TabItem label='Tailwind'>
+			```js
+			```
+			</TabItem>
+				
+			<TabItem label='Everything'>
+			```astro
+				
+			```
+			</TabItem>
+		</Tabs>
 
 	### TabPanelItem
-	
-## Props
-	{/* Each component, with code block showing the props interface */}
-## Styling
-To improve readability, the Tailwind classes and Hyperscripts are both extracted from the markup and encapsulated into  Astro `tw` and `hs` local variables within the [Component Script](https://docs.astro.build/en/basics/astro-components/#the-component-script) which are then referenced in the html markup. 
-		 
-The advantage of this strategy is to allow long run-on strings to be formatted as concatenated, multi-line strings which aids readability and code maintenance.
-		 
-## Slots
-	{/* Outline the name/function of each slot */}
-## Events
-	{/* Any custom events emitted by this component*/}
-## Transitions
-	{/* Description of the animations used in the control */}
-## Code
-	{/* Brief explanation of the component */}
-import {Tabs, TabItem } from '@astrojs/starlight/components'
-		 
-<Tabs>
-	<TabItem label='Props'>
-	```js
-		 
-	```
-	</TabItem>
-		 
-	<TabItem label='HTML'>
-	```html
-		 
-	```
-	</TabItem>
-		 
-	<TabItem label='Scripts'>
-	```js
-	```
-	</TabItem>
-		 
-	<TabItem label='Tailwind'>
-	```js
-	```
-	</TabItem>
-		 
-	<TabItem label='Everything'>
-	```astro
-		 
-	```
-	</TabItem>
-</Tabs>
+
+	#### Props
+	#### Styling
+	#### Slots
+	#### Events
+	#### Transitions
+	#### Code
+
+	<Tabs>
+		<TabItem label='Props'>
+		```js
+			 
+		```
+		</TabItem>
+			 
+		<TabItem label='HTML'>
+		```html
+			 
+		```
+		</TabItem>
+			 
+		<TabItem label='Scripts'>
+		```js
+		```
+		</TabItem>
+			 
+		<TabItem label='Tailwind'>
+		```js
+		```
+		</TabItem>
+			 
+		<TabItem label='Everything'>
+		```astro
+			 
+		```
+		</TabItem>
+	</Tabs>
+			 
+
 		 
 ##  Usage
 	{/* Discuss use cases */}
