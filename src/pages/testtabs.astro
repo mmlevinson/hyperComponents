@@ -26,23 +26,7 @@ const defaultTabId = '1'
 
 <StarlightPage frontmatter={{title: title}}>
 
-	<div class={tw.tabs}
-			hx-trigger="click"
-			hx-target="next <output/>"
-			hx-swap="innerHTML transition:true">
-			<button id="1" class={tw.tabItem}
-			  hx-trigger="load, click"
-				hx-get="/api/readmore/1"
-			>HTMX</button>
-			<button id="2" class={tw.tabItem}	
-				hx-get="/api/readmore/2"
-			>Tailwind	</button>
-			<button id="3" class={tw.tabItem}
-				hx-get="/api/readmore/3">Hyperscript</button>
-			<button id="4" class={tw.tabItem}
-				hx-get="/api/readmore/4">Astro</button>
-	</div>
-	<output id="tab-output" class={tw.output}  style="margin-top:0; "/>
+
 
 
 	<TabGroup>
