@@ -12,7 +12,7 @@ const {
 } = Astro.props 
  
 export const tw = {
-	container: 'tab-group not-content flex justify-left ',
+	container: 'tab-panel not-content flex justify-left ',
 	output: 'block text-left p-4 w-full overflow-y-scroll ' +
 	  'bg-gray-100 dark:bg-gray-950 ',
 	tabItem: 'z-10 tab-item not-content select-none ' + 
@@ -63,8 +63,8 @@ const hs =
  
 <div class={tw.container}
 	hx-trigger="click"
-	hx-target="next <output/>"
 	hx-swap="innerHTML transition:true"
+	hx-target="next <output/>"
 	script={hs} >
   <slot/>
 </div>

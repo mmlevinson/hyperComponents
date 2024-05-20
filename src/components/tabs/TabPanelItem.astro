@@ -3,10 +3,10 @@
 import {twMerge} from 'tailwind-merge'
 
 interface Props {
-	id: string
-	caption: string
-	path: string
-	trigger?: string
+	id: string  // a unique identifier
+	caption: string  // a string displayed in the Tab
+	path: string  // the API route to be loaded when the Tab is active
+	trigger?: string  //one or more (comma separated) events which activate the Tab
 }
 
 const { 
@@ -16,7 +16,6 @@ const {
   trigger = 'click' 
 } = Astro.props
 
-// import {inactiveLight, inactiveDark} from './TabPanel.astro'
 import {tw} from './TabPanel.astro'
 
 const hs = `
@@ -25,7 +24,7 @@ const hs = `
 		add .${tw.textInactiveLight} .${tw.textInactiveDark} to me
 	end
   
-  on click send activateTab(tab:me) to the  closest <div.tab-group/>
+  on click send activateTab(tab:me) to the  closest <div.tab-panel/>
 `
 ---
 
