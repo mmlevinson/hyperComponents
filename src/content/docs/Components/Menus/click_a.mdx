@@ -12,12 +12,12 @@ sidebar:
 
 export const tw = {
 	exampleContainer: 'not-content w-full w-max-lg text-center pb-4 my-6 mx-auto rounded-xl ' + 
-	'bg-gray-300 dark:bg-gray-800' ,
+		'bg-gray-300 dark:bg-gray-800' ,
 	exampleTitle: 'py-2 mb-4 rounded-t-xl ' + 
-	'font-semibold text-gray-300 dark:text-zinc-200 ' + 
-	'bg-gray-800 dark:bg-sky-900 ',
+		'font-semibold text-gray-300 dark:text-zinc-200 ' + 
+		'bg-gray-800 dark:bg-sky-900 ',
 	menuItem: 'px-4 hover:bg-gray-200 hover:text-purple-600 ' +
-	'hover:dark:bg-stone-300 hover:dark:text-sky-800',
+		'hover:dark:bg-stone-300 hover:dark:text-sky-800',
 	icon:'inline-block size-6'
 }
 
@@ -55,8 +55,8 @@ The unordered list is populated by passing multiple `<li>` into the component's 
 import ClickDropdownMenu_A from '/components/ClickDropdownMenu_A.astro';
 
 const tw = {
-		menuItem: 'px-4 hover:bg-gray-200 hover:text-purple-600 ' +
-	'hover:dark:bg-stone-300 hover:dark:text-sky-800',
+	menuItem: 'px-4 hover:bg-gray-200 hover:text-purple-600 ' +
+		'hover:dark:bg-stone-300 hover:dark:text-sky-800',
 }
 
 const hs = "on click send closeDropdown to the #{'click-dropdown-id'} then settle then call alert('You selected ' + my innerHTML)"
@@ -204,23 +204,23 @@ import {Tabs, TabItem } from '@astrojs/starlight/components'
 	<TabItem label="Props">
 	```js
 interface Props {
- id: string   //a unique identifier for this component, allowing multiple dropdowns on a page without collisions
- caption: string   //the text displayed in the trigger button
- buttonStyles?: string   //any additional Tailwind classes for customizing the trigger button
- dropdownStyles?: string   //any additional styles to apply to the dropdown container <div>
- listStyles?: string   //any additional styles to apply to the <ul>
- moveXY?: string //comma separated integer values specifying x,y shift in dropdown position
- duration?: string, //duration (in milliseconds) for dropdown height transition
+		id: string   //a unique identifier for this component, allowing multiple dropdowns on a page without collisions
+		caption: string   //the text displayed in the trigger button
+		buttonStyles?: string   //any additional Tailwind classes for customizing the trigger button
+		dropdownStyles?: string   //any additional styles to apply to the dropdown container <div>
+		listStyles?: string   //any additional styles to apply to the <ul>
+		moveXY?: string //comma separated integer values specifying x,y shift in dropdown position
+		duration?: string, //duration (in milliseconds) for dropdown height transition
 }
 
 const {
-	id, 
-	caption, 
-	buttonStyles, 
-	dropdownStyles, 
-	listStyles, 
-	moveXY = "0,0", 
-	duration = '100ms'
+		id, 
+		caption, 
+		buttonStyles, 
+		dropdownStyles, 
+		listStyles, 
+		moveXY = "0,0", 
+		duration = '100ms'
 } = Astro.props
 
 ```
@@ -325,23 +325,23 @@ const tw = {
 import {twMerge} from 'tailwind-merge'
 
 interface Props {
- id: string   //a unique identifier for this component, allowing multiple dropdowns on a page without collisions
- caption: string   //the text displayed in the trigger button
- buttonStyles?: string   //any additional Tailwind classes for customizing the trigger button
- dropdownStyles?: string   //any additional styles to apply to the dropdown container <div>
- listStyles?: string   //any additional styles to apply to the <ul>
- moveXY?: string //comma separated integer values specifying x,y shift in dropdown position
- duration?: string, //duration (in milliseconds) for dropdown height transition
+		id: string   //a unique identifier for this component, allowing multiple dropdowns on a page without collisions
+		caption: string   //the text displayed in the trigger button
+		buttonStyles?: string   //any additional Tailwind classes for customizing the trigger button
+		dropdownStyles?: string   //any additional styles to apply to the dropdown container <div>
+		listStyles?: string   //any additional styles to apply to the <ul>
+		moveXY?: string //comma separated integer values specifying x,y shift in dropdown position
+		duration?: string, //duration (in milliseconds) for dropdown height transition
 }
 
 const {
-	id, 
-	caption, 
-	buttonStyles, 
-	dropdownStyles, 
-	listStyles, 
-	moveXY = "0,0", 
-	duration = '100ms'
+		id, 
+		caption, 
+		buttonStyles, 
+		dropdownStyles, 
+		listStyles, 
+		moveXY = "0,0", 
+		duration = '100ms'
 } = Astro.props
 
 const tw = {
@@ -446,7 +446,7 @@ import ClickDropdownMenu_A from '/components/ClickDropdownMenu_A.astro';
 
 const tw = {
 	menuItem: 'px-4 hover:bg-gray-200 hover:text-purple-600 ' +
-	'hover:dark:bg-stone-300 hover:dark:text-sky-800',
+		'hover:dark:bg-stone-300 hover:dark:text-sky-800',
 }
 
 const hs = "on click call alert('You selected ' + my innerHTML) "
