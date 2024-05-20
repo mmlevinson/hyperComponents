@@ -8,18 +8,21 @@ tableOfContents:
 		 
 A utility control for displaying content within separate panels is the TabPanel control.
 
-In this example, classic rounded tabs utilize a button which retrieves a hypermedia fragment from a backend API route using htmx.    Panel switching is performed exclusively by HyperScript.   All styling is from Tailwind.
+In the example below, classic rounded tabs utilize a `<button>` which uses htmx to send an AJAX request to a custom API endpoint and then retrieves a hypermedia response which is displayed in a fixed height container below the row of tabs.  
 
-There are two Astro components used to provide this control, a TabPanel component which wraps multiple TabPanelItem components.   
+Tab switching is performed exclusively by HyperScript.   
 
-You can style the active and inactive tabs using Tailwind utility classes and they will be picked up and implemented by the Hyperscript code.
+All styling is from Tailwind.
 
+There are two Astro components used to provide this control, a [TabPanel](#tabpanel) component which is a parent container that  wraps multiple [TabPanelItem](#tabpanelitem) components.   
+
+You can customize the active and inactive tabs using Tailwind and these utility classes will be picked up and implemented by the Hyperscript code.
 		 
 ## Example
 		 
 export const tw = {
 		exampleContainer: 'not-content w-full w-max-lg text-center mx-auto bg-gray-300 dark:bg-gray-800 rounded-xl my-6',
-		exampleTitle: 'bg-gray-300 dark:bg-sky-900 text-gray-300 dark:text-zinc-200 font-semibold py-2 mb-4 rounded-t-xl',
+		exampleTitle: 'bg-gray-800 dark:bg-sky-900 text-gray-300 dark:text-zinc-200 font-semibold py-2 mb-4 rounded-t-xl',
 		icon:'inline-block size-6',
 		image: 'inline-block max-h-6',
 		p: 'pb-3'	
@@ -487,6 +490,10 @@ Since only one Tab can be activated at a time, be careful not to overload the tr
 
 	#### Code
 
+	Explore the entire source code of the TabPanelItem component in the tabs below.
+
+	To utilize this component in your project, copy/paste the contents of the Everything panel into a `.astro` file in your src folder.
+
 	<Tabs>
 		<TabItem label='Props'>
 		```js
@@ -544,7 +551,7 @@ Since only one Tab can be activated at a time, be careful not to overload the tr
 			 
 		<TabItem label='Everything'>
 		```astro
-				---
+		---
 
 		import {twMerge} from 'tailwind-merge'
 
@@ -590,3 +597,9 @@ Since only one Tab can be activated at a time, be careful not to overload the tr
 		 
 ##  Usage
 	{/* Discuss use cases */}
+	There are many situations where TabPanels are useful.
+
+	One common use case is illustrated in this very docs site where various source code blocks are presented in separate tabs.   
+
+	For library documentations, TabPanels are used to offer different language implementations of the same source code allowing the user to grab the code for their favorite language.
+
