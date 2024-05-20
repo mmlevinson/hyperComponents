@@ -199,14 +199,7 @@ import TabPanelItem from '/components/tabs/TabPanelItem.astro'
 		##### hx-target
 
 		Finally, the TabPanel component contains a single `<output/>` element which receives and displays the response html.   
-
-
-
-
-   	hx-trigger="click"
-	hx-target="next <output/>"
-	hx-swap="innerHTML transition:true"
-
+ 
 
 		#### Transitions
 		{/* Description of the animations used in the control */}
@@ -217,15 +210,16 @@ import TabPanelItem from '/components/tabs/TabPanelItem.astro'
 		#### Code
 		{/* Brief explanation of the component */}
 
-		One power feature of htmx is attribute inheritance.   Some hx-attributes can be placed on a parent element and still apply to all the children, saving code duplication. 
+	
+		Notice in the markup below, the `hx-trigger`, `hx-target`, and `hx-swap` attributes are placed onto the parent.   However, clicking a child component (i.e. [TabPanelItem](#tabpanelitem)) still invokes the actions of these attributes.  However, repeating these attributes on every [TabPanelItem](#tabpanelitem) becomes unnecessary because of [attribute inheritance](https://htmx.org/docs/#inheritance).   
 
-		Notice in the markup below, the `hx-trigger`, `hx-target`, and `hx-swap` attributes are placed onto the parent.   However, clicking a child component (i.e. TabPanelItem) still invokes the actions of these attributes.  However, repeating these attributes on every TabPanelItem becomes unnecessary because of attribute inheritance.   
+		Also notice the use of back-ticks to allow string interpolation into the Hyperscript code itself.  By extracting the script into a local constant and then using back-ticks with string interpolation, it is possible to embed individual TW utility classes and other props directly into the HS code while at the same time allowing the markup to utilize these same values.  
 
-		Also notice the use of back-ticks to allow string interpolation into the Hyperscript code itself.  By removing the script into a local constant and then using back-ticks with string interpolation, it is possible to embed the strings for individual TW utility classes into the HS code while at the same time allowing the markup to utilize the same classes.  
+		You would not be able to  cross-purpose the styling with the HS code if you kept the TW classes inside the `class` attribute of the DOM elements themselves.
 
-		You could not cross-purpose the styling with the HS code if you kept the TW classes inside the `class` attribute of the DOM elements themselves.
+		Also note how the `maxHeight` prop is added onto the `class` attribute of the `<output/>` element by simple string concatenation.   This simple technique permits props to be used in the styling as long as you don't pass a duplicate class via props.   In this case, no default `max-h` was specified in the `tw.output` property used to style the `<output/>` element, so no collision would occur.   If need be, collisions or duplicates can be suppressed by using the `twMerge()` function illustrated in other hyperComponent examples.	
 
-		Also note how the `maxHeight` prop is concatenated into the `class` attribute of the `<output/>` element.   This simple technique permits props to be used in the styling as long as you don't pass a duplicate class via props.   In this case, no default `max-h` as specified in the `tw.output` property used to style the `<output/>` element, so no collision would occur.   If need be, collisions or duplicates can be suppressed by using the `twMerge()` function illustrated in other hyperComponent examples.	
+		For a full explanation of Tailwind collisions see the [Tailwind Issues](/about/tailwind#are-you-missing-a-space-char) document.
 
 import {Tabs, TabItem } from '@astrojs/starlight/components'
 				
