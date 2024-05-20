@@ -399,16 +399,16 @@ import {Tabs, TabItem } from '@astrojs/starlight/components'
 
 	Each visible Tab is implemented by an instance of the TabPanelItem component.
 
-	The essential detail is a button styled to appear as a tab by rounding the upper corners.  Clicking the button emits a custom event which Hyperscript listens for in the parent TabPanel container.    
+	The essential detail is a button styled to appear as a tab by rounding the upper corners.  Clicking the button emits a custom event which Hyperscript listens for in the parent [TabPanel](#tabpanel) container.    
 
 	#### Props
 
 	```js
 		interface Props {
-			id: string  // a unique identifier
-			caption: string  // a string displayed in the Tab
-			path: string  // the API route to be loaded when the Tab is active
-			trigger?: string  //one or more (comma separated) events which activate the Tab
+			id: string 
+			caption: string 
+			path: string 
+			trigger?: string 
 		}
 
 		const { 
@@ -438,7 +438,7 @@ To implement this hyperComponent in your project, you will need to create a rout
 
 This prop takes the event(s) which will activate an individual tab.  
 
-The default value is 'click'.   You can override the default value with another trigger such as `mouseenter` or `load`	depending on the needs of your application.  For multiple trigger events, use a comma separated string.
+The default value is 'click'.   You can override the default value with  triggers such as `mouseenter` or `load`	depending on the needs of your application.  For multiple trigger events use a comma separated string.
 
 Since only one tab can be activated at a time, be careful not to overload the trigger props so they interfere with each other.
 
@@ -449,15 +449,15 @@ Since only one tab can be activated at a time, be careful not to overload the tr
 	import {tw} from './TabPanel.astro'
 	```
 
-	Styling for each TabPanelItem is the essence of simplicity.   All the styles are simply imported from the place where they are used which is the TabPanel parent container.
+	Styling for each TabPanelItem is the essence of simplicity.   All the styles are simply imported from the place where they are used which is the [TabPanel](#tabpanel) parent container.
 
-	This unique strategy allows for rapid prototyping typical of Tailwind utility classes while also allowing access to these selections across multiple related components.
+	This unique strategy allows for rapid prototyping typical of Tailwind utility classes while also allowing access to these choices across multiple related components.
 
-	The [TabPanel](#tabpanel) container utilizes most of these same TW classes to switch the appearance of active and inactive tabs.
+	The [TabPanel](#tabpanel) container uses most of these  TW classes to switch the appearance of active and inactive tabs.
 
-	At the same time, exporting these styles and then importing them into the child component (TabPanelItem) shares the styling in such a manner as that changes made in the parent are propogated to the children.
+	At the same time, exporting these styles and then importing them into the child component (TabPanelItem) shares the styling in such a manner  that changes made in the parent are propogated to the children.
 
-  You could just destructure the properties of the tw constant that are used in the child component, but the coding syntax used above is just plain simple and stable.
+  You could just destructure the properties of the `tw` constant that are used in the child component, but the coding syntax used above is just plain simple and stable.
 
 
 	#### Slots
@@ -481,21 +481,21 @@ Since only one tab can be activated at a time, be careful not to overload the tr
 
 	##### hx-trigger
 
-  This attribute is available on both the parent and child.  The default trigger event (`click`) is set on the parent but can be overridden in each child TabPanelItem by passing a different event(s) to the `trigger` prop which is then referenced by the `hx-trigger` attribute in the markup.
+The default trigger event (`click`) is set on the parent but can be overridden in each child [TabPanelItem](#tabpanelitem) by passing a different event(s) to the `trigger` prop which is then referenced by the `hx-trigger` attribute in the markup.
 
 	##### hx-get
 
-	This attribute tells htmx which AJAX request to emit and the corresponding XHR verb (which is 'GET').
+	This attribute tells [htmx](http://htmx.org/) which AJAX request to emit and the corresponding XHR verb (which is 'GET' in this case).
 
-	The custom endpoint is provided to the `hx-get` attribute via the `path` prop.  
+	A custom endpoint is provided to the `hx-get` attribute via the `path` prop.  
 
-	When the trigger event occurs, htmx sends an HTTP-GET request to the corresponding path and the resulting html markup is placed according to the `hx-target` and `hx-swap` attributes on the parent [TabPanel](#tabpanel) container which are available to via inheritance.
+	When the trigger event occurs, [htmx](http://htmx.org/) sends an HTTP-GET request to the corresponding path and the resulting html markup is placed into the DOM according to the `hx-target` and `hx-swap` attributes on the parent [TabPanel](#tabpanel) container which are available via inheritance.
 
 	#### Code
 
 	Explore the entire source code of the TabPanelItem component in the tabs below.
 
-	To utilize this component in your project, copy/paste the contents of the Everything panel into a `.astro` file in your src folder.
+	To utilize this component in your project, copy/paste the contents of the Everything panel into an `.astro` file in your src folder.
 
 	<Tabs>
 		<TabItem label='Props'>
@@ -602,7 +602,7 @@ Since only one tab can be activated at a time, be careful not to overload the tr
 	{/* Discuss use cases */}
 	There are many situations where TabPanels are useful.
 
-	One common use case is illustrated in this very docs site where various source code blocks are presented in separate tabs.   
+	One common use case is illustrated by this  very  site where different source code blocks are presented in separate tabs.   
 
-	For library documentations, TabPanels are used to offer different language implementations of the same source code allowing the user to grab the code for their favorite language.
+	For library documentation sites, TabPanels are frequently used to offer different language implementations of the same source code allowing the user to grab the code for their favorite language.
 
