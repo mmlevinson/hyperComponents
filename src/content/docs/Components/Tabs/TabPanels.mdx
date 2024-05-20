@@ -50,7 +50,7 @@ import TabPanelItem from '../../../../components/tabs/TabPanelItem.astro'
 
 This example hyperComponent uses [htmx](https://htmx.org) to issue AJAX requests to an [Astro](https://astro.build/docs) API endpoint which returns a [hypermedia](https://htmx.org/essays/hypermedia-apis-vs-data-apis/) response that is loaded into the container below the tabs.
 
-Switching Tabs is performed exclusively by [HyperScript](https://hyperscript.org).   All styling is provided by [Tailwind](https://tailwindcss.com) utility classes. Developers can customize the styling of active and inactive tabs using Tailwind and these utility classes will then be utilized by the Hyperscript code.
+Switching tabs is performed exclusively by [HyperScript](https://hyperscript.org).  Styling is provided only by [Tailwind](https://tailwindcss.com) utility classes.
 
 There are two Astro components used to implement this control, specifically  a [TabPanel](#tabpanel) component which acts as a parent container that wraps multiple [TabPanelItem](#tabpanelitem) components.  
 
@@ -73,12 +73,12 @@ import TabPanelItem from '/components/tabs/TabPanelItem.astro'
 
 ## Features
 
-1.  A single panel with multiple tabs
-2.  Content is loaded from custom API route using [htmx](https://htmx.org)
-3.  Smooth transitions between panel changes
-4.  Customizable appearance of active and inactive Tabs
+1.  A single fixed-height panel with a top row of tabs
+2.  Height of panel can be changed via props.
+3.  Panel content is loaded from custom API routes using [htmx](https://htmx.org)
+4.  Customizable appearance of active and inactive tabs
 5.  Customizable appearance of the panel content
-6.  Height of panel which can be changed via props.
+6.  Smooth transitions between content swapping
 		 
 ## Components
 	{/* Breakdown of each Astro Components used for this control */}
@@ -118,7 +118,7 @@ import TabPanelItem from '/components/tabs/TabPanelItem.astro'
 
 		Below is the tw constant containing the entire styling code for both the container and the individual tabs.   
 
-		```js
+		```js title="TabPanel.astro"
 		export const tw = {
 			container: 'tab-group flex justify-left ',
 			output: 'block text-left p-4 w-full overflow-y-scroll ' +
@@ -137,27 +137,23 @@ import TabPanelItem from '/components/tabs/TabPanelItem.astro'
 			textInactiveDark: 'dark:text-zinc-200'
 }
 		```
-		The `container` styles affect the entire control.  The `tab-group` class is added specifically to make the Hyperscript aware of parent container.  
+		The `container` styles affect the entire control.  The `tab-panel` class is added specifically to make the Hyperscript aware of parent container.  
 
-		The `output` styles affect the content shown within the panel.  You can also apply styles separately to any markup you return from the API used to feed the panel.
+		The `output` styles affect the content shown within the panel.  You can, of course, apply styles  to any markup you return from the API used to feed the panel.
 
-		To change the appearance of the active Tab, you should adjust the  `activeLight`, `activeDark`, `textActiveLight` and `textActiveDark` properties of the tw object.
+		To change the appearance of the active tab, you should adjust the  `activeLight`, `activeDark`, `textActiveLight` and `textActiveDark` properties of the `tw` object.
 
-		To change the appearance of the inactive tabs, you should likewise adjust the `inactiveLight`, `inactiveDark`, `textInactiveLight`, and `textInactiveDark` properties of the tw object.
+		To change the appearance of the inactive tabs, you should likewise adjust the `inactiveLight`, `inactiveDark`, `textInactiveLight`, and `textInactiveDark` properties of the `tw` object.
 
-		The hover effect is added to the `tabItem` property only so that is where you would adjust any hover colors you wish.
+		The hover effect is only present on the `tabItem` property so that is where you would adjust any hover colors you wish.
 
-    The Hyperscript is aware of the tw properties and will add/remove classes that already exist in the tw style object above.  If you need more customizable behaviors for the individual tabs, you may need to provide more classes to the HS code yourself.  Visit the Code section below to review the Hyperscript in the parent TabPanel component where all these actions are taking place.
+    The Hyperscript is aware of the `tw` properties and will add/remove classes that already exist in the `tw` styles.  If you need more customizable behaviors for the individual tabs, you may need to provide more classes to the HS code yourself. Follow the example code in the scripts tab below to see how this was done.
 
 
 		#### Slots
 		{/* Outline the name/function of each slot */}
 
-			The default slot receives multiple child [TabPanelItems](#tabpanelitem) components.
-
-		The TabPanel has a single default slot which is intended to receive multiple TabPanelItem components as shown in the example above. 
-
-		Each TabPanelItem is comprised of a button whose styling resembles a Tab and whose htmx attributes retrieve a hypermedia response from a custom API endpoint which you specify.   
+		The default slot receives multiple child [TabPanelItems](#tabpanelitem) components.
 
 		#### Events
 		{/* Any custom events emitted by this component*/}
@@ -166,17 +162,17 @@ import TabPanelItem from '/components/tabs/TabPanelItem.astro'
 		
 		##### load
 
-		On page load, the defaultTabId prop is picked up by the HS code and used to identify the appropriate Tab which is then activated.   This sets the background and text color to the active styles listed above, and retrieves the content to be displayed in the panel using htmx.
+		On page load, the `defaultTabId` prop is picked up by the HS code which triggers an activateTab() event passing a reference to the appropriate TabPanelItem  as the argument.
 
 		##### activateTab(tab)
 
-		This event adds/removes classes to change the appearance of the tab which is passed as the argument.   All other Tabs under control of the container are then deactived by calling deactivateSiblings.
+		This event adds/removes classes to change the appearance of the tab which is passed as the argument.   All other Tabs under control of the container are then deactived by sending a deactivateSiblings event.
 
 		##### deactivateSiblings(activeTab)
 
-		Since only one Tab can be activated (and its content displayed) at a time, this event is used to revert all other tabs back to their initial appearance by switching certain tw utility classes.
+		Since only one tab can be active (and its content displayed) at a time, this event is used to revert all other tabs back to their inactive appearance by switching certain utility classes.
 
-		The `activeTab` argument is used to ignore the currenlty active tab when inactive all the others.
+		The `activeTab` argument is used to to ignore the currently active tab while inactivating all  others.
 
 		#### Attributes
 
@@ -187,14 +183,14 @@ import TabPanelItem from '/components/tabs/TabPanelItem.astro'
 		hx-target="next <output/>"
 	 	```
 
-   One of the power features of htmx is attribute inheritance.   The majority of attributes are also available within children of the parent component where those attributes are applied.   This spreads functionality to the children without code duplication.
+   One of the power features of htmx is [attribute inheritance](https://htmx.org/docs/#inheritance).   The majority of attributes are  available within children of the parent component where those attributes are applied.   This spreads functionality to the children without code duplication.
 
-	 Placing the following attributes on the container `div` of the parent TabPanel takes advantage of inheritance by providing the same attributes to the children TabPanelItems.
+	 Placing the following attributes on the container `div` of the parent [TabPanel](#tabpanel) takes advantage of inheritance by providing the same attributes to the children [TabPanelItems](#tabpanelitem).
 
 		##### hx-trigger
 
 
-		The default trigger event for switching Tabs is a 'click' event.   This can be overridden in each child by specifying a different trigger in the TabPanelItem `trigger` prop.
+		The default trigger event for switching tabs is a 'click' event.   This can be overridden in each child by specifying a different trigger in the TabPanelItem `trigger` prop.
 
 		##### hx-swap
 

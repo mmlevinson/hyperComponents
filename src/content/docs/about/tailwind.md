@@ -61,23 +61,23 @@ export const tw = {
 		'grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 items-center justify-between ' + 
 		'bg-slate-200 dark:bg-blue-900 ' + 
 		'border-2 border-indigo-700 border-opacity-20',
-	li: 'w-full h-8 px-4 cursor-pointerrounded-md lg:rounded-xl ' + 
+	li: 'w-full h-8 px-4 cursor-pointer rounded-md lg:rounded-xl ' + 
 		'select-none text-pretty line-clamp-3 antialiased md:text-center ' + 
 		'text-sm md:text-md lg:text-xl xl:text-2xl ' + 
 		'font-semi-bold lg:font-bold ' + 
 		'tracking-tighter md:tracking-normal lg:tracking-wider ' + 
-		'text-gray-900 dark:text-zinc-200 ' +
-		'bg-blue-200 dark:bg-gray-90' +
-		'hover:text-slate-300 hover:dark:text-purple-300' +
+		'text-gray-900 hover:text-slate-300 ' +
+		'dark:text-zinc-200 hover:dark:text-purple-300 ' +
+		'bg-blue-200 dark:bg-gray-900 ' +
 		'hover:bg-gray-400 hover:dark:bg-gray-200 ' + 
-		'border-2 border-slate-800 dark:border-slate-300 '
+		'border-2 border-slate-800 dark:border-slate-300'
 }
 ---
 	<ul class={tw.ul}>
 		<li class={tw.li + ' md:col-span-2'}> Main Title ! </li>
 		<li class={tw.li}> Hello There ! </li>
 		<li class={tw.li}> Hello There ! </li>
-		<li class={tw.li ' md:col-span-2'}> Conclusion ! </li>
+		<li class={tw.li + ' md:col-span-2'}> Conclusion ! </li>
 	</ul>	
 ```
 
@@ -89,8 +89,7 @@ Hopefully you noticed that...
 2.  By extracting the class List into a local constant you can now apply the values to every item of a repeating group of elements without polluting your markup with long repetitive class lists that are very difficult to read or scan. At the same time it is a breeze to make a minor modification to the constant's properties which is then applied equally to all elements referencing this constant. This greatly simplifies code maintenance and reduces errors.
  
 
-3. Although Tailwind completely avoids the 'naming convention' problems characteristic of file based CSS, using a constant re-introduces some dependency on choosing a proper name.  By assigning an object to the 'tw' constant you can pick property names that identically match the element or #id of intended use.  Then the html markup has unambiguous names for the applied styles.   In the example above, all `<li>` elements refer to the `tw.li` property for their tailwind classes.   No ambiguity there !
-
+3. Although Tailwind mostly avoids the 'naming convention' problems characteristic of file based CSS, using a constant re-introduces some dependency on choosing a proper name.  By assigning an object to the 'tw' constant you can pick property names that identically match the element or #id of intended use.  Then the html markup has unambiguous names for the applied styles.   In the example above, all `<li>` elements refer to the `tw.li` property for their tailwind classes.   No ambiguity there !
 
 4. The `tw` constant can exported from one file and imported into another file essentially sharing your styles without having to create [@apply directives](https://tailwindcss.com/docs/functions-and-directives#apply).  Use of @apply directives is discouraged so exporting the tw constant is a very viable workaround which preserves flexible, upgradable, and shareable styles between multiple components.
 
@@ -98,20 +97,23 @@ Hopefully you noticed that...
 
 6.  Changes made effect all elements that refer to that `tw.property`.  No more need for multi-cursor or find/replace to make multiple changes to repeated elements.
 
+7.  Extra utility classes can be extemporaneously added by simply concatenating them to the value of the `tw.property`.  In the example above, a  `md:col-span-2` class is added to only two of the `<li>` elements by concatenation. (see the [Merge](#merge-conflicts) discussion below for some precautions).
+
 7.  Copilot AI quickly learns this strategy and begins suggesting the correct `tw.property` you will likely attach to the class attribute of elements which speeds up styling while also avoiding typos.  
 
 *There is considerable controversy about this technique.* However developing hyperComponents that heavily rely on long strings of Tailwind classes became a more manageable task by extracting the class list into a local Astro `tw` constant.   
 
-One potential problem with this strategy is losing code completion and Intellisense for Tailwind which VSCode triggers when edits are made to an elements 'class' attribute.   However, Intellisense inside the properties of the 'tw' constant can be restored by opening VSCode Settings and searching for 'TailwindCSS: Class Attributes'. Click the 'Add Item' button and include the string value 'tw'.    Now when you modify properties of the `tw` constant, you should see Tailwind Code completions suggestions and Intellisense.
+One potential problem with this strategy is losing code completion and Intellisense for Tailwind which VSCode triggers when edits are made to an elements 'class' attribute.   However, this can be restored by opening VSCode Settings and searching for `TailwindCSS: Class Attributes`. Click the `Add Item` button and include the string value `tw`.    Now when you modify properties of the `tw` constant, you should be offred Tailwind code completions suggestions and Intellisense.
 
-
-Before you walk away and try to refactor all the example code in this library, you may give this strategy a try and see if you might end up like it.
+Before you walk away and try to refactor all the example code in this library, you may give this strategy a try and see if you might end up liking it.
 
 ## Are you missing a space char?
 
-Multi-line strings in the examples are built with concatenation which introduces a subtle mis-step that is easy to fall into. 
+Concatenation of multi-line strings introduces a subtle mis-step that is easy to fall into. 
 
-Tailwind class lists are space-separated values.   So, don't forget to include a space at the end of each line in your multiline construct.  If you leave it out, concatenation merges two adjacent class names together.   You will see this in the browser DevTools when inspecting your class list. For example, you might find `text-green-300font-bold` or something analogous.   The missing space char will break your Tailwind list, so watch for this if you are using multi-line strings with string concatenation.
+Tailwind class lists are space-separated values.   So, don't forget to include a space at the end of each line in your multiline construct.  If you leave it out, concatenation merges two adjacent class names together and breaking your style code.  
+
+ You will see this in the browser DevTools when inspecting your class list. For example, you might find `text-green-300font-bold` or something analogous.   The missing space char will break your Tailwind list, so watch for this if you are using multi-line strings with string concatenation.
 
 Of course you can use back-tick delimited strings instead, but then all white-space is also preserved in the resulting markup, including line returns. 
 
@@ -126,7 +128,7 @@ This problem becomes manifest when you begin adding more and more styling to an 
 
 It appears that Tailwind (as of this time) uses a sorting algorithm that includes alpha sorting of class names.  Since 'red' comes after 'green' in an alpha sort, then 'red' still wins.  The bottom line is that the results of combining classes affecting the same CSS property are **unpredictable**.
 
-One of the goals of this library is provide hypermedia components with rudamentary base styles but which can be fully customized by sending your own Tailwind classes via props.   This opens up the vulnerability for unpredictable clashes between the default styling and the props.
+One of the goals of this library is provide hypermedia components with rudamentary base styles that are intended to be fully customized by sending Tailwind classes through props.   This opens up the vulnerability for unpredictable clashes between the default styling and the props.
 
 ## The Solution
 
