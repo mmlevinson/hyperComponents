@@ -6,7 +6,7 @@ description: How to deal with Tailwind Verbosity and Organization
 
 ## Understanding Tailwind
 
-You either love or hate Tailwind CSS as a styling strategy. Those coming from traditional CSS file based strategies often find Tailwind much too verbose, with long, run-on lists of class names splaying off the right margin of the page.
+**You either love or hate Tailwind CSS** as a styling strategy. Those coming from traditional CSS file based strategies often find Tailwind much too verbose, with long, run-on lists of class names splaying off the right margin of the page.
 
 Tailwind does have certain advantages that make it a good development tool, mainly its responsive modes.  In particular, creating mobile-first responsive designs is much easier with Tailwind.   You can forgo explicit media queries and breakpoints in favor of the minimal syntax of Tailwind breakpoint directives.  
 
@@ -15,11 +15,26 @@ Tailwind does have certain advantages that make it a good development tool, main
 
 However, the granular nature of utility classes often yields a huge collection of class names in order to apply even rudamentary styling to any individual element.  This is magnfified when adding conditional styles, such as dark mode, responsive breakpoints, transitions, etc.  
 
-In addition, if your markup includes repeated elements of the same tag all of which need to apply the same styles (for example list items, table rows, section, article, etc), then your html markup quickly becomes bloated with verbose class name strings.
+In addition, if your markup includes repeated elements of the same tag all of which need to apply the identical styles (for example list items, table rows, sections, articles, cards, etc), then your html markup quickly becomes bloated with verbose class name strings.
 
-For example, here is a simple unordered list where each list item applies the same styling as its sibling. The class attribute of each line item is extensive and scrolls off the edge of the page.  active
+For example, here is a simple unordered list where each list item applies the same styling as its sibling. The class attribute of each line item is extensive and scrolls off the edge of the page. 
 
-In order to maintain this code, the developer has to scroll back-and-forth to visually scan the entire list of classes. Once your page is populated with considerable markup, and redundant Tailwind classes, the document becomes impossible to scan for errors or ommissions, debugging, etc.  There is credibility to the criticism that Tailwind code is hard to maintain and in some circumstances unmanageable.
+```html
+	<ul class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 items-center justify-between bg-slate-200 dark:bg-blue-900 p-4 border-2 border-indigo-700 border-opacity-20 shadow-md rounded-xl overflow-hidden">
+		<li class="w-full h-8 px-4 select-none text-pretty line-clamp-3 antialiased text-sm md:text-md lg:text-xl xl:text-2xl font-semi-bold hover:bg-gray-400 hover:dark:bg-gray-200 lg:font-bold tracking-tighter md:tracking-normal lg:tracking-wider text-gray-900 dark:text-zinc-200 bg-blue-200 dark:bg-gray-900 cursor-pointer rounded-md hover:text-slate-300 hover:dark:text-purple-300 lg:rounded-xl border-2 border-slate-800 dark:border-slate-300 md:text-center md:col-span-2"> Main Title ! </li>
+		<li class="w-full h-8 px-4 select-none text-pretty line-clamp-3 antialiased text-sm md:text-md lg:text-xl xl:text-2xl font-semi-bold hover:bg-gray-400 hover:dark:bg-gray-200 lg:font-bold tracking-tighter md:tracking-normal lg:tracking-wider text-gray-900 dark:text-zinc-200 bg-blue-200 dark:bg-gray-900 cursor-pointer rounded-md hover:text-slate-300 hover:dark:text-purple-300 lg:rounded-xl border-2 border-slate-800 dark:border-slate-300"> Hello There ! </li>
+		<li class="w-full h-8 px-4 select-none text-pretty line-clamp-3 antialiased text-sm md:text-md lg:text-xl xl:text-2xl font-semi-bold hover:bg-gray-400 hover:dark:bg-gray-200 lg:font-bold tracking-tighter md:tracking-normal lg:tracking-wider text-gray-900 dark:text-zinc-200 bg-blue-200 dark:bg-gray-900 cursor-pointer rounded-md hover:text-slate-300 hover:dark:text-purple-300 lg:rounded-xl border-2 border-slate-800 dark:border-slate-300"> Hello There ! </li>
+		<li class="w-full h-8 px-4 select-none text-pretty line-clamp-3 antialiased text-sm md:text-md lg:text-xl xl:text-2xl font-semi-bold hover:bg-gray-400 hover:dark:bg-gray-200 lg:font-bold tracking-tighter md:tracking-normal lg:tracking-wider text-gray-900 dark:text-zinc-200 bg-blue-200 dark:bg-gray-900 cursor-pointer rounded-md hover:text-slate-300 hover:dark:text-purple-300 lg:rounded-xl border-2 border-slate-800 dark:border-slate-300 md:text-center md:col-span-2"> Conclusion ! </li>
+	</ul>	
+```
+
+Although this is a somewhat contrived example, the resulting class list is not unusual. 
+
+In order to maintain this code, the developer has to scroll back-and-forth in his/her IDE to visually scan the entire list of classes. And the actual textContent of each `<li>` is nowhere to be seen.  Yes, setting word-wrap can visually roll up these long lists, but the eye strain looking for a single value to edit is not trivial.
+
+Once your page is populated with considerable markup, and redundant Tailwind classes, the document becomes impossible to scan for errors or ommissions, debugging, etc.  There is credibility to the criticism that Tailwind code is hard to maintain and in some circumstances unmanageable.
+
+For example, try to change the dark text color in the code above !!  Yes, you can use find/replace, but doing that many times is tedious, and you can accidently replace text that you did not intend (somewhere else in the same file) creating a new bug.
 
 ## Possible Solutions
 
@@ -35,19 +50,55 @@ In the author's experience the advantages of easy responsive design with Tailwin
 
 ### Extracting your Tailwind styles into a local constant
 
-The solution I have migrated to is to extract these long, verbose class lists into a local constant in the Astro component script and then interpolate that constant into the HTML markup just as you would with any other local constant. This provides several advantages.
+The solution I have migrated to is to extract these long, verbose class lists into a local `tw` constant in the Astro Component Script and then interpolate the properties of that constant into the HTML markup just as you would with any other local constant.
+
+```astro title="Astro component"  "export" "tw"
+---
+export const tw = {
+	ul: 'p-4 rounded-xl  shadow-md overflow-hidden ' +
+		'grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 items-center justify-between ' + 
+		'bg-slate-200 dark:bg-blue-900 ' + 
+		'border-2 border-indigo-700 border-opacity-20',
+	li: 'w-full h-8 px-4 cursor-pointerrounded-md lg:rounded-xl ' + 
+		'select-none text-pretty line-clamp-3 antialiased md:text-center ' + 
+		'text-sm md:text-md lg:text-xl xl:text-2xl ' + 
+		'font-semi-bold lg:font-bold ' + 
+		'tracking-tighter md:tracking-normal lg:tracking-wider ' + 
+		'text-gray-900 dark:text-zinc-200 ' +
+		'bg-blue-200 dark:bg-gray-90' +
+		'hover:text-slate-300 hover:dark:text-purple-300' +
+		'hover:bg-gray-400 hover:dark:bg-gray-200 ' + 
+		'border-2 border-slate-800 dark:border-slate-300 '
+}
+---
+	<ul class={tw.ul}>
+		<li class={tw.li + ' md:col-span-2'}> Main Title ! </li>
+		<li class={tw.li}> Hello There ! </li>
+		<li class={tw.li}> Hello There ! </li>
+		<li class={tw.li ' md:col-span-2'}> Conclusion ! </li>
+	</ul>	
+```
+
+Now consider the advantages offered in code duplication and maintenance in the example above.
+
 
 1. You can easily **create multi line strings** in your constant which allows reorganization of long class lists to according to your own preferences. Multi-line strings do not scroll off the page edge so are much easier to scan read.  Plus, you were not tied to organizational opinions provided by any extension author and can customize your own organization scheme for Tailwind classes. 
 
 2.  By extracting the class List into a local constant **you can now apply the values to every item in a repeating list or table row without polluting your markup** with long repetitive class lists that are very difficult to read or scan. At the same time it is a breeze to make a minor modification to the constant's properties which is then applied equally to all elements referencing this constant. This greatly simplifies code maintenance and reduces errors.
  
 
-3. Although Tailwind completely avoids the 'naming convention' problems characteristic of file based CSS, using a constant re-introduces some dependency on choosing a proper name.  By assigning an object to the 'tw' constant you can use property names that identically match the element or #id of intended use,  Then the html markup has unambiguous names for the applied styles (See the examples) reducing naming confusions.
+3. Although Tailwind completely avoids the 'naming convention' problems characteristic of file based CSS, using a constant re-introduces some dependency on choosing a proper name.  By assigning an object to the 'tw' constant you can use property names that identically match the element or #id of intended use,  Then the html markup has unambiguous names for the applied styles (See the examples) reducing naming confusions.  In the example above, all `<li>` elements refer to the `tw.li` property for all tailwind classes.   No ambiguity there !
 
 
 4. The tailwind ('tw') constant can exported from one file and imported into another file essentially transferring your styles without having to create  @apply directives in your main CSS file.  Use of @apply directives is discouraged so exporting the tw constant  is a very viable workaround which preserves flexible, upgradable, and shareable styles between multiple files.
 
 5. Although the actual class list is extracted into a local constant, they are still being applied to the DOM element for which the styles are intended to modify. This respects the principles of Locality of Behavior while at the same time providing some improvements in code maintainability, encapsulation, readability, and reduced errors of omission while at the same time still allowing common styles to be shared across multiple identical elements or even multiple files.
+
+6. Now you can organize (or 'opinionate') the classes for your own personal style.   Eye fatigue from scrolling horizontally and scanning long strings is relieved.   Multi-line strings are prefect for re-organizing by just moving a line up or down.    You are encouraged to associate classes with similar functionality so you would naturally look for them in the same place each time.  For example, grouping all your text properties in one or two lines makes it vastly easier to find, change, and update any utility class no matter how extensive your styling code may be.-translate-x-6
+
+7.  Changes made effect all elements that refer to that `tw.property`.  No more need for multi-cursor or find/replace to make multiple changes to repeated elements
+
+8.  Copilot AI quickly learns this strategy and begins suggesting the correct `tw.property` you will likely attach to the class attribute of an element which speeds up styling while also avoiding typos.  
 
 *There is considerable controversy about this technique.* However developing hyperComponents that heavily rely on long strings of Tailwind classes became a more manageable task by extracting the class list into a local Astro constant.   
 
