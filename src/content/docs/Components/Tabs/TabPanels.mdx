@@ -86,7 +86,7 @@ import TabPanelItem from '/components/tabs/TabPanelItem.astro'
    
 	  The main container for this control is the `TabPanel` component.
 
-		The sections below breakdown the code with explanations for the [Props](#props), [Slots](#slots), [Events](#events), [Attributes](#attributes), and [Transitions](#transitions) provided by this component.
+		The following sections break down the code with explanations for the [Props](#props), [Slots](#slots), [Events](#events), [Attributes](#attributes), and [Transitions](#transitions) provided by this component.
 
    All the  source code you need to implement this component in your project is presented in various tabs of the [Code](#code) section below.		
 
@@ -107,9 +107,9 @@ import TabPanelItem from '/components/tabs/TabPanelItem.astro'
 
 		##### defaultTabId
 
-		This prop accepts the unique identifier of a single TabPanelItem.   
+		This prop accepts a unique identifier for a single TabPanelItem.   
 
-		The Hyperscript code in the TabPanel parent component grabs this identifier and retrieves a reference to the appropriate [TabPanelItem](#tabpanelitem).   This, in turn is sent to a triggered custom event to activate this one panel on page load.
+		The Hyperscript code in the TabPanel arent component grabs this identifier and retrieves a reference to the appropriate [TabPanelItem](#tabpanelitem).   This, in turn is sent to a  custom event to activate this one panel on page load.
 
 		This identifier must match an identifier in one of the TabPanelItems or an error will occur. 
 		
@@ -117,28 +117,26 @@ import TabPanelItem from '/components/tabs/TabPanelItem.astro'
 
 		##### maxHeight
 
-		This props sets the maximum height of the content area.   This should be an appropriate Tailwind max-h value and can include any extemporaneous value in brackets.   
+		This props sets the maximum height of the `<output> ` element where the content is displayed.   This should be an appropriate Tailwind `max-h` value and can include any extemporaneous value in brackets.   
 
 		The default is `max-h-[35rem]`.
 
 
 		#### Styling
 
-		Included in the TabPanel component is a `tw constant` encapsulating all the base styles for both the container, the  panel's `<output/>` element, as well as the individual [TabPanelItems](#tabpanelitem) displayed  at the top of the control.
+		The Component Script of the TabPanel component uses  a `tw` constant to encapsulate all the base styles for the container, the  panel's `<output/>` element, as well as the individual [TabPanelItems](#tabpanelitem) displayed as tabs  at the top of the control.
 
 		Exporting the `tw` constant allows for sharing important Tailwind classes between the markup, the Hyperscript code, and the child TabPanelItem instances.  
 		
-		For example, in order to switch the appearance of a tab when activated, certain Tailwind classes must be added and removed by the Hyperscript code.   If these classes were embedded into the `class` attribute of the appropriate DOM element, they would not be available to the Hyperscript code.    Extracting them into the `tw` constant consolidates the markup and makes the classes available elsewhere inside as well as outside of the TabPanel component.
+		In order to switch the appearance of a tab when activated certain Tailwind classes must be added and removed by the Hyperscript code.   If these classes were embedded into the `class` attribute of the appropriate DOM element, they would not be exposed to the Hyperscript code.    Extracting them into the `tw` constant not only consolidates the markup but also makes the classes available elsewhere inside as well as outside of the [TabPanel](#tabpanel) component.
 
-		Another advantage of this strategy is code maintenance.  It is easier to make changes and update the styling when everything is gathered into one place, but still in proximity to the markup where it is being used (as per Locality of Behavior).
+		Another advantage of this strategy is code maintenance.  It is easier to make changes and update the styling when everything is gathered into one place, but still in proximity to the markup where it is being used (as per [Locality of Behavior](https://htmx.org/essays/locality-of-behavior/)).
 
-		In other hyperComponents in this library, props are  used to pass in utility classes to customize the component from outside (i.e. where it is being used). The tailwind-merge utility is used to make sure there are no collisions between duplicate tw classes.   However, when exporting a constant in an Astro file,  the twMerge() method as concatenating any values passed in props will not work (an undefined error occurs).
+		Below is the `tw` constant containing the entire styling code for both the container and the individual tabs.   
 
-		Below is the tw constant containing the entire styling code for both the container and the individual tabs.   
-
-		```js title="TabPanel.astro"
+		```js title="TabPanel.astro" "tw"
 		export const tw = {
-			container: 'tab-group flex justify-left ',
+			container: 'tab-panel flex justify-left ',
 			output: 'block text-left p-4 w-full overflow-y-scroll ' +
 				'bg-gray-100 dark:bg-gray-950 ',
 			tabItem: 'z-10 tab-item select-none ' + 
@@ -155,23 +153,23 @@ import TabPanelItem from '/components/tabs/TabPanelItem.astro'
 			textInactiveDark: 'dark:text-zinc-200'
 }
 		```
-		The `container` styles affect the entire control.  The `tab-panel` class is added specifically to make the Hyperscript aware of parent container.  
+		The `container` classes provide styling for the entire control.  A `tab-panel` class is added to the container only to make the Hyperscript aware of parent container.  
 
-		The `output` styles affect the content shown within the panel.  You can, of course, apply styles  to any markup you return from the API used to feed the panel.
+		The `output` classes provide styling for `<output>` element where the content is displayed.  You can, of course, apply any styles of your choice to the markup returned by you custom endpoints.
 
-		To change the appearance of the active tab, you should adjust the  `activeLight`, `activeDark`, `textActiveLight` and `textActiveDark` properties of the `tw` object.
+		To change the appearance of the active tab, you should alter  the  `activeLight`, `activeDark`, `textActiveLight` and `textActiveDark` properties  of the `tw` object.
 
 		To change the appearance of the inactive tabs, you should likewise adjust the `inactiveLight`, `inactiveDark`, `textInactiveLight`, and `textInactiveDark` properties of the `tw` object.
 
 		The hover effect is only present on the `tabItem` property so that is where you would adjust any hover colors you wish.
 
-    The Hyperscript is aware of the `tw` properties and will add/remove classes that already exist in the `tw` styles.  If you need more customizable behaviors for the individual tabs, you may need to provide more classes to the HS code yourself. Follow the example code in the scripts tab below to see how this was done.
+    The Hyperscript is aware of the `tw` properties and will add/remove specifi classes that exist in the `tw` properties.  If you need more customizable behaviors for the individual tabs, you will need to provide more classes to the HS code yourself.  Follow the example in the [scripts tab](#code) below to see how this was done.
 
 
 		#### Slots
 		{/* Outline the name/function of each slot */}
 
-		The default slot receives multiple child [TabPanelItems](#tabpanelitem) components.
+		This component contains a single  default slot which receives multiple child [TabPanelItems](#tabpanelitem) components.
 
 		#### Events
 		{/* Any custom events emitted by this component*/}
@@ -180,11 +178,11 @@ import TabPanelItem from '/components/tabs/TabPanelItem.astro'
 		
 		##### load
 
-		On page load, the `defaultTabId` prop is picked up by the HS code which triggers an activateTab() event passing a reference to the appropriate TabPanelItem  as the argument.
+		On page load, the `defaultTabId` prop is picked up by the HS code which triggers an activateTab() event passing a reference to the appropriate [TabPanelItem](#tabpanelitem)  as the argument.
 
 		##### activateTab(tab)
 
-		This event adds/removes classes to change the appearance of the tab which is passed as the argument.   All other Tabs under control of the container are then deactived by sending a deactivateSiblings event.
+		This event adds/removes classes to change the appearance of the tab which is passed as the argument.   All other tabs are then deactived by sending a deactivateSiblings event.
 
 		##### deactivateSiblings(activeTab)
 
@@ -203,20 +201,20 @@ import TabPanelItem from '/components/tabs/TabPanelItem.astro'
 
    One of the power features of htmx is [attribute inheritance](https://htmx.org/docs/#inheritance).   The majority of attributes are  available within children of the parent component where those attributes are applied.   This spreads functionality to the children without code duplication.
 
-	 Placing the following attributes on the container `div` of the parent [TabPanel](#tabpanel) takes advantage of inheritance by providing the same attributes to the children [TabPanelItems](#tabpanelitem).
+	 Placing the following attributes on the container `div` of the parent [TabPanel](#tabpanel) takes advantage of inheritance by providing the same attributes to all child [TabPanelItems](#tabpanelitem).
 
 		##### hx-trigger
 
 
-		The default trigger event for switching tabs is a 'click' event.   This can be overridden in each child by specifying a different trigger in the TabPanelItem `trigger` prop.
+		The default trigger event for switching tabs is a 'click' event.  
 
 		##### hx-swap
 
-		The swap stragegy is simple.  The response markup is swapped into the innerHTML of the target (below) using the ViewTransitions API to create a seamless effect between outgoing and incoming content.
+		The swap stragegy is simple.  The response is swapped into the innerHTML of the target (below) with  `transition:true` signalling htmx to apply the ViewTransitions API for a seamless fade effect between outgoing and incoming content.
 
 		##### hx-target
 
-		Finally, the TabPanel component contains a single `<output/>` element which receives and displays the response html.   
+		The TabPanel component contains a single `<output/>` element which renders the response html.   
  
 
 		#### Transitions
@@ -226,16 +224,13 @@ import TabPanelItem from '/components/tabs/TabPanelItem.astro'
 
 
 		#### Code
-		{/* Brief explanation of the component */}
+		{/* Brief explanation of the component */}  
 
-	
-		Notice in the markup below, the `hx-trigger`, `hx-target`, and `hx-swap` attributes are placed onto the parent.   However, clicking a child component (i.e. [TabPanelItem](#tabpanelitem)) still invokes the actions of these attributes.  However, repeating these attributes on every [TabPanelItem](#tabpanelitem) becomes unnecessary because of [attribute inheritance](https://htmx.org/docs/#inheritance).   
-
-		Also notice the use of back-ticks to allow string interpolation into the Hyperscript code itself.  By extracting the script into a local constant and then using back-ticks with string interpolation, it is possible to embed individual TW utility classes and other props directly into the HS code while at the same time allowing the markup to utilize these same values.  
+	 In the scripts tab below notice the use of back-ticks for the `hs` constan.  By extracting the script into a local constant and then using back-ticks with string interpolation, it is possible to embed individual TW utility classes and other props directly into the HS code while at the same time allowing the markup to utilize these same values.  
 
 		You would not be able to  cross-purpose the styling with the HS code if you kept the TW classes inside the `class` attribute of the DOM elements themselves.
 
-		Also note how the `maxHeight` prop is added onto the `class` attribute of the `<output/>` element by simple string concatenation.   This simple technique permits props to be used in the styling as long as you don't pass a duplicate class via props.   In this case, no default `max-h` was specified in the `tw.output` property used to style the `<output/>` element, so no collision would occur.   If need be, collisions or duplicates can be suppressed by using the `twMerge()` function illustrated in other hyperComponent examples.	
+		Also note how the `maxHeight` prop is added onto the `class` attribute of the `<output/>` element by simple string concatenation.   This simple trick permits props to be used in the styling as long as you don't pass a duplicate class via props.   In this case, no default `max-h` was specified in the `tw.output` property so no collision would occur.   If need be, collisions or duplicates can be suppressed by using the `twMerge()` function illustrated in other hyperComponent examples.	
 
 		For a full explanation of Tailwind collisions see the [Tailwind Issues](/about/tailwind#are-you-missing-a-space-char) document.
 
@@ -304,7 +299,7 @@ import {Tabs, TabItem } from '@astrojs/starlight/components'
 			<TabItem label='Tailwind'>
 			```js
 			export const tw = {
-					container: 'tab-group flex justify-left ',
+					container: 'tab-panel flex justify-left ',
 					output: 'block text-left p-4 w-full overflow-y-scroll ' +
 						'bg-gray-100 dark:bg-gray-950 ',
 					tabItem: 'z-10 tab-item select-none ' + 
@@ -339,7 +334,7 @@ import {Tabs, TabItem } from '@astrojs/starlight/components'
 			} = Astro.props 
 			
 			export const tw = {
-				container: 'tab-group flex justify-left ',
+				container: 'tab-panel flex justify-left ',
 				output: 'block text-left p-4 w-full overflow-y-scroll ' +
 					'bg-gray-100 dark:bg-gray-950 ',
 				tabItem: 'z-10 tab-item select-none ' + 
@@ -404,9 +399,7 @@ import {Tabs, TabItem } from '@astrojs/starlight/components'
 
 	Each visible Tab is implemented by an instance of the TabPanelItem component.
 
-	Although simple in construct, the essential details are a button which is styled to appear as a Tab.  Clicking the button emits a custom event which Hyperscript listens for in the parent TabPanel container.    
-
-
+	The essential detail is a button styled to appear as a tab by rounding the upper corners.  Clicking the button emits a custom event which Hyperscript listens for in the parent TabPanel container.    
 
 	#### Props
 
@@ -433,21 +426,21 @@ Each TabPanelItem requires a unique identifier to prevent collisions with others
 
 ##### caption
 
-The caption is a string displayed in the Tab at the top of the panel
+The caption is a string displayed within the tab.
 
 ##### path
 
-Content is loaded from the backend via a custom endpoint specified by the path prop.    
+HTML markup is loaded from the backend via a custom endpoint specified by the path prop.    
 
 To implement this hyperComponent in your project, you will need to create a route which will respond with the html markup to be displayed in the content area of this control.
 
 ##### trigger
 
-This prop is a comma separated list of events which will activate an individual Tab.  
+This prop takes the event(s) which will activate an individual tab.  
 
-The default value is 'click'.   You can override this value with another trigger such as `mouseenter` or `load`	 depending on the needs of your application.
+The default value is 'click'.   You can override the default value with another trigger such as `mouseenter` or `load`	depending on the needs of your application.  For multiple trigger events, use a comma separated string.
 
-Since only one Tab can be activated at a time, be careful not to overload the trigger props so they interfere with each other.
+Since only one tab can be activated at a time, be careful not to overload the trigger props so they interfere with each other.
 
 
 	#### Styling
@@ -456,20 +449,20 @@ Since only one Tab can be activated at a time, be careful not to overload the tr
 	import {tw} from './TabPanel.astro'
 	```
 
-	The essence of simplicity is used for styling each TabPanelItem.   The styles are simply imported from the place where they are used which is the TabPanel parent container.
+	Styling for each TabPanelItem is the essence of simplicity.   All the styles are simply imported from the place where they are used which is the TabPanel parent container.
 
 	This unique strategy allows for rapid prototyping typical of Tailwind utility classes while also allowing access to these selections across multiple related components.
 
-	The TabPanel container utilizes many of these TW classes in the enclosed Hyperscript code to implement styling of the active and inactive Tabs.
+	The [TabPanel](#tabpanel) container utilizes most of these same TW classes to switch the appearance of active and inactive tabs.
 
-	At the same time, exporting these styles and then importing into the child component (TabPanelItem) shares the styling in such a manner as that changes in the parent are propogated to the children.
+	At the same time, exporting these styles and then importing them into the child component (TabPanelItem) shares the styling in such a manner as that changes made in the parent are propogated to the children.
 
-  You could just import the properties of the tw constant that are used in the child component, but the coding syntax used above is simple and stable.
+  You could just destructure the properties of the tw constant that are used in the child component, but the coding syntax used above is just plain simple and stable.
 
 
 	#### Slots
 
-	There are not slots in this component
+	There are no slots in this component
 
 	#### Events
 
@@ -477,7 +470,7 @@ Since only one Tab can be activated at a time, be careful not to overload the tr
 
 	##### activateTab(tab:me)
 
-	This custom event is emitted when the `<button>` element is clicked.   The target of this event is the parent `div.tab-group` which in turn listens for this event and switches the active Tab to the one passed as the argument.
+	This custom event is emitted when the `<button>` element is clicked.   The target of this event is the parent `div.tab-panel` which in turn listens for this event and switches the active Tab to the one passed as the argument.
 
 	#### Attributes
 
@@ -488,15 +481,15 @@ Since only one Tab can be activated at a time, be careful not to overload the tr
 
 	##### hx-trigger
 
-  This attribute is available on both the parent and child.  The default trigger event (`click`) is set on the parent but can be overriddent specifically in each child TabPanelItem by passing a value to the `trigger` prop which is then referenced in the markup.
+  This attribute is available on both the parent and child.  The default trigger event (`click`) is set on the parent but can be overridden in each child TabPanelItem by passing a different event(s) to the `trigger` prop which is then referenced by the `hx-trigger` attribute in the markup.
 
 	##### hx-get
 
-	This attribute tells htmx which AJAX request to emit and the corresponding XHR method (which is 'GET').
+	This attribute tells htmx which AJAX request to emit and the corresponding XHR verb (which is 'GET').
 
-	The custom endpoint is provided via the `path` prop and then referenced in the markup.  
+	The custom endpoint is provided to the `hx-get` attribute via the `path` prop.  
 
-	When the trigger event occurs, htmx sends an HTTP-GET request to the corresponding path and the resulting html markup is placed according to the attributes on the parent TabPanel container which are available to each TabPanelItem via inheritance.
+	When the trigger event occurs, htmx sends an HTTP-GET request to the corresponding path and the resulting html markup is placed according to the `hx-target` and `hx-swap` attributes on the parent [TabPanel](#tabpanel) container which are available to via inheritance.
 
 	#### Code
 
