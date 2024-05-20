@@ -21,7 +21,8 @@ export const tw = {
 	exampleTitle: 'py-2 mb-4 rounded-t-xl ' + 
 	'font-semibold text-gray-300 dark:text-zinc-200 ' + 
 	'bg-gray-800 dark:bg-sky-900 ',
-	icon:'inline-block size-6'
+	icon:'inline-block size-8 pt-2 ',
+	button:'colorPallet bg-gray-200 border-2 border-gray-600 dark:bg-gray-700 size-16'
 }
 
 <div id='example-1' class={tw.exampleContainer} >
@@ -29,7 +30,7 @@ export const tw = {
 
 import ClickDropdownMenu_A from '../../../../../components/ClickDropdownMenu_A.astro'
 
-<ClickDropdownMenu_A id='click-activated-pallet' moveXY='-200,18' buttonStyles='colorPallet bg-gray-700' duration='180ms'>
+<ClickDropdownMenu_A id='click-activated-pallet' moveXY='-200,18' buttonStyles={tw.button} duration='180ms'>
 	<img slot="leftIcon" src='/images/tailwind_icon.svg' alt='tailwind icon' class={tw.icon}/>
 	<PalletGrid hs="on click send closeDropdown to the .colorPallet then settle then alert( 'You selected ' + my @title)"/>
 </ClickDropdownMenu_A>
@@ -40,10 +41,11 @@ import ClickDropdownMenu_A from '../../../../../components/ClickDropdownMenu_A.a
 import PalletGrid from /components/PalletGrid.astro'
 import ClickDropdownMenu_A from '/components/ClickDropdownMenu_A.astro'
 const tw = {
-	icon:'inline-block size-6'
+	icon:'inline-block size-6',
+	button:'colorPallet bg-gray-200 border-2 border-gray-600 dark:bg-gray-700 size-16'
 }
 ---
-<ClickDropdownMenu_A id='click-activated-pallet' moveXY='-200,18' buttonStyles='colorPallet bg-gray-700' duration='180ms'>
+<ClickDropdownMenu_A id='click-activated-pallet' moveXY='-200,18' buttonStyles={tw.button} duration='180ms'>
 	<img slot="leftIcon" src='/images/tailwind_icon.svg' alt='tailwind icon' class={tw.icon}/>
 	<PalletGrid hs="on click send closeDropdown to the .colorPallet then settle then alert( 'You selected ' + my @title)"/>
 </ClickDropdownMenu_A>
@@ -59,7 +61,7 @@ The code block used to embed the hover activated pallet is shown following the e
 
 import HoverDropdownMenu_B from '../../../../../components/HoverDropdownMenu_B.astro'
 
-<HoverDropdownMenu_B id='hover-activated-pallet' moveXY='-100,18' buttonStyles='colorPallet bg-gray-700' duration='180ms'>
+<HoverDropdownMenu_B id='hover-activated-pallet' moveXY='-100,18' buttonStyles={tw.button} duration='180ms'>
 	<img slot="leftIcon" src='/images/tailwind_icon.svg' alt='tailwind icon' class={tw.icon}/>
 	<PalletGrid orientation='vertical' hs="on click send closeDropdown to the .colorPallet then settle then alert( 'You selected ' + my @title)"/>
 </HoverDropdownMenu_B>
@@ -71,10 +73,11 @@ import HoverDropdownMenu_B from '../../../../../components/HoverDropdownMenu_B.a
 import PalletGrid from '/components/PalletGrid.astro'
 import HoverDropdownMenu_B from '/components/HoverDropdownMenu_B.astro'
 const tw = {
-	icon:'inline-block size-6'
+	icon:'inline-block size-6',
+	button:'colorPallet bg-gray-200 border-2 border-gray-600 dark:bg-gray-700 size-16'
 }
 ---
-<HoverDropdownMenu_B id='hover-activated-pallet' moveXY='-200,18' buttonStyles='colorPallet bg-gray-700' duration='180ms'>
+<HoverDropdownMenu_B id='hover-activated-pallet' moveXY='-200,18' buttonStyles={tw.button} duration='180ms'>
 	<img slot="leftIcon" src='/images/tailwind_icon.svg' alt='tailwind icon' class={tw.icon}/>
 	<PalletGrid orientation='vertical' hs="on click send closeDropdown to the .colorPallet then settle then alert( 'You selected ' + my @title)"/>
 </HoverDropdownMenu_B>
@@ -298,10 +301,11 @@ import {Tabs, TabItem } from '@astrojs/starlight/components'
 import PalletGrid from '/components/PalletGrid.astro'
 import ClickDropdownMenu_A from '/components/ClickDropdownMenu_A.astro'
 const tw = {
-	icon:'inline-block size-6'
+	icon:'inline-block size-6',
+	button:'colorPallet bg-gray-200 border-2 border-gray-600 dark:bg-gray-700 size-16'
 }
 ---
-<ClickDropdownMenu_A id='click-activated-pallet' moveXY='-200,18' buttonStyles='colorPallet bg-gray-700' duration='180ms'>
+<ClickDropdownMenu_A id='click-activated-pallet' moveXY='-200,18' buttonStyles={tw.button} duration='180ms'>
 	<img slot="leftIcon" src='/images/tailwind_icon.svg' alt='tailwind icon' class={tw.icon}/>
 	<PalletGrid hs="on click send closeDropdown to the .colorPallet then settle then alert( 'You selected ' + my @title)"/>
 </ClickDropdownMenu_A>
@@ -315,10 +319,11 @@ const tw = {
 import PalletGrid from '/components/PalletGrid.astro'
 import HoverDropdownMenu_B from '/components/HoverDropdownMenu_B.astro'
 const tw = {
-	icon:'inline-block size-6'
+	icon:'inline-block size-6',
+	button:'colorPallet bg-gray-200 border-2 border-gray-600 dark:bg-gray-700 size-16'
 }
 ---
-<HoverDropdownMenu_B id='hover-activated-pallet' moveXY='-100,18' buttonStyles='colorPallet bg-gray-700' duration='180ms'>
+<HoverDropdownMenu_B id='hover-activated-pallet' moveXY='-100,18' buttonStyles={tw.button} duration='180ms'>
 	<img slot="leftIcon" src='/images/tailwind_icon.svg' alt='tailwind icon' class={tw.icon}/>
 	<PalletGrid orientation='vertical' hs="on click send closeDropdown to the .colorPallet then settle then alert( 'You selected ' + my @title)"/>
 </HoverDropdownMenu_B>
