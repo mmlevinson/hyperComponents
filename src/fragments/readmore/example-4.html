@@ -1,18 +1,18 @@
 <div >
- <p><a href="http://astro.build">Astro</a> enters the arena of application build tools with an emphasis on speed and small bundle sizes</p>
- <p>Initially offered as a static site generator, Astro now provides a full suite of server-rendering capabilities as well.</p>
- <p>Static sites can be generated from Markdown files and shipped with no embedded Javascript code making them load quickly in the client's browser</p>
- <p>Developers can create Web components simply by creating a .astro file.   Any JavaScript written in the Component Script portion of the .astro file is compiled and executed during initial render of the component</p>
- <p>This allows for individuality of behavior for components by bundling the code and markup together in the same file</p>
- <p>Server-rendering of pages can be automatic or individualized by setting a simple constant in the source file</p>
- <p>Astro also designates islands of behavior allowing the developer to designate which DOM elements are hydrated on the client side and for which events this takes place</p>
- <p>Web components built with other popular frameworks can be used within any Astro project</p>
- <p>Routing in an Astro project if file based so not specific configuration is needed by the developer to create specific routes for specific content</p>
- <p>Any file within the 'pages' folder becomes a route, including markdown files or custom API routes (ie endpoints)</p>
- <p>Custom API endpoints are easy to create avoiding the need to write a separate backend server in <a href="http://nodejs.org">Node.js</a>/<a href="https://expressjs.com/">Express</a> or <a href="https://www.djangoproject.com/">Django</a>. To create a custom endpoint, the only requirement is 
-	to export a GET or POST constant in any astro file within the pages folder.   A route for that endpoint is then automatically created during the build process
-	and available to any HTTP request sent to that route.
- </p>
+ <p><a href="http://astro.build">Astro</a> enters the arena of application build tools with an emphasis on speed and small bundle sizes.</p>
+ <p>Initially offered as a static site generator, <a href="http://astro.build">Astro</a> now provides a full suite of server-rendering capabilities as well.</p>
+ <p>Static sites can be generated from <a href="https://www.markdownguide.org/">Markdown</a> files and shipped with no embedded Javascript code making them load quickly in the client's browser.</p>
+ <p>Developers can build Web components simply by creating a new .astro file.   Any JavaScript written in the <a href="https://docs.astro.build/en/basics/astro-components/#the-component-script">Component Script</a> portion of the .astro file is compiled and executed during initial render of the component.</p>
+ <p>This allows for individuality of behavior for components by bundling the code and markup together in the same file.</p>
+ <p>Server-rendering of pages can be automatic or individualized by exporting a simple 'prerender' constant in the source file.</p>
+ <p>Astro also designates islands of behavior allowing the developer to designate which DOM elements are hydrated on the client side and for which events this takes place.</p>
+ <p>Web components built with other popular frameworks such as <a href="http://react.dev">React</a>, <a href="http://vuejs.org">Vue</a>, <a href="http://svelte.dev">Svelte</a>, etc. can also be used within any Astro project.</p>
+ <p>Routing in an <a href="http://astro.build">Astro</a>. project if file based so no specific configuration is needed by the developer to implement routing.</p>
+ <p>Any file within the 'pages' folder automatically becomes a route, including <a href="https://www.markdownguide.org/">Markdown</a> files.</p>
+ <p>Custom API endpoints are easy to create avoiding the need to write a separate backend server in <a href="http://nodejs.org">Node.js</a>/<a href="https://expressjs.com/">Express</a> or <a href="https://www.djangoproject.com/">Django</a>.</p>
+ <p>To create a custom endpoint, the only requirement is 
+	to export a GET or POST function from any .js file within the pages folder.   A route for that endpoint is then automatically created during the build process and available to any HTTP request sent to that route.
+ </p> 
 	
 </div>
 
