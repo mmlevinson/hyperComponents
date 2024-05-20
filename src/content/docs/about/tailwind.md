@@ -54,10 +54,10 @@ The solution I have migrated to is to extract these long, verbose class lists in
 
 Here is the same example of Tailwind styling using this alternative approach. 
 
-```astro title="Astro component"  "export" "tw"
+```astro title="Astro component"  "export"
 ---
 export const tw = {
-	ul: 'p-4 rounded-xl  shadow-md overflow-hidden ' +
+	ul: 'p-4 rounded-xl shadow-md overflow-hidden ' +
 		'grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 items-center justify-between ' + 
 		'bg-slate-200 dark:bg-blue-900 ' + 
 		'border-2 border-indigo-700 border-opacity-20',
