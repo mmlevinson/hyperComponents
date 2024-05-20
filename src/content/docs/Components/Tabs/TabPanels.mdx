@@ -62,11 +62,11 @@ import TabPanelItem from '/components/tabs/TabPanelItem.astro'
 	---
 		 
 <TabPanel defaultTabId="1">
-		<TabPanelItem id="0" caption="Hypermedia" path="/api/readmore/0" trigger="load, click" />
-		<TabPanelItem id="1" caption="HTMX" path="/api/readmore/1" />
-		<TabPanelItem id="2" caption="Tailwind" path="/api/readmore/2" />
-		<TabPanelItem id="3" caption="Hyperscript" path="/api/readmore/3" />
-		<TabPanelItem id="4" caption="Astro" path="/api/readmore/4" />
+		<TabPanelItem id="0" caption="Hypermedia" path="/api/endpoint/0" trigger="load, click" />
+		<TabPanelItem id="1" caption="HTMX" path="/api/endpoint/1" />
+		<TabPanelItem id="2" caption="Tailwind" path="/api/endpoint/2" />
+		<TabPanelItem id="3" caption="Hyperscript" path="/api/endpoint/3" />
+		<TabPanelItem id="4" caption="Astro" path="/api/endpoint/4" />
 </TabPanel>
 
 	```
@@ -104,6 +104,24 @@ import TabPanelItem from '/components/tabs/TabPanelItem.astro'
 			maxHeight = 'max-h-[35rem]'
 } = Astro.props 
 		```
+
+		##### defaultTabId
+
+		This prop accepts the unique identifier of a single TabPanelItem.   
+
+		The Hyperscript code in the TabPanel parent component grabs this identifier and retrieves a reference to the appropriate [TabPanelItem](#tabpanelitem).   This, in turn is sent to a triggered custom event to activate this one panel on page load.
+
+		This identifier must match an identifier in one of the TabPanelItems or an error will occur. 
+		
+		The default value is '0'
+
+		##### maxHeight
+
+		This props sets the maximum height of the content area.   This should be an appropriate Tailwind max-h value and can include any extemporaneous value in brackets.   
+
+		The default is `max-h-[35rem]`.
+
+
 		#### Styling
 
 		Included in the TabPanel component is a `tw constant` encapsulating all the base styles for both the container, the  panel's `<output/>` element, as well as the individual [TabPanelItems](#tabpanelitem) displayed  at the top of the control.
