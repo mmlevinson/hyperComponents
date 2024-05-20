@@ -65,3 +65,21 @@ Class lists are space-separated values.   So, don't forget to include a space at
 
 Of course you can use back-tick delimited strings instead, but then all white-space is also preserved, including line returns. 
 
+
+## Merge Conflicts
+
+If you add mulitple Tailwind classes that affect the same CSS property, the outcome is not always what you expect.  For example, if you want to change a background color from red to green, you might be tempted to just add `bg-green-500` to your class list.  
+
+However, what you will  notice is the background of this element is still red.  What happened to the `bg-green-500` class?  Well, Tailwind does not automatically tree-shake any overriding classes.  What you think must happen does not happen by default, leading to unexpected results.  
+
+This problem becomes manifest when you begin adding more and more styling to an element, such as hover:, dark:, focus: etc creating a long, run-on string with many classes and you loose awareness that one Tailwind class is stepping on another.
+
+It appears that Tailwind (as of this time) uses a sorting algorithm that includes alpha sorting of class names.  The bottom line is that the results of combining classes affecting the same CSS property are **unpredictable**.
+
+One of the goals of this library is provide hypermedia components with rudamentary base styles but which can be fully customized by sending your own Tailwind classes via props.   This opens up the vulnerability for unpredictable clashes between the default styling and the props.
+
+## The Solution
+
+To handle this problem, the hyperComponents library makes liberal use of the amazing third party libary [tailwind-merge](https://www.npmjs.com/package/tailwind-merge).  This utility reliably sorts classes and resolves conflicts with the **last-wins** approach.   So, if you want a class to dominate, you simply provide it as the last argument to the twMerge() method provided by  this library.  For a full explanation of why and how this works, consult the [tailwind-merge docs](https://www.npmjs.com/package/tailwind-merge)
+
+You will find many examples of using `twMerge()` throughout this code base.

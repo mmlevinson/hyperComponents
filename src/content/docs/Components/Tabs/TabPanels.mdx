@@ -106,17 +106,15 @@ import TabPanelItem from '/components/tabs/TabPanelItem.astro'
 		```
 		#### Styling
 
-		Included in the TabPanel component is a `tw constant` encapsulating all the base styles for both the container, the  panel `<output/>` element, and the individual [TabPanelItems](#tabpanelitem) displayed as tabs  at the top of the control.
+		Included in the TabPanel component is a `tw constant` encapsulating all the base styles for both the container, the  panel's `<output/>` element, as well as the individual [TabPanelItems](#tabpanelitem) displayed  at the top of the control.
 
-		Exporting the tw constant allows for sharing key styles between the Hyperscript code within the container and the TabPanelItem instances themselves.  In order to switch the appearance of the tabs when activated, the Taildind classes  must be available to both the container which harbors the Hyperscript code for switching tabs and the individual tab components themselves.  This is done by simply exporting a tw constant from the TabPanel component and then importing it into the TabPanelItem component where some of the utility classes are grabbed to apply default styling to the tabs themselves.
-
-	
+		Exporting the `tw` constant allows for sharing important Tailwind classes between the markup, the Hyperscript code, and the child TabPanelItem instances.  
+		
+		For example, in order to switch the appearance of a tab when activated, certain Tailwind classes must be added and removed by the Hyperscript code.   If these classes were embedded into the `class` attribute of the appropriate DOM element, they would not be available to the Hyperscript code.    Extracting them into the `tw` constant consolidates the markup and makes the classes available elsewhere inside as well as outside of the TabPanel component.
 
 		Another advantage of this strategy is code maintenance.  It is easier to make changes and update the styling when everything is gathered into one place, but still in proximity to the markup where it is being used (as per Locality of Behavior).
 
-		In other hyperComponents in this library, props can be used to pass in utility classes in order to customize the component from outside (i.e. where it is being used). The tailwind-merge utility is used to make sure there are no collisions between duplicate tw classes.   However, when exporting a constant in an Astro file,  the twMerge() method as concatenating any values passed in props will not work (an undefined error occurs).
-
-		Thus, this control cannot be styled from outside.  However, it is still easy and straightforward to make any adjustments you wish to the components themselves to suit your own project needs.  Simply change the default styles listed below and test the results.
+		In other hyperComponents in this library, props are  used to pass in utility classes to customize the component from outside (i.e. where it is being used). The tailwind-merge utility is used to make sure there are no collisions between duplicate tw classes.   However, when exporting a constant in an Astro file,  the twMerge() method as concatenating any values passed in props will not work (an undefined error occurs).
 
 		Below is the tw constant containing the entire styling code for both the container and the individual tabs.   
 
