@@ -1,0 +1,50 @@
+---
+import { twMerge } from 'tailwind-merge';
+
+const modalStyle = twMerge('fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4');
+const dialogStyle = twMerge('bg-white rounded-lg shadow-lg p-6 relative');
+const closeButtonStyle = twMerge('absolute top-2 right-2 cursor-pointer');
+const buttonStyle = twMerge('mt-4 py-2 px-4 border rounded-md cursor-pointer');
+const cancelButtonStyle = twMerge(buttonStyle, 'border-red-500 text-red-500');
+const okButtonStyle = twMerge(buttonStyle, 'border-blue-500 text-blue-500 ml-2');
+---
+<dialog id="modalDialog" class={modalStyle}>
+  <div class={dialogStyle}>
+    <span class={closeButtonStyle} onclick="closeDialog(false)">&times;</span>
+    <div>
+      <slot></slot> <!-- Placeholder for dynamic content -->
+    </div>
+    <div class="flex justify-end mt-4">
+      <button class={cancelButtonStyle} onclick="closeDialog(false)">Cancel</button>
+      <button class={okButtonStyle} onclick="closeDialog(true)">OK</button>
+    </div>
+  </div>
+</dialog>
+
+
+
+<script>
+  const dialog = document.getElementById('modalDialog');
+
+  function showDialog() {
+    dialog.showModal();
+  }
+
+  function closeDialog(result) {
+    dialog.close(result ? 'ok' : 'cancel');
+  }
+
+  dialog.addEventListener('cancel', () => {
+    dialog.close('cancel');
+  });
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape') {
+      closeDialog(false);
+    }
+  });
+
+  dialog.addEventListener('close', () => {
+    console.log('Dialog closed with:', dialog.returnValue);
+  });
+</script>
