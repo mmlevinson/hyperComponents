@@ -1,0 +1,33 @@
+---
+import StarlightPage from '@astrojs/starlight/components/StarlightPage.astro'
+import Modal from '../components/dialogs/modal.astro'
+import { twMerge } from 'tailwind-merge'
+const title = 'Modal Test'
+
+const tw = {
+	wrapper: 'not-content',
+	button: 'p-3 text-lg bg-blue-500 text-zinc-100 rounded-xl cursor-pointer'
+}
+
+const hs = `
+ on click
+	
+  set modal to #{test-modal}
+	log modal
+ 
+		
+
+ end -- click handler
+`
+---
+
+<StarlightPage frontmatter={{title: title}}>
+
+
+<button id="show-modal" class={tw.button} script={hs}> Show Modal</button>
+
+
+ <Modal id="test-modal"/>
+
+
+</StarlightPage>

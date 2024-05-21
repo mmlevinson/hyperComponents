@@ -1,50 +1,48 @@
 ---
-import { twMerge } from 'tailwind-merge';
+import {twMerge} from 'tailwind-merge'
+import { tw } from '../tabs/TabPanel.astro'
+ 
+interface Props {
+	id:string
+}
+ 
+const {
+ id 
+} = Astro.props 
+ 
+const tw = {
+ dialog: ' z-[100]  backdrop:bg-gray-800 backdrop:bg-opacity-30',
+ container: 'z-[200] w-1/2 h-1/2 mx-auto',
+ content: 'p-8 bg-gray-200 text-gray-950 dark:bg-gray-800 dark:text-zinc-300',
+ buttonContainer: 'flex items-center justify-end gap-4',
+ button: 'p-4 rounded-xl shadow-2 overlow-hidden cursor-pointer',
+ cancel: 'w-[20rem] bg-gray-400 text-slate-800',
+ ok: 'min-w-[20rem] bg-green-400 text-slate-800'
+}
 
-const modalStyle = twMerge('fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4');
-const dialogStyle = twMerge('bg-white rounded-lg shadow-lg p-6 relative');
-const closeButtonStyle = twMerge('absolute top-2 right-2 cursor-pointer');
-const buttonStyle = twMerge('mt-4 py-2 px-4 border rounded-md cursor-pointer');
-const cancelButtonStyle = twMerge(buttonStyle, 'border-red-500 text-red-500');
-const okButtonStyle = twMerge(buttonStyle, 'border-blue-500 text-blue-500 ml-2');
+const hs = {
+	cancel: `
+		on click alert('Cancelled')
+		send dialogResult(result:'Cancelled')
+	`,
+	ok: `
+		on click alert('OK')
+		send dialogResult(result:'OK')
+	`
+}
 ---
-<dialog id="modalDialog" class={modalStyle}>
-  <div class={dialogStyle}>
-    <span class={closeButtonStyle} onclick="closeDialog(false)">&times;</span>
-    <div>
-      <slot></slot> <!-- Placeholder for dynamic content -->
-    </div>
-    <div class="flex justify-end mt-4">
-      <button class={cancelButtonStyle} onclick="closeDialog(false)">Cancel</button>
-      <button class={okButtonStyle} onclick="closeDialog(true)">OK</button>
-    </div>
-  </div>
+
+
+
+
+<dialog id={id} class={tw.dialog}>
+	<div class={tw.container}>
+		<div class={tw.content}>
+			<p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quod repudiandae magni tempora, natus ex amet, soluta cumque quisquam similique praesentium incidunt aut odit minima id? Tenetur debitis sequi perspiciatis cumque veniam, rerum vero tempora! Natus quae temporibus eveniet, unde consectetur quod recusandae alias tempora praesentium quis. A nihil, ipsam architecto enim nobis, alias illo consequatur unde repudiandae ipsum numquam totam quisquam eos expedita dolorum exercitationem ullam delectus facilis quaerat? Minus, corporis impedit. Aperiam veniam non voluptas, rem aspernatur corporis, doloribus vel perspiciatis voluptates, ullam cumque? Quod unde iste quisquam repellat facilis, sapiente expedita recusandae culpa corrupti fuga voluptatibus optio nisi!</p>
+		</div>
+		<div class={tw.buttonContainer}>
+			 <button class={tw.button + ' ' + tw.cancel} script={hs.cancel}> Cancel </button>
+			 <button class={tw.button + ' ' + tw.ok}  script={hs.ok}}> OK </button>
+		</div>
+	</div>
 </dialog>
-
-
-
-<script>
-  const dialog = document.getElementById('modalDialog');
-
-  function showDialog() {
-    dialog.showModal();
-  }
-
-  function closeDialog(result) {
-    dialog.close(result ? 'ok' : 'cancel');
-  }
-
-  dialog.addEventListener('cancel', () => {
-    dialog.close('cancel');
-  });
-
-  document.addEventListener('keydown', (event) => {
-    if (event.key === 'Escape') {
-      closeDialog(false);
-    }
-  });
-
-  dialog.addEventListener('close', () => {
-    console.log('Dialog closed with:', dialog.returnValue);
-  });
-</script>
