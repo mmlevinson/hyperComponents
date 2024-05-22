@@ -15,7 +15,6 @@ const tw = {
 	container: 'px-4 bg-gray-20 ',
 	wrapper: 'w-full flex items-center overflow-hidden justify-around bg-purple-400 ' + 
 	' dark:bg-gray-300 rounded-2xl',
-	label: 'hidden font-bold px-2 text-gray-800 dark:text-zinc-600',
 	input: 'h-12 px-4 w-full font-inherit ' + 
 	'font-bold text-lg ' + 
 	'bg-slate-200  text-gray-900 dark:text-gray-950 ' + 
@@ -33,7 +32,7 @@ const hs = `on click send closeDropdown to the #{'search-criteria'} then settle 
 ---
 <div class={tw.container}>	 
 	<div class={tw.wrapper}>
-		<ClickDropdownMenuA id="search-criteria" >
+		<ClickDropdownMenuA id="search-criteria" buttonStyles="p-0 mx-2 mt-1 bg-transparent hover:bg-purple-600 text-zinc-100 font-extrabold" >
 			<svg slot="rightIcon" class={tw.icon}  fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
 				<path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6z"/>
 			</svg>
@@ -49,7 +48,6 @@ const hs = `on click send closeDropdown to the #{'search-criteria'} then settle 
 			class={tw.input}>
 		</input>
 		<slot name="rightIcon" >
-			<img src="" alt="">
 			<svg 
 					fill="currentColor" 
 					class={tw.rightIcon}
