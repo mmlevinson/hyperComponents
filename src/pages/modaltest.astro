@@ -10,20 +10,34 @@ const tw = {
 }
 
 const hs = `
- on click
-  set modal to #{'test-modal'}
-	call  modal.showModal()
-	end
  
- on dialogResult(result)
-  log event.detail.result  -- Ok
+ init
+ set :modal to #{'test-modal'}
+ end -- init
+
+
+ on click
+	call  :modal.showModal()
+ end
+ 
+ on dialogResult(event)
+  set result to event.detail.result  -- destructuring is not working !!
+	if result is 'OK' then 
+		log result
+	otherwise
+		call :modal.close()
  end
 
 `
 
-const callback = `
+const doConfirm = `
 	on click log 'From Callback'
-	send dialogResult(result:'Ok') to <button#show-modal/>
+		send dialogResult(result:'Ok') to <button#show-modal/>
+	end
+`
+const doCancel = `
+	on click log 'From Callback'
+	send dialogResult(result:'Cancel') to <button#show-modal/>
 	end
 `
 ---
@@ -34,7 +48,7 @@ const callback = `
 <button id="show-modal" class={tw.button} script={hs}> Show Modal</button>
 
 
- <Modal id="test-modal" callback={callback}/>
+ <Modal id="test-modal" confirm={doConfirm} cancel={doCancel}>
 
 
 </StarlightPage>
