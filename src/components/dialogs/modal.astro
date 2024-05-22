@@ -12,17 +12,17 @@ const {
  id ,
  confirm,
  cancel
-} = Astro.props 
+} = Astro.props
  
 const tw = {
- dialog: ' z-[100] fixed overflow-none top-0 left-0 m-0 p-0 h-screen w-screen bg-black/70 flex flex-col align-center justify-center',
- container: 'z-[200] relative w-full max-w-md  mx-auto p-12 bg-gray-100',
- content: 'p-8 bg-gray-200 text-gray-950 dark:bg-gray-800 dark:text-zinc-300',
- buttonContainer: 'p-6 flex items-center justify-end gap-4',
- button: 'p-4 rounded-xl shadow-2 overlow-hidden cursor-pointer',
+ dialog: ' z-[100] fixed overflow-none top-0 left-0 m-0 p-0 h-screen w-screen bg-black/60 backdrop-blur-sm flex flex-col align-center justify-center',
+ container: 'z-[200] relative w-full max-w-2xl mx-auto p-6 bg-gray-100 shadow-xl rounded-lg',
+ content: 'p-4 bg-gray-200 text-xl text-gray-950 dark:bg-gray-800 dark:text-zinc-300',
+ buttonContainer: 'pt-6 flex items-center justify-end gap-4',
+ button: 'p-4 rounded-xl font-bold text-lg shadow-2xl overlow-hidden cursor-pointer',
  cancel: 'w-[20rem] bg-gray-400 text-slate-800',
  ok: 'min-w-[20rem] bg-green-400 text-slate-800'
-}
+}   
 
 const hs = {
 	cancel: `
