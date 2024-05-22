@@ -12,8 +12,9 @@ const tw = {
 const hs = `
  on click
 	
-  set modal to #{test-modal}
-	log modal
+  set modal to #{'test-modal'}
+	-- log modal
+	call  modal.showModal()
  
 		
 
