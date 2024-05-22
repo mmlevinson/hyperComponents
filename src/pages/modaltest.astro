@@ -13,10 +13,10 @@ const hs = `
  on click
 	
   set modal to #{'test-modal'}
-	-- log modal
 	call  modal.showModal()
  
-		
+ on dialogResult(result)
+ log result
 
  end -- click handler
 `
@@ -28,7 +28,7 @@ const hs = `
 <button id="show-modal" class={tw.button} script={hs}> Show Modal</button>
 
 
- <Modal id="test-modal"/>
+ <Modal id="test-modal" callback="on dialogResult(result) alert('From Callback')"/>
 
 
 </StarlightPage>

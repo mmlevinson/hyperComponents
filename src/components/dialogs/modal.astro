@@ -4,14 +4,16 @@ import { tw } from '../tabs/TabPanel.astro'
  
 interface Props {
 	id:string
+	callback?:string
 }
  
 const {
- id 
+ id ,
+ callback
 } = Astro.props 
  
 const tw = {
- dialog: ' z-[100]  backdrop:bg-gray-800 backdrop:bg-opacity-30',
+ dialog: ' z-[100]  backdrop:bg-gray-800 backdrop:bg-opacity-20',
  container: 'z-[200] w-1/2 h-1/2 mx-auto',
  content: 'p-8 bg-gray-200 text-gray-950 dark:bg-gray-800 dark:text-zinc-300',
  buttonContainer: 'flex items-center justify-end gap-4',
@@ -22,13 +24,12 @@ const tw = {
 
 const hs = {
 	cancel: `
-		on click alert('Cancelled')
-		send dialogResult(result:'Cancelled')
+		on click send dialogResult(result:'Cancel') to <button#show-modal/>
 	`,
 	ok: `
-		on click alert('OK')
-		send dialogResult(result:'OK')
-	`
+	 on click send dialogResult(result:'OK') to me
+	`,
+	callback:callback
 }
 ---
 
@@ -42,7 +43,7 @@ const hs = {
 		</div>
 		<div class={tw.buttonContainer}>
 			 <button class={tw.button + ' ' + tw.cancel} script={hs.cancel}> Cancel </button>
-			 <button class={tw.button + ' ' + tw.ok}  script={hs.ok}}> OK </button>
+			 <button class={tw.button + ' ' + tw.ok}  script={hs.ok + callback}}> OK </button>
 		</div>
 	</div>
 </dialog>
