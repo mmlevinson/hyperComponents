@@ -12,26 +12,34 @@ const {
 } = Astro.props 
  
 const tw = {
- container: 'w-full flex items-center justify-start p-4',
- label: 'font-bold px-2 text-gray-500 dark:text-zinc-300',
- input: 'h-20 px-2 w-full font-inherit rounded-md' + 
-  'font-bold text-lg ' + 
-	' bg-gray-200 dark:bg-gray-300 text-gray-900 dark:text-gray-950',
- leftIcon: '',
- rightIcon:''
+	container: '',
+	wrapper: 'w-full flex items-center justify-start  bg-gray-200 dark:bg-gray-300 pl-2  mx-2',
+	label: 'font-bold px-2 text-gray-500 dark:text-zinc-300',
+	input: 'h-12 px-2 w-full font-inherit rounded-md ' + 
+	'font-bold text-lg ' + 
+	'bg-transparent  text-gray-900 dark:text-gray-950',
+	leftIcon: '',
+	rightIcon:'size-12 bg-gray-800 dark:bg-gray-300'
 }
  
 const hs = ``
  
 ---
 <div class={tw.container}>	 
-	<slot name="leftIcon" class={tw.leftIcon}></slot>
-	<label for="search" class={tw.label}>{caption}</label>
-	<input 
-		type="search" 
-		name="search" 
-		placeholder={placeholder}
-		class={tw.input}>
-	</input>
-	<slot name="rightIcon" class={tw.rightIcon}>
+	<div class={tw.wrapper}>
+		<slot name="leftIcon" class={tw.leftIcon}>
+		</slot>
+		<label for="search" class={tw.label}>{caption}</label>
+		<input
+			type="search"
+			name="search"
+			placeholder={placeholder}
+			class={tw.input}>
+		</input>
+		<slot name="rightIcon" class={tw.rightIcon}>
+			<svg class="w-12 h-12 bg-gray-800 dark:bg-gray-300 px-2 rounded-tr-lg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24">
+				<path d="M21 21l-6-6m2-5a7 7 0 1 1-14 0 7 7 0 0 1 14 0z"></path>
+			</svg>
+		</slot>
+	</div>
 </div>
