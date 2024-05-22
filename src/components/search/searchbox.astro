@@ -24,7 +24,8 @@ const tw = {
 	rightIcon:'w-12 h-12 bg-transparent text-purple-950 dark:text-blue-700 px-2 ' + 
 		'',
   menuItem: 'px-4 hover:bg-gray-200 hover:text-purple-600 ' +
-    'hover:dark:bg-stone-300 hover:dark:text-sky-800'
+    'hover:dark:bg-stone-300 hover:dark:text-sky-800',
+	icon:'inline-block size-6'
 }
  
 const hs = `on click send closeDropdown to the #{'search-criteria'} then settle then call alert('You selected ' + my innerHTML)` 
@@ -32,7 +33,10 @@ const hs = `on click send closeDropdown to the #{'search-criteria'} then settle 
 ---
 <div class={tw.container}>	 
 	<div class={tw.wrapper}>
-		<ClickDropdownMenuA id="search-criteria" caption="Search">
+		<ClickDropdownMenuA id="search-criteria" >
+			<svg slot="rightIcon" class={tw.icon}  fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+				<path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6z"/>
+			</svg>
 			<li class={tw.menuItem}>Whole Word</li>
 			<li class={tw.menuItem}>Partial Word</li>
 			<li class={tw.menuItem}>Begins With</li>

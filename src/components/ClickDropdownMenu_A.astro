@@ -4,7 +4,7 @@ import {twMerge} from 'tailwind-merge'
 
 interface Props {
  id: string   //a unique identifier for this component, allowing multiple dropdowns on a page without collisions
- caption: string   //the text displayed in the trigger button
+ caption?: string   //the text displayed in the trigger button
  buttonStyles?: string   //any additional Tailwind classes for customizing the trigger button
  dropdownStyles?: string   //any additional styles to apply to the dropdown container <div>
  listStyles?: string   //any additional styles to apply to the <ul>
