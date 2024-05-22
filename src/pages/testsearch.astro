@@ -1,0 +1,24 @@
+---
+import StarlightPage from '@astrojs/starlight/components/StarlightPage.astro'
+import Searchbox from '../components/search/searchbox.astro'
+
+import { twMerge } from 'tailwind-merge'
+const title = 'Test Search'
+
+const tw = {
+	wrapper: 'not-content w-full bg-gray-700 py-4'
+}
+
+const hs = ``
+---
+
+<StarlightPage frontmatter={{title: title}}>
+	
+<div class={tw.wrapper}}>
+
+	<Searchbox caption="Find..."/>
+
+
+</div>
+
+</StarlightPage>

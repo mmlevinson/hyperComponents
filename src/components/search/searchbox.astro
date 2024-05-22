@@ -1,0 +1,37 @@
+---
+import {twMerge} from 'tailwind-merge'
+ 
+interface Props {
+	caption:string
+	placeholder?:string
+}
+ 
+const {
+	caption = "Search",
+	placeholder = "What Can I Find?"
+} = Astro.props 
+ 
+const tw = {
+ container: 'w-full flex items-center justify-start p-4',
+ label: 'font-bold px-2 text-gray-500 dark:text-zinc-300',
+ input: 'h-20 px-2 w-full font-inherit rounded-md' + 
+  'font-bold text-lg ' + 
+	' bg-gray-200 dark:bg-gray-300 text-gray-900 dark:text-gray-950',
+ leftIcon: '',
+ rightIcon:''
+}
+ 
+const hs = ``
+ 
+---
+<div class={tw.container}>	 
+	<slot name="leftIcon" class={tw.leftIcon}></slot>
+	<label for="search" class={tw.label}>{caption}</label>
+	<input 
+		type="search" 
+		name="search" 
+		placeholder={placeholder}
+		class={tw.input}>
+	</input>
+	<slot name="rightIcon" class={tw.rightIcon}>
+</div>
