@@ -1,7 +1,5 @@
 ---
-import {twMerge} from 'tailwind-merge'
-import magnifyGlass from '../../../public/images/magnify-glass.svg'
-import {Image} from 'astro:assets'
+import ClickDropdownMenuA from '../ClickDropdownMenu_A.astro'
  
 interface Props {
 	caption?:string
@@ -23,18 +21,23 @@ const tw = {
 	'bg-slate-200  text-gray-900 dark:text-gray-950 ' + 
 	 'focus:outline-none placeholder-blue-300 dark:placeholder-cyan-600',
 	leftIcon: '',
-	rightIcon:'w-12 h-12 bg-transparent text-purple-950 dark:text-blue-200 px-2 ' + 
-		''
+	rightIcon:'w-12 h-12 bg-transparent text-purple-950 dark:text-blue-700 px-2 ' + 
+		'',
+  menuItem: 'px-4 hover:bg-gray-200 hover:text-purple-600 ' +
+    'hover:dark:bg-stone-300 hover:dark:text-sky-800'
 }
  
-const hs = ``
+const hs = `on click send closeDropdown to the #{'search-criteria'} then settle then call alert('You selected ' + my innerHTML)` 
  
 ---
 <div class={tw.container}>	 
 	<div class={tw.wrapper}>
-		<slot name="leftIcon" class={tw.leftIcon}>
-		</slot>
-
+		<ClickDropdownMenuA id="search-criteria" caption="Search">
+			<li class={tw.menuItem}>Whole Word</li>
+			<li class={tw.menuItem}>Partial Word</li>
+			<li class={tw.menuItem}>Begins With</li>
+			<li class={tw.menuItem}>Ends With</li>
+		</ClickDropdownMenuA>
 		<input
 			type="search"
 			name="search"
@@ -42,6 +45,7 @@ const hs = ``
 			class={tw.input}>
 		</input>
 		<slot name="rightIcon" >
+			<img src="" alt="">
 			<svg 
 					fill="currentColor" 
 					class={tw.rightIcon}
