@@ -20,6 +20,12 @@ const hs = `
 
  end -- click handler
 `
+
+const callback = `
+	on click log 'From Callback'
+	send dialogResult(result:'Ok') to #{'test-modal'}
+	end
+`
 ---
 
 <StarlightPage frontmatter={{title: title}}>
@@ -28,7 +34,7 @@ const hs = `
 <button id="show-modal" class={tw.button} script={hs}> Show Modal</button>
 
 
- <Modal id="test-modal" callback="on dialogResult(result) alert('From Callback')"/>
+ <Modal id="test-modal" callback={callback}/>
 
 
 </StarlightPage>
