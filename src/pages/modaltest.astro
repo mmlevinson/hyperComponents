@@ -11,19 +11,19 @@ const tw = {
 
 const hs = `
  on click
-	
   set modal to #{'test-modal'}
 	call  modal.showModal()
+	end
  
  on dialogResult(result)
- log result
+  log event.detail.result  -- Ok
+ end
 
- end -- click handler
 `
 
 const callback = `
 	on click log 'From Callback'
-	send dialogResult(result:'Ok') to #{'test-modal'}
+	send dialogResult(result:'Ok') to <button#show-modal/>
 	end
 `
 ---

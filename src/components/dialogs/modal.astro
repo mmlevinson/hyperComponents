@@ -27,8 +27,6 @@ const hs = {
 		on click send dialogResult(result:'Cancel') to <button#show-modal/>
 	`,
 	ok: `
-
-	 on click log 'first click handler'
 	`,
 }
 ---
@@ -43,7 +41,7 @@ const hs = {
 		</div>
 		<div class={tw.buttonContainer}>
 			 <button class={tw.button + ' ' + tw.cancel} script={hs.cancel}> Cancel </button>
-			 <button class={tw.button + ' ' + tw.ok}  script={hs.ok + " " + callback}}> OK </button>
+			 <button class={tw.button + ' ' + tw.ok}  script={callback}}> OK </button>
 		</div>
 	</div>
 </dialog>
