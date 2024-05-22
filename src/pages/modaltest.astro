@@ -12,9 +12,8 @@ const tw = {
 const hs = `
  
  init
- set :modal to #{'test-modal'}
+	set :modal to #{'test-modal'}
  end -- init
-
 
  on click
 	call  :modal.showModal()
@@ -22,10 +21,11 @@ const hs = `
  
  on dialogResult(event)
   set result to event.detail.result  -- destructuring is not working !!
-	if result is 'OK' then 
-		log result
-	otherwise
-		call :modal.close()
+	if result is  'Cancel' then call :modal.close()
+ end
+
+ on keydown[key=='Escape']
+  call :modal.close()
  end
 
 `
@@ -37,7 +37,7 @@ const doConfirm = `
 `
 const doCancel = `
 	on click log 'From Callback'
-	send dialogResult(result:'Cancel') to <button#show-modal/>
+		send dialogResult(result:'Cancel') to <button#show-modal/>
 	end
 `
 ---
