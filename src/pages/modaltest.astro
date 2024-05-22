@@ -16,17 +16,22 @@ const hs = `
  end -- init
 
  on click
-	call  :modal.showModal()
+	remove .hidden from :modal
+
  end
  
  on dialogResult(event)
   set result to event.detail.result  -- destructuring is not working !!
-	if result is  'Cancel' then call :modal.close()
+	if result is  'Cancel' then trigger closeModal on me
  end
 
  on keydown[key=='Escape']
-  call :modal.close()
+	trigger closeModal on me
  end
+
+ on closeModal
+  add .hidden to :modal
+ end  -- closeModal
 
 `
 
@@ -42,13 +47,16 @@ const doCancel = `
 `
 ---
 
-<StarlightPage frontmatter={{title: title}}>
-
+<script src="https://unpkg.com/hyperscript.org@0.9.12" defer></script>
+<script src="https://cdn.tailwindcss.com" defer></script>
 
 <button id="show-modal" class={tw.button} script={hs}> Show Modal</button>
+
+<div>
+	<p>Some random text</p>
+</div>
 
 
  <Modal id="test-modal" confirm={doConfirm} cancel={doCancel}>
 
 
-</StarlightPage>
