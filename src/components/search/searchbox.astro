@@ -1,5 +1,7 @@
 ---
 import {twMerge} from 'tailwind-merge'
+import magnifyGlass from '../../../public/images/magnify-glass.svg'
+import {Image} from 'astro:assets'
  
 interface Props {
 	caption?:string
@@ -10,18 +12,19 @@ const {
 	caption = "Search",
 	placeholder = "Search for..."
 } = Astro.props 
- 
+
 const tw = {
-	container: '',
-	wrapper: 'w-full flex items-center overflow-hidden justify-around bg-green-200 dark:bg-gray-300 rounded-2xl',
+	container: 'px-4 bg-gray-20 ',
+	wrapper: 'w-full flex items-center overflow-hidden justify-around bg-purple-600 ' + 
+	' dark:bg-gray-300 rounded-2xl',
 	label: 'hidden font-bold px-2 text-gray-800 dark:text-zinc-600',
 	input: 'h-12 px-4 w-full font-inherit ' + 
 	'font-bold text-lg ' + 
-	'bg-red-200  text-gray-900 dark:text-gray-950 ' + 
-	 'focus:outline-none placeholder-blue-300 dark:placeholder-cyan-300',
+	'bg-slate-200  text-gray-900 dark:text-gray-950 ' + 
+	 'focus:outline-none placeholder-blue-300 dark:placeholder-cyan-600',
 	leftIcon: '',
-	rightIcon:'w-12 h-12  text-blue-500 ml-2 ' + 
-		'self-end '
+	rightIcon:'w-12 h-12 text-zinc-200 px-2 ' + 
+		''
 }
  
 const hs = ``
@@ -39,9 +42,7 @@ const hs = ``
 			class={tw.input}>
 		</input>
 		<slot name="rightIcon" >
-			<svg class={tw.rightIcon} fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24">
-				<path d="M21 21l-6-6m2-5a7 7 0 1 1-14 0 7 7 0 0 1 14 0z"></path>
-			</svg>
+			<Image src={magnifyGlass} alt="magnify-glass" class={tw.rightIcon}>
 		</slot>
 	</div>
 </div>
