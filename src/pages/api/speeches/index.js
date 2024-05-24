@@ -1,12 +1,16 @@
 import { twMerge } from 'tailwind-merge';
 import famousSpeeches from '../../../data/famousSpeeches.json?json'
 
+const hs = `
+  on change put my value into next <output/>
+`
+
 const getSpeechData = () => {
 
  const markup = famousSpeeches.map((speech)=>{
 		return  `
 		<tr>
-		<td><input type="radio" name="id" value="${speech.id}"></td>
+		<td><input type="radio" name="id" value="${speech.id}" script="${hs}"></td>
 		<td>${speech.speaker}</td>
 		<td>${speech.title}</td>
 		<td>${speech.date}</td>
