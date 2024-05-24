@@ -1,10 +1,9 @@
-import { twMerge } from 'tailwind-merge';
 import famousSpeeches from '../../../data/famousSpeeches.json?json'
 
+import { twMerge } from 'tailwind-merge';
 // const tw = {...formStyles}
 
-const getMarkup = (speech) => {
-
+const speechInfo = (speech) => {
  return  `
  <tr>
 	<td><input type="radio" name="id" value="${speech.id}"></td>
@@ -13,40 +12,23 @@ const getMarkup = (speech) => {
 	<td>${speech.date}</td>
 </tr>
 `
-
 }
 
-// export const GET = async ({params, request}) => {
-// 	console.log(`params`, params)
-// 	console.log(`request`, request.searchParams)
-// 	return new Response (getMarkup(famousSpeeches[params.id]), {status: 200})
-	
-	
-// }
-
-
-
+//GET
 export async function GET({ params, url }) {
-	// Load the speeches data
-	
-
-
-	// Extract the query parameters
 	const speechID = +params.id
+	const speech = famousSpeeches[speechID]
+	if (!speech) {
+	    return new Response ('Speech not found')
+	}
+	//What is being requested?
 	const searchParams = url.searchParams;
 	const transcriptOnly = searchParams.get('transcript') === 'true';
-	// Find the speech by ID
-	// const speech = famousSpeeches.find(s => s.id === parseInt(params.id));
-	const speech = famousSpeeches[speechID]
-	// if (!speech) {
-	//     return json({ error: 'Speech not found' }, { status: 404 });
-	// }
-
-	// Return only the transcript if requested
 	if (transcriptOnly) {
 		return new Response(speech.transcript, {status: 200})
 	}
+	else {
+		return new Response (speechInfo(speech), {status: 200})
+	}
 
-	// Otherwise, return the full speech data
-	// return new Response(speech.transcript, {status: 200})
 }
