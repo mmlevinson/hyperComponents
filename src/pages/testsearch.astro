@@ -9,6 +9,7 @@ const tw = {
 	wrapper: 'not-content w-full bg-transparent dark:bg-gray-700 py-4'
 }
 
+
 const hs = ``
 ---
 
@@ -26,7 +27,13 @@ const hs = ``
 	</p>
 
 
-	<table>
+
+
+	<table 
+				hx-trigger="load"  
+				 hx-get="/api/speech/"
+	       hx-target="next <tbody/>"
+	       hx-swap="innerHTML">
 		<thead>
 			<tr>
 				<th></th>
@@ -36,107 +43,7 @@ const hs = ``
 			</tr>
 		</thead>
 		<tbody>
-			<tr>
-				<td><input type="radio" name="id" value="row7"></td>
-				<td>Martin Luther King, Jr</td>
-				<td>I Have a Dream</td>
-				<td>1962</td>
-			</tr>
-			<tr>
-				<td><input type="radio" name="id" value="row1"></td>
-				<td>Abraham Lincoln</td>
-				<td>Gettysburg Address</td>
-				<td>1861</td>
-			</tr>
-			<tr>
-				<td><input type="radio" name="id" value="row6"></td>
-				<td>Winston Churchill</td>
-				<td>Fight on the Beaches</td>
-				<td>1939</td>
-			</tr>
-			<tr>
-				<td><input type="radio" name="id" value="row6"></td>
-				<td>Winston Churchill</td>
-				<td>Their Finest Hour</td>
-				<td>1940</td>
-			</tr>
-			<tr>
-				<td><input type="radio" name="id" value="row4"></td>
-				<td>Carrie Chapman Catt</td>
-				<td>Address to Congress </td>
-				<td>Nov 4, 1917</td>
-			</tr>
-			<tr>
-				<td><input type="radio" name="id" value="row2"></td>
-				<td>Elizabeth I</td>
-				<td>Speech to her troops at Tilburry</td>
-				<td>1588</td>
-			</tr>
-			<tr>
-				<td><input type="radio" name="id" value="row3"></td>
-				<td>Chief Joseph</td>
-				<td>Surrender Speech</td>
-				<td>1861</td>
-			</tr>
-			<tr>
-				<td><input type="radio" name="id" value="row4"></td>
-				<td>Sojourner Truth</td>
-				<td>Ain't I a woman?</td>
-				<td>1861</td>
-			</tr>
-
-			<tr>
-				<td><input type="radio" name="id" value="row5"></td>
-				<td>King George VI</td>
-				<td>Speech to the people Britain</td>
-				<td>1939</td>
-			</tr>
-
-			<tr>
-				<td><input type="radio" name="id" value="row7"></td>
-				<td>John F. Kennedy</td>
-				<td>Inaugural Address</td>
-				<td>1962</td>
-			</tr>
-
-			<tr>
-				<td><input type="radio" name="id" value="row7"></td>
-				<td>Martin Luther King, Jr</td>
-				<td>I Have Been to the Mountaintop</td>
-				<td>1962</td>
-			</tr>
-			<tr>
-				<td><input type="radio" name="id" value="row7"></td>
-				<td>Abraham Lincoln</td>
-				<td>First Inaugural Address</td>
-				<td>1864</td>
-			</tr>
-			<tr>
-				<td><input type="radio" name="id" value="row7"></td>
-				<td>George Marshall</td>
-				<td>Address to Harvard College</td>
-				<td>1946</td>
-			</tr>
-			<tr>
-				<td><input type="radio" name="id" value="row7"></td>
-				<td>Franklin Delano Roosevelt</td>
-				<td>Day of Imfamy Speech</td>
-				<td>Dec 8, 1941</td>
-			</tr>
-			<tr>
-				<td><input type="radio" name="id" value="row7"></td>
-				<td>Lou Gehrig</td>
-				<td>Luckiest Man</td>
-				<td>1936</td>
-			</tr>
-			<tr>
-				<td><input type="radio" name="id" value="row7"></td>
-				<td>King George VI</td>
-				<td>VE Day Broadcast</td>
-				<td>May 8, 1945</td>
-			</tr>
 			
-
 		</tbody>
 	</table>
 
