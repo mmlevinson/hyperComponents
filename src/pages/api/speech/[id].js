@@ -1,8 +1,9 @@
 import { twMerge } from 'tailwind-merge';
+import speeches from '../../../data/speeches.json?json'
 // import {tw as formStyles} from '../../testform.astro'
 const jsonPlaceholder  = import.meta.env.JSONPLACEHOLDER_API_PATH
 // const famousSpeeches = 'https://my-json-server.typicode.com/mmlevinson/hyperComponents/'
-const famousSpeechesAPI = jsonPlaceholder + 'speech'
+const famousSpeechesAPI = jsonPlaceholder + 'speeches'
 
 // const tw = {...formStyles}
 
