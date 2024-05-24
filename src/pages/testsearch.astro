@@ -31,8 +31,8 @@ const hs = ``
 
 	<table 
 				hx-trigger="load"  
-				 hx-get="/api/speech/"
-	       hx-target="next <tbody/>"
+				 hx-get="/api/speeches/"
+	       hx-target="#body"
 	       hx-swap="innerHTML">
 		<thead>
 			<tr>
@@ -42,7 +42,7 @@ const hs = ``
 				<th>Date</th>
 			</tr>
 		</thead>
-		<tbody>
+		<tbody id="body">
 			
 		</tbody>
 	</table>
