@@ -1,16 +1,17 @@
 import { twMerge } from 'tailwind-merge';
 import famousSpeeches from '../../../data/famousSpeeches.json?json'
 
-const hs = `
-  on change put my value into next <output/>
-`
+const hs = {
+	trigger: `on click put my @index into the next <output/>`,
+	change: `on change put my value into next <output/>`
+}
 
 const getSpeechData = () => {
 
  const markup = famousSpeeches.map((speech)=>{
 		return  `
-		<tr>
-		<td><input type="radio" name="id" value="${speech.id}" script="${hs}"></td>
+		<tr index="${speech.id}" script="${hs.trigger}">
+		<td><input type="radio" name="id" value="${speech.id}" script="${hs.change}"></td>
 		<td>${speech.speaker}</td>
 		<td>${speech.title}</td>
 		<td>${speech.date}</td>
