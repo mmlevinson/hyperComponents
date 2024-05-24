@@ -32,7 +32,7 @@ const hs = ``
 	<table 
 				hx-trigger="load"  
 				 hx-get="/api/speeches/"
-	       hx-target="#body"
+	       hx-target="<tbody/>"
 	       hx-swap="innerHTML">
 		<thead>
 			<tr>
@@ -42,8 +42,7 @@ const hs = ``
 				<th>Date</th>
 			</tr>
 		</thead>
-		<tbody id="body">
-			
+		<tbody> 	
 		</tbody>
 	</table>
 
