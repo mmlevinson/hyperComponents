@@ -2,7 +2,7 @@ import { twMerge } from 'tailwind-merge';
 import famousSpeeches from '../../../data/famousSpeeches.json?json'
 
 const tw = {
-	tr: 'cursor-pointer hover:bg-blue-300'
+	tr: 'cursor-pointer even:hover:bg-blue-900 odd:hover:bg-blue-950'
 }
 
 
@@ -12,10 +12,10 @@ const getSpeechData = () => {
 		return  `
 		<tr 
 			index="${speech.id}" 
-			class=${tw.tr} 
+			class="${tw.tr}" 
 			script="
 				on click 
-				fetch /api/speeches/${speech.id}?transcript=true as text then 
+				fetch /api/speeches/${speech.id}?transcript=true as html then 
 				put it into the next <output/>"
 		>	
 		<td>${speech.speaker}</td>

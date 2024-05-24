@@ -4,7 +4,7 @@ import { twMerge } from 'tailwind-merge';
 // const tw = {...formStyles}
 
 const tw = {
-	p: 'pb-8 text-sm text-blue-200 dark:text-blue-400 '
+	p: 'pb-8 text-md text-gray-800 dark:text-sky-200 '
 }
 
 const speechInfo = (speech) => {
