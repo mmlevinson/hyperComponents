@@ -1,9 +1,13 @@
 import { twMerge } from 'tailwind-merge';
-import famousSpeeches from '../../../data/famousSpeeches.json?json'
+import {json} from 'astro'
+
+//import famousSpeeches from '../../../data/famousSpeeches.json?json'
 // import {tw as formStyles} from '../../testform.astro'
 
 
 // const tw = {...formStyles}
+
+
 
 const getMarkup = () => {
 
@@ -22,8 +26,9 @@ const getMarkup = () => {
 
 }
 
-export const GET = async ({params, request}) => {
-	return new Response (getMarkup(), {status: 200})
+// export const GET = async ({params, request}) => {
+// 	console.log(`request.search`, request)
+// 	return new Response (getMarkup(), {status: 200})
 	
 	
-}
+// }

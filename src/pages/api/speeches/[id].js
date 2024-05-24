@@ -16,8 +16,37 @@ const getMarkup = (speech) => {
 
 }
 
-export const GET = async ({params, request}) => {
-	return new Response (getMarkup(famousSpeeches[params.id]), {status: 200})
+// export const GET = async ({params, request}) => {
+// 	console.log(`params`, params)
+// 	console.log(`request`, request.searchParams)
+// 	return new Response (getMarkup(famousSpeeches[params.id]), {status: 200})
 	
 	
+// }
+
+
+
+export async function GET({ params, url }) {
+	// Load the speeches data
+	
+
+
+	// Extract the query parameters
+	const speechID = +params.id
+	const searchParams = url.searchParams;
+	const transcriptOnly = searchParams.get('transcript') === 'true';
+	// Find the speech by ID
+	// const speech = famousSpeeches.find(s => s.id === parseInt(params.id));
+	const speech = famousSpeeches[speechID]
+	// if (!speech) {
+	//     return json({ error: 'Speech not found' }, { status: 404 });
+	// }
+
+	// Return only the transcript if requested
+	if (transcriptOnly) {
+		return new Response(speech.transcript, {status: 200})
+	}
+
+	// Otherwise, return the full speech data
+	// return new Response(speech.transcript, {status: 200})
 }
