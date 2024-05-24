@@ -5,14 +5,18 @@ const tw = {
 	tr: 'cursor-pointer hover:bg-blue-300'
 }
 
+
 const getSpeechData = () => {
 
  const markup = famousSpeeches.map((speech)=>{
 		return  `
-		<tr index="${speech.id}" class=${tw.tr} script="
-		on click 
-		fetch /api/speeches/${speech.id}?transcript=true as html then 
-		put it into the next <output/>"
+		<tr 
+			index="${speech.id}" 
+			class=${tw.tr} 
+			script="
+				on click 
+				fetch /api/speeches/${speech.id}?transcript=true as text then 
+				put it into the next <output/>"
 		>	
 		<td>${speech.speaker}</td>
 		<td>${speech.title}</td>

@@ -25,7 +25,8 @@ export async function GET({ params, url }) {
 	const searchParams = url.searchParams;
 	const transcriptOnly = searchParams.get('transcript') === 'true';
 	if (transcriptOnly) {
-		return new Response(speech.transcript, {status: 200})
+		const markup = speech.transcript.replace(/\\n/g, '<br>');
+		return new Response(markup, {status: 200})
 	}
 	else {
 		return new Response (speechInfo(speech), {status: 200})
