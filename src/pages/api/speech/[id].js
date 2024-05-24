@@ -1,9 +1,5 @@
 import { twMerge } from 'tailwind-merge';
-import speeches from '../../../data/speeches.json?json'
-// import {tw as formStyles} from '../../testform.astro'
-const jsonPlaceholder  = import.meta.env.JSONPLACEHOLDER_API_PATH
-// const famousSpeeches = 'https://my-json-server.typicode.com/mmlevinson/hyperComponents/'
-const famousSpeechesAPI = jsonPlaceholder + 'speeches'
+import famousSpeeches from '../../../data/famousSpeeches.json?json'
 
 // const tw = {...formStyles}
 
@@ -21,11 +17,7 @@ const getMarkup = (speech) => {
 }
 
 export const GET = async ({params, request}) => {
-	const speechId = params.id
-	console.log(`speechId`, speechId)
-	console.log(`request`, request)
-	const famousSpeech = await fetch(`${famousSpeechesAPI}/${speechId}`).then(response => response.json())
-	return new Response (getMarkup(famousSpeech), {status: 200})
+	return new Response (getMarkup(famousSpeeches[params.id]), {status: 200})
 	
 	
 }

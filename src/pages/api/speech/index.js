@@ -1,5 +1,5 @@
 import { twMerge } from 'tailwind-merge';
-import famousSpeeches from '../../../data/speeches.json?json'
+import famousSpeeches from '../../../data/famousSpeeches.json?json'
 // import {tw as formStyles} from '../../testform.astro'
 
 
