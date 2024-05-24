@@ -3,6 +3,10 @@ import famousSpeeches from '../../../data/famousSpeeches.json?json'
 import { twMerge } from 'tailwind-merge';
 // const tw = {...formStyles}
 
+const tw = {
+	p: 'pb-8 text-sm text-blue-200 dark:text-blue-400 '
+}
+
 const speechInfo = (speech) => {
  return  `
  <tr>
@@ -25,7 +29,8 @@ export async function GET({ params, url }) {
 	const searchParams = url.searchParams;
 	const transcriptOnly = searchParams.get('transcript') === 'true';
 	if (transcriptOnly) {
-		const markup = speech.transcript.replace(/\\n/g, '<br>');
+		let markup = `<p class="${tw.p}">` + speech.transcript + '</p>'
+		markup = markup.replace(/\\n/g, `</p><p class="${tw.p}">`);
 		return new Response(markup, {status: 200})
 	}
 	else {
