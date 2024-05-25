@@ -1,5 +1,5 @@
 import famousSpeeches from '../../../data/famousSpeeches.json?json'
-import {tw as baseStyles} from './[id]'
+import {swapLineEndings, tw as baseStyles} from './[id]'
 
 const tw = {
 	...baseStyles,
@@ -7,8 +7,11 @@ const tw = {
 }
 
 function markupSpeech(speech, searchString) {
-	let markup = `<p class="${tw.p}">` + speech.transcript + '</p>'
-	markup = markup.replace(/\\n/g, `</p><p class="${tw.p}">`);
+	let markup = swapLineEndings(speech.transcript)
+
+	if (searchString === '') {
+		return markup
+	}
 
 	// Correctly create a RegExp object with dynamic searchString
 	const searchRegex = new RegExp(searchString, 'g');
@@ -30,10 +33,7 @@ export const POST = async ({request}) => {
 		if (!speech) {
 				return new Response ('Speech not found')
 		}
-    
-   if (!searchString) {
-			return new Response (speech.transcript);
-   }
+  
 	return new Response(markupSpeech(speech, searchString), {status: 200});
 }
 

@@ -1,6 +1,6 @@
 import famousSpeeches from '../../../data/famousSpeeches.json?json'
 
-import { twMerge } from 'tailwind-merge';
+// import { twMerge } from 'tailwind-merge';
 // const tw = {...formStyles}
 
 export const tw = {
@@ -12,9 +12,9 @@ const speechInfo = (speech) => {
 }
 
 export function swapLineEndings(text) {
-	//a beginning and ending <p> tag
+	//add a beginning and ending <p> tag
 	let markup = `<p class="${tw.p}">` + text + '</p>'
-	//all \\n replaced with <p> tags and appropriate styling
+	//the replace all \\n with <p> tags with appropriate styling
 	markup = markup.replace(/\\n/g, `</p><p class="${tw.p}">`);
 	return markup;
 }
