@@ -20,7 +20,7 @@ const getSpeechData = () => {
 					put it into the #{'speech-title'}
 					fetch /api/speeches/${speech.id}?transcript=true as html then 
 					put it into the #{'speech-transcript'}
-					-- tell #{'searchbox'} set @searchPath to '/api/speeches/${speech.id}?match=true'
+					set the value of #{'speech-index'} to the '${speech.id}'
 					
 				"
 		>	
