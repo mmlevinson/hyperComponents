@@ -6,10 +6,13 @@ import { twMerge } from 'tailwind-merge'
 const title = 'Test Search'
 
 const tw = {
-	wrapper: 'not-content w-full bg-transparent dark:bg-gray-700 py-4',
-	output: 'not-content w-full max-h-[50rem] overflow-y-auto ' + 
-	'mt-4 p-4 border-2 border-gray-200 dark:border-gray-800'
-}
+	wrapper: 'not-content w-full bg-transparent dark:bg-gray-700 py-4 ',
+	table:'mx-auto my-4 max-w-max border-2 border-gray-200 dark:border-red-800',
+	output: 'not-content block w-10/12 mx-auto overflow-y-auto ' +
+	'dark:bg-gray-600 ' + 
+	'mt-4 p-4 border-2 border-red-200 dark:border-blue-800'
+}	
+
 
 ---
 
@@ -29,7 +32,7 @@ const tw = {
 
 
 
-	<table 
+	<table class={tw.table}
 				hx-trigger="load"  
 				 hx-get="/api/speeches/"
 	       hx-target="<tbody/>"
@@ -45,7 +48,9 @@ const tw = {
 		</tbody>
 	</table>
 
-	<output id="speech-transcript" class={tw.output}></output>
+	<output id="speech-transcript" class={tw.output}>
+
+	</output>
 
 
 
