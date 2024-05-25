@@ -20,8 +20,7 @@ const getSpeechData = () => {
 					put it into the #{'speech-title'}
 					fetch /api/speeches/${speech.id}?transcript=true as html then 
 					put it into the #{'speech-transcript'}
-					set the value of #{'speech-index'} to the '${speech.id}'
-					
+					set the value of #{'speech-index'} to the ${speech.id}
 				"
 		>	
 		<td>${speech.speaker}</td>

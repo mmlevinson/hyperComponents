@@ -42,3 +42,18 @@ After much debugging using console.log, the value of the input is found in loggi
 In order to get this result, I needed somewhere to store an number indicating the array index for the speech I was looking up.   I used a hidden <input> for lack of a better idea.  Then I included the value of that input into the request using hx-include="[name='index']" (using an attribute selector syntax to identify the correct element)
 
 This is a long round-about way to pass the values but now that I found this, I can split the string returned by request.text() and use these for returng a hypermedia response.
+
+This script then updates the hidden <input> which is relayed to the endpoint by hx-include
+
+```js
+
+script="
+				on click 
+					fetch /api/speeches/${speech.id} as text then 
+					put it into the #{'speech-title'}
+					fetch /api/speeches/${speech.id}?transcript=true as html then 
+					put it into the #{'speech-transcript'}
+					set the value of #{'speech-index'} to the '${speech.id}'
+				"
+
+```
