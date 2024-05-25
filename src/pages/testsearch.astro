@@ -54,7 +54,7 @@ const hs = {
 	</table>
 
 	<div class={tw.search.wrapper}>
-		<Searchbox/>
+		<Searchbox id="searchbox" searchPath="" target="#speech-transcript" swapStrategy="innerHTML" />
 		<button class={tw.search.resetButton}
 		script={hs.doReset}
 		>Reset</button>
@@ -66,7 +66,7 @@ const hs = {
 	  <h4 id="speech-title" class={tw.speech.title}
 		></h4>
 		<div id="speech-transcript" class={tw.speech.transcript}
-	
+	    
 		  >
 		</div>
 	</div>

@@ -2,8 +2,12 @@
 import ClickDropdownMenuA from '../ClickDropdownMenu_A.astro'
  
 interface Props {
+	id?:string
 	caption?:string
 	placeholder?:string
+	searchPath:string
+	target:string
+	swapStrategy:string,
 	width?:string,
 	height?:string
 }
@@ -13,14 +17,18 @@ const defaultTextColors = 'text-zinc-50 dark:text-zinc-200'
 const defaultBackgroundColors = 'bg-indigo-300 dark:bg-indigo-600'
  
 const {
+	id,
 	caption = "Search",
 	placeholder = "Search for...",
+	searchPath,
+	target,
+	swapStrategy,
 	width = 'w-10/12',
 	height = 'h-12'
 } = Astro.props 
 
 const tw = {
-	container: 'flex-grow ',
+	container: '	flex-grow ',
 	wrapper: `${width} mx-auto flex items-center overflow-hidden justify-around rounded-2xl ` +
 	  'bg-indigo-300 dark:bg-indigo-600 ',
 	input: `${height} px-4 w-full font-inherit ` + 
@@ -36,7 +44,8 @@ const tw = {
     'hover:dark:bg-stone-300 hover:dark:text-sky-800',
 	searchButton: 'p-0 mx-2 mt-1 cursor-pointer ' + 
 		'font-extrabold ' + defaultTextColors +  ' hover:text-slate-950 dark:hover:text-yellow-600 ' +
-		' bg-transparent hover:bg-transparent'
+		' bg-transparent hover:bg-transparent',
+	mark: 'bg-yellow-200 dark:bg-rose-200'
 }
  
 const hs = `on click send closeDropdown to the #{'search-criteria'} then settle then call alert('You selected ' + my innerHTML)` 
@@ -54,10 +63,16 @@ const hs = `on click send closeDropdown to the #{'search-criteria'} then settle 
 			<li class={tw.menuItem}>Ends With</li>
 		</ClickDropdownMenuA>
 		<input
+		  id=`${id}`
 			type="search"
 			name="search"
 			placeholder={placeholder}
-			class={tw.input}>
+			class={tw.input}
+			hx-post=`${searchPath}`
+			hx-trigger="input changed delay:500ms, search"
+			hx-target=`${target}`
+			hx-swap=`${swapStrategy}`
+			>
 		</input>
 		<slot name="rightIcon" >
 			<svg 
