@@ -4,18 +4,11 @@ import { twMerge } from 'tailwind-merge';
 // const tw = {...formStyles}
 
 const tw = {
-	p: 'pb-8 text-md text-gray-800 dark:text-sky-200 '
+	p: 'pb-8 text-md lg:text-lg text-gray-800 dark:text-neutral-100 '
 }
 
 const speechInfo = (speech) => {
- return  `
- <tr>
-	<td><input type="radio" name="id" value="${speech.id}"></td>
-	<td>${speech.speaker}</td>
-	<td>${speech.title}</td>
-	<td>${speech.date}</td>
-</tr>
-`
+ return  speech.title + ' by ' + speech.speaker + ' on ' + speech.date
 }
 
 //GET

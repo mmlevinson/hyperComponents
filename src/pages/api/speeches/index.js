@@ -16,8 +16,11 @@ const getSpeechData = () => {
 			class="${tw.tr}" 
 			script="
 				on click 
-				fetch /api/speeches/${speech.id}?transcript=true as html then 
-				put it into the #{'speech-transcript'}"
+					fetch /api/speeches/${speech.id} as text then 
+					put it into the #{'speech-title'}
+					fetch /api/speeches/${speech.id}?transcript=true as html then 
+					put it into the #{'speech-transcript'}			
+				"
 		>	
 		<td>${speech.speaker}</td>
 		<td>${speech.title}</td>

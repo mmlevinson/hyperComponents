@@ -8,9 +8,11 @@ const title = 'Test Search'
 const tw = {
 	wrapper: 'not-content w-full bg-transparent dark:bg-gray-700 py-4 ',
 	table:'mx-auto my-4 max-w-max ',
-	output: 'not-content block w-10/12 mx-auto overflow-y-auto ' +
-	'dark:bg-gray-600 ' + 
-	'mt-4 p-4 border-2 border-red-200 dark:border-blue-800'
+	speech:{
+		wrapper: 'w-full mx-auto dark:bg-gray-950 rounded-t-lg',
+		title: 'text-center mt-8 text-indigo-600 ' + 'dark:text-slate-200 py-4 border-b-2 border-gray-300 ' + ' dark:border-gray-700',
+		transcript: 'not-content mt-8 p-4'
+	},
 }	
 
 
@@ -21,8 +23,8 @@ const tw = {
 
 <div class="w-10/12 mx-auto">
 	<h3 class="text-center">Famous Speeches in the English Language</h3>
-	<h4 class="text-center">Search and Highlight Words</h4>
-	<p>Click on the any of the famous orations listed below. The full transcript will be displayed. Use the Search box to mark discrete words within the transcript.</p>
+	<h4 class="pt-8 pb-4 text-center">Highlight Words from Orations that Helped Shape our World.</h4>
+	
 </div>
 
 
@@ -34,20 +36,20 @@ const tw = {
 	       hx-target="<tbody/>"
 	       hx-swap="innerHTML">
 		<thead>
-			<tr>
-				<th>Speaker</th>
-				<th>Title</th>
-				<th>Date</th>
-			</tr>
+			<tr><th>Speaker</th><th>Title</th><th>Date</th></tr>
 		</thead>
-		<tbody> 	
-		</tbody>
+		<tbody></tbody>
 	</table>
 
-	<Searchbox />
-	<output id="speech-transcript" class={tw.output}>
-
-	</output>
+	<Searchbox width="w-11/12" />
+	<div class={tw.speech.wrapper}>
+	  <h4 id="speech-title" class={tw.speech.title}>Surrender Speech by Chief Joseph on  Oct 5, 1877</h4>
+		<div id="speech-transcript" class={tw.speech.transcript}
+		  hx-on::after-swap="console.log( 'after-swap	')	"
+		  >
+			<p>Click on the any of the famous orations listed above. The full transcript will be displayed. Any characters you enter into the Search field will be dynamically highlighted in the transcript.</p>
+		</div>
+	</div>
 
 
 
