@@ -6,7 +6,6 @@ const tw = {
 	'even:hover:text-amber-500 odd:hover:text-amber-500'
 }
 
-
 const getSpeechData = () => {
 
  const markup = famousSpeeches.map((speech)=>{
