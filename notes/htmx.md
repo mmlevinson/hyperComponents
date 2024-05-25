@@ -1,7 +1,10 @@
 ### Sending values to Astro endpoing
 
-In the Search example at htmx.org, there is no clue how the <input> element sends the its value to the backend.  All <input> have a value attribute.   The text of the [value=""] somehow makes it to the server in the example, but its assumed to be sent by default and is likely being extracted in Python.-translate-x-6
+In the Search example at htmx.org, there is no clue how the <input> element sends the its value to the backend.  All <input> have a value attribute.   The text of the [value=""] somehow makes it to the server in the example, but its assumed to be sent by default and is likely being extracted in Python.
+
+
 How to do this in Astro?
+Remember this is a POST not a GET where I can access the index using the params object.
 
 Here is the example I was working with:
 
