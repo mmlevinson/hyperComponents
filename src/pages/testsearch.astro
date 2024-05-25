@@ -43,7 +43,7 @@ const hs = {
 
 
 	<table class={tw.table}
-				hx-trigger="load"  
+				 hx-trigger="load"  
 				 hx-get="/api/speeches/"
 	       hx-target="<tbody/>"
 	       hx-swap="innerHTML">
@@ -54,7 +54,7 @@ const hs = {
 	</table>
 
 	<div class={tw.search.wrapper}>
-		<Searchbox id="searchbox" searchPath="" target="#speech-transcript" swapStrategy="innerHTML" />
+		<Searchbox id="searchbox" searchPath="/api/speeches/match/" target="#speech-transcript" swapStrategy="innerHTML" />
 		<button class={tw.search.resetButton}
 		script={hs.doReset}
 		>Reset</button>

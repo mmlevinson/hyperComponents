@@ -62,13 +62,14 @@ const hs = `on click send closeDropdown to the #{'search-criteria'} then settle 
 			<li class={tw.menuItem}>Begins With</li>
 			<li class={tw.menuItem}>Ends With</li>
 		</ClickDropdownMenuA>
+		<input type="hidden" id="path" name="path" value=""/>
 		<input
 		  id=`${id}`
 			type="search"
 			name="search"
 			placeholder={placeholder}
 			class={tw.input}
-			hx-post=`${searchPath}`
+			hx-post=`${searchPath}?id=0`
 			hx-trigger="input changed delay:500ms, search"
 			hx-target=`${target}`
 			hx-swap=`${swapStrategy}`
