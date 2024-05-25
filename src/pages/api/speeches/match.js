@@ -3,7 +3,7 @@ import {swapLineEndings, tw as baseStyles} from './[id]'
 
 const tw = {
 	...baseStyles,
-  mark: 'bg-rose-200'
+  mark: 'bg-yellow-200'
 }
 
 function markupSpeech(speech, searchString) {
@@ -23,6 +23,7 @@ function markupSpeech(speech, searchString) {
 export const POST = async ({request}) => {
     // Extracting data from the request body
     const data = await request.text()
+		console.log(`data`, data)
 		//data = searchString=hello&speechId=1
 		const searchString = data.split('&')[0].split('=')[1]
 		const speechId = parseInt(data.split('&')[1].split('=')[1])
