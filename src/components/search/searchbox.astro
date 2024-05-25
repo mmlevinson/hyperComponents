@@ -48,19 +48,21 @@ const tw = {
 	mark: 'bg-yellow-200 dark:bg-rose-200'
 }
  
-const hs = `on click send closeDropdown to the #{'search-criteria'} then settle then call alert('You selected ' + my innerHTML)` 
+const hs = `on click send closeDropdown to the #{'search-options'} then settle then 
+    set the value of #{'speech-criteria'} to my textContent` 
  
 ---
 <div class={tw.container}>	 
 	<div class={tw.wrapper}>
-		<ClickDropdownMenuA id="search-criteria" buttonStyles={tw.searchButton} moveXY="-12,10" >
+		<ClickDropdownMenuA id="search-options" buttonStyles={tw.searchButton} moveXY="-12,10" >
 			<svg slot="rightIcon" class={tw.icon}  fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
 				<path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6z"/>
 			</svg>
-			<li class={tw.menuItem}>Whole Word</li>
-			<li class={tw.menuItem}>Partial Word</li>
-			<li class={tw.menuItem}>Begins With</li>
-			<li class={tw.menuItem}>Ends With</li>
+			<li class={tw.menuItem} script={hs}>Whole Word</li>
+			<li class={tw.menuItem} script={hs}>Partial Word</li>
+			<li class={tw.menuItem} script={hs}>Multiple Words</li>
+			<li class={tw.menuItem} script={hs}>Begins With</li>
+			<li class={tw.menuItem} script={hs}>Ends With</li>
 		</ClickDropdownMenuA>
 		<input type="hidden" id="speech-index" name="speech-index" value=""/>
 		<input type="hidden" id="speech-criteria" name="speech-criteria" value="Whole Word"/>
