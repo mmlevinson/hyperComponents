@@ -20,15 +20,12 @@ const tw = {
 	},
 }	
 
-
-
 const defaultTitle = 'Click on the any of the famous orations listed above.'
 const defaultTranscript = 'The full transcript will be displayed here. Use the Search box to dynamnically highlight any part of the transcript'
 
 const hs = {
-	resetSpeechTitle: `
-	   on click or load put "${defaultTitle}" into #{'speech-title'}`,
-	resetSpeechTranscript: `on click or load put "${defaultTranscript}" into #{'speech-transcript'}`
+	doReset:`on load or click put "${defaultTitle}" into #{'speech-title'} then
+		put "${defaultTranscript}" into #{'speech-transcript'}`,
 }
 
 ---
@@ -59,7 +56,7 @@ const hs = {
 	<div class={tw.search.wrapper}>
 		<Searchbox/>
 		<button class={tw.search.resetButton}
-		script={hs.resetSpeechTitle}
+		script={hs.doReset}
 		>Reset</button>
 	</div>
 
@@ -67,9 +64,9 @@ const hs = {
 	<div class={tw.speech.wrapper}>
 
 	  <h4 id="speech-title" class={tw.speech.title}
-		  script={hs.resetSpeechTitle}></h4>
+		></h4>
 		<div id="speech-transcript" class={tw.speech.transcript}
-		  script={hs.resetSpeechTranscript}
+	
 		  >
 		</div>
 	</div>
