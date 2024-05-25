@@ -5,16 +5,31 @@ import Searchbox from '../components/search/searchbox.astro'
 import { twMerge } from 'tailwind-merge'
 const title = 'Test Search'
 
+
 const tw = {
-	wrapper: 'not-content w-full bg-transparent dark:bg-gray-700 py-4 ',
 	table:'mx-auto my-4 max-w-max ',
+  search:{
+		wrapper: 'not-content relative top-8 ' +  
+		'flex justify-between items-center',
+		resetButton: 'cursor-pointer py-2 px-6 dark:bg-indigo-600 text-zinc-200 rounded-lg'
+	},
 	speech:{
-		wrapper: 'w-full mx-auto dark:bg-gray-950 rounded-t-lg',
-		title: 'text-center mt-8 text-indigo-600 ' + 'dark:text-slate-200 py-4 border-b-2 border-gray-300 ' + ' dark:border-gray-700',
+		wrapper: 'w-full relative top-16 mx-auto max-h-[50rem] overflow-y-auto ' +  'dark:bg-gray-950 rounded-t-lg',
+		title: 'text-center text-balance text-indigo-600 ' + 'dark:text-amber-100/80 p-4 border-b-2 border-gray-300 ' + ' dark:border-gray-700',
 		transcript: 'not-content mt-8 p-4'
 	},
 }	
 
+
+
+const defaultTitle = 'Click on the any of the famous orations listed above.'
+const defaultTranscript = 'The full transcript will be displayed here. Use the Search box to dynamnically highlight any part of the transcript'
+
+const hs = {
+	resetSpeechTitle: `
+	   on click or load put "${defaultTitle}" into #{'speech-title'}`,
+	resetSpeechTranscript: `on click or load put "${defaultTranscript}" into #{'speech-transcript'}`
+}
 
 ---
 
@@ -41,13 +56,21 @@ const tw = {
 		<tbody></tbody>
 	</table>
 
-	<Searchbox width="w-11/12" />
+	<div class={tw.search.wrapper}>
+		<Searchbox/>
+		<button class={tw.search.resetButton}
+		script={hs.resetSpeechTitle}
+		>Reset</button>
+	</div>
+
+
 	<div class={tw.speech.wrapper}>
-	  <h4 id="speech-title" class={tw.speech.title}>Surrender Speech by Chief Joseph on  Oct 5, 1877</h4>
+
+	  <h4 id="speech-title" class={tw.speech.title}
+		  script={hs.resetSpeechTitle}></h4>
 		<div id="speech-transcript" class={tw.speech.transcript}
-		  hx-on::after-swap="console.log( 'after-swap	')	"
+		  script={hs.resetSpeechTranscript}
 		  >
-			<p>Click on the any of the famous orations listed above. The full transcript will be displayed. Any characters you enter into the Search field will be dynamically highlighted in the transcript.</p>
 		</div>
 	</div>
 
