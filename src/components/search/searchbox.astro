@@ -49,7 +49,7 @@ const tw = {
 }
  
 const hs = `on click send closeDropdown to the #{'search-options'} then settle then 
-    set the value of #{'speech-criteria'} to my textContent` 
+    set the value of #{'search-criteria'} to my textContent` 
  
 ---
 <div class={tw.container}>	 
@@ -58,14 +58,17 @@ const hs = `on click send closeDropdown to the #{'search-options'} then settle t
 			<svg slot="rightIcon" class={tw.icon}  fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
 				<path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6z"/>
 			</svg>
+			<li class={tw.menuItem} script={hs}>Contains</li>
 			<li class={tw.menuItem} script={hs}>Whole Word</li>
 			<li class={tw.menuItem} script={hs}>Partial Word</li>
 			<li class={tw.menuItem} script={hs}>Multiple Words</li>
+			<li class={tw.menuItem} script={hs}>Case Sensitive</li>
+			<li class={tw.menuItem} script={hs}>Case Insensitive</li>
 			<li class={tw.menuItem} script={hs}>Begins With</li>
 			<li class={tw.menuItem} script={hs}>Ends With</li>
 		</ClickDropdownMenuA>
 		<input type="hidden" id="speech-index" name="speech-index" value=""/>
-		<input type="hidden" id="speech-criteria" name="speech-criteria" value="Whole Word"/>
+		<input type="hidden" id="search-criteria" name="search-criteria" value="Whole Word"/>
 		<input
 		  id=`${id}`
 			type="search"
