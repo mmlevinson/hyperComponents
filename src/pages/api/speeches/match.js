@@ -1,11 +1,12 @@
 import famousSpeeches from '../../../data/famousSpeeches.json?json'
 import {swapLineEndings, tw as baseStyles} from './[id]'
 
-import {defaultBackgroundColors} from '../../components/search/searchbox.astro'
+
+import {defaultBackgroundColors} from '../../../components/search/searchbox.astro'
+let hilightColor = defaultBackgroundColors
 
 const tw = {
 	...baseStyles,
-  mark: 'dark:bg-violet-400'
 }
 
 function markupSpeech(speech, searchString, searchCriteria) {
@@ -15,6 +16,7 @@ function markupSpeech(speech, searchString, searchCriteria) {
    
 	let regex = '\\b' + searchString + '\\w*\\b'
 	let modifiers = 'g'
+
 
 	switch (searchCriteria) {
 		case 'case-sensitive' :
@@ -40,7 +42,7 @@ function markupSpeech(speech, searchString, searchCriteria) {
 	// Correctly create a RegExp object with dynamic searchString
 	const searchRegex = new RegExp(regex, modifiers)
   let markup = speech.transcript
-	markup = markup.replace(searchRegex, `<mark class="${tw.mark}">$&</mark>`);
+	markup = markup.replace(searchRegex, `<mark class="${hilightColor}">$&</mark>`);
 	markup = swapLineEndings(markup)
 	return markup
 }
@@ -49,14 +51,16 @@ export const POST = async ({request}) => {
     // Extracting data from the request body
     const data = await request.text()
 		console.log(`data`, data)
-		//data = searchString=hello&speechId=1
+		//data = data search=xyz&speech-index=15&search-criteria=Contains&hilight-color=bg-yellow-200
 		const searchString = decodeURIComponent(data.split('&')[0].split('=')[1])
 		const speechId = parseInt(data.split('&')[1].split('=')[1])
 		const searchCriteria = decodeURIComponent(data.split('&')[2].split('=')[1])
-			.toLowerCase()
-			.replace(' ', '-')
+		.toLowerCase()
+		.replace(' ', '-')
+		hilightColor = data.split('&')[3].split('=')[1]
 		console.log(`searchString`, searchString)
 		console.log(`searchCriteria`, searchCriteria)
+		console.log(`hilightColor`, hilightColor)
 
 		//now get the transcript
 		const speech = famousSpeeches[speechId]
