@@ -11,7 +11,7 @@ function markupSpeech(speech, searchString, searchCriteria) {
 		return swapLineEndings(speech.transcript)
 	}
    
-	let regex = searchString
+	let regex = '\\b' + searchString + '\\w*\\b'
 	let modifiers = 'g'
 
 	switch (searchCriteria) {
@@ -25,7 +25,7 @@ function markupSpeech(speech, searchString, searchCriteria) {
 			regex = '\\b' + searchString + '\\b'
 			break
 		case 'begins-with' :
-			regex = searchString + '.*\\w'
+			regex = '\\b' + searchString + '\\w*\\b'
 			break
 		case 'ends-with' :
 			regex = '\\b.*' + searchString
