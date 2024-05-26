@@ -2,14 +2,15 @@
 import StarlightPage from '@astrojs/starlight/components/StarlightPage.astro'
 import Searchbox from '../components/search/searchbox.astro'
 
-import { twMerge } from 'tailwind-merge'
-const title = 'Test Search'
+const pageTitle = 'Test Search'
 
+const defaultSpeechTitle = 'Click on the any of the famous orations listed above.'
+const defaultSpeechTranscript = 'The full transcript will be displayed here. Use the Search box to dynamnically highlight any part of the transcript'
 
 const tw = {
 	table:'mx-auto my-4 max-w-max ',
   search:{
-		wrapper: 'not-content pt-8 ' +  
+		container: 'not-content pt-8 ' +  
 		'flex justify-between items-center',
 		resetButton: 'cursor-pointer py-2 px-6 dark:bg-indigo-600 text-zinc-200 rounded-lg'
 	},
@@ -19,57 +20,60 @@ const tw = {
 		transcript: 'not-content mt-8 p-4'
 	},
 }	
-
-const defaultTitle = 'Click on the any of the famous orations listed above.'
-const defaultTranscript = 'The full transcript will be displayed here. Use the Search box to dynamnically highlight any part of the transcript'
-
 const hs = {
-	doReset:`on load or click put "${defaultTitle}" into #{'speech-title'} then
-		put "${defaultTranscript}" into #{'speech-transcript'}`,
+	resetButton:`on load or click put the "${defaultSpeechTitle}" into the #{'speech-title'} then
+		put the "${defaultSpeechTranscript}" into the #{'speech-transcript'} then 
+		send reset to the <table#all-speeches/> 
+		send reset to the #{'searchbox'}`,
+	table: `
+		on reset
+			remove .text-amber-500 from <tr/>
+		end `
 }
 
 ---
 
-<StarlightPage frontmatter={{title: title}}>
+<StarlightPage frontmatter={{title: pageTitle}}>
 
-
+{/* Intro */}
 <div class="w-10/12 mx-auto">
 	<h3 class="text-center">Famous Speeches in the English Language</h3>
 	<h4 class="pt-8 pb-4 text-center">Highlight Words from Orations that Helped Shape our World.</h4>
-	
 </div>
 
+{/*  Table of Famous Speeches */}
+<table class={tw.table}
+				id="all-speeches"
+				hx-trigger="load"  
+				hx-get="/api/speeches/"
+				hx-target="<tbody/>"
+				hx-swap="innerHTML"
+				script={hs.table}>
+	<thead>
+		<tr><th>Speaker</th><th>Title</th><th>Date</th></tr>
+	</thead>
+	<tbody></tbody>
+</table>
+ 
+{/*  Search Box */}
+<div class={tw.search.container}>
+	<Searchbox 
+		id="searchbox" 
+		searchPath="/api/speeches/match/" 
+		target="#speech-transcript" 
+		swapStrategy="innerHTML" />
+	<button class={tw.search.resetButton}
+	script={hs.resetButton}
+	>Reset</button>
+</div>
 
-
-
-	<table class={tw.table}
-				 hx-trigger="load"  
-				 hx-get="/api/speeches/"
-	       hx-target="<tbody/>"
-	       hx-swap="innerHTML">
-		<thead>
-			<tr><th>Speaker</th><th>Title</th><th>Date</th></tr>
-		</thead>
-		<tbody></tbody>
-	</table>
-
-	<div class={tw.search.wrapper}>
-		<Searchbox id="searchbox" searchPath="/api/speeches/match/" target="#speech-transcript" swapStrategy="innerHTML" />
-		<button class={tw.search.resetButton}
-		script={hs.doReset}
-		>Reset</button>
+{/* Our Speech */}
+<div class={tw.speech.wrapper}>
+	<h4 id="speech-title" class={tw.speech.title}></h4>
+	<div id="speech-transcript" class={tw.speech.transcript}>
 	</div>
-
-
-	<div class={tw.speech.wrapper}>
-
-	  <h4 id="speech-title" class={tw.speech.title}
-		></h4>
-		<div id="speech-transcript" class={tw.speech.transcript}
-	    
-		  >
-		</div>
-	</div>
+</div>
+	
 
 
 
