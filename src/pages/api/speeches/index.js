@@ -24,6 +24,7 @@ const getSpeechData = () => {
 					
 					remove .${tw.rowHilight} from <tr/> 
 					add .${tw.rowHilight} to me
+					call #{'searchbox'}.focus()
 				end
 
 				"
