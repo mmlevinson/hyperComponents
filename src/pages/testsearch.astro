@@ -13,8 +13,9 @@ import {tw as rowStyles} from './api/speeches'
 const tw = {
 	table:'mx-auto my-4 max-w-max ',
 	...rowStyles,
+	hr: 'relative top-8 h-2 bg-blue-700/20',
   search:{
-		container: 'not-content pt-8 ' +  
+		container: 'not-content pt-12 ' +  
 		'flex justify-between items-center gap-2',
 		colorPallet: 'colorPallet bg-indigo-600 border-2 border-gray-600 dark:bg-gray-700 size-12',
 		palletIcon: 'inline-block size-6' ,
@@ -22,7 +23,7 @@ const tw = {
 		' text-zinc-200 text-lg rounded-2xl'
 	},
 	speech:{
-		wrapper: 'w-full relative top-16 mx-auto max-h-[50rem] overflow-y-auto ' +  'dark:bg-gray-950 rounded-t-lg',
+		wrapper: 'w-full  mx-auto max-h-[50rem] overflow-y-auto ' +  'dark:bg-gray-950 rounded-t-lg',
 		title: 'text-center text-balance text-indigo-600 ' + 'dark:text-amber-100/80 p-4 border-b-2 border-gray-300 ' + ' dark:border-gray-700',
 		transcript: 'not-content mt-8 p-4'
 	},
@@ -80,6 +81,8 @@ const hs = {
 	</thead>
 	<tbody></tbody>
 </table>
+
+<hr class={tw.hr}>
  
 {/*  Search Box */}
 <div class={tw.search.container}>
