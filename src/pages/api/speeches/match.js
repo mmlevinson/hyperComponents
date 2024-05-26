@@ -17,27 +17,27 @@ function markupSpeech(speech, searchString, searchCriteria) {
 	let modifiers = 'g'
 
 	switch (searchCriteria) {
-		case 'Case Sensitive' :
+		case 'case-sensitive' :
 			modifiers = 'g'	
 			break
-		case 'Case%20Insensitive' :
+		case 'case-insensitive' :
 			modifiers = 'gi'
 			break
-		case 'Whole Word' :
+		case 'whole-word' :
 			regex = '\\b' + searchString + '\\b'
 			break
-		case 'Partial Word' :
+		case 'partial-word' :
 			regex = '.*' + searchString + '.*'
 			break
-		case 'Multiple Words' :
+		case 'multiple-words' :
 			break
-		case 'Begins With' :
+		case 'begins-with' :
 			regex = searchString + '.*'
 			break
-		case 'Ends With' :
+		case 'ends-with' :
 			regex = '.*' + searchString
 			break
-		case 'Contains':
+		case 'contains':
 			regex = searchString
 				break
 	}
@@ -54,10 +54,15 @@ export const POST = async ({request}) => {
     const data = await request.text()
 		console.log(`data`, data)
 		//data = searchString=hello&speechId=1
-		const searchString = data.split('&')[0].split('=')[1]
+		const searchString = decodeURIComponent(data.split('&')[0].split('=')[1])
+			.toLowerCase()
+			.replace(' ', '-')
 		const speechId = parseInt(data.split('&')[1].split('=')[1])
-		const searchCriteria = data.split('&')[2].split('=')[1]
-		
+		const searchCriteria = decodeURIComponent(data.split('&')[2].split('=')[1])
+			.toLowerCase()
+			.replace(' ', '-')
+		console.log(`searchString`, searchString)
+		console.log(`searchCriteria`, searchCriteria)
 
 		//now get the transcript
 		const speech = famousSpeeches[speechId]
