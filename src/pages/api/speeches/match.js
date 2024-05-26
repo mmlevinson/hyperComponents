@@ -7,10 +7,8 @@ const tw = {
 }
 
 function markupSpeech(speech, searchString, searchCriteria) {
-	let markup = swapLineEndings(speech.transcript)
-
 	if (searchString === '') {
-		return markup
+		return swapLineEndings(speech.transcript)
 	}
    
 	let regex = searchString
@@ -32,10 +30,10 @@ function markupSpeech(speech, searchString, searchCriteria) {
 		case 'multiple-words' :
 			break
 		case 'begins-with' :
-			regex = searchString + '.*'
+			regex = searchString + '.*\\w'
 			break
 		case 'ends-with' :
-			regex = '.*' + searchString
+			regex = '\\b.*' + searchString
 			break
 		case 'contains':
 			regex = searchString
@@ -43,9 +41,10 @@ function markupSpeech(speech, searchString, searchCriteria) {
 	}
 
 	// Correctly create a RegExp object with dynamic searchString
-	const searchRegex = new RegExp(regex, modifiers);
+	const searchRegex = new RegExp(regex, modifiers)
+  let markup = speech.transcript
 	markup = markup.replace(searchRegex, `<mark class="${tw.mark}">$&</mark>`);
-
+	markup = swapLineEndings(markup)
 	return markup
 }
 
