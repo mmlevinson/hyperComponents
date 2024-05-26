@@ -24,11 +24,6 @@ function markupSpeech(speech, searchString, searchCriteria) {
 		case 'whole-word' :
 			regex = '\\b' + searchString + '\\b'
 			break
-		case 'partial-word' :
-			regex = '.*' + searchString + '.*'
-			break
-		case 'multiple-words' :
-			break
 		case 'begins-with' :
 			regex = searchString + '.*\\w'
 			break
@@ -37,7 +32,7 @@ function markupSpeech(speech, searchString, searchCriteria) {
 			break
 		case 'contains':
 			regex = searchString
-				break
+			break
 	}
 
 	// Correctly create a RegExp object with dynamic searchString
@@ -54,8 +49,6 @@ export const POST = async ({request}) => {
 		console.log(`data`, data)
 		//data = searchString=hello&speechId=1
 		const searchString = decodeURIComponent(data.split('&')[0].split('=')[1])
-			.toLowerCase()
-			.replace(' ', '-')
 		const speechId = parseInt(data.split('&')[1].split('=')[1])
 		const searchCriteria = decodeURIComponent(data.split('&')[2].split('=')[1])
 			.toLowerCase()
