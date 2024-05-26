@@ -47,8 +47,10 @@ const hs = {
 		on click 
       set originalHilightColor to the @data-hilight-color of the #{'search-wrapper'}
 			remove .{originalHilightColor} from the #{'search-wrapper'}
-			set newHilightColor to beep! my @bgColor
+			set newHilightColor to my @bgColor
 			add .{newHilightColor} to #{'search-wrapper'}
+			set the @data-hilight-color of the #{'search-wrapper'} to the newHilightColor
+			set the value of the #{'hilight-color'} to the newHilightColor
 		`,
 
 	table: `
