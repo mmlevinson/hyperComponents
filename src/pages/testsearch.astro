@@ -36,14 +36,10 @@ const hs = {
 			send reset to the #{'searchbox'}
 		end `,
 	colorPallet: `
-	  init
-		 set :hilightColor to ${defaultBackgroundColors}  -- store in element variable
-		end -- init
 		on click 
+			set originalHilightColor to beep! @data-hilight-color of #{'search-wrapper'}
+			remove .{originalHilightColor} from #{'search-wrapper'}
 			set newBackground to beep! my @bgColor
-			beep! @data-hilight-color of #{'search-wrapper'}
-			remove .{'bg-yellow-200'} from #{'search-wrapper'} -- works
-			beep! :hilightColor
 			-- add .dark:bg-red-900 to .search-wrapper  -- Works
 			-- add .{'dark:bg-red-900'} to .search-wrapper -- Works
 		  -- add .{dark:bg-violet-800} to .search-wrapper -- Not working
@@ -51,6 +47,7 @@ const hs = {
 			-- appears to work fine if we ignore dark mode and just make the switch with a bg-color only
 			add .{newBackground} to #{'search-wrapper'} -- working for non-dark: variants
 			set the value of #{'hilight-color'} to beep! newBackground
+			set the @data-hilight-color of #{'search-wrapper'} to newBackground
 			
 		`,
 
