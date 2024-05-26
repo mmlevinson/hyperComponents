@@ -6,9 +6,10 @@ const pageTitle = 'Test Search'
 
 const defaultSpeechTitle = 'Click on the any of the famous orations listed above.'
 const defaultSpeechTranscript = 'The full transcript will be displayed here. Use the Search box to dynamnically highlight any part of the transcript'
-
+import {tw as rowStyles} from './api/speeches'
 const tw = {
 	table:'mx-auto my-4 max-w-max ',
+	...rowStyles,
   search:{
 		container: 'not-content pt-8 ' +  
 		'flex justify-between items-center',
@@ -27,7 +28,7 @@ const hs = {
 		send reset to the #{'searchbox'}`,
 	table: `
 		on reset
-			remove .text-amber-500 from <tr/>
+			remove .${tw.rowHilight} from <tr/>
 		end `
 }
 
