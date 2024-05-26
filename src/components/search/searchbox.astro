@@ -52,11 +52,13 @@ const hs = {
 		on click 
 			send closeDropdown to the #{'search-options'} then settle then 
 			set the value of the #{'search-criteria'} to my textContent 
+			set the @title of #{'search-options'} to my textContent
 		end `,
 	reset: `
 		on reset 
 			set my value to ''
-			set the value of #{'search-criteria'} to 'Contains' 
+			set the value of #{'search-criteria'} to 'Contains'
+			set the @title of #{'search-options'}  to 'Contains'
 			set the value of #{'speech-index'} to ''
 			call me.focus()
 		end
