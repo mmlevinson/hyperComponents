@@ -49,9 +49,17 @@ const tw = {
 }
  
 const hs = {
-	click: `on click send closeDropdown to the #{'search-options'} then settle then 
-    set the value of #{'search-criteria'} to my textContent end`,
-	load: ' on load send click to me'
+	click: `
+		on click 
+			send closeDropdown to the #{'search-options'} then settle then 
+			set the value of the #{'search-criteria'} to my textContent 
+		end `,
+	reset: `
+		on reset 
+			set my value to ''
+			set the value of #{'search-criteria'} to 'Contains' 
+		end
+	`
 } 
  
 ---
@@ -61,7 +69,7 @@ const hs = {
 			<svg slot="rightIcon" class={tw.icon}  fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
 				<path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6z"/>
 			</svg>
-			<li class={tw.menuItem} script={hs.click + hs.load}>Contains</li>
+			<li class={tw.menuItem} script={hs.click}>Contains</li>
 			<li class={tw.menuItem} script={hs.click}>Whole Word</li>
 			<li class={tw.menuItem} script={hs.click}>Case Sensitive</li>
 			<li class={tw.menuItem} script={hs.click}>Case Insensitive</li>
@@ -81,6 +89,7 @@ const hs = {
 			hx-trigger="input changed delay:500ms, search"
 			hx-target=`${target}`
 			hx-swap=`${swapStrategy}`
+			script={hs.reset}
 			>
 		</input>
 		<slot name="rightIcon" >

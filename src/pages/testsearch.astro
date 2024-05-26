@@ -22,10 +22,13 @@ const tw = {
 	},
 }	
 const hs = {
-	resetButton:`on load or click put the "${defaultSpeechTitle}" into the #{'speech-title'} then
-		put the "${defaultSpeechTranscript}" into the #{'speech-transcript'} then 
-		send reset to the <table#all-speeches/> 
-		send reset to the #{'searchbox'}`,
+	resetButton:`
+		on load or click 
+			put the "${defaultSpeechTitle}" into the #{'speech-title'} then
+			put the "${defaultSpeechTranscript}" into the #{'speech-transcript'} then 
+			send reset to the <table#all-speeches/> 
+			send reset to the #{'searchbox'}
+		end `,
 	table: `
 		on reset
 			remove .${tw.rowHilight} from <tr/>
@@ -62,7 +65,8 @@ const hs = {
 		id="searchbox" 
 		searchPath="/api/speeches/match/" 
 		target="#speech-transcript" 
-		swapStrategy="innerHTML" />
+		swapStrategy="innerHTML"
+		 />
 	<button class={tw.search.resetButton}
 	script={hs.resetButton}
 	>Reset</button>
