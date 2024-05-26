@@ -22,13 +22,13 @@ const {
 	searchPath,
 	target,
 	swapStrategy,
-	width = 'w-10/12',
+	width = 'w-full',
 	height = 'h-12'
 } = Astro.props 
 
 const tw = {
-	container: '	flex-grow ',
-	wrapper: `${width} mx-auto flex items-center overflow-hidden justify-around rounded-2xl ` +
+
+	wrapper: `flex-grow flex items-center overflow-hidden justify-around rounded-2xl ` +
 	  'bg-indigo-300 dark:bg-indigo-600 ',
 	input: `${height} px-4 w-full font-inherit ` + 
 	'font-bold text-lg ' + 
@@ -43,7 +43,7 @@ const tw = {
     'hover:dark:bg-stone-300 hover:dark:text-sky-800',
 	searchButton: 'p-0 mx-2 mt-1 cursor-pointer ' + 
 		'font-extrabold ' + defaultTextColors +  ' hover:text-slate-950 dark:hover:text-yellow-600 ' +
-		' bg-transparent hover:bg-transparent',
+		' bg-transparent hover:bg-transparent focus:ring-0',
 	mark: 'bg-yellow-200 dark:bg-rose-200'
 }
  
@@ -66,7 +66,7 @@ const hs = {
 } 
  
 ---
-<div class={tw.container}>	 
+
 	<div class={tw.wrapper}>
 		<ClickDropdownMenuA id="search-options" buttonStyles={tw.searchButton} moveXY="-12,10" >
 			<svg slot="rightIcon" class={tw.icon}  fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
@@ -121,4 +121,4 @@ const hs = {
 				</svg>
 		</slot>
 	</div>
-</div>
+
