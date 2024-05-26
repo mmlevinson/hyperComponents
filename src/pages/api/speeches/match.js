@@ -28,7 +28,7 @@ function markupSpeech(speech, searchString, searchCriteria) {
 			regex = '\\b' + searchString + '\\w*\\b'
 			break
 		case 'ends-with' :
-			regex = '\\b.*' + searchString
+			regex = '\\b\\w*' + searchString + '\\b'
 			break
 		case 'contains':
 			regex = searchString
