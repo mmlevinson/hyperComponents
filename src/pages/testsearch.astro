@@ -1,6 +1,8 @@
 ---
 import StarlightPage from '@astrojs/starlight/components/StarlightPage.astro'
 import Searchbox from '../components/search/searchbox.astro'
+import PalletGrid from '../components/PalletGrid.astro'
+import ClickDropdownMenu_A from '../components/ClickDropdownMenu_A.astro'
 
 const pageTitle = 'Test Search'
 
@@ -13,6 +15,8 @@ const tw = {
   search:{
 		container: 'not-content pt-8 ' +  
 		'flex justify-between items-center gap-2',
+		colorPallet: 'colorPallet bg-indigo-600 border-2 border-gray-600 dark:bg-gray-700 size-12',
+		palletIcon: 'inline-block size-6' ,
 		resetButton: 'cursor-pointer px-4 py-3 dark:bg-indigo-600' + 
 		' text-zinc-200 text-lg rounded-2xl'
 	},
@@ -30,6 +34,22 @@ const hs = {
 			send reset to the <table#all-speeches/> 
 			send reset to the #{'searchbox'}
 		end `,
+	colorPallet: `
+		on click 
+		
+			set newBackground to beep! my @bgColor
+			beep! newBackground  -- dark:bg-amber-300 of type String-
+			remove .bg-yellow-200 from .search-wrapper -- Works
+			-- add .dark:bg-red-900 to .search-wrapper  -- Works
+			-- add .{'dark:bg-red-900'} to .search-wrapper -- Works
+		  -- add .{dark:bg-violet-800} to .search-wrapper -- Not working
+			-- add .{'dark:' + my @bgColor} to .search-wrapper  -- Not working
+			-- appears to work fine if we ignore dark mode and just make the switch with a bg-color only
+			add  .{newBackground} to .search-wrapper -- working for non-dark: variants
+			set the value of #{'hilight-color'} to beep! newBackground
+			
+		`,
+
 	table: `
 		on reset
 			remove .${tw.rowHilight} from <tr/>
@@ -68,6 +88,16 @@ const hs = {
 		target="#speech-transcript" 
 		swapStrategy="innerHTML"
 		 />
+	
+	<ClickDropdownMenu_A 
+		 id='click-activated-pallet' 
+		 moveXY='-200,18'
+		 buttonStyles={tw.search.colorPallet} 
+		 duration='180ms'>
+	 <img slot="leftIcon" src='/images/tailwind_icon.svg' alt='tailwind icon' class={tw.search.palletIcon}/>
+	 <PalletGrid orientation='vertical' hs={hs.colorPallet}/>
+ </ClickDropdownMenu_A>	 
+		 
 	<button class={tw.search.resetButton}
 	script={hs.resetButton}
 	>Reset</button>

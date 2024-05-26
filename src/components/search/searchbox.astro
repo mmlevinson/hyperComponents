@@ -12,8 +12,8 @@ interface Props {
 	height?:string
 }
 
-const defaultTextColors = 'text-zinc-50 dark:text-zinc-200'
-const defaultBackgroundColors = 'bg-indigo-300 dark:bg-indigo-600'
+export const defaultTextColors = 'text-slate-600'
+export const defaultBackgroundColors = 'bg-yellow-200'
  
 const {
 	id,
@@ -28,8 +28,8 @@ const {
 
 const tw = {
 
-	wrapper: `flex-grow flex items-center overflow-hidden justify-around rounded-2xl ` +
-	  'bg-indigo-300 dark:bg-indigo-600 ',
+	wrapper: `search-wrapper flex-grow flex items-center overflow-hidden justify-around rounded-2xl ` +
+	  defaultBackgroundColors,
 	input: `${height} px-4 w-full font-inherit ` + 
 	'font-bold text-lg ' + 
 	' text-gray-900 dark:text-zinc-200 ' + 
@@ -37,8 +37,7 @@ const tw = {
 	 'focus:outline-none placeholder-blue-300 dark:placeholder-cyan-600',
 	icon:'inline-block size-6',
 	leftIcon: '',
-	rightIcon:'w-12 h-12 px-2 ' + 
-		'bg-transparent ' + defaultTextColors,
+	rightIcon:'w-12 h-12 px-2 ' + defaultTextColors,
   menuItem: 'px-4 hover:bg-gray-200 hover:text-purple-600 ' +
     'hover:dark:bg-stone-300 hover:dark:text-sky-800',
 	searchButton: 'p-0 mx-2 mt-1 cursor-pointer ' + 
@@ -81,6 +80,7 @@ const hs = {
 		</ClickDropdownMenuA>
 		<input type="hidden" id="speech-index" name="speech-index" value=""/>
 		<input type="hidden" id="search-criteria" name="search-criteria" value="Whole Word"/>
+		<input type="hidden" id="hilight-color" name="hilight-color" value=`${defaultBackgroundColors}`/>
 		<input
 		  id=`${id}`
 			type="search"

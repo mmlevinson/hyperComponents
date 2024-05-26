@@ -1,9 +1,11 @@
 import famousSpeeches from '../../../data/famousSpeeches.json?json'
 import {swapLineEndings, tw as baseStyles} from './[id]'
 
+import {defaultBackgroundColors} from '../../components/search/searchbox.astro'
+
 const tw = {
 	...baseStyles,
-  mark: 'bg-yellow-200'
+  mark: 'dark:bg-violet-400'
 }
 
 function markupSpeech(speech, searchString, searchCriteria) {
