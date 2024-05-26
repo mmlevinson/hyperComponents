@@ -4,7 +4,7 @@ import famousSpeeches from '../../../data/famousSpeeches.json?json'
 // const tw = {...formStyles}
 
 export const tw = {
-	p: 'pb-8 text-md lg:text-lg text-gray-800 dark:text-neutral-100 '
+	p: 'pb-6 text-md lg:text-lg text-gray-800 dark:text-neutral-100 '
 }
 
 const speechInfo = (speech) => {

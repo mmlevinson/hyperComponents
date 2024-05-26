@@ -28,14 +28,6 @@ const tw = {
 	},
 }	
 const hs = {
-	temp: `
-			set originalHilightColor to the @data-hilight-color of beep! #{'search-wrapper'}
-			remove the .{originalHilightColor} from the #{'search-wrapper'}
-			set the newBackground to beep! my @bgColor
-			add .{newBackground} to  #{'search-wrapper'}
-			set the @data-hilight-color of #{'search-wrapper'} to newBackground 
-			set the value of #{'hilight-color'} to newBackground	
-				`,
 	resetButton:`
 		on load or click 
 			put the "${defaultSpeechTitle}" into the #{'speech-title'} then
@@ -44,6 +36,10 @@ const hs = {
 			send reset to the #{'searchbox'}
 		end `,
 	colorPallet: `
+	  -- cache the bg-color-value in a data-* attribute of the div#search-wrapper 
+		-- remove the old and install the newHilightColor into this attribute as a caching strategy
+		-- set the value of a hidden <input> to the newHighlightColor so it can be grabbed by the regex matching code
+		--   which install <mark> tags around the matched strings
 		on click 
       set originalHilightColor to the @data-hilight-color of the #{'search-wrapper'}
 			remove .{originalHilightColor} from the #{'search-wrapper'}
@@ -51,6 +47,8 @@ const hs = {
 			add .{newHilightColor} to #{'search-wrapper'}
 			set the @data-hilight-color of the #{'search-wrapper'} to the newHilightColor
 			set the value of the #{'hilight-color'} to the newHilightColor
+			trigger update on the  #{'searchbox'}
+		end
 		`,
 
 	table: `
