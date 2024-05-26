@@ -3,6 +3,7 @@ import StarlightPage from '@astrojs/starlight/components/StarlightPage.astro'
 import Searchbox from '../components/search/searchbox.astro'
 import PalletGrid from '../components/PalletGrid.astro'
 import ClickDropdownMenu_A from '../components/ClickDropdownMenu_A.astro'
+import { defaultBackgroundColors } from '../components/search/searchbox.astro'
 
 const pageTitle = 'Test Search'
 
@@ -35,16 +36,20 @@ const hs = {
 			send reset to the #{'searchbox'}
 		end `,
 	colorPallet: `
+	  init
+		 set :hilightColor to ${defaultBackgroundColors}  -- store in element variable
+		end -- init
 		on click 
-		
 			set newBackground to beep! my @bgColor
-			remove .bg-yellow-200 from .search-wrapper -- Works
+			beep! @data-hilight-color of #{'search-wrapper'}
+			remove .{'bg-yellow-200'} from #{'search-wrapper'} -- works
+			beep! :hilightColor
 			-- add .dark:bg-red-900 to .search-wrapper  -- Works
 			-- add .{'dark:bg-red-900'} to .search-wrapper -- Works
 		  -- add .{dark:bg-violet-800} to .search-wrapper -- Not working
 			-- add .{'dark:' + my @bgColor} to .search-wrapper  -- Not working
 			-- appears to work fine if we ignore dark mode and just make the switch with a bg-color only
-			add  .{newBackground} to .search-wrapper -- working for non-dark: variants
+			add .{newBackground} to #{'search-wrapper'} -- working for non-dark: variants
 			set the value of #{'hilight-color'} to beep! newBackground
 			
 		`,
