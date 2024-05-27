@@ -46,27 +46,24 @@ const hs = {
 			send reset to the #{'searchbox'}
 			go to the #{'introduction'} smoothly
 		end `,
+	table: `								
+		on reset
+			remove .${tw.rowHilight} from <tr/>
+		end `,
 	colorPallet: `
-	  -- cache the bg-color-value in a data-* attribute of the div#search-wrapper 
-		-- remove the old and install the newHilightColor into this attribute as a caching strategy
-		-- set the value of a hidden <input> to the newHighlightColor so it can be grabbed by the regex matching code
-		-- which then installs styled <mark> tags around all the matched strings
 		on click 
-      set originalHilightColor to the @data-hilight-color of the #{'search-wrapper'}
-			remove .{originalHilightColor} from the #{'search-wrapper'}
+		  -- cache the hilight color in a data-* attribute
+			-- transmit the highlight color to the backend via a hidden <input/>
+			set originalHilightColor to the @data-hilight-color of the #{'search-container'}
+			remove .{originalHilightColor} from the #{'search-container'}
 			set newHilightColor to my @bgColor
-			add .{newHilightColor} to #{'search-wrapper'}
-			set the @data-hilight-color of the #{'search-wrapper'} to the newHilightColor
+			add .{newHilightColor} to the #{'search-container'}
+			set the @data-hilight-color of the #{'search-container'} to the newHilightColor
 			set the value of the #{'hilight-color'} to the newHilightColor
 			trigger update on the  #{'searchbox'}
 		end
-		`,
-	table: `
-		on reset
-			remove .${tw.rowHilight} from <tr/>
-		end `
+		`
 }
-
 ---
 
 <StarlightPage frontmatter={{title: pageTitle}}>
