@@ -9,10 +9,24 @@ tableOfContents:
 {/* Introduction */}
 ## Example
 
+This hypcomponent is a prototype for hypermedia exchange illustrated by a Search input field where the entered text is used as a substring and matched against a body of text.  The returned hypermedia is an html fragment with the matched text hilighted in a bold contrasting color, analagous to using a marker pen for highliting written text. 
+
+As with all hyperComponents, there is no JavaScript used.  Hypermedia (i.e. formatted html) is returned from the backend which builds a `<table>` of famous speeches in the English language.   The user can then click to select a famous oration which is displayed lower on the page.   
+
+The user can enter a substring into the Search input and see a live update of the speech transcipt with each matching substring hilighted in a bold contrast color. 
+
+A dropdown color palette next to the Search input displays a color swatch for each Tailwind color variant and shade.   Click a swatch changes the hilight color which is indicated by the background color of the Search input.  
+
+A clickable dropdown menu at the start of the Search field display choices for search criteria which can restrict or filter the search results.  
+
+The reset button clears the transcript but does not change the hilight color.
+
+
+
 import {tw as rowStyles} from '../../../../pages/api/speeches'
 		 
 export const tw = {
-		exampleContainer: 'not-content ',
+		exampleContainer: 'not-content',
 		exampleTitle: 'text-center bg-gray-300 dark:bg-sky-900 text-gray-300 dark:text-zinc-200 font-semibold py-2 mb-4 rounded-t-xl',
 		icon:'inline-block size-6',
 		image: 'inline-block max-h-6',
@@ -85,8 +99,11 @@ export const hs = {
 			put the "${defaultSpeechTranscript}" into the #{'speech-transcript'} then 
 			send reset to the <table#all-speeches/> 
 			send reset to the #{'searchbox'}
+		end 
+		
+		on click 
 			go to the #{'introduction'} smoothly
-		end `,
+		end`,
 	table: `								
 		on reset
 			remove .${tw.rowHilight} from <tr/>
