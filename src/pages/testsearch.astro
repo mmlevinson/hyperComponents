@@ -3,13 +3,12 @@ import StarlightPage from '@astrojs/starlight/components/StarlightPage.astro'
 import Searchbox from '../components/search/searchbox.astro'
 import PalletGrid from '../components/PalletGrid.astro'
 import ClickDropdownMenu_A from '../components/ClickDropdownMenu_A.astro'
-import { defaultBackgroundColors } from '../components/search/searchbox.astro'
 
 const pageTitle = 'Test Search'
 
 const defaultSpeechTitle = 'Click on the any of the famous orations listed above.'
 const defaultSpeechTranscript = 'The full transcript will be displayed here. Use the Search box to dynamnically highlight any part of the transcript'
-import {tw as rowStyles} from './api/speeches'
+import {tw as rowStyles} from './api/speeches/index.js'
 const tw = {
 	introduction: {
 		h3: 'text-center',
@@ -70,8 +69,8 @@ const hs = {
 {/* Intro */}
 <div id="introduction" class="w-10/12 mx-auto">
 	<h3 class={tw.introduction.h3}>Famous Speeches in the English Language</h3>
-	<h4 class={tw.introduction.h4}>Use the Search control to highlight words from the most famous speeches that shaped  our world.</h4>
-	<p class={tw.introduction.p}>Click on any Speech below</p>
+	<h4 class={tw.introduction.h4}>Use the Search control below to highlight words from the most famous speeches that shaped  our world.</h4>
+	<p class={tw.introduction.p}>Click to select any Speech from the list</p>
 </div>
 
 {/*  Table of Famous Speeches */}
@@ -120,7 +119,5 @@ const hs = {
 	</div>
 </div>
 	
-
-
 
 </StarlightPage>

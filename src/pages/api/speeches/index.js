@@ -23,6 +23,7 @@ const getSpeechData = () => {
 					set the value of #{'speech-index'} to the ${speech.id}
 					remove .${tw.rowHilight} from <tr/> 
 					add .${tw.rowHilight} to me
+					go to #{'searchbox'} smoothly then settle then 
 					call #{'searchbox'}.focus()
 				end
 
