@@ -45,13 +45,13 @@ const hs = {
 			put the "${defaultSpeechTranscript}" into the #{'speech-transcript'} then 
 			send reset to the <table#all-speeches/> 
 			send reset to the #{'searchbox'}
-			go to #{'introduction'} smoothly
+			go to the #{'introduction'} smoothly
 		end `,
 	colorPallet: `
 	  -- cache the bg-color-value in a data-* attribute of the div#search-wrapper 
 		-- remove the old and install the newHilightColor into this attribute as a caching strategy
 		-- set the value of a hidden <input> to the newHighlightColor so it can be grabbed by the regex matching code
-		--   which install <mark> tags around the matched strings
+		-- which then installs styled <mark> tags around all the matched strings
 		on click 
       set originalHilightColor to the @data-hilight-color of the #{'search-wrapper'}
 			remove .{originalHilightColor} from the #{'search-wrapper'}
