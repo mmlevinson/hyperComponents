@@ -16,10 +16,10 @@ const tw = {
 	hr: 'relative top-8 h-2 bg-blue-700/20',
   search:{
 		container: 'not-content pt-12 ' +  
-		'flex justify-between items-center gap-2',
+		'flex flex-nowrap justify-between items-center gap-2',
 		colorPallet: 'colorPallet bg-indigo-600 border-2 border-gray-600 dark:bg-gray-700 size-12',
 		palletIcon: 'inline-block size-6' ,
-		resetButton: 'cursor-pointer px-4 py-3 dark:bg-indigo-600' + 
+		resetButton: 'cursor-pointer px-4 py-3 bg-sky-600  dark:bg-indigo-600' + 
 		' text-zinc-200 text-lg rounded-2xl'
 	},
 	speech:{
@@ -35,6 +35,7 @@ const hs = {
 			put the "${defaultSpeechTranscript}" into the #{'speech-transcript'} then 
 			send reset to the <table#all-speeches/> 
 			send reset to the #{'searchbox'}
+			go to #{'introduction'} smoothly
 		end `,
 	colorPallet: `
 	  -- cache the bg-color-value in a data-* attribute of the div#search-wrapper 
@@ -51,7 +52,6 @@ const hs = {
 			trigger update on the  #{'searchbox'}
 		end
 		`,
-
 	table: `
 		on reset
 			remove .${tw.rowHilight} from <tr/>
@@ -63,7 +63,7 @@ const hs = {
 <StarlightPage frontmatter={{title: pageTitle}}>
 
 {/* Intro */}
-<div class="w-10/12 mx-auto">
+<div id="introduction" class="w-10/12 mx-auto">
 	<h3 class="text-center">Famous Speeches in the English Language</h3>
 	<h4 class="pt-8 pb-4 text-center">Highlight Words from Orations that Helped Shape our World.</h4>
 </div>
