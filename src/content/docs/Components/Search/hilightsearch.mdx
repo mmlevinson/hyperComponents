@@ -12,19 +12,18 @@ tableOfContents:
 import {tw as rowStyles} from '../../../../pages/api/speeches'
 		 
 export const tw = {
-		exampleContainer: 'not-content w-full pb-4 w-max-lg text-center mx-auto bg-gray-300 dark:bg-gray-800 rounded-xl my-6',
-		exampleTitle: 'bg-gray-300 dark:bg-sky-900 text-gray-300 dark:text-zinc-200 font-semibold py-2 mb-4 rounded-t-xl',
+		exampleContainer: 'not-content ',
+		exampleTitle: 'text-center bg-gray-300 dark:bg-sky-900 text-gray-300 dark:text-zinc-200 font-semibold py-2 mb-4 rounded-t-xl',
 		icon:'inline-block size-6',
 		image: 'inline-block max-h-6',
 		p: 'pb-3'	,
 		introduction: {
-		h3: 'text-center',
-		h4: 'pt-8 pb-4 text-center',
+		h3: 'text-center text-xl lg:text-2xl',
+		h4: 'pt-8 pb-4 text-center text-lg lg:text-xl',
 		p: 'text-center font-semibold'	
 		},
-		table:'mx-auto my-4 max-w-max ',
+		table:'mx-auto my-4 max-w-max',
 		...rowStyles,
-		hr: 'relative top-8 h-1 bg-zinc-200/50 dark:bg-blue-500/20',
 		searchExample:{
 			container: 'not-content pt-12 flex flex-nowrap justify-between items-center gap-2',
 			colorPallet: 'colorPallet size-12 rounded-2xl ' +
@@ -43,9 +42,34 @@ export const tw = {
 			transcript: 'p-4'
 		},
 }
-		 
+
+{/* Intro */}
 <div id='highlight-search-example' class={tw.exampleContainer} >
 <div id='highlight-search-title' class={tw.exampleTitle}>Sample Highlight Active Search Control</div>
+<div id="introduction" class="w-10/12 mx-auto">
+	<h3 class={tw.introduction.h3}>Famous Speeches in the English Language</h3>
+	<h4 class={tw.introduction.h4}>Use the Search control below to highlight words from the most famous speeches that shaped  our world.</h4>
+	<p class={tw.introduction.p}>Click to select any Speech from the list</p>
+</div>
+</div>
+
+{/*  Table of Famous Speeches */}
+<table class={tw.table}
+				id="all-speeches"
+				hx-trigger="load"  
+				hx-get="/api/speeches/"
+				hx-target="<tbody/>"
+				hx-swap="innerHTML"
+				script={hs.table}>
+	<thead>
+		<tr><th>Speaker</th><th>Title</th><th>Date</th></tr>
+	</thead>
+	<tbody></tbody>
+</table>
+
+
+		 
+
 
 import Searchbox from '../../../../components/search/searchbox.astro'
 import ClickDropdownMenu_A from '../../../../components/ClickDropdownMenu_A.astro'
@@ -82,28 +106,7 @@ export const hs = {
 		`
 }
 
-{/* Intro */}
-<div id="introduction" class="w-10/12 mx-auto">
-	<h3 class={tw.introduction.h3}>Famous Speeches in the English Language</h3>
-	<h4 class={tw.introduction.h4}>Use the Search control below to highlight words from the most famous speeches that shaped  our world.</h4>
-	<p class={tw.introduction.p}>Click to select any Speech from the list</p>
-</div>
 
-{/*  Table of Famous Speeches */}
-<table class={tw.table}
-				id="all-speeches"
-				hx-trigger="load"  
-				hx-get="/api/speeches/"
-				hx-target="<tbody/>"
-				hx-swap="innerHTML"
-				script={hs.table}>
-	<thead>
-		<tr><th>Speaker</th><th>Title</th><th>Date</th></tr>
-	</thead>
-	<tbody></tbody>
-</table>
-
-<hr class={tw.hr}/>
 
 {/*  Search Box Example*/}
 <div class={tw.searchExample.container}>
@@ -134,7 +137,7 @@ export const hs = {
 	</div>
 </div>
 
-</div>
+
 		 
 ## Description
 	{/* General Description */}
