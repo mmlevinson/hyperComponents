@@ -1,0 +1,200 @@
+---
+title: Highlight Active Search
+description: Active Search with HTMX with Highlited Matches
+tableOfContents: 
+  minHeadingLevel: 2
+  maxHeadingLevel: 5
+---
+		 
+{/* Introduction */}
+## Example
+
+import {tw as rowStyles} from '../../../../pages/api/speeches'
+		 
+export const tw = {
+		exampleContainer: 'not-content w-full pb-4 w-max-lg text-center mx-auto bg-gray-300 dark:bg-gray-800 rounded-xl my-6',
+		exampleTitle: 'bg-gray-300 dark:bg-sky-900 text-gray-300 dark:text-zinc-200 font-semibold py-2 mb-4 rounded-t-xl',
+		icon:'inline-block size-6',
+		image: 'inline-block max-h-6',
+		p: 'pb-3'	,
+		introduction: {
+		h3: 'text-center',
+		h4: 'pt-8 pb-4 text-center',
+		p: 'text-center font-semibold'	
+		},
+		table:'mx-auto my-4 max-w-max ',
+		...rowStyles,
+		hr: 'relative top-8 h-1 bg-zinc-200/50 dark:bg-blue-500/20',
+		searchExample:{
+			container: 'not-content pt-12 flex flex-nowrap justify-between items-center gap-2',
+			colorPallet: 'colorPallet size-12 rounded-2xl ' +
+				'bg-sky-700  dark:bg-indigo-600 ',
+			palletIcon: 'inline-block size-6' ,
+			resetButton: 'px-4 py-3 cursor-pointer rounded-xl ' + 
+				'text-lg text-zinc-50 dark:text-zinc-300 ' +
+				'bg-sky-700  dark:bg-indigo-600',
+		},
+		speech:{
+			wrapper: 'not-content w-full mx-auto max-h-[50rem] overflow-y-auto rounded-t-lg ' + 
+				'bg-gray-100 dark:bg-gray-950',
+			title: 'p-4 text-center text-balance text-xl ' + 
+				'text-indigo-900 dark:text-amber-100/80 ' + 
+				'border-b-2 border-gray-200 dark:border-gray-700 ',
+			transcript: 'p-4'
+		},
+}
+		 
+<div id='highlight-search-example' class={tw.exampleContainer} >
+<div id='highlight-search-title' class={tw.exampleTitle}>Sample Highlight Active Search Control</div>
+
+import Searchbox from '../../../../components/search/searchbox.astro'
+import ClickDropdownMenu_A from '../../../../components/ClickDropdownMenu_A.astro'
+import PalletGrid from '../../../../components/PalletGrid.astro'
+
+export const defaultSpeechTitle = 'Click on the any of the famous orations listed above.'
+export const defaultSpeechTranscript = 'The full transcript will be displayed here. Use the Search box to dynamnically highlight any part of the transcript'
+
+export const hs = {
+	resetButton:`
+		on load or click 
+			put the "${defaultSpeechTitle}" into the #{'speech-title'} then
+			put the "${defaultSpeechTranscript}" into the #{'speech-transcript'} then 
+			send reset to the <table#all-speeches/> 
+			send reset to the #{'searchbox'}
+			go to the #{'introduction'} smoothly
+		end `,
+	table: `								
+		on reset
+			remove .${tw.rowHilight} from <tr/>
+		end `,
+	colorPallet: `
+		on click 
+			-- cache the hilight color in a data-* attribute
+			-- transmit the highlight color to the backend via a hidden <input/>
+			set originalHilightColor to the @data-hilight-color of the #{'search-container'}
+			remove .{originalHilightColor} from the #{'search-container'}
+			set newHilightColor to my @bgColor
+			add .{newHilightColor} to the #{'search-container'}
+			set the @data-hilight-color of the #{'search-container'} to the newHilightColor
+			set the value of the #{'hilight-color'} to the newHilightColor
+			trigger update on the  #{'searchbox'}
+		end
+		`
+}
+
+{/* Intro */}
+<div id="introduction" class="w-10/12 mx-auto">
+	<h3 class={tw.introduction.h3}>Famous Speeches in the English Language</h3>
+	<h4 class={tw.introduction.h4}>Use the Search control below to highlight words from the most famous speeches that shaped  our world.</h4>
+	<p class={tw.introduction.p}>Click to select any Speech from the list</p>
+</div>
+
+{/*  Table of Famous Speeches */}
+<table class={tw.table}
+				id="all-speeches"
+				hx-trigger="load"  
+				hx-get="/api/speeches/"
+				hx-target="<tbody/>"
+				hx-swap="innerHTML"
+				script={hs.table}>
+	<thead>
+		<tr><th>Speaker</th><th>Title</th><th>Date</th></tr>
+	</thead>
+	<tbody></tbody>
+</table>
+
+<hr class={tw.hr}/>
+
+{/*  Search Box Example*/}
+<div class={tw.searchExample.container}>
+	<Searchbox id="searchbox" 
+		searchPath="/api/speeches/match/" 
+		target="#speech-transcript" 
+		swapStrategy="innerHTML"
+		height="h-12"
+	/>
+
+	<ClickDropdownMenu_A id='colorpallet' 
+		moveXY='-200,18'
+		buttonStyles={tw.searchExample.colorPallet} 
+		duration='180ms'>
+	<img slot="leftIcon" src='/images/tailwind_icon.svg' 
+		alt='tailwind icon' class={tw.searchExample.palletIcon}/>
+	<PalletGrid orientation='vertical' hs={hs.colorPallet}/>
+</ClickDropdownMenu_A>	 
+
+	<button class={tw.searchExample.resetButton} 
+		script={hs.resetButton}>Reset</button>
+</div>
+
+
+<div class={tw.speech.wrapper}>
+	<h4 id="speech-title" class={tw.speech.title}></h4>
+	<div id="speech-transcript" class={tw.speech.transcript}>
+	</div>
+</div>
+
+</div>
+		 
+## Description
+	{/* General Description */}
+	{/* Example  Code block showing the  control in action. */}
+## Features
+		 
+## Components
+	{/* Breakdown of each Astro Components used for this control */}
+## Props
+	{/* Each component, with code block showing the props interface */}
+ ```js 
+ 
+ ``` 
+ 
+## Slots
+	{/* Outline the name/function of each slot */}
+## Events
+	{/* Any custom events emitted by this component*/}
+## Attributes
+ {/* The htmx attributes for elements in this component */}
+## Styling
+To improve readability, the Tailwind classes and Hyperscripts are both extracted from the markup and encapsulated into  Astro `tw` and `hs` local variables within the [Component Script](https://docs.astro.build/en/basics/astro-components/#the-component-script) which are then referenced in the html markup. 
+		 
+The advantage of this strategy is to allow long run-on strings to be formatted as concatenated, multi-line strings which aids readability and code maintenance.
+		 
+## Transitions
+	{/* Description of the animations used in the control */}
+## Code
+	{/* Brief explanation of the component */}
+import {Tabs, TabItem } from '@astrojs/starlight/components'
+		 
+<Tabs>
+	<TabItem label='Props'>
+	```js
+		 
+	```
+	</TabItem>
+		 
+	<TabItem label='HTML'>
+	```html
+		 
+	```
+	</TabItem>
+		 
+	<TabItem label='Scripts'>
+	```js
+	```
+	</TabItem>
+		 
+	<TabItem label='Tailwind'>
+	```js
+	```
+	</TabItem>
+		 
+	<TabItem label='Everything'>
+	```astro
+		 
+	```
+	</TabItem>
+</Tabs>
+		 
+##  Usage
+	{/* Discuss use cases */}
