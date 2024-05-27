@@ -18,9 +18,8 @@ const tw = {
 	table:'mx-auto my-4 max-w-max ',
 	...rowStyles,
 	hr: 'relative top-8 h-1 bg-zinc-200/50 dark:bg-blue-500/20',
-  search:{
-		container: 'not-content pt-12 ' +  
-		'flex flex-nowrap justify-between items-center gap-2',
+  searchExample:{
+		container: 'not-content pt-12 flex flex-nowrap justify-between items-center gap-2',
 		colorPallet: 'colorPallet size-12 ' +
 			'bg-indigo-600  dark:bg-gray-700 ' + 
 			'border-2 border-gray-600',
@@ -95,27 +94,25 @@ const hs = {
 
 <hr class={tw.hr}>
  
-{/*  Search Box */}
-<div class={tw.search.container}>
-	<Searchbox 
-		id="searchbox" 
+{/*  Search Box Example*/}
+<div class={tw.searchExample.container}>
+	<Searchbox id="searchbox" 
 		searchPath="/api/speeches/match/" 
 		target="#speech-transcript" 
 		swapStrategy="innerHTML"
-		 />
-	
-	<ClickDropdownMenu_A 
-		 id='click-activated-pallet' 
+	/>
+	<!-- Color Picker -->
+	<ClickDropdownMenu_A id='colorpallet' 
 		 moveXY='-200,18'
-		 buttonStyles={tw.search.colorPallet} 
+		 buttonStyles={tw.searchExample.colorPallet} 
 		 duration='180ms'>
-	 <img slot="leftIcon" src='/images/tailwind_icon.svg' alt='tailwind icon' class={tw.search.palletIcon}/>
+	 <img slot="leftIcon" src='/images/tailwind_icon.svg' 
+		alt='tailwind icon' class={tw.searchExample.palletIcon}/>
 	 <PalletGrid orientation='vertical' hs={hs.colorPallet}/>
  </ClickDropdownMenu_A>	 
-		 
-	<button class={tw.search.resetButton}
-	script={hs.resetButton}
-	>Reset</button>
+ <!-- Reset Button -->
+	<button class={tw.searchExample.resetButton} 
+		script={hs.resetButton}>Reset</button>
 </div>
 
 {/* Our Speech */}

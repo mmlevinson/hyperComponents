@@ -7,11 +7,10 @@ interface Props {
 	searchPath:string //api backend route for s
 	target:string  //where the response will be placed
 	swapStrategy:string,  //using this swap strategy
-	width?:string,  //optional  classes for setting the width
 	height?:string  //optional classes for setting control height
 }
 
-{/* Default styling for control text elements and backgrounds */}
+{/* Common default styling for several elements */}
 export const defaultTextColors = 'text-slate-600'
 export const defaultBackgroundColors = 'bg-yellow-200'
  
@@ -21,12 +20,11 @@ const {
 	searchPath,
 	target,
 	swapStrategy,
-	width = 'w-full',
 	height = 'h-12'
 } = Astro.props 
 
 const tw = {
-	wrapper: `flex-grow flex flex-nowrap items-center overflow-hidden justify-around rounded-2xl ` +
+	container: `flex-grow flex flex-nowrap items-center overflow-hidden justify-around rounded-2xl ` +
 	  defaultBackgroundColors,
 	input: `${height} px-4 w-full font-inherit focus:outline-none ` + 
 	'font-bold text-lg ' + 
@@ -47,17 +45,17 @@ const tw = {
 const hs = {
 	menuItem: `
 		on click 
-			send closeDropdown to the #{'search-options'} then settle then 
-			set the value of the #{'search-criteria'} to my textContent 
-			set the @title of #{'search-options'} to my textContent
+			send closeDropdown to the #{'search-options-menu'} then settle then 
+			set the @title of the #{'search-options-menu'} to my textContent
+			set the value of the #{'search-options'} to my textContent 
 			trigger update on the <[name='search']/>
 		end `,
 	searchInput: `
 		on reset 
 			set my value to ''
-			set the value of #{'search-criteria'} to 'Contains'
-			set the @title of #{'search-options'}  to 'Contains'
-			set the value of #{'speech-index'} to ''
+			set the value of the #{'search-options'} to 'Contains'
+			set the @title of the #{'search-options-menu'}  to 'Contains'
+			set the value of the #{'speech-index'} to ''
 			call me.focus()
 		end
 	`
@@ -65,29 +63,33 @@ const hs = {
  
 ---
 
-	<div 
-		id='search-wrapper' 
-		class={tw.wrapper} 
+	<div id='search-container' 
+		class={tw.container} 
 		data-hilight-color=`${defaultBackgroundColors}`>
-		<ClickDropdownMenuA id="search-options" buttonStyles={tw.optionsMenu} moveXY="-12,10" >
+		{/* Search Options menu */}
+		<ClickDropdownMenuA id="search-options-menu" 
+			buttonStyles={tw.optionsMenu} 
+			moveXY="-12,10" >
+			  {/* Down Caret icon */}
 			<svg slot="rightIcon" class={tw.icon}  fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-				<path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6z"/>
-			</svg>
-			<li class={tw.menuItem} script={hs.menuItem}>Contains</li>
-			<li class={tw.menuItem} script={hs.menuItem}>Whole Word</li>
-			<li class={tw.menuItem} script={hs.menuItem}>Case Sensitive</li>
-			<li class={tw.menuItem} script={hs.menuItem}>Case Insensitive</li>
-			<li class={tw.menuItem} script={hs.menuItem}>Begins With</li>
-			<li class={tw.menuItem} script={hs.menuItem}>Ends With</li>
+					<path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6z"/>
+				</svg>
+				{/* Search Criteria options */}
+				<li class={tw.menuItem} script={hs.menuItem}>Contains</li>
+				<li class={tw.menuItem} script={hs.menuItem}>Whole Word</li>
+				<li class={tw.menuItem} script={hs.menuItem}>Case Sensitive</li>
+				<li class={tw.menuItem} script={hs.menuItem}>Case Insensitive</li>
+				<li class={tw.menuItem} script={hs.menuItem}>Begins With</li>
+				<li class={tw.menuItem} script={hs.menuItem}>Ends With</li>
 		</ClickDropdownMenuA>
+		{/* Hidden inputs ... values are transmitted to backend via hx-include */}
 		<input type="hidden" id="speech-index" name="speech-index" value=""/>
-		<input type="hidden" id="search-criteria" name="search-criteria" value="Whole Word"/>
+		<input type="hidden" id="search-options" name="search-options" value="Contains"/>
 		<input type="hidden" id="hilight-color" name="hilight-color" value=`${defaultBackgroundColors}`/>
-		<input
-		  id=`${id}`
-			class={tw.input}
+		{/* Search String Input field */}
+		<input id=`${id}` name="search"
 			type="search"
-			name="search"
+			class={tw.input}
 			placeholder={placeholder}
 			hx-post=`${searchPath}`
 			hx-include="<input/>"
@@ -97,6 +99,7 @@ const hs = {
 			script={hs.searchInput}
 			>
 		</input>
+		{/* Magnify Icon */}
 		<slot name="rightIcon" >
 			<svg 
 					fill="currentColor" 

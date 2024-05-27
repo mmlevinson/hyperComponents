@@ -10,13 +10,13 @@ Most developers are implementing modern GUIs by downloading pre-rolled Web Compo
 
 Also, [React](https://reactjs.org/), [Vue](https://vuejs.org/), [Angular](https://angular.io/), [Svelte](https://svelte.dev/), [Stencil](https://stenciljs.com/), etc. are popular JavaScript frameworks for building your own reuseable componenents.
 
-Most of these pre-rolled solutions are not utilizing the advantages of [HyperMedia](https://htmx.org/essays/hypermedia-apis-vs-data-apis/).  Instead,  components shipped by these libraries are scaffolded by serializing JSON (or other raw data) which is shipped to the browser to establish application state along with a JavaScript bundle instructing the browser on how to build,  insert, and update the rendered DOM elements built from the raw data. An important crux of this strategy is the requirement to maintain synchronization of the application state between the server and the browser, particularly during any updates.
+However, most pre-rolled solutions are not utilizing the advantages of [HyperMedia](https://htmx.org/essays/hypermedia-apis-vs-data-apis/).  Instead,  components shipped by these libraries are scaffolded by serializing JSON (or other raw data) which is shipped to the browser to establish application state along with a JavaScript bundle instructing the browser on how to build,  insert, and update the rendered DOM elements built from the raw data. An important crux of this strategy is the requirement to maintain synchronization of the application state between the server and the browser, particularly during any updates.
 
 An exciting alternative is the implementation of hypermedia transfer as the engine of state management ([HATEOS](https://htmx.org/essays/hateoas/)).  
 
 ### What is HyperMedia
 
-Sending html markup from an API endpoint instead of raw data is more natural and vastly more efficient since less browser resources are required on the client side.  Afterall, a browsers entire purpose (for which it is highly optimized) is to render html markup directly to the screen.   APIs which return finished html markup circumvents the need for complex JS instructions which the browser then needs to implement in order to render/update DOM elements.  
+Sending **html markup** from an API endpoint instead of raw data is more natural and vastly more efficient since reduced browser resources are required on the client side.  Afterall, a browsers entire purpose (for which it is highly optimized) is to render html markup directly to the screen.   APIs which return finished html markup circumvents the need for complex JS instructions which the browser then needs to implement in order to render/update DOM elements.  
 
 [Hypermedia](https://htmx.org/essays/hypermedia-apis-vs-data-apis/) (instead of data) as an API endpoint has the advantages of:
 
