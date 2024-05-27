@@ -7,7 +7,7 @@ export const tw = {
 	'even:hover:text-blue-800 odd:hover:text-blue-800 ' +
 	'even:hover:dark:bg-indigo-950/60 odd:hover:dark:bg-indigo-950 ' + 
 	'even:hover:dark:text-amber-400 odd:hover:dark:text-amber-400',
-	rowHilight: 'text-amber-500'
+	rowHilight: 'text-orange-500'
 }
 
 const getSpeechData = () => {
@@ -23,7 +23,7 @@ const getSpeechData = () => {
 					put it into the #{'speech-title'}
 					fetch /api/speeches/${speech.id}?transcript=true as html then 
 					put it into the #{'speech-transcript'}
-					set the value of #{'speech-index'} to the ${speech.id}
+					set the value of the #{'speech-index'} to the ${speech.id}
 					remove .${tw.rowHilight} from <tr/> 
 					add .${tw.rowHilight} to me
 					go to the  #{'searchbox'} smoothly then settle then 
