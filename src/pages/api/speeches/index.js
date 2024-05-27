@@ -2,8 +2,11 @@ import { twMerge } from 'tailwind-merge';
 import famousSpeeches from '../../../data/famousSpeeches.json?json'
 
 export const tw = {
-	tr: 'cursor-pointer even:hover:bg-blue-900 odd:hover:bg-blue-950 ' + 
-	'even:hover:text-amber-500 odd:hover:text-amber-500',
+	tr: 'cursor-pointer font-semibold ' + 
+	'even:hover:bg-amber-300/50 odd:hover:bg-amber-400/30 ' + 
+	'even:hover:text-blue-800 odd:hover:text-blue-800 ' +
+	'even:hover:dark:bg-indigo-950/60 odd:hover:dark:bg-indigo-950 ' + 
+	'even:hover:dark:text-amber-400 odd:hover:dark:text-amber-400',
 	rowHilight: 'text-amber-500'
 }
 
