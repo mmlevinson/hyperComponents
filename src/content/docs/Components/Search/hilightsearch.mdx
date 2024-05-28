@@ -542,9 +542,11 @@ const hs = {
 </Tabs>
 		 
 
-## API routes
+#### API routes
 
-All routing in Astro is file-based, including backend API routes.    Here is the folder/file structure used for this example
+All routing in Astro is file-based, including backend API routes.  
+
+Here is the folder/file structure used for this mini-project.  
 
 import { FileTree } from '@astrojs/starlight/components';
 
@@ -556,34 +558,242 @@ import { FileTree } from '@astrojs/starlight/components';
 	- pages
 		- api
 			- search
+				- **[id].js**
 				- **index.js**
 				- **match.js**
-				- **[id].js**
 
 </FileTree>
 
-The Tab panel below is used to display the entire source code for each backend route.  
+The Tab panel below is displays the entire source code for each backend route.
+
+##### famousSpeaches.json
+
+The `famousSpeeches.json` file contains the raw data for each Speech.  There is too much text to show all the data here so just one sample Speech object is included in the TabPanel below to illustrate the shape of the data.  All other Famous Speech entries use the same object structure.
+
+In a real world application, the data used will likely be stored in a database somewhere.   If you use this hyperComponent, you will need to adjust the data source and provide the appropriate async lookup functions in the next three  Javascript files.
+
+##### [id].js
+
+The `[id].js` route decodes the index of the speech from `params.id` value of the [Context](https://docs.astro.build/en/reference/api-reference/#endpoint-context) object provided as an argument to the GET function by Astro.   Also the `transcript=true` field is decoded from  the `url.searchParams`.  Using this information, the raw text of an individual speech is pulled from the appropriate array index in the `famousSpeeches.json` file.  
+
+The Response object then returns an html fragment containing the entire speech transcript with `<p>` tags swapped for line breaks.
+
+##### index.js
+
+A list of speeches is loaded into the `<table>` of the project example using the `index.js` route.  The raw data is looped using a .map() function returning a single `<tr>` containing the speakers name, title of the speech, and the date.   
+
+Notice that a Hyperscript is also added to each `<tr>` so that a click on the row loads the transcript of the speech into a target `<div>`.
+
+##### match.js
+
+This route receives `search`, `speech-index`,  `search-criteria`, and `hilight-color`  values sent by the request issued from the path injected into the hx-post attribute of the Search component.  Here is the shape of the data received by this route:
+
+```js title="request.text()"
+search=xyz&speech-index=15&search-criteria=Contains&hilight-color=bg-yellow-200
+```
+
+In Astro you get access to these values by calling `.text()` function  on the request object which was destructured from the [Context](https://docs.astro.build/en/reference/api-reference/#endpoint-context) object.
+
+This yields an array of values which are then split and processed into local variables. 
+
+The `search` field of the request contains the substring which the user wishes to test against the speech transcript.
+
+The `speech-index` field is the array index for the data in `famousSpeeches.json`
+
+The `search-criteria` is  a filter to be applied to the regular expression, such as 'Whole Word' or 'Case Sensitive', etc.  The value of this field is set by the user choosing  an option from the dropdown at the left of the search `<input>`.
+
+The `hilight-color` is transmitted to the backend from a value cached in the `data-hilight-color` attribute of  the `div#search-container` and specifies a background color for all the `<mark>` tags in the final response.
+
+The remaining code in `match.js` uses a regular expression to match substrings in the speech transcript and then bracket the matches with `<mark>` tags containing the specfied Tailwind class in the `highlight-color`.
+
+The resulting html markup is returned to the caller via the Response object where the hx-swap attribute is set to replace the innerHTML of the speech transcript `<div>`.
+
+
+
 
 import {Tabs, TabItem } from '@astrojs/starlight/components'
 
 
 <Tabs>
-	<TabItem label='index.js'>
-	```js
-		 
-	```
-	</TabItem>
-		 
-	<TabItem label='markup.js'>
-	```html
-		 
-	```
-	</TabItem>
-		 
 	<TabItem label='[id].js'>
 	```js
+	import famousSpeeches from '../../../data/famousSpeeches.json?json'
+
+export const tw = {
+	p: 'pb-6 text-md lg:text-lg text-gray-800 dark:text-neutral-100 '
+}
+
+const speechInfo = (speech) => {
+ return  speech.title + ' by ' + speech.speaker + ' on ' + speech.date
+}
+
+export function swapLineEndings(text) {
+	//add a beginning and ending <p> tag
+	let markup = `<p class="${tw.p}">` + text + '</p>'
+	//then replace all \\n with <p> tags with appropriate styling
+	markup = markup.replace(/\\n/g, `</p><p class="${tw.p}">`);
+	return markup;
+}
+
+//GET
+export async function GET({ params, url }) {
+	const speechID = parseInt(params.id)
+	const speech = famousSpeeches[speechID]
+	if (!speech) {
+	    return new Response ('Speech not found')
+	}
+	//What is being requested?
+	const searchParams = url.searchParams;
+	const transcriptOnly = searchParams.get('transcript') === 'true';
+	if (transcriptOnly) {
+		return new Response(swapLineEndings(speech.transcript), {status: 200})
+	}
+	else {
+		return new Response (speechInfo(speech), {status: 200})
+	}
+
+}
+
 	```
 	</TabItem>
+
+	<TabItem label='index.js'>
+	```js
+	import { twMerge } from 'tailwind-merge';
+import famousSpeeches from '../../../data/famousSpeeches.json?json'
+
+export const tw = {
+	tr: 'cursor-pointer font-semibold ' + 
+	'even:hover:bg-amber-300/50 odd:hover:bg-amber-400/30 ' + 
+	'even:hover:text-blue-800 odd:hover:text-blue-800 ' +
+	'even:hover:dark:bg-indigo-950/60 odd:hover:dark:bg-indigo-950 ' + 
+	'even:hover:dark:text-amber-400 odd:hover:dark:text-amber-400',
+	rowHilight: 'text-orange-500'
+}
+
+const getSpeechData = () => {
+
+ const markup = famousSpeeches.map((speech)=>{
+		return  `
+		<tr 
+			index="${speech.id}" 
+			class="${tw.tr}" 
+			script="
+				on click 
+					fetch /api/speeches/${speech.id} as text then 
+					put it into the #{'speech-title'}
+					fetch /api/speeches/${speech.id}?transcript=true as html then 
+					put it into the #{'speech-transcript'}
+					set the value of the #{'speech-index'} to the ${speech.id}
+					remove .${tw.rowHilight} from <tr/> 
+					add .${tw.rowHilight} to me
+					go to the  #{'searchbox'} smoothly then settle then 
+					call #{'searchbox'}.focus()
+				end
+
+				"
+		>	
+		<td>${speech.speaker}</td>
+		<td>${speech.title}</td>
+		<td>${speech.date}</td>
+	</tr>
+	`
+ })
+
+ return markup.join('\n')
+
+}
+
+export const GET = async ({params, request}) => {
+	return new Response (getSpeechData(), {status: 200})
+	
+	
+}
+
+
+	```
+	</TabItem>
+		 
+	<TabItem label='match.js'>
+	```js
+	import famousSpeeches from '../../../data/famousSpeeches.json?json'
+import {swapLineEndings, tw as baseStyles} from './[id]'
+import {defaultBackgroundColors} from '../../../components/search/searchbox.astro'
+
+let hilightColor = defaultBackgroundColors
+
+const tw = {
+	...baseStyles,
+}
+
+function markupSpeech(speech, searchString, searchCriteria) {
+	if (searchString === '') {
+		return swapLineEndings(speech.transcript)
+	}
+   
+	let regex = '\\b' + searchString + '\\w*\\b'
+	let modifiers = 'g'
+
+	switch (searchCriteria) {
+		case 'case-sensitive' :
+			modifiers = 'g'	
+			break
+		case 'case-insensitive' :
+			modifiers = 'gi'
+			break
+		case 'whole-word' :
+			regex = '\\b' + searchString + '\\b'
+			break
+		case 'begins-with' :
+			regex = '\\b' + searchString + '\\w*\\b'
+			break
+		case 'ends-with' :
+			regex = '\\b\\w*' + searchString + '\\b'
+			break
+		case 'contains':
+			regex = searchString
+			break
+	}
+
+	/* Use regex to find matches which are then wrapped with <mark> tags including
+     a Tailwind class for the hilight color 		*/
+	const searchRegex = new RegExp(regex, modifiers)
+  let markup = speech.transcript
+	markup = markup.replace(searchRegex, `<mark class="${hilightColor}">$&</mark>`);
+	markup = swapLineEndings(markup)
+	return markup
+}
+
+export const POST = async ({request}) => {
+    // Extract data from the request.text()
+		//data = data search=xyz&speech-index=15&search-criteria=Contains&hilight-color=bg-yellow-200
+    const data = await request.text()
+		// console.log(`data`, data)
+		const searchString = decodeURIComponent(data.split('&')[0].split('=')[1])
+		const speechId = parseInt(data.split('&')[1].split('=')[1])
+		const searchCriteria = decodeURIComponent(data.split('&')[2].split('=')[1])
+			.toLowerCase()
+			.replace(' ', '-')
+		hilightColor = data.split('&')[3].split('=')[1]
+		// console.log(`searchString`, searchString)
+		// console.log(`searchCriteria`, searchCriteria)
+		// console.log(`hilightColor`, hilightColor)
+
+		//now get the transcript
+		const speech = famousSpeeches[speechId]
+		if (!speech) {
+				return new Response ('Speech not found')
+		}
+  
+	return new Response(markupSpeech(speech, searchString, searchCriteria), {status: 200});
+}
+
+
+		 
+	```
+	</TabItem>
+		 
+
 		 
 	<TabItem label='famousSpeeches.json'>
 	```json
