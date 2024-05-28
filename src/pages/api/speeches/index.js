@@ -27,7 +27,8 @@ const getSpeechData = () => {
 					remove .${tw.rowHilight} from <tr/> 
 					add .${tw.rowHilight} to me
 					go to the  #{'searchbox'} smoothly then settle then 
-					call #{'searchbox'}.focus()
+					send reset to the #{'searchbox'}
+					-- call #{'searchbox'}.focus()
 				end
 
 				"

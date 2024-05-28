@@ -9,7 +9,7 @@ tableOfContents:
 {/* Introduction */}
 ## Example
 
-This hypcomponent is a prototype for [hypermedia exchange](https://htmx.org/essays/hypermedia-apis-vs-data-apis/) because it illustrates a front-end coupled to backend routes that respond to XHR requests by returning only html markup.
+This hypcomponent is a prototype for [hypermedia exchange](https://htmx.org/essays/hypermedia-apis-vs-data-apis/) because it illustrates a front-end coupled to backend routes that respond to XHR requests by returning only hypertext.
 
 An active search `<input>` is shown  which is based on the [Active Search example from the htmx documentation](http://htmx.org/examples/active-search/).   However, this hyperComponent expands on that example by providing live hilighting of matched substrings.  In addition, the hilight color can be selected from a dropdown menu containing the full Tailwind color pallet.  Clicking a color from the pallet changes the highlight color.    Another dropdown menu provides options for changing the match criteria. 
 
@@ -98,7 +98,7 @@ export const hs = {
 			put the "${defaultSpeechTitle}" into the #{'speech-title'} then
 			put the "${defaultSpeechTranscript}" into the #{'speech-transcript'} then 
 			send reset to the <table#all-speeches/> 
-			send reset to the #{'searchbox'}
+			-- send reset to the #{'searchbox'}
 		end 
 		
 		on click 
@@ -239,7 +239,6 @@ The magnifying glass icon to the right of the `<input>` in this example is actua
 
 You may substitute another icon (or even another Dropdown menu) to replace the default magnifying glass by passing markup into the 	`rightIcon` slot
 
-#### Events
 #### Attributes
 
 ##### data-hilight-color
@@ -568,48 +567,45 @@ The Tab panel below is displays the entire source code for each backend route.
 
 ##### famousSpeaches.json
 
-The `famousSpeeches.json` file contains the raw data for each Speech.  There is too much text to show all the data here so just one sample Speech object is included in the TabPanel below to illustrate the shape of the data.  All other Famous Speech entries use the same object structure.
+The `famousSpeeches.json` file contains the raw data for each Speech.  There is too much text to show all the data here so just one sample Speech object is included below to illustrate the shape of the data.  All other Famous Speech entries use the same object structure.
 
-In a real world application, the data used will likely be stored in a database somewhere.   If you use this hyperComponent, you will need to adjust the data source and provide the appropriate async lookup functions in the next three  Javascript files.
+In a real world application, the data  will likely be stored in a database.   If you use this hyperComponent in your proejct, you will need to adjust the data source and provide the appropriate async lookup functions in the next three API files.
 
 ##### [id].js
 
-The `[id].js` route decodes the index of the speech from `params.id` value of the [Context](https://docs.astro.build/en/reference/api-reference/#endpoint-context) object provided as an argument to the GET function by Astro.   Also the `transcript=true` field is decoded from  the `url.searchParams`.  Using this information, the raw text of an individual speech is pulled from the appropriate array index in the `famousSpeeches.json` file.  
+The `[id].js` route decodes the index of the speech from `params.id` value of the [Context](https://docs.astro.build/en/reference/api-reference/#endpoint-context) object sent as an argument to the GET function by Astro.   Also the `transcript=true` field is decoded from  the `url.searchParams`.  Using this information, the raw text of an individual speech is pulled from the appropriate array index in the `famousSpeeches.json` file.  
 
 The Response object then returns an html fragment containing the entire speech transcript with `<p>` tags swapped for line breaks.
 
 ##### index.js
 
-A list of speeches is loaded into the `<table>` of the project example using the `index.js` route.  The raw data is looped using a .map() function returning a single `<tr>` containing the speakers name, title of the speech, and the date.   
+A list of speeches is loaded into the `<table>` of the example project  using the `index.js` route.  The raw data is looped using a `.map()` function returning a single `<tr>` for each Speech containing the speakers name, title of the speech, and the date.   
 
 Notice that a Hyperscript is also added to each `<tr>` so that a click on the row loads the transcript of the speech into a target `<div>`.
 
 ##### match.js
 
-This route receives `search`, `speech-index`,  `search-criteria`, and `hilight-color`  values sent by the request issued from the path injected into the hx-post attribute of the Search component.  Here is the shape of the data received by this route:
+This route receives `search`, `speech-index`,  `search-criteria`, and `hilight-color`  values from the request initiated  by the `hx-post` attribute.  Here is the shape of the data received by this route:
 
 ```js title="request.text()"
 search=xyz&speech-index=15&search-criteria=Contains&hilight-color=bg-yellow-200
 ```
 
-In Astro you get access to these values by calling `.text()` function  on the request object which was destructured from the [Context](https://docs.astro.build/en/reference/api-reference/#endpoint-context) object.
+In Astro you get access to the data  by calling the `.text()` function  on the request property of the [Context](https://docs.astro.build/en/reference/api-reference/#endpoint-context) object.
 
-This yields an array of values which are then split and processed into local variables. 
+This yields a URL encoded string containing `&` delimited key-value pairs which are then split and processed into local variables. 
 
 The `search` field of the request contains the substring which the user wishes to test against the speech transcript.
 
-The `speech-index` field is the array index for the data in `famousSpeeches.json`
+The `speech-index` field contains the array index for the data in `famousSpeeches.json`
 
-The `search-criteria` is  a filter to be applied to the regular expression, such as 'Whole Word' or 'Case Sensitive', etc.  The value of this field is set by the user choosing  an option from the dropdown at the left of the search `<input>`.
+The `search-criteria` field contains a filter to be applied to the regular expression, such as 'Whole Word' or 'Case Sensitive', etc.  The value of this field is set by the user choosing  an option from the dropdown at the left of the search `<input>`.
 
-The `hilight-color` is transmitted to the backend from a value cached in the `data-hilight-color` attribute of  the `div#search-container` and specifies a background color for all the `<mark>` tags in the final response.
+The `hilight-color` is  transmitted to the backend from a value cached in the `data-hilight-color` attribute of  the `div#search-container` and specifies a background color for all the `<mark>` tags in the final response.
 
-The remaining code in `match.js` uses a regular expression to match substrings in the speech transcript and then bracket the matches with `<mark>` tags containing the specfied Tailwind class in the `highlight-color`.
+The remaining code in `match.js` uses a regular expression to match substrings in the speech transcript and then bracket each match with `<mark>` tags containing the specfied Tailwind bg-color* class in the `highlight-color` field.
 
-The resulting html markup is returned to the caller via the Response object where the hx-swap attribute is set to replace the innerHTML of the speech transcript `<div>`.
-
-
-
+The resulting html markup is returned to the caller via the Response object where the `hx-swap` attribute is set to replace the `innerHTML` of the speech transcript `<div>`.
 
 import {Tabs, TabItem } from '@astrojs/starlight/components'
 
@@ -846,7 +842,131 @@ To use this component in your project, just copy and paste the contents of the E
 		 
 	<TabItem label='Everything'>
 	```astro
-		 
+		 ---
+
+
+import StarlightPage from '@astrojs/starlight/components/StarlightPage.astro'
+import Searchbox from '../components/search/searchbox.astro'
+import ClickDropdownMenu_A from '../components/ClickDropdownMenu_A.astro'
+import PalletGrid from '../components/PalletGrid.astro'
+
+
+const defaultSpeechTitle = 'Click on the any of the famous orations listed above.'
+const defaultSpeechTranscript = 'The full transcript will be displayed here. Use the Search box to dynamnically highlight any part of the transcript'
+import {tw as rowStyles} from './api/speeches/index.js'
+const tw = {
+	introduction: {
+		h3: 'text-center',
+		h4: 'pt-8 pb-4 text-center',
+		p: 'text-center font-semibold'	
+	},
+	table:'mx-auto my-4 max-w-max ',
+	...rowStyles,
+	hr: 'relative top-8 h-1 bg-zinc-200/50 dark:bg-blue-500/20',
+  searchExample:{
+		container: 'not-content pt-12 flex flex-nowrap justify-between items-center gap-2',
+		colorPallet: 'colorPallet size-12 rounded-2xl ' +
+			'bg-sky-700  dark:bg-indigo-600 ',
+		palletIcon: 'inline-block size-6' ,
+		resetButton: 'px-4 py-3 cursor-pointer rounded-xl ' + 
+			'text-lg text-zinc-50 dark:text-zinc-300 ' +
+			'bg-sky-700  dark:bg-indigo-600',
+	},
+	speech:{
+		wrapper: 'not-content w-full mx-auto max-h-[50rem] overflow-y-auto rounded-t-lg ' + 
+			'bg-gray-100 dark:bg-gray-950',
+		title: 'p-4 text-center text-balance text-xl ' + 
+			'text-indigo-900 dark:text-amber-100/80 ' + 
+			'border-b-2 border-gray-200 dark:border-gray-700 ',
+		transcript: 'p-4'
+	},
+}	
+const hs = {
+	resetButton:`
+		on load or click 
+			put the "${defaultSpeechTitle}" into the #{'speech-title'} then
+			put the "${defaultSpeechTranscript}" into the #{'speech-transcript'} then 
+			send reset to the <table#all-speeches/> 
+			send reset to the #{'searchbox'}
+			go to the #{'introduction'} smoothly
+		end `,
+	table: `								
+		on reset
+			remove .${tw.rowHilight} from <tr/>
+		end `,
+	colorPallet: `
+		on click 
+		  -- cache the hilight color in a data-* attribute
+			-- transmit the highlight color to the backend via a hidden <input/>
+			set originalHilightColor to the @data-hilight-color of the #{'search-container'}
+			remove .{originalHilightColor} from the #{'search-container'}
+			set newHilightColor to my @bgColor
+			add .{newHilightColor} to the #{'search-container'}
+			set the @data-hilight-color of the #{'search-container'} to the newHilightColor
+			set the value of the #{'hilight-color'} to the newHilightColor
+			trigger update on the  #{'searchbox'}
+		end
+		`
+}
+---
+
+<StarlightPage frontmatter={{title: pageTitle}}>
+
+{/* Intro */}
+<div id="introduction" class="w-10/12 mx-auto">
+	<h3 class={tw.introduction.h3}>Famous Speeches in the English Language</h3>
+	<h4 class={tw.introduction.h4}>Use the Search control below to highlight words from the most famous speeches that shaped  our world.</h4>
+	<p class={tw.introduction.p}>Click to select any Speech from the list</p>
+</div>
+
+{/*  Table of Famous Speeches */}
+<table class={tw.table}
+				id="all-speeches"
+				hx-trigger="load"  
+				hx-get="/api/speeches/"
+				hx-target="<tbody/>"
+				hx-swap="innerHTML"
+				script={hs.table}>
+	<thead>
+		<tr><th>Speaker</th><th>Title</th><th>Date</th></tr>
+	</thead>
+	<tbody></tbody>
+</table>
+
+<hr class={tw.hr}>
+ 
+{/*  Search Box Example*/}
+<div class={tw.searchExample.container}>
+	<Searchbox id="searchbox" 
+		searchPath="/api/speeches/match/" 
+		target="#speech-transcript" 
+		swapStrategy="innerHTML"
+		height="h-12"
+	/>
+	<!-- Color Picker -->
+	<ClickDropdownMenu_A id='colorpallet' 
+		 moveXY='-200,18'
+		 buttonStyles={tw.searchExample.colorPallet} 
+		 duration='180ms'>
+	 <img slot="leftIcon" src='/images/tailwind_icon.svg' 
+		alt='tailwind icon' class={tw.searchExample.palletIcon}/>
+	 <PalletGrid orientation='vertical' hs={hs.colorPallet}/>
+ </ClickDropdownMenu_A>	 
+ <!-- Reset Button -->
+	<button class={tw.searchExample.resetButton} 
+		script={hs.resetButton}>Reset</button>
+</div>
+
+{/* Our Speech */}
+<div class={tw.speech.wrapper}>
+	<h4 id="speech-title" class={tw.speech.title}></h4>
+	<div id="speech-transcript" class={tw.speech.transcript}>
+	</div>
+</div>
+	
+
+</StarlightPage>
+
 	```
 	</TabItem>
 </Tabs>
