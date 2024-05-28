@@ -12,7 +12,7 @@ Also, [React](https://reactjs.org/), [Vue](https://vuejs.org/), [Angular](https:
 
 However, most pre-rolled solutions are not utilizing the advantages of [HyperMedia](https://htmx.org/essays/hypermedia-apis-vs-data-apis/).  Instead,  components shipped by these libraries are scaffolded by serializing JSON (or other raw data) which is shipped to the browser to establish application state along with a JavaScript bundle instructing the browser on how to build,  insert, and update the rendered DOM elements built from the raw data. An important crux of this strategy is the requirement to maintain synchronization of the application state between the server and the browser, particularly during any updates.
 
-An exciting alternative is the implementation of hypermedia transfer as the engine of state management ([HATEOS](https://htmx.org/essays/hateoas/)).  
+An exciting alternative is the implementation of hypermedia transfer as the engine of state management ([HATEOS](https://htmx.org/essays/hateoas/)). 
 
 ### What is HyperMedia
 
@@ -27,9 +27,12 @@ Sending **html markup** from an API endpoint instead of raw data is more natural
 5.  Full support for modern browser side APIs for enhanced UX such as View Transitions, Intersection API, etc.
 
 
+ Serving html as a response to an XHR request is not a new concept.  In fact, it dates to the origins of the REST API concept outlined by Roy Fielding in his PhD dissertation but rarely followed in modern web development.   So the resurgence of hypermedia as a response to a server request is truely **'Back to the Future'**.    The subject is too broad to cover here, so please review the [essays on hypermedia](https://htmx.org/essays/) on the [htmx web site](https://htmx.org/) and download/purchase the [Hypermedia Systems](https://hypermedia.systems/) book for a comprehensive review.
+
+
 ### What are hyperComponents
 
-hyperComponents is an open source project initiated to address the need for pre-rolled, user interface components based on hypermedia transfers instead of data.  In this library, hypermedia exchanges are facilitated principally by [HTMX](https://htmx.org/docs/).  Client side user interactivity and event management is provided by [Hyperscript](https://hyperscript.org/).   To preserve [Locality of Behavior](https://htmx.org/essays/locality-of-behaviour/) for styling, [TailwindCSS](https://tailwindcss.com/) utility classes are used.
+hyperComponents is an new open source project initiated to address the need for pre-rolled, user interface components based on exchanges of hypermedia instead of data.  In this library, hypermedia exchanges are facilitated principally by [HTMX](https://htmx.org/docs/).  Client side user interactivity and event management is provided by [Hyperscript](https://hyperscript.org/).   To preserve [Locality of Behavior](https://htmx.org/essays/locality-of-behaviour/) for styling, [TailwindCSS](https://tailwindcss.com/) utility classes are used.
 
 hyperComponents are built with [Astro](https://astro.build/docs) because this tool is uniquely  straightforward for creating Web components and custom API endpoints in the same code base which is ideal for hypermedia exchanges.  
 

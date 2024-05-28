@@ -9,19 +9,19 @@ tableOfContents:
 {/* Introduction */}
 ## Example
 
-This hypcomponent is a prototype for hypermedia exchange because it illustrates a front-end coupled to backend routes that accept an XHR request and return completed html markup only (no JSON or other data) .
+This hypcomponent is a prototype for [hypermedia exchange](https://htmx.org/essays/hypermedia-apis-vs-data-apis/) because it illustrates a front-end coupled to backend routes that respond to XHR requests by returning only html markup.
 
-An active search `<input>` is shown  which is based the example code  in the htmx documentation.   However, this hyperComponent expands on that example by providing live hilighting of matched substrings.  In addition, the hilight color can be selected from a dropdown menu representing the full Tailwind color pallet.  Clicking a color from the pallet changes the highlight color.    Another dropdown menu provides options for restricting the  search criteria. 
+An active search `<input>` is shown  which is based on the [Active Search example from the htmx documentation](http://htmx.org/examples/active-search/).   However, this hyperComponent expands on that example by providing live hilighting of matched substrings.  In addition, the hilight color can be selected from a dropdown menu containing the full Tailwind color pallet.  Clicking a color from the pallet changes the highlight color.    Another dropdown menu provides options for changing the match criteria. 
 
-All functionality is powered by htmx and Hypersript.  There are no JavaScript imports or `<script>` tags.  The frontend and backend (server) code is fully presented revealing how AJAX requests are initiated by htmx and how the  server builds the hypermedia response which is then swapped into the DOM.
+All functionality is powered by [htmx](https://htmx.org) and [Hypersript](https://hyperscript.org).  There are no JavaScript imports or `<script>` tags at all in this component. 
 
-On the backend, each matched substring is surrounded by `<mark>` tags  including a class attribute specifying the Tailwind bg-color-* selected by the user.  
+ A mini-project is included below to illustrate how this hyperComponent works.   The  example project displays a table of famous speeches in the English language.  Clicking any table row loads the full speech transcript and then switches focus to the Search `<input>`.   Any substring entered into the  Search `<input>` is then matched against the full transcript using regular expressions.  
+ 
+ Successful matches are  surrounded with `<mark`> tags styled with the user's choice of Tailwind bg-color-*. The server returns the full speech transcript as html annotated with `<mark>` elements.  The user's  experience is analagous to using a felt tipped highlight marker on a printed document.
 
-To illustrate how this hyperComponent works, a table is presented below with a listing of famous orations.  Clicking a row displays the transcript of the famous speech.   You can search for any substring within the transcript by entering text into the  Search `<input>`.  The corresponding matches will be highlited in real time.
+Take a tour of the example project by clicking on a famous speech.  Click  the Reset button (or select another speech) to start over.
 
-Take a tour of the functoinality by clicking on a famous speech .  Click another speech or hit the Reset button to start over.
-
-The subsequent sections presented to follow will reveal all the code used to create this  hyperComponent.
+The subsequent discussions go into great etail about all the source code used to create this  hyperComponent.
 
 import {tw as rowStyles} from '../../../../pages/api/speeches'
 		 
@@ -94,7 +94,7 @@ export const defaultSpeechTranscript = 'The full transcript will be displayed he
 
 export const hs = {
 	resetButton:`
-		on load or click 
+		on load
 			put the "${defaultSpeechTitle}" into the #{'speech-title'} then
 			put the "${defaultSpeechTranscript}" into the #{'speech-transcript'} then 
 			send reset to the <table#all-speeches/> 
@@ -160,34 +160,35 @@ export const hs = {
 	{/* General Description */}
 	{/* Example  Code block showing the  control in action. */}
 
-Hypermedia exchanges require that the backend return formatted, finished html.  Thus the developer must have control over the server's response.   Astro build tool is perfect for this because it is simple to create custom API endpoints.   In Astro, all that is needed is to place a .js file into the pages folder and Astro automatically creates the appropriate route for you.  In that file, you must export a GET, POST, PATCH or DELETE function and then Astro will build the correct route and respond to those AJAX requests.
+[Hypermedia exchanges](https://htmx.org/essays/hypermedia-apis-vs-data-apis/) require that the backend return formatted, finished html.  Thus the developer must have control over the server's response.   The [Astro](https://astro.build) build tool is perfect for this because it is easy to create [custom API endpoints](https://docs.astro.build/en/guides/endpoints/).   In Astro, all that is needed is to place a .js file into the Pages folder.  In that file, you must export a GET, POST, PATCH or DELETE function and then Astro will build the correct route and respond to those AJAX requests.
 
-This hyperComponent illustrates how to build those hypermedia responses.   The GET and POST requests in this example use data stored on disc (in JSON files), but does not return the raw data.  Instead, the data is used by the server code to format finished html fragments which are returned in the Response object.   HTMX attributes then specify how and where the returned markup is inserted into the DOM.  Reading the example code below will illustrate how this is done.
+The GET and POST requests in this example use data stored on disc (in JSON files), but does not return the raw data.  Instead, the data is used by the server  to format finished html fragments which are returned in the Response object.   HTMX attributes  specify how and where the returned markup is inserted into the DOM.  
+
+Read through all the example code below to see how this was accomplished.
 
 
 ## Features
+
+This Active Search with highlight hyperComponent will:
+
+1.  Use Tailwind bg-color-* classes picked from a dropdown color pallet
+2.  Match substrings entered into the `<input>` against a block of raw text
+3.  Return html markup with `<mark>` tags surrounding any matched substring
+4.  Allow optional restricted matching (case sensitive, whole word, or others)
+5.  User selectable hilight color
+6.  Smooth scrolling to the transcript and back to the search input
+7.  Results are updated with keystrokes, pasteing text into the `<input`>, clearing the field, etc.
+8.  Search `<input>` and dropdown menus are fully customizable using Tailwind utility classes
 		 
 ## Components
 	{/* Breakdown of each Astro Components used for this control */}
-## Props
-	{/* Each component, with code block showing the props interface */}
- ```js 
- 
- ``` 
- 
-## Slots
-	{/* Outline the name/function of each slot */}
-## Events
-	{/* Any custom events emitted by this component*/}
-## Attributes
- {/* The htmx attributes for elements in this component */}
-## Styling
-To improve readability, the Tailwind classes and Hyperscripts are both extracted from the markup and encapsulated into  Astro `tw` and `hs` local variables within the [Component Script](https://docs.astro.build/en/basics/astro-components/#the-component-script) which are then referenced in the html markup. 
-		 
-The advantage of this strategy is to allow long run-on strings to be formatted as concatenated, multi-line strings which aids readability and code maintenance.
-		 
-## Transitions
-	{/* Description of the animations used in the control */}
+
+## API routes
+
+All routing in Astro is file-based, including backend API routes.    Here is the folder/file structure used for this example, and 
+
+### Searchbox.astro
+
 ## Code
 	{/* Brief explanation of the component */}
 import {Tabs, TabItem } from '@astrojs/starlight/components'
