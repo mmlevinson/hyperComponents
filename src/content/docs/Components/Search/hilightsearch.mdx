@@ -182,6 +182,349 @@ This Active Search with highlight hyperComponent will:
 		 
 ## Components
 	{/* Breakdown of each Astro Components used for this control */}
+### Searchbox
+There is a single main component which provides the GUI for active searching and highlighting. 
+
+The code for the Searchbox.astro component is shown below.   In order for this component to function, backend code which responds to the htmx issued requests must also be provided, as presented in the next section. 
+
+Also, the Searchbox component must point to a block of text in which to search for matches.
+
+Dropdown menus within the Searbox are provided by using the ClickDropdownMenu_A component.   The SearchOptions dropdown is indicated by a down-caret icon to the left of the search `<input>`.  Multiple `<li>` elements are passed into the default slot which constitute the options for modifying the RegEx match criteria used by the backend.    To provide the user's selection, a Hyperscript stores the textContent of the `<li>` into a hidden field.   HTMX includes this field in the request where the backend recieves and decodes the search options.
+
+Another ClickDropdownMenu_A instance is used to present a pallet of colors allowing the user to change the color of the highlighted matched substrings in the response.   A PalletGrid component is passed to the default slot of the ClickDropdownMenu_A.  This displays a grid of default Tailwind color variants and shades. A hyperscript is used to store the user's selection into the 'bgColor' attribute but also into another hidden `<input>` so the value can be transported to the backend when needed.
+
+Examining the `html` tab below will reveal these hidden `<input>`s used to pass values to the backend in order to configure the response.
+
+#### Props
+
+```js
+interface Props {
+		id?:string  
+		placeholder?:string  
+		searchPath:string
+		target:string 
+		swapStrategy:string, 
+		height?:string  
+}
+```
+
+##### id
+
+Each Searchbox component recieves a unique identifier as a prop.  This identifier is used by the Hyperscripts to perform certain updates and styling changes.
+
+##### placeholder
+
+This string is displayed in dimmed font to prompt the user to enter a substring into the `<input>`.   
+
+##### target
+
+This prop accepts a string value representing the DOM element where the response will be placed.   You should pass an htmx-compatible CSS selector here.   The actual value you pass will then be referenced by the htmx attribute `hx-target`.   The resulting html will be swapped into this DOM position according to the next prop which specifies the swap strategy.
+
+##### swapStrategy
+
+HTMX provides a liberal set of options for how the response markup is placed into the target.   In the example project a `<div>` is used to display the full speech transcript and thus is the natural target for the highlited version of the transcript.   The example replaces the `innerHTML` of the target when the highlighted version is returned.
+
+##### height
+
+This prop allows you to adjust the height of the control to meet the needs of your layout.  Any valid Tailwind height class will work.
+
+There is no width prop.   To adjust the width, wrap the control in a container and size the container's width.
+
+#### Slots
+
+##### rightIcon
+
+The magnifying glass icon to the right of the `<input>` in this example is actually the default content of the `rightIcon` slot.    Most Search controls use a magnifying glass icon.   In this example, the icon is inert (does not respond to clicks).   
+
+You may substitute another icon to replace the default magnifying glass by passing markup into the 	`rightIcon` slot
+
+#### Events
+#### Attributes
+#### Styling
+#### Transitions
+#### Code
+	
+<Tabs>
+	<TabItem label='Props'>
+	```js
+
+interface Props {
+		id?:string  // a unique identifier
+		placeholder?:string  //default placeholder text in the <input> field
+		searchPath:string //api backend route for s
+		target:string  //where the response will be placed
+		swapStrategy:string,  //using this swap strategy
+		height?:string  //optional classes for setting control height
+}
+ 
+const {
+		id,
+		placeholder = "Search for...",
+		searchPath,
+		target,
+		swapStrategy,
+		height = 'h-10'
+} = Astro.props 
+		 
+	```
+	</TabItem>
+		 
+	<TabItem label='HTML'>
+	```html
+
+		<div id='search-container' 
+		class={tw.container} 
+		data-hilight-color=`${defaultBackgroundColors}`>
+		{/* Search Options menu */}
+		<ClickDropdownMenuA id="search-options-menu" 
+			buttonStyles={tw.optionsMenu} 
+			moveXY="-12,10" >
+			  {/* Down Caret icon */}
+			<svg slot="rightIcon" class={tw.icon}  fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+					<path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6z"/>
+				</svg>
+				{/* Search Criteria options */}
+				<li class={tw.menuItem} script={hs.menuItem}>Contains</li>
+				<li class={tw.menuItem} script={hs.menuItem}>Whole Word</li>
+				<li class={tw.menuItem} script={hs.menuItem}>Case Sensitive</li>
+				<li class={tw.menuItem} script={hs.menuItem}>Case Insensitive</li>
+				<li class={tw.menuItem} script={hs.menuItem}>Begins With</li>
+				<li class={tw.menuItem} script={hs.menuItem}>Ends With</li>
+		</ClickDropdownMenuA>
+		{/* Hidden inputs ... values are transmitted to backend via hx-include 
+		 Do Not Reorder These <input/> b/c the backend is referencing the values from an element array by index>*/}
+		<input type="hidden" id="speech-index" name="speech-index" value=""/>
+		<input type="hidden" id="search-options" name="search-options" value="Contains"/>
+		<input type="hidden" id="hilight-color" name="hilight-color" value=`${defaultBackgroundColors}`/>
+		{/* Search String Input field */}
+		<input id=`${id}` name="search"
+			type="search"
+			class={tw.input}
+			placeholder={placeholder}
+			hx-post=`${searchPath}`
+			hx-include="<input/>"
+			hx-trigger="input changed delay:500ms, search, update"
+			hx-target=`${target}`
+			hx-swap=`${swapStrategy}`
+			script={hs.searchInput}
+			>
+		</input>
+		{/* Magnify Icon */}
+		<slot name="rightIcon" >
+			<svg 
+					fill="currentColor" 
+					class={tw.rightIcon}
+					version="1.1" 
+					id="Capa_1" 
+					xmlns="http://www.w3.org/2000/svg" 
+					xmlns:xlink="http://www.w3.org/1999/xlink" 
+					viewBox="0 0 490.4 490.4" 
+					xml:space="preserve">
+						<g id="SVGRepo_bgCarrier" 
+						stroke-width="0">
+					</g>
+					<g id="SVGRepo_tracerCarrier" 
+					stroke-linecap="round" 
+					stroke-linejoin="round">
+				</g>
+				<g id="SVGRepo_iconCarrier"> 
+					<g> 
+						<path d="M484.1,454.796l-110.5-110.6c29.8-36.3,47.6-82.8,47.6-133.4c0-116.3-94.3-210.6-210.6-210.6S0,94.496,0,210.796 s94.3,210.6,210.6,210.6c50.8,0,97.4-18,133.8-48l110.5,110.5c12.9,11.8,25,4.2,29.2,0C492.5,475.596,492.5,463.096,484.1,454.796z M41.1,210.796c0-93.6,75.9-169.5,169.5-169.5s169.6,75.9,169.6,169.5s-75.9,169.5-169.5,169.5S41.1,304.396,41.1,210.796z">
+						</path> 
+						</g> 
+					</g>
+				</svg>
+		</slot>
+	</div>
+
+		 
+	```
+	</TabItem>
+		 
+	<TabItem label='Scripts'>
+	```js
+	const hs = {
+	menuItem: `
+		on click 
+			send closeDropdown to the #{'search-options-menu'} then settle then 
+			set the @title of the #{'search-options-menu'} to my textContent
+			set the value of the #{'search-options'} to my textContent 
+			trigger update on the <[name='search']/>
+		end `,
+	searchInput: `
+		on reset 
+			set my value to ''
+			set the value of the #{'search-options'} to 'Contains'
+			set the @title of the #{'search-options-menu'}  to 'Contains'
+			set the value of the #{'speech-index'} to ''
+			call me.focus()
+		end
+	`
+} 
+	```
+	</TabItem>
+		 
+	<TabItem label='Tailwind'>
+	```js
+	const tw = {
+	container: `flex-grow flex flex-nowrap items-center overflow-hidden justify-around rounded-2xl ` +
+	  defaultBackgroundColors,
+	input: `${height} px-4 w-full font-inherit focus:outline-none ` + 
+		'font-bold text-lg ' + 
+		'text-gray-900 dark:text-zinc-200 ' + 
+		'bg-slate-200 dark:bg-slate-800 '+ 
+		'placeholder-blue-800/30 dark:placeholder-cyan-600/50',
+	icon:'inline-block size-6',
+	leftIcon: '',
+	rightIcon:'w-12 h-12 px-2 ' + defaultTextColors,
+	optionsMenu: 'p-0 mx-2 mt-1 cursor-pointer focus:ring-0 ' + 
+		'font-extrabold ' + defaultTextColors + " " +
+		'bg-transparent hover:bg-transparent ' +
+		'hover:text-slate-950 dark:hover:text-yellow-600',
+  menuItem: 'px-4 hover:text-purple-600 hover:dark:text-sky-800 ' +
+    'hover:bg-gray-200 hover:dark:bg-stone-300 ',
+}
+	```
+	</TabItem>
+		 
+	<TabItem label='Everything'>
+	```astro
+	---
+import ClickDropdownMenuA from '../ClickDropdownMenu_A.astro'
+ 
+interface Props {
+	id?:string  // a unique identifier
+	placeholder?:string  //default placeholder text in the <input> field
+	searchPath:string //api backend route for s
+	target:string  //where the response will be placed
+	swapStrategy:string,  //using this swap strategy
+	height?:string  //optional classes for setting control height
+}
+
+{/* Common default styling for several elements */}
+export const defaultTextColors = 'text-slate-600'
+export const defaultBackgroundColors = 'bg-yellow-200'
+ 
+const {
+	id,
+	placeholder = "Search for...",
+	searchPath,
+	target,
+	swapStrategy,
+	height = 'h-10'
+} = Astro.props 
+
+const tw = {
+	container: `flex-grow flex flex-nowrap items-center overflow-hidden justify-around rounded-2xl ` +
+	  defaultBackgroundColors,
+	input: `${height} px-4 w-full font-inherit focus:outline-none ` + 
+		'font-bold text-lg ' + 
+		'text-gray-900 dark:text-zinc-200 ' + 
+		'bg-slate-200 dark:bg-slate-800 '+ 
+		'placeholder-blue-800/30 dark:placeholder-cyan-600/50',
+	icon:'inline-block size-6',
+	leftIcon: '',
+	rightIcon:'w-12 h-12 px-2 ' + defaultTextColors,
+	optionsMenu: 'p-0 mx-2 mt-1 cursor-pointer focus:ring-0 ' + 
+		'font-extrabold ' + defaultTextColors + " " +
+		'bg-transparent hover:bg-transparent ' +
+		'hover:text-slate-950 dark:hover:text-yellow-600',
+  menuItem: 'px-4 hover:text-purple-600 hover:dark:text-sky-800 ' +
+    'hover:bg-gray-200 hover:dark:bg-stone-300 ',
+}
+ 
+const hs = {
+	menuItem: `
+		on click 
+			send closeDropdown to the #{'search-options-menu'} then settle then 
+			set the @title of the #{'search-options-menu'} to my textContent
+			set the value of the #{'search-options'} to my textContent 
+			trigger update on the <[name='search']/>
+		end `,
+	searchInput: `
+		on reset 
+			set my value to ''
+			set the value of the #{'search-options'} to 'Contains'
+			set the @title of the #{'search-options-menu'}  to 'Contains'
+			set the value of the #{'speech-index'} to ''
+			call me.focus()
+		end
+	`
+} 
+ 
+---
+
+	<div id='search-container' 
+		class={tw.container} 
+		data-hilight-color=`${defaultBackgroundColors}`>
+		{/* Search Options menu */}
+		<ClickDropdownMenuA id="search-options-menu" 
+			buttonStyles={tw.optionsMenu} 
+			moveXY="-12,10" >
+			  {/* Down Caret icon */}
+			<svg slot="rightIcon" class={tw.icon}  fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+					<path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6z"/>
+				</svg>
+				{/* Search Criteria options */}
+				<li class={tw.menuItem} script={hs.menuItem}>Contains</li>
+				<li class={tw.menuItem} script={hs.menuItem}>Whole Word</li>
+				<li class={tw.menuItem} script={hs.menuItem}>Case Sensitive</li>
+				<li class={tw.menuItem} script={hs.menuItem}>Case Insensitive</li>
+				<li class={tw.menuItem} script={hs.menuItem}>Begins With</li>
+				<li class={tw.menuItem} script={hs.menuItem}>Ends With</li>
+		</ClickDropdownMenuA>
+		{/* Hidden inputs ... values are transmitted to backend via hx-include 
+		 Do Not Reorder These <input/> b/c the backend is referencing the values from an element array by index>*/}
+		<input type="hidden" id="speech-index" name="speech-index" value=""/>
+		<input type="hidden" id="search-options" name="search-options" value="Contains"/>
+		<input type="hidden" id="hilight-color" name="hilight-color" value=`${defaultBackgroundColors}`/>
+		{/* Search String Input field */}
+		<input id=`${id}` name="search"
+			type="search"
+			class={tw.input}
+			placeholder={placeholder}
+			hx-post=`${searchPath}`
+			hx-include="<input/>"
+			hx-trigger="input changed delay:500ms, search, update"
+			hx-target=`${target}`
+			hx-swap=`${swapStrategy}`
+			script={hs.searchInput}
+			>
+		</input>
+		{/* Magnify Icon */}
+		<slot name="rightIcon" >
+			<svg 
+					fill="currentColor" 
+					class={tw.rightIcon}
+					version="1.1" 
+					id="Capa_1" 
+					xmlns="http://www.w3.org/2000/svg" 
+					xmlns:xlink="http://www.w3.org/1999/xlink" 
+					viewBox="0 0 490.4 490.4" 
+					xml:space="preserve">
+						<g id="SVGRepo_bgCarrier" 
+						stroke-width="0">
+					</g>
+					<g id="SVGRepo_tracerCarrier" 
+					stroke-linecap="round" 
+					stroke-linejoin="round">
+				</g>
+				<g id="SVGRepo_iconCarrier"> 
+					<g> 
+						<path d="M484.1,454.796l-110.5-110.6c29.8-36.3,47.6-82.8,47.6-133.4c0-116.3-94.3-210.6-210.6-210.6S0,94.496,0,210.796 s94.3,210.6,210.6,210.6c50.8,0,97.4-18,133.8-48l110.5,110.5c12.9,11.8,25,4.2,29.2,0C492.5,475.596,492.5,463.096,484.1,454.796z M41.1,210.796c0-93.6,75.9-169.5,169.5-169.5s169.6,75.9,169.6,169.5s-75.9,169.5-169.5,169.5S41.1,304.396,41.1,210.796z">
+						</path> 
+						</g> 
+					</g>
+				</svg>
+		</slot>
+	</div>
+
+
+		 
+	```
+	</TabItem>
+</Tabs>
+		 
 
 ## API routes
 
