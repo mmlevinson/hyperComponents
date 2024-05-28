@@ -13,15 +13,17 @@ This hypcomponent is a prototype for [hypermedia exchange](https://htmx.org/essa
 
 An active search `<input>` is shown  which is based on the [Active Search example from the htmx documentation](http://htmx.org/examples/active-search/).   However, this hyperComponent expands on that example by providing live hilighting of matched substrings.  In addition, the hilight color can be selected from a dropdown menu containing the full Tailwind color pallet.  Clicking a color from the pallet changes the highlight color.    Another dropdown menu provides options for changing the match criteria. 
 
-All functionality is powered by [htmx](https://htmx.org) and [Hypersript](https://hyperscript.org).  There are no JavaScript imports or `<script>` tags at all in this component. 
+All functionality is powered by [htmx](https://htmx.org) and [Hypersript](https://hyperscript.org).  There are no JavaScript imports or `<script>` tags anywhere in this component. 
 
- A mini-project is included below to illustrate how this hyperComponent works.   The  example project displays a table of famous speeches in the English language.  Clicking any table row loads the full speech transcript and then switches focus to the Search `<input>`.   Any substring entered into the  Search `<input>` is then matched against the full transcript using regular expressions.  
+ A mini-project is included below to illustrate how this hyperComponent works.   The example project displays a table of famous speeches in the English language.  Clicking any table row loads the full speech transcript and then switches focus to the Search `<input>`.   Any substring entered into the  Search `<input>` is then matched against the full transcript using regular expressions.  
  
  Successful matches are  surrounded with `<mark`> tags styled with the user's choice of Tailwind bg-color-*. The server returns the full speech transcript as html annotated with `<mark>` elements.  The user's  experience is analagous to using a felt tipped highlight marker on a printed document.
 
 Take a tour of the example project by clicking on a famous speech.  Click  the Reset button (or select another speech) to start over.
 
-The subsequent discussions go into great etail about all the source code used to create this  hyperComponent.
+The subsequent discussions go into great detail about all the source code used to create this hyperComponent.
+
+The [full source code for the mini-project](#mini-project-code) can be found [here](/#mini-project-code which shows how every component is used and how each [backend route](#api-routes) is accessed.
 
 import {tw as rowStyles} from '../../../../pages/api/speeches'
 		 

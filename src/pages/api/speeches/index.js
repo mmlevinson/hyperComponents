@@ -23,12 +23,11 @@ const getSpeechData = () => {
 					put it into the #{'speech-title'}
 					fetch /api/speeches/${speech.id}?transcript=true as html then 
 					put it into the #{'speech-transcript'}
-					set the value of the #{'speech-index'} to the ${speech.id}
 					remove .${tw.rowHilight} from <tr/> 
 					add .${tw.rowHilight} to me
 					go to the  #{'searchbox'} smoothly then settle then 
-					send reset to the #{'searchbox'}
-					-- call #{'searchbox'}.focus()
+					send reset to the #{'searchbox'} then
+					set the value of the #{'speech-index'} to the ${speech.id}
 				end
 
 				"
