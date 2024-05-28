@@ -6,18 +6,18 @@ description: How to deal with Tailwind Verbosity and Organization
 
 ## Understanding Tailwind
 
-**You either love or hate Tailwind CSS** as a styling strategy. Those coming from traditional CSS file based strategies often find Tailwind much too verbose, with long, run-on lists of class names splaying off the right margin of the page.
+**You either love or hate Tailwind CSS** as a styling strategy. Those coming from traditional CSS file based strategies often find Tailwind much too verbose, with long, run-on (and disorganized) strings of class names splaying off the right margin of the page.
 
-Tailwind does have certain advantages that make it a good development tool, mainly its responsive modes.  In particular, creating mobile-first responsive designs is much easier with Tailwind.   You can forgo explicit media queries and breakpoints in favor of the minimal syntax of Tailwind breakpoint directives.  
+Tailwind does have certain advantages that make it a good development tool, mainly its responsive modes.  In particular, creating mobile-first responsive designs is much easier with Tailwind because you can forgo explicit media queries and breakpoints in favor of the minimal syntax of Tailwind breakpoint directives.  
 
 
 ## The Problem
 
-However, the granular nature of utility classes often results in a huge collection of class names in order to apply even rudamentary styling to any individual element.  This is magnfified when adding conditional styles, such as dark mode, responsive breakpoints, transitions, etc.  
+However, the granular nature of utility classes often results in a huge collection of class names in order to apply even rudamentary styling to any individual element.  This is magnfified when adding conditional styles, such as dark mode, responsive breakpoints, gradient backgrounds, transitions, etc.  
 
 In addition, if your markup includes repeated elements of the same tag all of which need to apply the identical styles (for example list items, table rows, sections, articles, cards, etc), then your html markup quickly becomes bloated with verbose class name strings.
 
-For example, here is a simple unordered list where each list item applies the same styling as its sibling. The class attribute of each line item is extensive and scrolls off the edge of the page. 
+For example, here is a simple unordered list where each list item applies the same styling as its sibling. The class attribute of each line item extends far beyond the available screen width. 
 
 ```html
 	<ul class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 items-center justify-between bg-slate-200 dark:bg-blue-900 p-4 border-2 border-indigo-700 border-opacity-20 shadow-md rounded-xl overflow-hidden">
@@ -34,15 +34,15 @@ In order to maintain this code, the developer has to scroll back-and-forth in hi
 
 And once your page is populated with considerable markup, and redundant Tailwind classes, the file becomes impossible to scan for errors or ommissions, debugging, etc.  There is credibility to the criticism that Tailwind code is hard to maintain and in some circumstances unmanageable.
 
-For example, try to change the dark text color in the code above !!  Yes, you can use find/replace, but doing that many times is tedious, and if you are not diligent each time you can accidently replace text that you did not intend (somewhere else in the same file) creating a new bug.
+Try changing the dark text color in the code above !!  Yes, you can use find/replace, but doing so many times is tedious, and if you are not diligent each time you can accidently replace text that you did not intend (somewhere else in the same file) creating a new bug.
 
 ## Possible Solutions
 
 The official Tailwind docs recommend  using your IDE's muli-line cursor to make bulk changes to the class list of many elements at once.  Yes, but this is suboptimal and can lead to typos.   Find/replace also works but is clumsy and error prone as discussed above. Is there a better way?
 
-There are `code folding` IDE extensions which temporarily obscure long class lists. However you have to toggle this function on and off every time you want to perform minor maintenance on the list of classes.  And when un-folded, the list still splays off the right page margin, forcing repeated horizontal scrolling to maintain the code.
+There are `code folding` IDE extensions which temporarily obscure long class lists. However you have to toggle this function on and off every time you want to perform minor maintenance on the list of classes.  And when un-folded, the list still splays off the right page margin forcing repeated horizontal scrolling to maintain the code.
 
-There are extensions which sort Tailwind class lists based on an opinionated filter. This may not be a strategy you like because class names suddenly move around and sometimes in an unexpected pattern.
+There are extensions which sort Tailwind class lists based on an opinionated filter. This may not be a strategy you like because class names suddenly move around and sometimes in an unexpected pattern.  When you stop typing, the class name you just entered 'disappears' and you have to scroll back and for horizontally until you find where the filter put it.
 
 In this author's experience the advantages of responsive design with Tailwind are offset by difficult code maintenance and upkeep of the expansive class lists associated with each DOM element you are attempting to style.  This problem is further magnified by the fact that many of your elements are repetitive (such as list and table rows) which means making a minor change in one element **requires that you conscientiously update every other sibling or you will break your styles**.
 
@@ -50,9 +50,9 @@ In this author's experience the advantages of responsive design with Tailwind ar
 
 ### Extracting your Tailwind styles into a local constant
 
-The solution I have migrated to is to extract these long, verbose class lists into a local `tw` constant in the Astro [Component Script](https://docs.astro.build/en/basics/astro-components/#the-component-script) and then interpolate the properties of that constant into the HTML markup just as you would with any other local constant.
+The solution I have migrated to is to extract these long, verbose class lists into a local `tw` constant in the Astro [Component Script](https://docs.astro.build/en/basics/astro-components/#the-component-script) and then reference the properties of that constant into the HTML markup just as you would with any other local constant.
 
-Here is the same example of Tailwind styling using this alternative approach. 
+Here is the same example as above but using this alternative approach. 
 
 ```astro title="Astro component"  "export"
 ---
@@ -84,26 +84,26 @@ export const tw = {
 Hopefully you noticed that...
 
 
-1. You can easily **create multi line strings** in your `tw` properties which allows reorganization of long class lists according to your own preferences. Multi-line strings do not scroll off the page edge so are much easier to scan read. Eye fatigue from scrolling horizontally and scanning long strings is relieved.  Plus, you are not tied to the organizational opinions provided by any extension author and can fully customize your own organization scheme. You can re-organize by just moving a line up or down.  And you are encouraged to gather classes with similar functionality onto the same line so you would naturally look for them in the same place each time. 
+1. Now can  **create multi line strings** in your `tw` properties which allows reorganization of long class lists according to your own preferences. Multi-line strings do not scroll off the page edge so are much easier to scan read. Eye fatigue from scrolling horizontally and scanning long strings is relieved.  Plus, you are not tied to the organizational opinions provided by any extension author and can rely on your own organizational preferencese. Also you can re-organize the class lists by just moving lines  up or down. You are encouraged to gather classes with similar functionality onto the same line so you would naturally look for them in the same place each time. 
 
-2.  By extracting the class List into a local constant you can now apply the values to every item of a repeating group of elements without polluting your markup with long repetitive class lists that are very difficult to read or scan. At the same time it is a breeze to make a minor modification to the constant's properties which is then applied equally to all elements referencing this constant. This greatly simplifies code maintenance and reduces errors.
+2. This strategy allows you to apply the same classes to every element of a repeating group without polluting your markup. Now it is a breeze to make a minor modification which is then applied equally to all elements referencing the same `tw` property. This greatly simplifies code maintenance and reduces errors.
  
 
-3. Although Tailwind mostly avoids the 'naming convention' problems characteristic of file based CSS, using a constant re-introduces some dependency on choosing a proper name.  By assigning an object to the 'tw' constant you can pick property names that identically match the element or #id of intended use.  Then the html markup has unambiguous names for the applied styles.   In the example above, all `<li>` elements refer to the `tw.li` property for their tailwind classes.   No ambiguity there !
+3. Although Tailwind mostly avoids the 'naming convention' problems characteristic of file based CSS, using a constant re-introduces some dependency on choosing a proper name.  By using a JavaScript object for the `tw` constant you can pick property names that identically match the element or #id of intended use.  Then your markup has unambiguous names for the applied styles.   In the example above, all `<li>` elements refer to the `tw.li` property for their tailwind classes.   No ambiguity there !
 
-4. The `tw` constant can exported from one file and imported into another file essentially sharing your styles without having to create [@apply directives](https://tailwindcss.com/docs/functions-and-directives#apply).  Use of @apply directives is discouraged so exporting the tw constant is a very viable workaround which preserves flexible, upgradable, and shareable styles between multiple components.
+4. Also, the `tw` constant can be exported from one file and imported into another file essentially sharing your styles without having to create [@apply directives](https://tailwindcss.com/docs/functions-and-directives#apply).  Use of @apply directives is discouraged so exporting the tw constant is a very viable workaround which preserves flexible, upgradable, and shareable styles between multiple components.  Unlike file based CSS, you always know exactly where the source for the styles came from because of the `import` statement in your code.
 
-5. Although the actual class list is extracted into a local constant, they are still being applied to the DOM element for which the styles are intended to modify. This respects the principles of [Locality of Behavior](https://htmx.org/essays/locality-of-behaviour/) while at the same time providing some improvements in code maintainability, encapsulation, readability, and reduced errors of omission while at the same time still sharing common styles across multiple elements or even files.
+5. Although the actual class lists are extracted into a local constant, they are still being applied to the DOM element for which the styles are intended to modify. This respects the principles of [Locality of Behavior](https://htmx.org/essays/locality-of-behaviour/) while also providing some improvements in code maintainability, encapsulation, readability, and reduced errors of omission with the further  advantage of sharing common styles across multiple elements or even files.
 
-6.  Changes made effect all elements that refer to that `tw.property`.  No more need for multi-cursor or find/replace to make multiple changes to repeated elements.
+6. Style changes effect all elements that refer to that `tw.property`.  No more need for multi-cursor or find/replace to make changes to repeated elements.
 
-7.  Extra utility classes can be extemporaneously added by simply concatenating them to the value of the `tw.property`.  In the example above, a  `md:col-span-2` class is added to only two of the `<li>` elements by concatenation. (see the [Merge](#merge-conflicts) discussion below for some precautions).
+7.  Additional utility classes can be extemporaneously added by simply concatenating them to the value of the `tw.property`. Notice in the example above that  `md:col-span-2`  is added to only two of the `<li>` elements by concatenation. (see the [Merge](#merge-conflicts) discussion below for some precautions).
 
-7.  Copilot AI quickly learns this strategy and begins suggesting the correct `tw.property` you will likely attach to the class attribute of elements which speeds up styling while also avoiding typos.  
+7.  Copilot AI quickly learns this strategy and begins suggesting the correct `tw.property` you will likely attach to the element  are working on which speeds up styling while also avoiding typos.  
 
-*There is considerable controversy about this technique.* However developing hyperComponents that heavily rely on long strings of Tailwind classes became a more manageable task by extracting the class list into a local Astro `tw` constant.   
+*There is considerable controversy about this technique.* However developing hyperComponents which heavily relies on long strings of Tailwind classes became a more manageable task by extracting the class list into a local Astro `tw` constant.   
 
-One potential problem with this strategy is losing code completion and Intellisense for Tailwind which VSCode triggers when edits are made to an elements 'class' attribute.   However, this can be restored by opening VSCode Settings and searching for `TailwindCSS: Class Attributes`. Click the `Add Item` button and include the string value `tw`.    Now when you modify properties of the `tw` constant, you should be offred Tailwind code completions suggestions and Intellisense.
+One potential problem with this strategy is losing code completion and Intellisense for Tailwind which VSCode triggers when edits are made to an elements 'class' attribute.   However, this can be restored by opening VSCode Settings and searching for `TailwindCSS: Class Attributes`. Click the `Add Item` button and include the string value `tw`.    Now when you modify properties of the `tw` constant, you should be offered Tailwind code completion suggestions and Intellisense.
 
 Before you walk away and try to refactor all the example code in this library, you may give this strategy a try and see if you might end up liking it.
 

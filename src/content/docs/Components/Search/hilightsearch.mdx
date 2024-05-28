@@ -183,15 +183,16 @@ This Active Search with highlight hyperComponent will:
 ## Components
 	{/* Breakdown of each Astro Components used for this control */}
 ### Searchbox
+
 There is a single main component which provides the GUI for active searching and highlighting. 
 
 The code for the Searchbox.astro component is shown below.   In order for this component to function, backend code which responds to the htmx issued requests must also be provided, as presented in the next section. 
 
 Also, the Searchbox component must point to a block of text in which to search for matches.
 
-Dropdown menus within the Searbox are provided by using the ClickDropdownMenu_A component.   The SearchOptions dropdown is indicated by a down-caret icon to the left of the search `<input>`.  Multiple `<li>` elements are passed into the default slot which constitute the options for modifying the RegEx match criteria used by the backend.    To provide the user's selection, a Hyperscript stores the textContent of the `<li>` into a hidden field.   HTMX includes this field in the request where the backend recieves and decodes the search options.
+Dropdown menus within the Searchbox control are provided by using the [ClickDropdownMenu_A](/components/menus/click_a/) component.   The SearchOptions dropdown is indicated by a down-caret icon to the left of the search `<input>`.  Multiple `<li>` elements are passed into the default slot which constitute the options for modifying the RegEx match criteria used by the backend.    To provide the user's selection, a Hyperscript stores the textContent of the `<li>` into a hidden field.   HTMX includes this field in the request where the backend recieves and decodes the search options.
 
-Another ClickDropdownMenu_A instance is used to present a pallet of colors allowing the user to change the color of the highlighted matched substrings in the response.   A PalletGrid component is passed to the default slot of the ClickDropdownMenu_A.  This displays a grid of default Tailwind color variants and shades. A hyperscript is used to store the user's selection into the 'bgColor' attribute but also into another hidden `<input>` so the value can be transported to the backend when needed.
+Another [ClickDropdownMenu_A](/components/menus/click_a/) instance is used to present a pallet of colors allowing the user to change the color of the highlighted matched substrings in the response.   A [PalletGrid](/components/menus/examples/pallet/#palletgrid) component is passed to the default slot of the [ClickDropdownMenu_A](/components/menus/click_a/).  This displays a grid of default Tailwind color variants and shades. A hyperscript is used to store the user's selection into the 'bgColor' attribute but also into another hidden `<input>` so the value can be transported to the backend when needed.
 
 Examining the `html` tab below will reveal these hidden `<input>`s used to pass values to the backend in order to configure the response.
 
@@ -214,7 +215,7 @@ Each Searchbox component recieves a unique identifier as a prop.  This identifie
 
 ##### placeholder
 
-This string is displayed in dimmed font to prompt the user to enter a substring into the `<input>`.   
+This string is displayed in dimmed font to prompt the user to enter a substring into the `<input>`.  
 
 ##### target
 
@@ -234,14 +235,29 @@ There is no width prop.   To adjust the width, wrap the control in a container a
 
 ##### rightIcon
 
-The magnifying glass icon to the right of the `<input>` in this example is actually the default content of the `rightIcon` slot.    Most Search controls use a magnifying glass icon.   In this example, the icon is inert (does not respond to clicks).   
+The magnifying glass icon to the right of the `<input>` in this example is actually the default content of the `rightIcon` slot.    Most search controls display a magnifying glass icon as a symbol of the control's function.   In this example, the icon is inert (does not respond to clicks).   
 
-You may substitute another icon to replace the default magnifying glass by passing markup into the 	`rightIcon` slot
+You may substitute another icon (or even another Dropdown menu) to replace the default magnifying glass by passing markup into the 	`rightIcon` slot
 
 #### Events
 #### Attributes
+
+##### data-hilight-color
+
+This attribute of the `<div id="search-container">` is assigned a default value from a local constant `defaultBackgroundColor`.   The example project uses `bg-yellow-200`. 
+
+The value of this attribute is picked up by the Hyperscript code and used to dynamically change the background color of the entire component when the user picks a swatch from the color pallet dropdown.
+
+In this manner the `data-hilight-color`  is used as a local cache for the Hyperscript.
+
 #### Styling
+
+For coding convenience all Tailwind classes are extracted into a local `tw` constant as discussed in the [Tailwind Issues](about/tailwind/) page.
+
 #### Transitions
+
+Smooth scrolling to and from the Search control is provided by Hyperscript.  Inspect the script code below to see how this is done.
+
 #### Code
 	
 <Tabs>
@@ -270,7 +286,7 @@ const {
 	</TabItem>
 		 
 	<TabItem label='HTML'>
-	```html
+	```html "input" "script" "data-hilight-color" "ClickDropdownMenu_A"
 
 		<div id='search-container' 
 		class={tw.container} 
@@ -344,21 +360,21 @@ const {
 	<TabItem label='Scripts'>
 	```js
 	const hs = {
-	menuItem: `
-		on click 
-			send closeDropdown to the #{'search-options-menu'} then settle then 
-			set the @title of the #{'search-options-menu'} to my textContent
-			set the value of the #{'search-options'} to my textContent 
-			trigger update on the <[name='search']/>
-		end `,
-	searchInput: `
-		on reset 
-			set my value to ''
-			set the value of the #{'search-options'} to 'Contains'
-			set the @title of the #{'search-options-menu'}  to 'Contains'
-			set the value of the #{'speech-index'} to ''
-			call me.focus()
-		end
+		menuItem: `
+			on click 
+				send closeDropdown to the #{'search-options-menu'} then settle then 
+				set the @title of the #{'search-options-menu'} to my textContent
+				set the value of the #{'search-options'} to my textContent 
+				trigger update on the <[name='search']/>
+			end `,
+		searchInput: `
+			on reset 
+				set my value to ''
+				set the value of the #{'search-options'} to 'Contains'
+				set the @title of the #{'search-options-menu'}  to 'Contains'
+				set the value of the #{'speech-index'} to ''
+				call me.focus()
+			end
 	`
 } 
 	```
@@ -393,12 +409,12 @@ const {
 import ClickDropdownMenuA from '../ClickDropdownMenu_A.astro'
  
 interface Props {
-	id?:string  // a unique identifier
-	placeholder?:string  //default placeholder text in the <input> field
-	searchPath:string //api backend route for s
-	target:string  //where the response will be placed
-	swapStrategy:string,  //using this swap strategy
-	height?:string  //optional classes for setting control height
+		id?:string  // a unique identifier
+		placeholder?:string  //default placeholder text in the <input> field
+		searchPath:string //api backend route for s
+		target:string  //where the response will be placed
+		swapStrategy:string,  //using this swap strategy
+		height?:string  //optional classes for setting control height
 }
 
 {/* Common default styling for several elements */}
@@ -406,49 +422,49 @@ export const defaultTextColors = 'text-slate-600'
 export const defaultBackgroundColors = 'bg-yellow-200'
  
 const {
-	id,
-	placeholder = "Search for...",
-	searchPath,
-	target,
-	swapStrategy,
-	height = 'h-10'
+		id,
+		placeholder = "Search for...",
+		searchPath,
+		target,
+		swapStrategy,
+		height = 'h-10'
 } = Astro.props 
 
 const tw = {
-	container: `flex-grow flex flex-nowrap items-center overflow-hidden justify-around rounded-2xl ` +
-	  defaultBackgroundColors,
-	input: `${height} px-4 w-full font-inherit focus:outline-none ` + 
-		'font-bold text-lg ' + 
-		'text-gray-900 dark:text-zinc-200 ' + 
-		'bg-slate-200 dark:bg-slate-800 '+ 
-		'placeholder-blue-800/30 dark:placeholder-cyan-600/50',
-	icon:'inline-block size-6',
-	leftIcon: '',
-	rightIcon:'w-12 h-12 px-2 ' + defaultTextColors,
-	optionsMenu: 'p-0 mx-2 mt-1 cursor-pointer focus:ring-0 ' + 
-		'font-extrabold ' + defaultTextColors + " " +
-		'bg-transparent hover:bg-transparent ' +
-		'hover:text-slate-950 dark:hover:text-yellow-600',
-  menuItem: 'px-4 hover:text-purple-600 hover:dark:text-sky-800 ' +
-    'hover:bg-gray-200 hover:dark:bg-stone-300 ',
+		container: `flex-grow flex flex-nowrap items-center overflow-hidden justify-around rounded-2xl ` +
+			defaultBackgroundColors,
+		input: `${height} px-4 w-full font-inherit focus:outline-none ` + 
+			'font-bold text-lg ' + 
+			'text-gray-900 dark:text-zinc-200 ' + 
+			'bg-slate-200 dark:bg-slate-800 '+ 
+			'placeholder-blue-800/30 dark:placeholder-cyan-600/50',
+		icon:'inline-block size-6',
+		leftIcon: '',
+		rightIcon:'w-12 h-12 px-2 ' + defaultTextColors,
+		optionsMenu: 'p-0 mx-2 mt-1 cursor-pointer focus:ring-0 ' + 
+			'font-extrabold ' + defaultTextColors + " " +
+			'bg-transparent hover:bg-transparent ' +
+			'hover:text-slate-950 dark:hover:text-yellow-600',
+		menuItem: 'px-4 hover:text-purple-600 hover:dark:text-sky-800 ' +
+			'hover:bg-gray-200 hover:dark:bg-stone-300 ',
 }
  
 const hs = {
-	menuItem: `
-		on click 
-			send closeDropdown to the #{'search-options-menu'} then settle then 
-			set the @title of the #{'search-options-menu'} to my textContent
-			set the value of the #{'search-options'} to my textContent 
-			trigger update on the <[name='search']/>
-		end `,
-	searchInput: `
-		on reset 
-			set my value to ''
-			set the value of the #{'search-options'} to 'Contains'
-			set the @title of the #{'search-options-menu'}  to 'Contains'
-			set the value of the #{'speech-index'} to ''
-			call me.focus()
-		end
+		menuItem: `
+			on click 
+				send closeDropdown to the #{'search-options-menu'} then settle then 
+				set the @title of the #{'search-options-menu'} to my textContent
+				set the value of the #{'search-options'} to my textContent 
+				trigger update on the <[name='search']/>
+			end `,
+		searchInput: `
+			on reset 
+				set my value to ''
+				set the value of the #{'search-options'} to 'Contains'
+				set the @title of the #{'search-options-menu'}  to 'Contains'
+				set the value of the #{'speech-index'} to ''
+				call me.focus()
+			end
 	`
 } 
  
@@ -528,13 +544,72 @@ const hs = {
 
 ## API routes
 
-All routing in Astro is file-based, including backend API routes.    Here is the folder/file structure used for this example, and 
+All routing in Astro is file-based, including backend API routes.    Here is the folder/file structure used for this example
 
-### Searchbox.astro
+import { FileTree } from '@astrojs/starlight/components';
+
+<FileTree>
+
+- src
+	- data
+		- **famousSpeeches.json**
+	- pages
+		- api
+			- search
+				- **index.js**
+				- **match.js**
+				- **[id].js**
+
+</FileTree>
+
+The Tab panel below is used to display the entire source code for each backend route.  
+
+import {Tabs, TabItem } from '@astrojs/starlight/components'
+
+
+<Tabs>
+	<TabItem label='index.js'>
+	```js
+		 
+	```
+	</TabItem>
+		 
+	<TabItem label='markup.js'>
+	```html
+		 
+	```
+	</TabItem>
+		 
+	<TabItem label='[id].js'>
+	```js
+	```
+	</TabItem>
+		 
+	<TabItem label='famousSpeeches.json'>
+	```json
+	[ ... 
+	{
+			"id": 14,
+			"speaker": "Lou Gehrig",
+			"title": "Luckiest Man",
+			"date": "July 4, 1939",
+			"transcript":"Fans, for the past two weeks you have been reading about a bad break I got.\\nYet today I consider myself the luckiest man on the face of the earth.\\nI have been in ballparks for seventeen years and have never received anything but kindness and encouragement from you fans. Look at these grand men. Which of you wouldn’t consider it the highlight of his career just to associate with them for even one day?\\nSure I’m lucky.\\nWho wouldn’t consider it an honor to have known Jacob Ruppert? Also, the builder of baseball’s greatest empire, Ed Barrow? To have spent six years with that wonderful little fellow, Miller Huggins? Then to have spent the next nine years with that outstanding leader, that smart student of psychology, the best manager in baseball today, Joe McCarthy?\\nSure I’m lucky.\\nWhen the New York Giants, a team you would give your right arm to beat, and vice versa, sends you a gift - that’s something. When everybody down to the groundskeepers and those boys in white coats remember you with trophies -- that’s something.\\nWhen you have a wonderful mother-in-law who takes sides with you in squabbles with her own daughter -- that’s something.\\nWhen you have a father and a mother who work all their lives so you can have an education and build your body -- it’s a blessing.\\nWhen you have a wife who has been a tower of strength and shown more courage than you dreamed existed -- that’s the finest I know.\\nSo, I close in saying that I might have been given a bad break, but I've got an awful lot to live for."
+		},
+	]
+
+	```
+	</TabItem>
+	
+</Tabs>
+		 
+
+
 
 ## Code
 	{/* Brief explanation of the component */}
-import {Tabs, TabItem } from '@astrojs/starlight/components'
+All of the source code for the Searchbox component is listed below.  
+
+To use this component in your project, just copy and paste the contents of the Everything tab.
 		 
 <Tabs>
 	<TabItem label='Props'>
