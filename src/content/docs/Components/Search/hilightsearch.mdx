@@ -82,9 +82,6 @@ export const tw = {
 </table>
 
 
-		 
-
-
 import Searchbox from '../../../../components/search/searchbox.astro'
 import ClickDropdownMenu_A from '../../../../components/ClickDropdownMenu_A.astro'
 import PalletGrid from '../../../../components/PalletGrid.astro'
@@ -122,8 +119,6 @@ export const hs = {
 		end
 		`
 }
-
-
 
 {/*  Search Box Example*/}
 <div class={tw.searchExample.container}>
@@ -180,9 +175,7 @@ This Active Search with highlight hyperComponent will:
 7.  Results are updated with keystrokes, pasteing text into the `<input`>, clearing the field, etc.
 8.  Search `<input>` and dropdown menus are fully customizable using Tailwind utility classes
 		 
-## Components
-	{/* Breakdown of each Astro Components used for this control */}
-### Searchbox
+## Searchbox Component
 
 There is a single main component which provides the GUI for active searching and highlighting. 
 
@@ -196,7 +189,7 @@ Another [ClickDropdownMenu_A](/components/menus/click_a/) instance is used to pr
 
 Examining the `html` tab below will reveal these hidden `<input>`s used to pass values to the backend in order to configure the response.
 
-#### Props
+### Props
 
 ```js
 interface Props {
@@ -209,23 +202,23 @@ interface Props {
 }
 ```
 
-##### id
+#### id
 
 Each Searchbox component recieves a unique identifier as a prop.  This identifier is used by the Hyperscripts to perform certain updates and styling changes.
 
-##### placeholder
+#### placeholder
 
 This string is displayed in dimmed font to prompt the user to enter a substring into the `<input>`.  
 
-##### target
+#### target
 
 This prop accepts a string value representing the DOM element where the response will be placed.   You should pass an htmx-compatible CSS selector here.   The actual value you pass will then be referenced by the htmx attribute `hx-target`.   The resulting html will be swapped into this DOM position according to the next prop which specifies the swap strategy.
 
-##### swapStrategy
+#### swapStrategy
 
 HTMX provides a liberal set of options for how the response markup is placed into the target.   In the example project a `<div>` is used to display the full speech transcript and thus is the natural target for the highlited version of the transcript.   The example replaces the `innerHTML` of the target when the highlighted version is returned.
 
-##### height
+#### height
 
 This prop allows you to adjust the height of the control to meet the needs of your layout.  Any valid Tailwind height class will work.
 
@@ -233,15 +226,15 @@ There is no width prop.   To adjust the width, wrap the control in a container a
 
 #### Slots
 
-##### rightIcon
+#### rightIcon
 
 The magnifying glass icon to the right of the `<input>` in this example is actually the default content of the `rightIcon` slot.    Most search controls display a magnifying glass icon as a symbol of the control's function.   In this example, the icon is inert (does not respond to clicks).   
 
 You may substitute another icon (or even another Dropdown menu) to replace the default magnifying glass by passing markup into the 	`rightIcon` slot
 
-#### Attributes
+### Attributes
 
-##### data-hilight-color
+#### data-hilight-color
 
 This attribute of the `<div id="search-container">` is assigned a default value from a local constant `defaultBackgroundColor`.   The example project uses `bg-yellow-200`. 
 
@@ -249,15 +242,15 @@ The value of this attribute is picked up by the Hyperscript code and used to dyn
 
 In this manner the `data-hilight-color`  is used as a local cache for the Hyperscript.
 
-#### Styling
+### Styling
 
 For coding convenience all Tailwind classes are extracted into a local `tw` constant as discussed in the [Tailwind Issues](about/tailwind/) page.
 
-#### Transitions
+### Transitions
 
 Smooth scrolling to and from the Search control is provided by Hyperscript.  Inspect the script code below to see how this is done.
 
-#### Code
+### Code
 	
 <Tabs>
 	<TabItem label='Props'>
@@ -541,7 +534,7 @@ const hs = {
 </Tabs>
 		 
 
-#### API routes
+## API routes
 
 All routing in Astro is file-based, including backend API routes.  
 
@@ -607,8 +600,8 @@ The remaining code in `match.js` uses a regular expression to match substrings i
 
 The resulting html markup is returned to the caller via the Response object where the `hx-swap` attribute is set to replace the `innerHTML` of the speech transcript `<div>`.
 
+### Code
 import {Tabs, TabItem } from '@astrojs/starlight/components'
-
 
 <Tabs>
 	<TabItem label='[id].js'>
@@ -809,51 +802,35 @@ export const POST = async ({request}) => {
 </Tabs>
 		 
 
+##  Usage
 
+To visualize how the Searchbox component is used in a real world situation, an  mini-project is included in the [Examples](#examples) section above. 
 
-## Code
-	{/* Brief explanation of the component */}
-All of the source code for the Searchbox component is listed below.  
+There are many use cases for active search and even a highlited active search.    In fact, too many use cases to cover here.  The bottom line is that most Web sites include somwhere in their head element a Search control identified to the user by the magnifying glass icon.
 
-To use this component in your project, just copy and paste the contents of the Everything tab.
-		 
-<Tabs>
-	<TabItem label='Props'>
-	```js
-		 
-	```
-	</TabItem>
-		 
-	<TabItem label='HTML'>
-	```html
-		 
-	```
-	</TabItem>
-		 
-	<TabItem label='Scripts'>
-	```js
-	```
-	</TabItem>
-		 
-	<TabItem label='Tailwind'>
-	```js
-	```
-	</TabItem>
-		 
-	<TabItem label='Everything'>
-	```astro
-		 ---
+The capabilities of returning hypertext that is marked up to reveal each matched substring illustrates how hypermedia exchanges work and the advantages of using them.   There are many use cases, which you can explore on your own.
 
+For instructional purposes, the source code for implementing the Famous Speeches mini-project is included below in full detail.   Notice where and how the Searchbox control integerates with the other DOM elements to create the entire experience.
 
-import StarlightPage from '@astrojs/starlight/components/StarlightPage.astro'
-import Searchbox from '../components/search/searchbox.astro'
-import ClickDropdownMenu_A from '../components/ClickDropdownMenu_A.astro'
-import PalletGrid from '../components/PalletGrid.astro'
+If you copy this code into your own project, you will have to adjust the import file paths to match your folder structure.
 
+Also notice how explanting and coalescing the Tailwind classes into a local Astro `tw` constant unclutters the html markup.  In this example, the `tw` constant is an object with nested objects which clearly organize the styling code for readability and maintainability.
+
+### Mini-Project Code
+
+```astro title="FamousSpeeches.astro"  "hx-get" "hx-trigger" "hx-swap"  "hx-target" "Searchbox" "ClickDropdownMenu_A"
+
+---
+
+import Searchbox from '/components/searchbox.astro'
+import ClickDropdownMenu_A from '/components/ClickDropdownMenu_A.astro'
+import PalletGrid from '/components/PalletGrid.astro'
 
 const defaultSpeechTitle = 'Click on the any of the famous orations listed above.'
 const defaultSpeechTranscript = 'The full transcript will be displayed here. Use the Search box to dynamnically highlight any part of the transcript'
-import {tw as rowStyles} from './api/speeches/index.js'
+
+import {tw as rowStyles} from '/api/speeches/index.js'
+
 const tw = {
 	introduction: {
 		h3: 'text-center',
@@ -862,9 +839,8 @@ const tw = {
 	},
 	table:'mx-auto my-4 max-w-max ',
 	...rowStyles,
-	hr: 'relative top-8 h-1 bg-zinc-200/50 dark:bg-blue-500/20',
   searchExample:{
-		container: 'not-content pt-12 flex flex-nowrap justify-between items-center gap-2',
+		container: 'pt-12 flex flex-nowrap justify-between items-center gap-2',
 		colorPallet: 'colorPallet size-12 rounded-2xl ' +
 			'bg-sky-700  dark:bg-indigo-600 ',
 		palletIcon: 'inline-block size-6' ,
@@ -873,7 +849,7 @@ const tw = {
 			'bg-sky-700  dark:bg-indigo-600',
 	},
 	speech:{
-		wrapper: 'not-content w-full mx-auto max-h-[50rem] overflow-y-auto rounded-t-lg ' + 
+		wrapper:'w-full mx-auto max-h-[50rem] overflow-y-auto rounded-t-lg ' + 
 			'bg-gray-100 dark:bg-gray-950',
 		title: 'p-4 text-center text-balance text-xl ' + 
 			'text-indigo-900 dark:text-amber-100/80 ' + 
@@ -881,13 +857,13 @@ const tw = {
 		transcript: 'p-4'
 	},
 }	
+
 const hs = {
 	resetButton:`
 		on load or click 
 			put the "${defaultSpeechTitle}" into the #{'speech-title'} then
 			put the "${defaultSpeechTranscript}" into the #{'speech-transcript'} then 
 			send reset to the <table#all-speeches/> 
-			send reset to the #{'searchbox'}
 			go to the #{'introduction'} smoothly
 		end `,
 	table: `								
@@ -910,9 +886,7 @@ const hs = {
 }
 ---
 
-<StarlightPage frontmatter={{title: pageTitle}}>
-
-{/* Intro */}
+{/* Introduction */}
 <div id="introduction" class="w-10/12 mx-auto">
 	<h3 class={tw.introduction.h3}>Famous Speeches in the English Language</h3>
 	<h4 class={tw.introduction.h4}>Use the Search control below to highlight words from the most famous speeches that shaped  our world.</h4>
@@ -933,8 +907,6 @@ const hs = {
 	<tbody></tbody>
 </table>
 
-<hr class={tw.hr}>
- 
 {/*  Search Box Example*/}
 <div class={tw.searchExample.container}>
 	<Searchbox id="searchbox" 
@@ -965,11 +937,4 @@ const hs = {
 </div>
 	
 
-</StarlightPage>
-
-	```
-	</TabItem>
-</Tabs>
-		 
-##  Usage
-	{/* Discuss use cases */}
+```
