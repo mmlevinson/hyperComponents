@@ -25,7 +25,7 @@ The subsequent discussions go into great detail about all the source code used t
 
 The [full source code for the mini-project](#mini-project-code) can be found [here](/#mini-project-code) which shows how every component is used and how each [backend route](#api-routes) is accessed.
 
-import {tw as rowStyles} from '../../../../pages/api/speeches'
+
 		 
 export const tw = {
 		exampleContainer: 'not-content relative top-8',
@@ -39,7 +39,6 @@ export const tw = {
 		p: 'text-center font-semibold'	
 		},
 		table:'mx-auto my-4 max-w-max',
-		...rowStyles,
 		searchExample:{
 			container: 'not-content pt-12 flex flex-nowrap justify-between items-center gap-2',
 			colorPallet: 'colorPallet size-12 rounded-2xl ' +
@@ -810,7 +809,7 @@ export const POST = async ({request}) => {
 
 To visualize how the Searchbox component is used in a real world situation, an  mini-project is included in the [Examples](#examples) section above. 
 
-There are many use cases for active search and even a highlited active search.    In fact, too many use cases to cover here.  The bottom line is that most Web sites include somwhere in their head element a Search control identified to the user by the magnifying glass icon.
+There are many use cases for active search and even a highlited active search.    In fact, too many use cases to cover here.  The bottom line is that most Web sites include a Search control somewhere in their head element identified to the user by a magnifying glass icon.
 
 The capabilities of returning hypertext that is marked up to reveal each matched substring illustrates how hypermedia exchanges work and the advantages of using them.   There are many use cases, which you can explore on your own.
 
@@ -818,7 +817,8 @@ For instructional purposes, the source code for implementing the Famous Speeches
 
 If you copy this code into your own project, you will have to adjust the import file paths to match your folder structure.
 
-Also notice how explanting and coalescing the Tailwind classes into a local Astro `tw` constant unclutters the html markup.  In this example, the `tw` constant is an object with nested objects which clearly organize the styling code for readability and maintainability.
+Also notice how explanting and coalescing the Tailwind classes into a local Astro `tw` constant unclutters the html markup.  In this example, the `tw` constant is an object with nested objects that permit clear and unambigous organization for the styling code which enhances both readability and maintainability.
+
 
 ### Mini-Project Code
 
@@ -833,7 +833,6 @@ import PalletGrid from '/components/PalletGrid.astro'
 const defaultSpeechTitle = 'Click on the any of the famous orations listed above.'
 const defaultSpeechTranscript = 'The full transcript will be displayed here. Use the Search box to dynamnically highlight any part of the transcript'
 
-import {tw as rowStyles} from '/api/speeches/index.js'
 
 const tw = {
 	introduction: {
@@ -842,7 +841,6 @@ const tw = {
 		p: 'text-center font-semibold'	
 	},
 	table:'mx-auto my-4 max-w-max ',
-	...rowStyles,
   searchExample:{
 		container: 'pt-12 flex flex-nowrap justify-between items-center gap-2',
 		colorPallet: 'colorPallet size-12 rounded-2xl ' +

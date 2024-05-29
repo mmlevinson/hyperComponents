@@ -9,7 +9,7 @@ import PalletGrid from '../components/PalletGrid.astro'
 
 const defaultSpeechTitle = 'Click on the any of the famous orations listed above.'
 const defaultSpeechTranscript = 'The full transcript will be displayed here. Use the Search box to dynamnically highlight any part of the transcript'
-import {tw as rowStyles} from './api/speeches/index.js'
+
 const tw = {
 	introduction: {
 		h3: 'text-center',
@@ -17,7 +17,6 @@ const tw = {
 		p: 'text-center font-semibold'	
 	},
 	table:'mx-auto my-4 max-w-max ',
-	...rowStyles,
 	hr: 'relative top-8 h-4 bg-zinc-200/50 dark:bg-blue-500/20',
   searchExample:{
 		container: 'not-content pt-12 flex flex-nowrap justify-between items-center gap-2',
