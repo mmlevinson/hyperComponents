@@ -177,9 +177,10 @@ This Highlight Active Search hyperComponent includes:
 6.  Search requests are  initiated by multiple events, including  keystrokes, pasting text into the `<input`>, clearing the field, etc.
 7. A dropdown menu from which the user can select a filter for the matching algorithm (case sensitive, whole word, or others), 
 9. Scroll smoothing back and forth between the target and the search input
-9. Search-criteria options in the dropdown can be customized. 
-10.  Stylings of the `<input>` and dropdown menus are fully customizable using Tailwind utility classe.s
-11. A 'rightIcon' slot which displays magnifying glass icon by default but which can accept another dropdown menu or other content to be displayed at the right border of the search container.
+9. Search criteria in the options dropdown can be customized. 
+10.  A Tooltip is displayed on hover over the search-options menu indicating the current selection for search filter.
+11.  Stylings of the `<input>` and dropdown menus are fully customizable using Tailwind utility classe.s
+12. A 'rightIcon' slot which displays magnifying glass icon by default but which can accept another dropdown menu or other content to be displayed at the right border of the search container.
 		 
 ## Searchbox Component
 
@@ -212,29 +213,29 @@ Each Searchbox component recieves a unique identifier as a prop.  This identifie
 
 #### placeholder
 
-This string is displayed in dimmed font to prompt the user to enter a substring into the `<input>`.  
+This string is displayed in dimmed font which prompts the user to enter a substring into the `<input>`.  
 
 #### target
 
-This prop accepts a string value representing the DOM element where the response will be placed.   You should pass an htmx-compatible CSS selector here.   The actual value you pass will then be referenced by the htmx attribute `hx-target`.   The resulting html will be swapped into this DOM position according to the next prop which specifies the swap strategy.
+This prop accepts a string value representing the DOM element where the response will be placed.   You should pass an htmx-compatible CSS selector here.   The actual value you pass will then be referenced by the `hx-target` attribute.   The response html will be swapped into this DOM position according to the next prop which specifies the swap strategy.
 
 #### swapStrategy
 
-HTMX provides a liberal set of options for how the response markup is placed into the target.   In the example project a `<div>` is used to display the full speech transcript and thus is the natural target for the highlited version of the transcript.   The example replaces the `innerHTML` of the target when the highlighted version is returned.
+HTMX provides a liberal set of options for how response markup used to update the DOM.   In the example project a `<div>` is used to display the full speech transcript and thus is the natural target for the highlited version of the transcript.   The example uses the `innerHTML` swap strategy.
 
 #### height
 
 This prop allows you to adjust the height of the control to meet the needs of your layout.  Any valid Tailwind height class will work.
 
-There is no width prop.   To adjust the width, wrap the control in a container and size the container's width.
+There is no width prop.   To adjust the width, wrap this hyperComponent in a container and then adjust the container's width.
 
 #### Slots
 
 #### rightIcon
 
-The magnifying glass icon to the right of the `<input>` in this example is actually the default content of the `rightIcon` slot.    Most search controls display a magnifying glass icon as a symbol of the control's function.   In this example, the icon is inert (does not respond to clicks).   
+The magnifyingf glass icon to the right of the `<input>` is actually the default content of the `rightIcon` slot.    Most search controls display a magnifying glass icon as a symbol of the control's function.   In this example, the icon is inert (does not respond to clicks).   
 
-You may substitute another icon (or even another Dropdown menu) to replace the default magnifying glass by passing markup into the 	`rightIcon` slot
+You may substitute another icon (or even another Dropdown menu) to replace the default magnifying glass by passing markup into the 	`rightIcon` slot.   In [Astro](https://astro.build), the syntax for sending markup into a named slot is `<div slot='slotName'><!-- slot content --></div>`
 
 ### Attributes
 
@@ -242,7 +243,9 @@ You may substitute another icon (or even another Dropdown menu) to replace the d
 
 This attribute of the `<div id="search-container">` is assigned a default value from a local constant `defaultBackgroundColor`.   The example project uses `bg-yellow-200`. 
 
-The value of this attribute is picked up by the Hyperscript code and used to dynamically change the background color of the entire component when the user picks a swatch from the color pallet dropdown.
+The value of this attribute is picked up by the Hyperscript code and used to dynamically change the background color of the entire component when the user picks a swatch from the color pallet dropdown. 
+
+In addition, this color is sent to the backend along with the request in order to provide styling for the `<mark>` tags which bracket the matched substrings in the response html.
 
 In this manner the `data-hilight-color`  is used as a local cache for the Hyperscript.
 
@@ -292,7 +295,7 @@ const {
 			buttonStyles={tw.optionsMenu} 
 			moveXY="-12,10" >
 			  {/* Down Caret icon */}
-			<svg slot="rightIcon" class={tw.icon}  fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+				<svg slot="rightIcon" class={tw.icon}  fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
 					<path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6z"/>
 				</svg>
 				{/* Search Criteria options */}
@@ -304,13 +307,12 @@ const {
 				<li class={tw.menuItem} script={hs.menuItem}>Ends With</li>
 		</ClickDropdownMenuA>
 		{/* Hidden inputs ... values are transmitted to backend via hx-include 
-		 Do Not Reorder These <input/> b/c the backend is referencing the values from an element array by index>*/}
+		 Do Not Reorder These <input/> b/c the backend is referencing the values from an element array by index */}
 		<input type="hidden" id="speech-index" name="speech-index" value=""/>
 		<input type="hidden" id="search-options" name="search-options" value="Contains"/>
 		<input type="hidden" id="hilight-color" name="hilight-color" value=`${defaultBackgroundColors}`/>
 		{/* Search String Input field */}
-		<input id=`${id}` name="search"
-			type="search"
+		<input id=`${id}` name="search" type="search"
 			class={tw.input}
 			placeholder={placeholder}
 			hx-post=`${searchPath}`
@@ -387,10 +389,9 @@ const {
 		'bg-slate-200 dark:bg-slate-800 '+ 
 		'placeholder-blue-800/30 dark:placeholder-cyan-600/50',
 	icon:'inline-block size-6',
-	leftIcon: '',
 	rightIcon:'w-12 h-12 px-2 ' + defaultTextColors,
 	optionsMenu: 'p-0 mx-2 mt-1 cursor-pointer focus:ring-0 ' + 
-		'font-extrabold ' + defaultTextColors + " " +
+		'font-extrabold ' + defaultTextColors + ' ' +
 		'bg-transparent hover:bg-transparent ' +
 		'hover:text-slate-950 dark:hover:text-yellow-600',
   menuItem: 'px-4 hover:text-purple-600 hover:dark:text-sky-800 ' +
@@ -435,7 +436,6 @@ const tw = {
 			'bg-slate-200 dark:bg-slate-800 '+ 
 			'placeholder-blue-800/30 dark:placeholder-cyan-600/50',
 		icon:'inline-block size-6',
-		leftIcon: '',
 		rightIcon:'w-12 h-12 px-2 ' + defaultTextColors,
 		optionsMenu: 'p-0 mx-2 mt-1 cursor-pointer focus:ring-0 ' + 
 			'font-extrabold ' + defaultTextColors + " " +
@@ -542,7 +542,7 @@ const hs = {
 
 All routing in Astro is file-based, including backend API routes.  
 
-Here is the folder/file structure used for this mini-project.  
+Here is the folder/file structure used for the example mini-project.  
 
 import { FileTree } from '@astrojs/starlight/components';
 
@@ -564,21 +564,21 @@ The Tab panel below is displays the entire source code for each backend route.
 
 ##### famousSpeaches.json
 
-The `famousSpeeches.json` file contains the raw data for each Speech.  There is too much text to show all the data here so just one sample Speech object is included below to illustrate the shape of the data.  All other Famous Speech entries use the same object structure.
+The `famousSpeeches.json` file contains the raw data for each Speech.  There is too much text to show all the data here so just one sample Speech object is included to illustrate the shape of the data.  All other Famous Speech entries use the same object structure.
 
-In a real world application, the data  will likely be stored in a database.   If you use this hyperComponent in your proejct, you will need to adjust the data source and provide the appropriate async lookup functions in the next three API files.
+In a real world application, the data  will likely be stored in a database.   If you use this hyperComponent in your project, you will need to adjust the data source and provide the appropriate async lookup functions in the next three API files.
 
 ##### [id].js
 
-The `[id].js` route decodes the index of the speech from `params.id` value of the [Context](https://docs.astro.build/en/reference/api-reference/#endpoint-context) object sent as an argument to the GET function by Astro.   Also the `transcript=true` field is decoded from  the `url.searchParams`.  Using this information, the raw text of an individual speech is pulled from the appropriate array index in the `famousSpeeches.json` file.  
+The `[id].js` route decodes the index of the speech from `params.id` value of the [Context](https://docs.astro.build/en/reference/api-reference/#endpoint-context) object provided by [Astro](https://astro.build) as an argument to the GET function by Astro.   Also the `transcript=true` field is decoded from  the `url.searchParams`.  Using this information, the raw text of an individual speech is pulled from the appropriate array index in the `famousSpeeches.json` file.  
 
 The Response object then returns an html fragment containing the entire speech transcript with `<p>` tags swapped for line breaks.
 
 ##### index.js
 
-A list of speeches is loaded into the `<table>` of the example project  using the `index.js` route.  The raw data is looped using a `.map()` function returning a single `<tr>` for each Speech containing the speakers name, title of the speech, and the date.   
+A list of speeches is loaded into a `<table>` using the `index.js` route.  The raw data is looped using a `.map()` function returning a single `<tr>` for each Speech containing the speakers name, title of the speech, and the date.   
 
-Notice that a Hyperscript is also added to each `<tr>` so that a click on the row loads the transcript of the speech into a target `<div>`.
+Notice that a Hyperscript is also added to each `<tr>` so that a click on the row loads the individual itranscript into a target `<div>`.
 
 ##### match.js
 
@@ -590,19 +590,21 @@ search=xyz&speech-index=15&search-criteria=Contains&hilight-color=bg-yellow-200
 
 In Astro you get access to the data  by calling the `.text()` function  on the request property of the [Context](https://docs.astro.build/en/reference/api-reference/#endpoint-context) object.
 
-This yields a URL encoded string containing `&` delimited key-value pairs which are then split and processed into local variables. 
+This yields a URL encoded string containing `&` delimited key-value pairs which the code splits apart 'and stores into local variables. 
 
 The `search` field of the request contains the substring which the user wishes to test against the speech transcript.
 
 The `speech-index` field contains the array index for the data in `famousSpeeches.json`
 
-The `search-criteria` field contains a filter to be applied to the regular expression, such as 'Whole Word' or 'Case Sensitive', etc.  The value of this field is set by the user choosing  an option from the dropdown at the left of the search `<input>`.
+The `search-criteria` field contains a filter to be applied to the regular expression, such as 'Whole Word' or 'Case Sensitive', etc.  The value of this field is set when  the user chooses  an option from the dropdown at the left of the search `<input>`.
 
-The `hilight-color` is  transmitted to the backend from a value cached in the `data-hilight-color` attribute of  the `div#search-container` and specifies a background color for all the `<mark>` tags in the final response.
+The `hilight-color` is  transmitted to the backend from a value cached in the `data-hilight-color` attribute of  the `div#search-container` and specifies a Tailwind background color used by all the `<mark>` tags in the final response.
 
-The remaining code in `match.js` uses a regular expression to match substrings in the speech transcript and then bracket each match with `<mark>` tags containing the specfied Tailwind bg-color* class in the `highlight-color` field.
+The remaining code in `match.js` uses a regular expression to match substrings in the speech transcript and then bracket each match with `<mark>` tags containing the specfied Tailwind bg-color* class.
 
-The resulting html markup is returned to the caller via the Response object where the `hx-swap` attribute is set to replace the `innerHTML` of the speech transcript `<div>`.
+The resulting html markup is returned to the caller via the Response object where the `hx-swap` attribute is configured to replace the `innerHTML` of the speech transcript `<div>`.
+
+Examine the code in each Tab below to review all the backend functionality used in the mini-example project.
 
 ### Code
 import {Tabs, TabItem } from '@astrojs/starlight/components'
@@ -613,38 +615,37 @@ import {Tabs, TabItem } from '@astrojs/starlight/components'
 	import famousSpeeches from '../../../data/famousSpeeches.json?json'
 
 export const tw = {
-	p: 'pb-6 text-md lg:text-lg text-gray-800 dark:text-neutral-100 '
+		p: 'pb-6 text-md lg:text-lg text-gray-800 dark:text-neutral-100 '
 }
 
 const speechInfo = (speech) => {
- return  speech.title + ' by ' + speech.speaker + ' on ' + speech.date
+		return  speech.title + ' by ' + speech.speaker + ' on ' + speech.date
 }
 
 export function swapLineEndings(text) {
 	//add a beginning and ending <p> tag
-	let markup = `<p class="${tw.p}">` + text + '</p>'
-	//then replace all \\n with <p> tags with appropriate styling
-	markup = markup.replace(/\\n/g, `</p><p class="${tw.p}">`);
-	return markup;
+		let markup = `<p class="${tw.p}">` + text + '</p>'
+		//then replace all \\n with <p> tags with appropriate styling
+		markup = markup.replace(/\\n/g, `</p><p class="${tw.p}">`);
+		return markup;
 }
 
 //GET
 export async function GET({ params, url }) {
-	const speechID = parseInt(params.id)
-	const speech = famousSpeeches[speechID]
-	if (!speech) {
-	    return new Response ('Speech not found')
-	}
-	//What is being requested?
-	const searchParams = url.searchParams;
-	const transcriptOnly = searchParams.get('transcript') === 'true';
-	if (transcriptOnly) {
-		return new Response(swapLineEndings(speech.transcript), {status: 200})
-	}
-	else {
-		return new Response (speechInfo(speech), {status: 200})
-	}
-
+		const speechID = parseInt(params.id)
+		const speech = famousSpeeches[speechID]
+		if (!speech) {
+				return new Response ('Speech not found')
+		}
+		//What is being requested?
+		const searchParams = url.searchParams;
+		const transcriptOnly = searchParams.get('transcript') === 'true';
+		if (transcriptOnly) {
+			return new Response(swapLineEndings(speech.transcript), {status: 200})
+		}
+		else {
+			return new Response (speechInfo(speech), {status: 200})
+		}
 }
 
 	```
@@ -657,10 +658,10 @@ import famousSpeeches from '../../../data/famousSpeeches.json?json'
 
 export const tw = {
 	tr: 'cursor-pointer font-semibold ' + 
-	'even:hover:bg-amber-300/50 odd:hover:bg-amber-400/30 ' + 
-	'even:hover:text-blue-800 odd:hover:text-blue-800 ' +
-	'even:hover:dark:bg-indigo-950/60 odd:hover:dark:bg-indigo-950 ' + 
-	'even:hover:dark:text-amber-400 odd:hover:dark:text-amber-400',
+		'even:hover:bg-amber-300/50 odd:hover:bg-amber-400/30 ' + 
+		'even:hover:text-blue-800 odd:hover:text-blue-800 ' +
+		'even:hover:dark:bg-indigo-950/60 odd:hover:dark:bg-indigo-950 ' + 
+		'even:hover:dark:text-amber-400 odd:hover:dark:text-amber-400',
 	rowHilight: 'text-orange-500'
 }
 
@@ -683,7 +684,6 @@ const getSpeechData = () => {
 					go to the  #{'searchbox'} smoothly then settle then 
 					call #{'searchbox'}.focus()
 				end
-
 				"
 		>	
 		<td>${speech.speaker}</td>
@@ -710,75 +710,75 @@ export const GET = async ({params, request}) => {
 	<TabItem label='match.js'>
 	```js
 	import famousSpeeches from '../../../data/famousSpeeches.json?json'
-import {swapLineEndings, tw as baseStyles} from './[id]'
+import {swapLineEndings, tw as baseStyles} from './[id].js'
 import {defaultBackgroundColors} from '../../../components/search/searchbox.astro'
 
 let hilightColor = defaultBackgroundColors
 
 const tw = {
-	...baseStyles,
+		...baseStyles,
 }
 
 function markupSpeech(speech, searchString, searchCriteria) {
-	if (searchString === '') {
-		return swapLineEndings(speech.transcript)
-	}
-   
-	let regex = '\\b' + searchString + '\\w*\\b'
-	let modifiers = 'g'
+		if (searchString === '') {
+			return swapLineEndings(speech.transcript)
+		}
+		
+		let regex = '\\b' + searchString + '\\w*\\b'
+		let modifiers = 'g'
 
-	switch (searchCriteria) {
-		case 'case-sensitive' :
-			modifiers = 'g'	
-			break
-		case 'case-insensitive' :
-			modifiers = 'gi'
-			break
-		case 'whole-word' :
-			regex = '\\b' + searchString + '\\b'
-			break
-		case 'begins-with' :
-			regex = '\\b' + searchString + '\\w*\\b'
-			break
-		case 'ends-with' :
-			regex = '\\b\\w*' + searchString + '\\b'
-			break
-		case 'contains':
-			regex = searchString
-			break
-	}
+		switch (searchCriteria) {
+			case 'case-sensitive' :
+				modifiers = 'g'	
+				break
+			case 'case-insensitive' :
+				modifiers = 'gi'
+				break
+			case 'whole-word' :
+				regex = '\\b' + searchString + '\\b'
+				break
+			case 'begins-with' :
+				regex = '\\b' + searchString + '\\w*\\b'
+				break
+			case 'ends-with' :
+				regex = '\\b\\w*' + searchString + '\\b'
+				break
+			case 'contains':
+				regex = searchString
+				break
+		}
 
-	/* Use regex to find matches which are then wrapped with <mark> tags including
-     a Tailwind class for the hilight color 		*/
-	const searchRegex = new RegExp(regex, modifiers)
-  let markup = speech.transcript
-	markup = markup.replace(searchRegex, `<mark class="${hilightColor}">$&</mark>`);
-	markup = swapLineEndings(markup)
-	return markup
+		/* Use regex to find matches which are then wrapped with <mark> tags including
+			a Tailwind class for the hilight color 		*/
+		const searchRegex = new RegExp(regex, modifiers)
+		let markup = speech.transcript
+		markup = markup.replace(searchRegex, `<mark class="${hilightColor}">$&</mark>`);
+		markup = swapLineEndings(markup)
+		return markup
 }
 
 export const POST = async ({request}) => {
-    // Extract data from the request.text()
-		//data = data search=xyz&speech-index=15&search-criteria=Contains&hilight-color=bg-yellow-200
-    const data = await request.text()
-		// console.log(`data`, data)
-		const searchString = decodeURIComponent(data.split('&')[0].split('=')[1])
-		const speechId = parseInt(data.split('&')[1].split('=')[1])
-		const searchCriteria = decodeURIComponent(data.split('&')[2].split('=')[1])
-			.toLowerCase()
-			.replace(' ', '-')
-		hilightColor = data.split('&')[3].split('=')[1]
-		// console.log(`searchString`, searchString)
-		// console.log(`searchCriteria`, searchCriteria)
-		// console.log(`hilightColor`, hilightColor)
+			// Extract data from the request.text()
+			//data = data search=xyz&speech-index=15&search-criteria=Contains&hilight-color=bg-yellow-200
+			const data = await request.text()
+			// console.log(`data`, data)
+			const searchString = decodeURIComponent(data.split('&')[0].split('=')[1])
+			const speechId = parseInt(data.split('&')[1].split('=')[1])
+			const searchCriteria = decodeURIComponent(data.split('&')[2].split('=')[1])
+				.toLowerCase()
+				.replace(' ', '-')
+			hilightColor = data.split('&')[3].split('=')[1]
+			// console.log(`searchString`, searchString)
+			// console.log(`searchCriteria`, searchCriteria)
+			// console.log(`hilightColor`, hilightColor)
 
-		//now get the transcript
-		const speech = famousSpeeches[speechId]
-		if (!speech) {
-				return new Response ('Speech not found')
-		}
-  
-	return new Response(markupSpeech(speech, searchString, searchCriteria), {status: 200});
+			//now get the transcript
+			const speech = famousSpeeches[speechId]
+			if (!speech) {
+					return new Response ('Speech not found')
+			}
+		
+		return new Response(markupSpeech(speech, searchString, searchCriteria), {status: 200});
 }
 
 

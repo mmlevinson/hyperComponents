@@ -1,5 +1,5 @@
 import famousSpeeches from '../../../data/famousSpeeches.json?json'
-import {swapLineEndings, tw as baseStyles} from './[id]'
+import {swapLineEndings, tw as baseStyles} from './[id].js'
 import {defaultBackgroundColors} from '../../../components/search/searchbox.astro'
 
 let hilightColor = defaultBackgroundColors
@@ -9,41 +9,41 @@ const tw = {
 }
 
 function markupSpeech(speech, searchString, searchCriteria) {
-	if (searchString === '') {
-		return swapLineEndings(speech.transcript)
-	}
-   
-	let regex = '\\b' + searchString + '\\w*\\b'
-	let modifiers = 'g'
+		if (searchString === '') {
+			return swapLineEndings(speech.transcript)
+		}
+		
+		let regex = '\\b' + searchString + '\\w*\\b'
+		let modifiers = 'g'
 
-	switch (searchCriteria) {
-		case 'case-sensitive' :
-			modifiers = 'g'	
-			break
-		case 'case-insensitive' :
-			modifiers = 'gi'
-			break
-		case 'whole-word' :
-			regex = '\\b' + searchString + '\\b'
-			break
-		case 'begins-with' :
-			regex = '\\b' + searchString + '\\w*\\b'
-			break
-		case 'ends-with' :
-			regex = '\\b\\w*' + searchString + '\\b'
-			break
-		case 'contains':
-			regex = searchString
-			break
-	}
+		switch (searchCriteria) {
+			case 'case-sensitive' :
+				modifiers = 'g'	
+				break
+			case 'case-insensitive' :
+				modifiers = 'gi'
+				break
+			case 'whole-word' :
+				regex = '\\b' + searchString + '\\b'
+				break
+			case 'begins-with' :
+				regex = '\\b' + searchString + '\\w*\\b'
+				break
+			case 'ends-with' :
+				regex = '\\b\\w*' + searchString + '\\b'
+				break
+			case 'contains':
+				regex = searchString
+				break
+		}
 
-	/* Use regex to find matches which are then wrapped with <mark> tags including
-     a Tailwind class for the hilight color 		*/
-	const searchRegex = new RegExp(regex, modifiers)
-  let markup = speech.transcript
-	markup = markup.replace(searchRegex, `<mark class="${hilightColor}">$&</mark>`);
-	markup = swapLineEndings(markup)
-	return markup
+		/* Use regex to find matches which are then wrapped with <mark> tags including
+			a Tailwind class for the hilight color 		*/
+		const searchRegex = new RegExp(regex, modifiers)
+		let markup = speech.transcript
+		markup = markup.replace(searchRegex, `<mark class="${hilightColor}">$&</mark>`);
+		markup = swapLineEndings(markup)
+		return markup
 }
 
 export const POST = async ({request}) => {
