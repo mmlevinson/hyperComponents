@@ -9,26 +9,26 @@ tableOfContents:
 {/* Introduction */}
 ## Example
 
-This hypcomponent is a prototype for [hypermedia exchange](https://htmx.org/essays/hypermedia-apis-vs-data-apis/) because it illustrates a front-end coupled to backend routes that respond to XHR requests by returning only hypertext.
+This hypcomponent is a prototype for [hypermedia exchange](https://htmx.org/essays/hypermedia-apis-vs-data-apis/) because it illustrates a front-end coupled to backend routes that respond by returning only hypertext.
 
-An active search `<input>` is shown  which is based on the [Active Search example from the htmx documentation](http://htmx.org/examples/active-search/).   However, this hyperComponent expands on that example by providing live hilighting of matched substrings.  In addition, the hilight color can be selected from a dropdown menu containing the full Tailwind color pallet.  Clicking a color from the pallet changes the highlight color.    Another dropdown menu provides options for changing the match criteria. 
+An active search `<input>` is utilized which is based on the [Active Search example from the htmx documentation](http://htmx.org/examples/active-search/).   However, this hyperComponent expands on that example by providing **live hilighting of matched substrings**.  In addition, the hilight color can be selected from a dropdown menu displaying the entire Tailwind color pallet.  Clicking a color swatch in the pallet changes the highlight color.    Another dropdown menu provides options for changing the match criteria. 
 
 All functionality is powered by [htmx](https://htmx.org) and [Hypersript](https://hyperscript.org).  There are no JavaScript imports or `<script>` tags anywhere in this component. 
 
- A mini-project is included below to illustrate how this hyperComponent works.   The example project displays a table of famous speeches in the English language.  Clicking any table row loads the full speech transcript and then switches focus to the Search `<input>`.   Any substring entered into the  Search `<input>` is then matched against the full transcript using regular expressions.  
+ A [mini-project](/#mini-project-coe) is included below to illustrate how this hyperComponent works.   The project presents a table of famous English language speeches.  Clicking any table row loads the full speech transcript and then switches focus to the search `<input>` where any substring entered by the user is matched against the full transcript using Regular Expressions.  
  
- Successful matches are  surrounded with `<mark`> tags styled with the user's choice of Tailwind bg-color-*. The server returns the full speech transcript as html annotated with `<mark>` elements.  The user's  experience is analagous to using a felt tipped highlight marker on a printed document.
+ Successful matches are  surrounded with `<mark`> tags styled with the user's choice of Tailwind bg-color-* utility class. The server then returns the entire transcript as html annotated with `<mark>` elements.  The user's  experience is analagous to using a felt tipped highlight marker on a printed document.
 
-Take a tour of the example project by clicking on a famous speech.  Click  the Reset button (or select another speech) to start over.
+Take a tour of the example project below by clicking on a famous speech.  Click  the Reset button (or select another speech) to start over.
 
 The subsequent discussions go into great detail about all the source code used to create this hyperComponent.
 
-The [full source code for the mini-project](#mini-project-code) can be found [here](/#mini-project-code which shows how every component is used and how each [backend route](#api-routes) is accessed.
+The [full source code for the mini-project](#mini-project-code) can be found [here](/#mini-project-code) which shows how every component is used and how each [backend route](#api-routes) is accessed.
 
 import {tw as rowStyles} from '../../../../pages/api/speeches'
 		 
 export const tw = {
-		exampleContainer: 'not-content',
+		exampleContainer: 'not-content relative top-8',
 		exampleTitle: 'text-center bg-gray-300 dark:bg-sky-900 text-gray-300 dark:text-zinc-200 font-semibold py-2 mb-4 rounded-t-xl',
 		icon:'inline-block size-6',
 		image: 'inline-block max-h-6',
@@ -157,39 +157,41 @@ export const hs = {
 	{/* General Description */}
 	{/* Example  Code block showing the  control in action. */}
 
-[Hypermedia exchanges](https://htmx.org/essays/hypermedia-apis-vs-data-apis/) require that the backend return formatted, finished html.  Thus the developer must have control over the server's response.   The [Astro](https://astro.build) build tool is perfect for this because it is easy to create [custom API endpoints](https://docs.astro.build/en/guides/endpoints/).   In Astro, all that is needed is to place a .js file into the Pages folder.  In that file, you must export a GET, POST, PATCH or DELETE function and then Astro will build the correct route and respond to those AJAX requests.
+[Hypermedia exchanges](https://htmx.org/essays/hypermedia-apis-vs-data-apis/) require that the backend return formatted, finished html.  Thus the developer must have control over the server's response.   The [Astro](https://astro.build) build tool is perfect for this because it is easy to create [custom API endpoints](https://docs.astro.build/en/guides/endpoints/).   All that is needed is to place a `.js` file into the `pages` folder.  In that file, you must export a GET, POST, PATCH or DELETE function and then Astro will build the correct route and respond to those AJAX requests.
 
-The GET and POST requests in this example use data stored on disc (in JSON files), but does not return the raw data.  Instead, the data is used by the server  to format finished html fragments which are returned in the Response object.   HTMX attributes  specify how and where the returned markup is inserted into the DOM.  
+The GET and POST requests in this example access data stored on disc (in a JSON file), but does not return the raw data.  Instead, the data is used by the server  to format finished html fragments which are returned in the response.   HTMX attributes are used to generate these requests and also to specify how and where the returned markup is inserted into the DOM.  
 
 Read through all the example code below to see how this was accomplished.
 
 
 ## Features
 
-This Active Search with highlight hyperComponent will:
+This Highlight Active Search hyperComponent includes:
 
-1.  Use Tailwind bg-color-* classes picked from a dropdown color pallet
-2.  Match substrings entered into the `<input>` against a block of raw text
-3.  Return html markup with `<mark>` tags surrounding any matched substring
-4.  Allow optional restricted matching (case sensitive, whole word, or others)
-5.  User selectable hilight color
-6.  Smooth scrolling to the transcript and back to the search input
-7.  Results are updated with keystrokes, pasteing text into the `<input`>, clearing the field, etc.
-8.  Search `<input>` and dropdown menus are fully customizable using Tailwind utility classes
+
+1. A `searchPath` prop which accepts a path to a backend search route and is used to configure the `hx-post` attribute of the `<input>` element
+2. A  `target` prop which accepts a CSS selector that is used to update the 	`hx-target` attribute.   The `target` prop identifies the DOM element which will updated with the returned hypertext.
+3. A `swapStrategy` prop which is used to update the `hx-swap` attribute thereby determining how htmx will update the target element.
+4. An `hx-include=<input/>` attribute which signals htmx to bundle the values stored in all hidden inputs with the request in order to transmit them to the backend along with the request.
+5. Hyperscript code updates the hidden fields with values needed for the backend.
+6.  Search requests are  initiated by multiple events, including  keystrokes, pasting text into the `<input`>, clearing the field, etc.
+7. A dropdown menu from which the user can select a filter for the matching algorithm (case sensitive, whole word, or others), 
+9. Scroll smoothing back and forth between the target and the search input
+9. Search-criteria options in the dropdown can be customized. 
+10.  Stylings of the `<input>` and dropdown menus are fully customizable using Tailwind utility classe.s
+11. A 'rightIcon' slot which displays magnifying glass icon by default but which can accept another dropdown menu or other content to be displayed at the right border of the search container.
 		 
 ## Searchbox Component
 
 There is a single main component which provides the GUI for active searching and highlighting. 
 
-The code for the Searchbox.astro component is shown below.   In order for this component to function, backend code which responds to the htmx issued requests must also be provided, as presented in the next section. 
+The [code](#code) for the `Searchbox.astro` component is shown below.   In order for this component to function as intended backend code the developer must also provide backend coded to process the request and turn html as discussed in the [API Routes](#api-routes) section below. 
 
-Also, the Searchbox component must point to a block of text in which to search for matches.
+Dropdown menus within the Searchbox control are implemented using the [ClickDropdownMenu_A](/components/menus/click_a/) component.   A search-options dropdown is appears to the left of the `<input/>` indicated by a down-caret icon.  Multiple `<li>` elements are passed into the default slot of this [ClickDropdownMenu_A](/components/menus/click_a/) which provide the options for modifying the RegEx match criteria used by the backend.    To tell the backend of the user's selection, the textContent of the selected `<li>` is stored in a hidden field.  
 
-Dropdown menus within the Searchbox control are provided by using the [ClickDropdownMenu_A](/components/menus/click_a/) component.   The SearchOptions dropdown is indicated by a down-caret icon to the left of the search `<input>`.  Multiple `<li>` elements are passed into the default slot which constitute the options for modifying the RegEx match criteria used by the backend.    To provide the user's selection, a Hyperscript stores the textContent of the `<li>` into a hidden field.   HTMX includes this field in the request where the backend recieves and decodes the search options.
+Another [ClickDropdownMenu_A](/components/menus/click_a/) instance is used to present a pallet of Tailwind colors allowing the user to change the color of the highlighted matched substrings.   A [PalletGrid](/components/menus/examples/pallet/#palletgrid) component is passed to the default slot of this [ClickDropdownMenu_A](/components/menus/click_a/) to display the grid of swatches.   A Hyperscript is used to store the user's selection into the pallet's 'bgColor' attribute and also update another  hidden `<input>` so the highlit color can be transported to the backend with each request.
 
-Another [ClickDropdownMenu_A](/components/menus/click_a/) instance is used to present a pallet of colors allowing the user to change the color of the highlighted matched substrings in the response.   A [PalletGrid](/components/menus/examples/pallet/#palletgrid) component is passed to the default slot of the [ClickDropdownMenu_A](/components/menus/click_a/).  This displays a grid of default Tailwind color variants and shades. A hyperscript is used to store the user's selection into the 'bgColor' attribute but also into another hidden `<input>` so the value can be transported to the backend when needed.
 
-Examining the `html` tab below will reveal these hidden `<input>`s used to pass values to the backend in order to configure the response.
 
 ### Props
 
