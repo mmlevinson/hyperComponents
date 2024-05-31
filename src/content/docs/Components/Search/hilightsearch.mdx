@@ -9,7 +9,7 @@ tableOfContents:
 {/* Introduction */}
 ## Example
 
-This hypcomponent is a prototype for [hypermedia exchange](https://htmx.org/essays/hypermedia-apis-vs-data-apis/) because it illustrates a front-end coupled to backend routes that respond by returning only hypertext.
+This hyperComponent is a prototype for [hypermedia exchange](https://htmx.org/essays/hypermedia-apis-vs-data-apis/) because it illustrates a front-end coupled to backend routes that respond by returning only hypertext.
 
 An active search `<input>` is utilized which is based on the [Active Search example from the htmx documentation](http://htmx.org/examples/active-search/).   However, this hyperComponent expands on that example by providing **live hilighting of matched substrings**.  In addition, the hilight color can be selected from a dropdown menu displaying the entire Tailwind color pallet.  Clicking a color swatch in the pallet changes the highlight color.    Another dropdown menu provides options for changing the match criteria. 
 
@@ -29,7 +29,9 @@ The [full source code for the mini-project](#mini-project-code) can be found [he
 		 
 export const tw = {
 		exampleContainer: 'not-content relative top-8',
-		exampleTitle: 'text-center bg-gray-300 dark:bg-sky-900 text-gray-300 dark:text-zinc-200 font-semibold py-2 mb-4 rounded-t-xl',
+		exampleTitle: 'py-2 mb-4 rounded-t-xl ' + 
+			'text-center font-semibold text-blue-900 dark:text-zinc-200  ' + 
+			'bg-gray-300 dark:bg-sky-900 ',
 		icon:'inline-block size-6',
 		image: 'inline-block max-h-6',
 		p: 'pb-3'	,

@@ -16,7 +16,7 @@ An exciting alternative is the implementation of hypermedia transfer as the engi
 
 ### What is HyperMedia
 
-Sending **html markup** from an API endpoint instead of raw data is more natural and vastly more efficient since reduced browser resources are required on the client side.  Afterall, a browsers entire purpose (for which it is highly optimized) is to render html markup directly to the screen.   APIs which return finished html markup circumvents the need for complex JS instructions which the browser then needs to implement in order to render/update DOM elements.  
+Sending **html markup** from an API endpoint instead of raw data is more natural and vastly more efficient since reduced browser resources are required on the client side.  Afterall, the entire purpose for a web browser (which it is highly optimized) is to render html markup directly to the screen.   APIs which return finished html markup circumvents the need for complex JS instructions which the browser then needs to implement in order to render/update DOM elements.  
 
 [Hypermedia](https://htmx.org/essays/hypermedia-apis-vs-data-apis/) (instead of data) as an API endpoint has the advantages of:
 
@@ -27,7 +27,7 @@ Sending **html markup** from an API endpoint instead of raw data is more natural
 5.  Full support for modern browser side APIs for enhanced UX such as View Transitions, Intersection API, etc.
 
 
- Serving html as a response to an XHR request is not a new concept.  In fact, it dates to the origins of the REST API concept outlined by Roy Fielding in his PhD dissertation but rarely followed in modern web development.   So the resurgence of hypermedia as a response to a server request is truely **'Back to the Future'**.    The subject is too broad to cover here, so please review the [essays on hypermedia](https://htmx.org/essays/) on the [htmx web site](https://htmx.org/) and download/purchase the [Hypermedia Systems](https://hypermedia.systems/) book for a comprehensive review.
+ Serving html as a response to an XHR request is not a new concept.  In fact, it dates to the origins of the [REST API](https://en.wikipedia.org/wiki/REST) concept outlined by [Roy Fielding](https://en.wikipedia.org/wiki/Roy_Fielding) in his PhD dissertation but rarely followed in modern web development.   So the resurgence of hypermedia as a response to a server request is truely **'Back to the Future'**.    The subject is too broad to cover here, so please review the [essays on hypermedia](https://htmx.org/essays/) on the [htmx web site](https://htmx.org/) and download/purchase the [Hypermedia Systems](https://hypermedia.systems/) book for a comprehensive review.
 
 
 ### What are hyperComponents
@@ -40,4 +40,4 @@ hyperComponents are built with [Astro](https://astro.build/docs) because this to
 
 hyperComponents is an experimental project to leverage the power and utility of hypermedia to create usable and stylistically attractive standard Web interface components that can be easily incorporated in any code project.   
 
-A principle goal is to be instructive and educational with the included code examples in order to further the concepts of hypermedia in general.
+A principle goal is to provide concrete code examples that are instructive and educational in order to further the concepts of hypermedia and their implementation in real world projects.

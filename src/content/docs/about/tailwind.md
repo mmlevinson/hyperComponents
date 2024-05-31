@@ -42,7 +42,7 @@ The official Tailwind docs recommend  using your IDE's muli-line cursor to make 
 
 There are `code folding` IDE extensions which temporarily obscure long class lists. However you have to toggle this function on and off every time you want to perform minor maintenance on the list of classes.  And when un-folded, the list still splays off the right page margin forcing repeated horizontal scrolling to maintain the code.
 
-There are extensions which sort Tailwind class lists based on an opinionated filter. This may not be a strategy you like because class names suddenly move around and sometimes in an unexpected pattern.  When you stop typing, the class name you just entered 'disappears' and you have to scroll back and for horizontally until you find where the filter put it.
+There are extensions which sort Tailwind class lists based on an opinionated filter. This may not be a strategy you like because class names suddenly move around and sometimes in an unexpected pattern.  When you stop typing, the class name you just entered 'disappears' and you have to scroll back and forth horizontally until you find where the filter dropped it.
 
 In this author's experience the advantages of responsive design with Tailwind are offset by difficult code maintenance and upkeep of the expansive class lists associated with each DOM element you are attempting to style.  This problem is further magnified by the fact that many of your elements are repetitive (such as list and table rows) which means making a minor change in one element **requires that you conscientiously update every other sibling or you will break your styles**.
 
@@ -50,7 +50,7 @@ In this author's experience the advantages of responsive design with Tailwind ar
 
 ### Extracting your Tailwind styles into a local constant
 
-The solution I have migrated to is to extract these long, verbose class lists into a local `tw` constant in the Astro [Component Script](https://docs.astro.build/en/basics/astro-components/#the-component-script) and then reference the properties of that constant into the HTML markup just as you would with any other local constant.
+The solution I have migrated to is to extract these long, verbose class lists into a local `tw` constant in the Astro [Component Script](https://docs.astro.build/en/basics/astro-components/#the-component-script) and then reference the properties of that constant in the HTML markup just as you would with any other local constant.
 
 Here is the same example as above but using this alternative approach. 
 
@@ -84,7 +84,7 @@ export const tw = {
 Hopefully you noticed that...
 
 
-1. Now can  **create multi line strings** in your `tw` properties which allows reorganization of long class lists according to your own preferences. Multi-line strings do not scroll off the page edge so are much easier to scan read. Eye fatigue from scrolling horizontally and scanning long strings is relieved.  Plus, you are not tied to the organizational opinions provided by any extension author and can rely on your own organizational preferencese. Also you can re-organize the class lists by just moving lines  up or down. You are encouraged to gather classes with similar functionality onto the same line so you would naturally look for them in the same place each time. 
+1. Now can  **create multi line strings** in your `tw` properties which allows reorganization of long class lists according to your own preferences. Multi-line strings do not scroll off the page edge so are much easier to scan read. Eye fatigue from scrolling horizontally and scanning long strings is relieved.  Plus, you are not tied to the organizational opinions provided by any extension author and can rely on your own organizational preferences. Also you can re-organize the class lists by just moving lines  up or down. You are encouraged to gather classes with similar functionality onto the same line so you would naturally look for them in the same place each time. 
 
 2. This strategy allows you to apply the same classes to every element of a repeating group without polluting your markup. Now it is a breeze to make a minor modification which is then applied equally to all elements referencing the same `tw` property. This greatly simplifies code maintenance and reduces errors.
  
@@ -103,7 +103,7 @@ Hopefully you noticed that...
 
 *There is considerable controversy about this technique.* However developing hyperComponents which heavily relies on long strings of Tailwind classes became a more manageable task by extracting the class list into a local Astro `tw` constant.   
 
-One potential problem with this strategy is losing code completion and Intellisense for Tailwind which VSCode triggers when edits are made to an elements 'class' attribute.   However, this can be restored by opening VSCode Settings and searching for `TailwindCSS: Class Attributes`. Click the `Add Item` button and include the string value `tw`.    Now when you modify properties of the `tw` constant, you should be offered Tailwind code completion suggestions and Intellisense.
+One potential problem with this strategy is losing code completion and Intellisense for Tailwind which VSCode triggers when edits are made to an element's `class` attribute.   However, this can be restored by opening VSCode Settings and searching for `TailwindCSS: Class Attributes`. Click the `Add Item` button and include the string value `tw`.    Now when you edit the properties of the `tw` constant, you should be offered Tailwind code completion suggestions and Intellisense.
 
 Before you walk away and try to refactor all the example code in this library, you may give this strategy a try and see if you might end up liking it.
 
@@ -111,7 +111,7 @@ Before you walk away and try to refactor all the example code in this library, y
 
 Concatenation of multi-line strings introduces a subtle mis-step that is easy to fall into. 
 
-Tailwind class lists are space-separated values.   So, don't forget to include a space at the end of each line in your multiline construct.  If you leave it out, concatenation merges two adjacent class names together and breaking your style code.  
+Tailwind class lists are space-separated values.   So, don't forget to **include a space at the end of each line in your multiline construct**.  If you leave it out, concatenation merges two adjacent class names together which breaks your style code and expect this new value to override the previous. 
 
  You will see this in the browser DevTools when inspecting your class list. For example, you might find `text-green-300font-bold` or something analogous.   The missing space char will break your Tailwind list, so watch for this if you are using multi-line strings with string concatenation.
 
@@ -122,7 +122,7 @@ Of course you can use back-tick delimited strings instead, but then all white-sp
 
 If you combine mulitple Tailwind classes that affect the same CSS property, the outcome is not always what you expect.  For example, if you want to change a background color from red to green, you might be tempted to just add `bg-green-500` to your class list.  
 
-However, what you will  notice is the background of this element is still red.  What happened to the `bg-green-500` class?  Well, Tailwind does not automatically tree-shake any overriding classes.  What you think must happen does not happen by default, leading to unexpected results.  
+However, what you will  notice is the background of this element is still red.  What happened to the `bg-green-500` class?  Well, Tailwind does not automatically tree-shake any overriding classes.  What you think should happen does not happen by default, leading to unexpected results.  
 
 This problem becomes manifest when you begin adding more and more styling to an element, such as hover:, dark:, focus: etc creating a long, run-on string with many classes and you gradually loose awareness that one Tailwind class is stepping on another.
 

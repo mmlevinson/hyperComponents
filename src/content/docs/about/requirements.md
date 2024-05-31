@@ -14,28 +14,25 @@ hyperComponents in this project were created using the [Astro](https://astro.bui
 
 These advantages make Astro an excellent choice for building hypermedia applications and controls.
 
-To utilize hyperComponents by simple copy/paste, you will need build your project with [Astro](https://astro.build/docs) to conform with their component architecture.  Otherwise, the code snippets simply provide examples which you will need to adapt to your favorite Web component build system.
+To utilize hyperComponents by simple copy/paste, you will need build your project with [Astro](https://astro.build/docs) to conform with their component architecture.  Otherwise, the code snippets in this library simply provide examples which you will need to adapt to your favorite Web component build system.
 
 To install Astro, please visit the [Astro.build](https://astro.build/docs) site.  There is extensive documentation on both installation and implementation of Astro as a modern Vite based build tool and development environment. 
 
 ## Tailwind
 
-[TailwindCSS](https://tailwindcss.com/) is fully supported in Astro, but requires installation of their Tailwind adapter.   Astro makes this simple using a single terminal command which simultaneously installs the correct adapter into your *astro.config.mjs* file while also creating a basic TailwindCSS configuration file in your 'src' folder.  
+[TailwindCSS](https://tailwindcss.com/) is fully supported in Astro, but requires installation of their Tailwind adapter.   Astro makes this simple using a single terminal command which simultaneously installs the correct adapter into your *astro.config.mjs* file while also creating a basic TailwindCSS configuration file in your `src` folder.  
 
 ```bash
 npx astro add tailwind
 ```
 
-Collections of Markdown/MDX documents receive TypeScript support by implementing a [Zod](https://zod.dev/) defined schema for each [Collection](https://docs.astro.build/en/guides/content-collections/).
-
-A further advantage of using the Astro build tool is support for [custom endpoints](https://docs.astro.build/en/guides/endpoints/#server-endpoints-api-routes) (API routes) without the need to spin up a separate Node/Express or Django back end.  
 
 
 ## Tailwind Merge
 
-hyperComponents were intended to be customizable by passing Tailwind class names via props.  Thi s means that hyperComponent styles are not frozen and developers can fully customize their appearance in the code block where the component is being used.   This increases the versatility of the hyperComponent without extensive re-writing.
+hyperComponents were intended to be customizable by passing Tailwind class names via props.  This means that hyperComponent styles are not frozen and developers can fully customize their appearance in the code block where the component is being used.   This increases the versatility of the hyperComponent without extensive re-writing.
 
-It is a trivial matter to pass Tailwind CSS utility classes into a component using props, just adding new class names to an established (or default) list of classes yields unpredictable results.   It appears that the current version of Tailwind sorts class lists alphabetically, so if you add a class name to an element manually, it may not apply if its alpha sort happens before another class name.
+It is a trivial matter to pass Tailwind CSS utility classes into a component using prop.  However, just adding new class names to an established (or default) list of classes yields **unpredictable** results.   It appears that the current version of Tailwind sorts class lists alphabetically, so if you add a class name to an element manually, it may not apply if its alpha sort happens before another class name.
 
 This problem is resolved using the third-pary library [tailwind-merge](https://www.npmjs.com/package/tailwind-merge).    This library ensures the 'last class name wins' rule applies.    To allow fully customizable hyperComponents, you are encouraged to install tailwind-merge.
 
@@ -43,11 +40,12 @@ This problem is resolved using the third-pary library [tailwind-merge](https://w
 npm install tailwind-merge
 ```
 
+There is a full discussion of the peculiarities of Tailwind in the next docs page.
 
 
 ## HyperScript
 
-Installation of HyperScript is simply by including the appropriate script tag via CDN.  For Astro projects, include the following script tag in the head tag of your main layout page.
+Installation of [HyperScript](https://hyperscript.org/) is simply by including the appropriate script tag via CDN.  For Astro projects, place the following script tag in the head tag of your main layout page.
 
 ```html
 <script src="https://unpkg.com/hyperscript.org@0.9.5/dist/hyperscript.module.min.js"></script>
@@ -75,9 +73,9 @@ npm install htmx
 https://unpkg.com/htmx.org@1.9.12/dist/htmx.min.js
 ```
 
- It is recommended that you use option #3 for production use.  Clicking this link delivers the raw minified code which you should copy-paste into a file named htxm.min.js.  In Astro projects, you place the resulting htmx.min.js file into your public folder.  Then simply 'import' the minified version into the head tag of your main layout file.
+ It is recommended that you use option #3 for production use.  Clicking that link delivers the raw minified code which you should copy-paste into a file named `htxm.min.js`.  In Astro projects, you place the resulting htmx.min.js file into your `public` folder.  Then simply 'import' the minified version into the head tag of your main layout file.
 
- You must also add the is:inline attribute to the script tag which tells Astro not process the contents and simply serve to the browser unmodified.
+ You must also add the `is:inline` attribute to the script tag which tells Astro not process the contents of this file during build and to simply serve it to the browser unmodified.
 
 ```html
 <script src="/htmx.min.js" is:inline></script>
