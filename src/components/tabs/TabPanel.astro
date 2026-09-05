@@ -32,15 +32,14 @@ export const tw = {
 const hs = 
 	`
 	on load
+		
 		set defaultTab to #{${defaultTabId}}
 		send activateTab(tab:defaultTab) to me
 	end -- load handler
 
 	on activateTab(tab)
-		remove .${tw.inactiveLight} .${tw.inactiveDark} from the tab
-		remove .${tw.textInactiveLight} .${tw.textInactiveDark} from the tab
-		add .${tw.activeLight} .${tw.activeDark} to the tab
-		add .${tw.textActiveLight} .${tw.textActiveDark} to the tab
+		remove .${tw.inactiveLight} .${tw.inactiveDark} .${tw.textInactiveLight} .${tw.textInactiveDark} from the tab
+		add .${tw.activeLight} .${tw.activeDark} .${tw.textActiveLight} .${tw.textActiveDark} to the tab
 		add .border-b-0 to the tab
 		send deactivateSiblings(activeTab:tab) to me
 	end  -- activateTab handler
