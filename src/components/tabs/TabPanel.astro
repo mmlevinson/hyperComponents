@@ -37,9 +37,11 @@ const hs =
 	end -- load handler
 
 	on activateTab(tab)
-		remove .${tw.inactiveLight} .${tw.inactiveDark} .${tw.textInactiveLight} .${tw.textInactiveDark} from the tab
+		remove .border-b-0 .${tw.activeLight} .${tw.activeDark} .${tw.textActiveLight} .${tw.textActiveDark} from the <.tab-item/> in me
+		add .${tw.inactiveLight} .${tw.inactiveDark} .${tw.textInactiveLight} .${tw.textInactiveDark} to the <.tab-item/> in me
+		-- remove .${tw.inactiveLight} .${tw.inactiveDark} .${tw.textInactiveLight} .${tw.textInactiveDark} from the tab
 		add .border-b-0 .${tw.activeLight} .${tw.activeDark} .${tw.textActiveLight} .${tw.textActiveDark} to the tab
-		send deactivateSiblings(activeTab:tab) to me
+		-- send deactivateSiblings(activeTab:tab) to me
 	end  -- activateTab handler
 
 	on deactivateSiblings(activeTab)
