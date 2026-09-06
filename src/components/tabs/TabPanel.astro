@@ -33,8 +33,8 @@ const hs =
 	`
 -- Curiously, logging shows multiple 'load' events, so we debounce the duplicates
 
--- Using 'if :loadCount > 1 then exit' always aborts the event...probably a HS bug
--- activateTab() only runs  if we avoid any use of 'exit'
+-- Using 'if :loadCount > 1 then exit' always aborts the onload event...probably a HS bug
+-- So activateTab() in onload only runs if we avoid any use of 'exit'
 
 -- With Tailwind, we cannot just add multiple styles for the same thing.  Tailwind sorts classes alpha with the last
 -- being the winner, so for example you cannot have multiple background classes without potential abberent behavior (not knowing which will win)
