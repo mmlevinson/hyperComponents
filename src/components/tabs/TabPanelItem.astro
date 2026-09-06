@@ -19,11 +19,6 @@ const {
 import {tw} from './TabPanel.astro'
 
 const hs = `
-  init 
---   add .${tw.inactiveLight} .${tw.inactiveDark} to me
-	-- add .${tw.textInactiveLight} .${tw.textInactiveDark} to me
-	end
-  
   on click send activateTab(clickedTab:me) to the closest <.tab-panel/>
 `
 ---
