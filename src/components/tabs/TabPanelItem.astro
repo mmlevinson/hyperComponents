@@ -20,8 +20,8 @@ import {tw} from './TabPanel.astro'
 
 const hs = `
   init 
-    add .${tw.inactiveLight} .${tw.inactiveDark} to me
-		add .${tw.textInactiveLight} .${tw.textInactiveDark} to me
+--   add .${tw.inactiveLight} .${tw.inactiveDark} to me
+	-- add .${tw.textInactiveLight} .${tw.textInactiveDark} to me
 	end
   
   on click send activateTab(tab:me) to the  closest <div.tab-panel/>
@@ -29,7 +29,7 @@ const hs = `
 ---
 
 <button id={id} 
-	class={tw.tabItem}
+	class={twMerge(tw.tabItem, tw.inactiveLight, tw.inactiveDark, tw.textInactiveLight, tw.textInactiveDark)}
 	hx-trigger={trigger}
 	hx-get={`${path}`}
 	script={hs}>
