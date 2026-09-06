@@ -182,7 +182,11 @@ import TabPanelItem from '/components/tabs/TabPanelItem.astro'
 
 		##### load
 
-		On load, the handler resolves `defaultTabId` to an element reference and sends `activateTab(clickedTab:defaultTab)` to the parent container. It only performs that activation while `:loadCount` is less than `2`, then increments the counter.
+		On load, the handler sends `activateTabById(tabId:'${defaultTabId}')` to the parent container. It only performs that activation while `:loadCount` is less than `2`, then increments the counter.
+
+		##### activateTabById(tabId)
+
+		This event accepts a unique tab id string, resolves it with `#{tabId}`, and if the element exists it forwards to `activateTab(clickedTab:requestedTab)`. This is the programmatic entry point for switching tabs from outside the component.
 
 		##### activateTab(clickedTab)
 
@@ -275,11 +279,17 @@ import {Tabs, TabItem } from '@astrojs/starlight/components'
 				
 				on load
 					if :loadCount is less than 2 then 
-						set defaultTab to #{${defaultTabId}}
-						send activateTab(clickedTab:defaultTab) to me
+						send activateTabById(tabId:'${defaultTabId}') to me
 					end
 					increment :loadCount
 				end -- load handler
+
+				on activateTabById(tabId)
+					set requestedTab to #{tabId}
+					if requestedTab exists
+						send activateTab(clickedTab:requestedTab) to me
+					end
+				end -- activate tab by id
 
 				on activateTab(clickedTab)
 					remove .${tw.inactiveLight} .${tw.inactiveDark} .${tw.textInactiveLight} .${tw.textInactiveDark} from the <.tab-item/> in me
@@ -360,11 +370,17 @@ import {Tabs, TabItem } from '@astrojs/starlight/components'
 				
 				on load
 					if :loadCount is less than 2 then 
-						set defaultTab to #{${defaultTabId}}
-						send activateTab(clickedTab:defaultTab) to me
+						send activateTabById(tabId:'${defaultTabId}') to me
 					end
 					increment :loadCount
 				end -- load handler
+
+				on activateTabById(tabId)
+					set requestedTab to #{tabId}
+					if requestedTab exists
+						send activateTab(clickedTab:requestedTab) to me
+					end
+				end -- activate tab by id
 
 				on activateTab(clickedTab)
 					remove .${tw.inactiveLight} .${tw.inactiveDark} .${tw.textInactiveLight} .${tw.textInactiveDark} from the <.tab-item/> in me
@@ -592,6 +608,14 @@ The default trigger event (`click`) is set in the TabPanelItem `trigger` prop an
 ##  Usage
 	{/* Discuss use cases */}
 	There are many situations where TabPanels are useful.
+
+	You can also switch tabs programmatically by sending `activateTabById` to the TabPanel container:
+
+	```html title="Programmatic Tab Switch"
+	<button script="on click send activateTabById(tabId:'3') to the first <.tab-panel/>">
+		Show Hyperscript tab
+	</button>
+	```
 
 	One common use case is illustrated by this  very  site where different source code blocks are presented in separate tabs.   
 
