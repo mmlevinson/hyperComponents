@@ -37,24 +37,28 @@ const hs =
 	end -- init
 
 	on load
-		if :loadCount is less than  2 then 
-			log :loadCount
+		if :loadCount is less than 2 then 
 			set defaultTab to #{${defaultTabId}}
-			send activateTab(tab:defaultTab) to me
-			end
+			send activateTab(clickedTab:defaultTab) to me
+		end
 		increment :loadCount
   end -- load handler
 
 
 
-	on activateTab(tab)
-	  log 'activating'
-		log tab
+	on activateTab(clickedTab)
 		remove .${tw.inactiveLight} .${tw.inactiveDark} .${tw.textInactiveLight} .${tw.textInactiveDark} from the <.tab-item/> in me
 		remove .border-b-0 .${tw.activeLight} .${tw.activeDark} .${tw.textActiveLight} .${tw.textActiveDark} from the <.tab-item/> in me
 		set allTabs to <.tab-item/> in me
-		-- add .${tw.inactiveLight} .${tw.inactiveDark} .${tw.textInactiveLight} .${tw.textInactiveDark} to the <.tab-item/> in me
-		add .border-b-0 .${tw.activeLight} .${tw.activeDark} .${tw.textActiveLight} .${tw.textActiveDark} to the tab
+		for tab in allTabs
+			if tab is really clickedTab then
+				add .border-b-0 .${tw.activeLight} .${tw.activeDark} .${tw.textActiveLight} .${tw.textActiveDark} to the tab
+			else
+				add .${tw.inactiveLight} .${tw.inactiveDark} .${tw.textInactiveLight} .${tw.textInactiveDark} to the tab
+			end
+		end
+
+
 	end  -- activateTab handler
 
 	`
