@@ -39,19 +39,9 @@ const hs =
 	on activateTab(tab)
 		remove .border-b-0 .${tw.activeLight} .${tw.activeDark} .${tw.textActiveLight} .${tw.textActiveDark} from the <.tab-item/> in me
 		add .${tw.inactiveLight} .${tw.inactiveDark} .${tw.textInactiveLight} .${tw.textInactiveDark} to the <.tab-item/> in me
-		-- remove .${tw.inactiveLight} .${tw.inactiveDark} .${tw.textInactiveLight} .${tw.textInactiveDark} from the tab
 		add .border-b-0 .${tw.activeLight} .${tw.activeDark} .${tw.textActiveLight} .${tw.textActiveDark} to the tab
 		-- send deactivateSiblings(activeTab:tab) to me
 	end  -- activateTab handler
-
-	on deactivateSiblings(activeTab)
-	set allTabs to my children
-	for tab in allTabs
-		if tab is not the activeTab
-			remove .border-b-0 .${tw.activeLight} .${tw.activeDark} .${tw.textActiveLight} .${tw.textActiveDark} from the tab
-			add .${tw.inactiveLight} .${tw.inactiveDark} .${tw.textInactiveLight} .${tw.textInactiveDark} to the tab
-		end -- for loop	
-	end -- deactivateSiblings handler
 
 	`
  
