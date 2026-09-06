@@ -31,6 +31,18 @@ export const tw = {
 
 const hs = 
 	`
+-- Curiously, logging shows multiple 'load' events, so we debounce the duplicates
+
+-- Using 'if :loadCount > 1 then exit' always aborts the event...probably a HS bug
+-- activateTab() only runs  if we avoid any use of 'exit'
+
+-- With Tailwind, we cannot just add multiple styles for the same thing.  Tailwind sorts classes alpha with the last
+-- being the winner, so for example you cannot have multiple background classes without potential abberent behavior (not knowing which will win)
+-- That is why we cannot just 'take' the classes from the current active tab and and give them to the clickedTab
+-- b/c all the inactive classes  remain and may win (depending on which colors you are using)
+-- 'remove' can take advantage 'flat-mapping' to loop through all children in one step, but we must only add the active classes
+-- to the clicked tab and the inactive classes to all other tabs.   
+-- This is a Tailwind issue, not Hyperscript !!
 
 	on init
     set :loadCount to 0
@@ -43,8 +55,6 @@ const hs =
 		end
 		increment :loadCount
   end -- load handler
-
-
 
 	on activateTab(clickedTab)
 		remove .${tw.inactiveLight} .${tw.inactiveDark} .${tw.textInactiveLight} .${tw.textInactiveDark} from the <.tab-item/> in me
