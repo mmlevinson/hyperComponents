@@ -31,14 +31,29 @@ export const tw = {
 
 const hs = 
 	`
+
+	on init
+    set :loadCount to 0
+	end -- init
+
 	on load
-		set defaultTab to #{${defaultTabId}}
-		send activateTab(tab:defaultTab) to me
-	end -- load handler
+		if :loadCount is less than  2 then 
+			log :loadCount
+			set defaultTab to #{${defaultTabId}}
+			send activateTab(tab:defaultTab) to me
+			end
+		increment :loadCount
+  end -- load handler
+
+
 
 	on activateTab(tab)
+	  log 'activating'
+		log tab
+		remove .${tw.inactiveLight} .${tw.inactiveDark} .${tw.textInactiveLight} .${tw.textInactiveDark} from the <.tab-item/> in me
 		remove .border-b-0 .${tw.activeLight} .${tw.activeDark} .${tw.textActiveLight} .${tw.textActiveDark} from the <.tab-item/> in me
-		add .${tw.inactiveLight} .${tw.inactiveDark} .${tw.textInactiveLight} .${tw.textInactiveDark} to the <.tab-item/> in me
+		set allTabs to <.tab-item/> in me
+		-- add .${tw.inactiveLight} .${tw.inactiveDark} .${tw.textInactiveLight} .${tw.textInactiveDark} to the <.tab-item/> in me
 		add .border-b-0 .${tw.activeLight} .${tw.activeDark} .${tw.textActiveLight} .${tw.textActiveDark} to the tab
 	end  -- activateTab handler
 
