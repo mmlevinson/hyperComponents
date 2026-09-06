@@ -33,9 +33,6 @@ const hs =
 	`
 -- Curiously, logging shows multiple 'load' events, so we debounce the duplicates
 
--- Using 'if :loadCount > 1 then exit' always aborts the onload event...probably a HS bug
--- So activateTab() in onload only runs if we avoid any use of 'exit'
-
 -- With Tailwind, we cannot just add multiple styles for the same thing.  Tailwind sorts classes alpha with the last
 -- being the winner, so for example you cannot have multiple background classes without potential abberent behavior (not knowing which will win)
 -- That is why we cannot just 'take' the classes from the current active tab and and give them to the clickedTab
@@ -49,9 +46,8 @@ const hs =
 	end -- init
 
 	on load
-		if :loadCount is less than 2 then 
-			send activateTabById(tabId:'${defaultTabId}') to me
-		end
+	  if :loadCount is greater than 1 then exit end
+		send activateTabById(tabId:'${defaultTabId}') to me
 		increment :loadCount
   end -- load handler
 

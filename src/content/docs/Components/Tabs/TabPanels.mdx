@@ -182,7 +182,8 @@ import TabPanelItem from '/components/tabs/TabPanelItem.astro'
 
 		##### load
 
-		On load, the handler sends `activateTabById(tabId:'${defaultTabId}')` to the parent container. It only performs that activation while `:loadCount` is less than `2`, then increments the counter.
+		On load, the handler uses a guard clause: `if :loadCount is greater than 1 then exit end`. If the handler continues, it sends `activateTabById(tabId:'${defaultTabId}')` to the parent container, then increments `:loadCount`.
+
 
 		##### activateTabById(tabId)
 
@@ -278,9 +279,8 @@ import {Tabs, TabItem } from '@astrojs/starlight/components'
 				end -- init
 				
 				on load
-					if :loadCount is less than 2 then 
-						send activateTabById(tabId:'${defaultTabId}') to me
-					end
+					if :loadCount is greater than 1 then exit end
+					send activateTabById(tabId:'${defaultTabId}') to me
 					increment :loadCount
 				end -- load handler
 
@@ -369,9 +369,8 @@ import {Tabs, TabItem } from '@astrojs/starlight/components'
 				end -- init
 				
 				on load
-					if :loadCount is less than 2 then 
-						send activateTabById(tabId:'${defaultTabId}') to me
-					end
+					if :loadCount is greater than 1 then exit end
+					send activateTabById(tabId:'${defaultTabId}') to me
 					increment :loadCount
 				end -- load handler
 
