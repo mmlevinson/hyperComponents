@@ -1,6 +1,6 @@
 ---
 title: Accordion
-description: A collapsable Accordion component
+description: A collapsible Accordion component
 tableOfContents:
   minHeadingLevel: 2
   maxHeadingLevel: 4
@@ -36,7 +36,7 @@ import AccordionItem_A from '../../../../components/AccordionItem_A.astro'
 <AccordionGroup_A closeSiblings={true} styles='mx-4'>
 	<AccordionItem_A id='accordion-htmx' caption="HTMX" >
 		<p class={tw.p}>
-		HTMX extends html with a suite of attributes giving any element the ability to send and respond to AJAX request.   
+		HTMX extends HTML with a suite of attributes giving any element the ability to send and respond to AJAX requests.   
 		</p>
 	</AccordionItem_A>
 
@@ -101,7 +101,7 @@ const tw - {
 
 	<AccordionItem_A id='accordion-htmx' caption="HTMX" >
 		<p class={tw.p}>
-		HTMX extends html with a suite of attributes giving any element the ability to send and respond to AJAX request.   
+		HTMX extends HTML with a suite of attributes giving any element the ability to send and respond to AJAX requests.   
 		</p>
 	</AccordionItem_A>
 
@@ -143,7 +143,7 @@ const tw - {
 3.  Body content is revealed  smoothly using a Hyperscript `transition` on the body's *height.
 4.  A maxHeight prop prevents the body height from exceeding a set value.
 5.  Tailwind classes for the header, body, and active header (when opened) can be passed in through props to customize the appearance of the entire control from outside.
-6.  Content for the body is simplhy placed into the default slot of the AccordionItem_A component and thus can be styled to your liking from where the accordion is used. 
+6.  Content for the body is simply placed into the default slot of the AccordionItem_A component and thus can be styled to your liking from where the accordion is used. 
 
 ## Components
 
@@ -189,7 +189,7 @@ The default value for closeSiblings is `false`.
 
 This prop takes a string containing any Tailwind classes of your choosing.   These classes will be merged with the default styles for AccordionGroup_A (which you find in the [Code](#code) section below.
 
-TW classes passed in the `styles` prop only affect the whole group and thus should be mostly positioning values such as width, margins, etc.
+Tailwind classes passed in the `styles` prop only affect the whole group and thus should be mostly positioning values such as width, margins, etc.
 
 ### AccordionItem_A
 
@@ -222,7 +222,7 @@ const {
 
 #### id
 
-Each item should have a unique id to prevent naming collisions with other items.
+Each item should have a unique ID to prevent naming collisions with other items.
 
 #### caption
 
@@ -230,7 +230,7 @@ The caption is the text that appears in the accordion header.
 
 #### prefix
 
-This props accepts is a character or short string that is prepended to the caption.  It acts as a tick mark. The default is `- `
+This prop accepts a character or short string that is prepended to the caption.  It acts as a tick mark. The default is `- `
 
 #### maxHeight
 
@@ -273,9 +273,9 @@ Both the AccordionGroup_A and AccordionItem_A components can be styled with suit
 
 You can override the default styling by sending additional Tailwind classes via the above [props](#code) which are then merged with the default styles and any conflicts resolved with a 'last wins' rule.
 
-To improve readability, the Tailwind classes and Hyperscripts are both extracted from the markup and encapsulated into  Astro `tw` and `hs` local variables within the [Component Script](https://docs.astro.build/en/basics/astro-components/#the-component-script) which are then referenced in the html markup. 
+To improve readability, the Tailwind classes and Hyperscripts are both extracted from the markup and encapsulated into  Astro `tw` and `hs` local variables within the [Component Script](https://docs.astro.build/en/basics/astro-components/#the-component-script) which are then referenced in the HTML markup. 
 
-The advantage of this strategy is to allow long run-on strings to be formatted as concatenated, multi-line strings which aids readability and code maintenance.
+The advantage of this strategy is to allow long run-on strings to be formatted as concatenated, multi-line strings, which improves readability and maintainability.
 
 ## Transitions
 
@@ -285,7 +285,7 @@ What makes this Hyperscript example unique is insertion of props into the script
 
 To make component props available to the script, the HS code is placed into a back-tick delimited JS string and stored in a local constant in the Astro [Component Script](https://docs.astro.build/en/basics/astro-components/#the-component-script) (i.e. frontmatter).  Dynamic values can thus be passed into the script itself with simple string interpolation creating another level of functionality. 
 
-Here is a brief code snippet of from AccordionItem_A where the `maxHeight` and `openDuration` component props are relayed into the script itself using string interpolation.  Using this technique is analagous to sending parameters to the script from an outside source.
+Here is a brief code snippet from AccordionItem_A where the `maxHeight` and `openDuration` component props are relayed into the script itself using string interpolation.  Using this technique is analogous to sending parameters to the script from an outside source.
 
 This 'trick' allows you to change the transition duration and other actions of the Hyperscript from outside of the component simply by sending new values to the script code via props.
 
@@ -338,7 +338,7 @@ The AccordionItem_A default `<slot>` is populated with whatever markup you wish 
 
 This example accordion is comprised of a wrapper component (AccordionGroup_A) which contains a default slot into which multiple accordion items (AccordionItem_A) are placed.
 
-A minimal set of default styles are provided but can be overridden or added to by passing additional TW classes to the [styles](#styles) prop.
+A minimal set of default styles are provided but can be overridden or added to by passing additional Tailwind classes to the [styles](#styles) prop.
 
 Explore the Tabs below to review all the code and styling which makes up the accordion group wrapper.   
 
@@ -352,7 +352,7 @@ import {Tabs, TabItem } from '@astrojs/starlight/components'
 
 interface Props {
 	closeSiblings?:boolean,   //all other Accordions are sent a closeOpenAccordions event
-	styles?:string   //override or add TW classes for stying the Group
+	styles?:string   //override or add Tailwind classes for styling the group
 }
 
 const {
@@ -407,8 +407,8 @@ const tw = {
 import {twMerge} from 'tailwind-merge'
 
 interface Props {
-	closeSiblings?:boolean,   //all other Accordions aresent a closeOpenAccordions event
-	styles?:string   //override or add TW classes for stying the Group
+	closeSiblings?:boolean,   //all other Accordions are sent a closeOpenAccordions event
+	styles?:string   //override or add Tailwind classes for styling the group
 }
 
 const {
@@ -463,13 +463,13 @@ Copy/paste the contents of the `Everything` tab to use this component in your pr
 ```js
 
 interface Props {
-	id:string,   //a unique identifier allowing multiple AccordionItems on a page without collisions
+	id:string,   //a unique IDentifier allowing multiple AccordionItems on a page without collisions
 	caption:string,   //the text display in the Accordion header
-	prefix?:string   //a tick mark preceeding the caption
+	prefix?:string   //a tick mark preceding the caption
 	maxHeight:number  //maximum open height in px (after which the body content scrolls vertically)
-	headerStyles?:string   //override or add TW classes to  the header
-	bodyStyles?:string   //override or add TW classes to the body
-	activeHeaderStyles?:string //override, add, remove TW classes for headers of opened Accordions
+	headerStyles?:string   //override or add Tailwind classes to  the header
+	bodyStyles?:string   //override or add Tailwind classes to the body
+	activeHeaderStyles?:string //override, add, remove Tailwind classes for headers of opened Accordions
 	openDuration?:string   //transition timing when showing body content
 	closeDuration?:string  //transition timing when hiding body content
 }
@@ -531,7 +531,7 @@ const hs = `
 		for item in accordionContent 
 			increment :accordionHeight by the item's offsetHeight
 		end -- for
-		increment :accordionHeight by 45  -- to accomodate for py-4 
+		increment :accordionHeight by 45  -- to accommodate for py-4 
 	end -- init
 
 	on click from me
@@ -594,13 +594,13 @@ const tw = {
 import {twMerge} from 'tailwind-merge'
 
 interface Props {
-	id:string,   //a unique identifier allowing multiple AccordionItems on a page without collisions
+	id:string,   //a unique IDentifier allowing multiple AccordionItems on a page without collisions
 	caption:string,   //the text display in the Accordion header
-	prefix?:string   //a tick mark preceeding the caption
+	prefix?:string   //a tick mark preceding the caption
 	maxHeight:number  //maximum open height in px (after which the body content scrolls vertically)
-	headerStyles?:string   //override or add TW classes to  the header
-	bodyStyles?:string   //override or add TW classes to the body
-	activeHeaderStyles?:string //override, add, remove TW classes for headers of opened Accordions
+	headerStyles?:string   //override or add Tailwind classes to  the header
+	bodyStyles?:string   //override or add Tailwind classes to the body
+	activeHeaderStyles?:string //override, add, remove Tailwind classes for headers of opened Accordions
 	openDuration?:string   //transition timing when showing body content
 	closeDuration?:string  //transition timing when hiding body content
 }
@@ -647,7 +647,7 @@ const hs = `
 		for item in accordionContent 
 			increment :accordionHeight by the item's offsetHeight
 		end -- for
-		increment :accordionHeight by 45  -- to accomodate for py-4 
+		increment :accordionHeight by 45  -- to accommodate for py-4 
 	end -- init
 
 	on click from me
@@ -721,7 +721,7 @@ The recalcHeight of accordion accordionBody must also take in account the vertic
 
 ##  Usage
 
-Accordion controls are often used in FAQ or Info sections of a web site.  The advantages of using an Accordion is to hide the majority of the content until the user needs to see it.  
+Accordion controls are often used in FAQ or Info sections of a website.  The advantages of using an Accordion are to hide the majority of the content until the user needs to see it.  
 
 By presenting just the title in the header the user is prompted to explore the hidden content.   
 

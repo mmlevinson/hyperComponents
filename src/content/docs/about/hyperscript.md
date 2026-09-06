@@ -174,11 +174,13 @@ In addition to the standard comparison operators, [natural language comparisons]
 3.  exists | matches | is empty
 4.  and | or | not
 
-To test if an element possesses a certain CSS selector, use the `matches` operator, as in:
+To test if an element possesses a certain CSS selector, use the `match` or `matches`  operator, as in:
 
-<div _="if me matches '.my-class' then log me">
-	Yes
+```js
+<div class="my-class" _="on click if I match .my-class then log me">
+	Click Here to log the result
 </div>
+```
 
 ### Calling Functions
 

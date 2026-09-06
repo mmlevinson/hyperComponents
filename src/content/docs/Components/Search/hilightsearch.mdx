@@ -1,6 +1,6 @@
 ---
 title: Highlight Active Search
-description: Active Search with HTMX with Highlited Matches
+description: Active Search with HTMX with Highlighted Matches
 tableOfContents: 
   minHeadingLevel: 2
   maxHeadingLevel: 5
@@ -9,15 +9,15 @@ tableOfContents:
 {/* Introduction */}
 ## Example
 
-This hyperComponent is a prototype for [hypermedia exchange](https://htmx.org/essays/hypermedia-apis-vs-data-apis/) because it illustrates a front-end coupled to backend routes that respond by returning only hypertext.
+This hyperComponent is a prototype for [hypermedia exchanges](https://htmx.org/essays/hypermedia-apis-vs-data-apis/) because it illustrates a front-end coupled to backend routes that respond by returning only hypertext.
 
-An active search `<input>` is utilized which is based on the [Active Search example from the htmx documentation](http://htmx.org/examples/active-search/).   However, this hyperComponent expands on that example by providing **live hilighting of matched substrings**.  In addition, the hilight color can be selected from a dropdown menu displaying the entire Tailwind color pallet.  Clicking a color swatch in the pallet changes the highlight color.    Another dropdown menu provides options for changing the match criteria. 
+An active search `<input>` is utilized which is based on the [Active Search example from the htmx documentation](http://htmx.org/examples/active-search/).   However, this hyperComponent expands on that example by providing **live highlighting of matched substrings**.  In addition, the hilight color can be selected from a dropdown menu displaying the entire Tailwind color pallet.  Clicking a color swatch in the pallet changes the highlight color.    Another dropdown menu provides options for changing the match criteria. 
 
-All functionality is powered by [htmx](https://htmx.org) and [Hypersript](https://hyperscript.org).  There are no JavaScript imports or `<script>` tags anywhere in this component. 
+All functionality is powered by [htmx](https://htmx.org) and [Hyperscript](https://hyperscript.org).  There are no JavaScript imports or `<script>` tags anywhere in this component. 
 
- A [mini-project](/#mini-project-coe) is included below to illustrate how this hyperComponent works.   The project presents a table of famous English language speeches.  Clicking any table row loads the full speech transcript and then switches focus to the search `<input>` where any substring entered by the user is matched against the full transcript using Regular Expressions.  
+ A [mini-project](/#mini-project-code) is included below to illustrate how this hyperComponent works.   The project presents a table of famous English language speeches.  Clicking any table row loads the full speech transcript and then switches focus to the search `<input>` where any substring entered by the user is matched against the full transcript using Regular Expressions.  
  
- Successful matches are  surrounded with `<mark`> tags styled with the user's choice of Tailwind bg-color-* utility class. The server then returns the entire transcript as html annotated with `<mark>` elements.  The user's  experience is analagous to using a felt tipped highlight marker on a printed document.
+ Successful matches are surrounded with `<mark>` tags styled with the user's choice of Tailwind bg-color-* utility class. The server then returns the entire transcript as HTML annotated with `<mark>` elements.  The user's experience is analogous to using a felt tipped highlight marker on a printed document.
 
 Take a tour of the example project below by clicking on a famous speech.  Click  the Reset button (or select another speech) to start over.
 
@@ -89,8 +89,8 @@ import Searchbox from '../../../../components/search/searchbox.astro'
 import ClickDropdownMenu_A from '../../../../components/ClickDropdownMenu_A.astro'
 import PalletGrid from '../../../../components/PalletGrid.astro'
 
-export const defaultSpeechTitle = 'Click on the any of the famous orations listed above.'
-export const defaultSpeechTranscript = 'The full transcript will be displayed here. Use the Search box to dynamnically highlight any part of the transcript'
+export const defaultSpeechTitle = 'Click on any of the famous orations listed above.'
+export const defaultSpeechTranscript = 'The full transcript will be displayed here. Use the Search box to dynamically highlight any part of the transcript'
 
 export const hs = {
 	resetButton:`
@@ -158,9 +158,9 @@ export const hs = {
 	{/* General Description */}
 	{/* Example  Code block showing the  control in action. */}
 
-[Hypermedia exchanges](https://htmx.org/essays/hypermedia-apis-vs-data-apis/) require that the backend return formatted, finished html.  Thus the developer must have control over the server's response.   The [Astro](https://astro.build) build tool is perfect for this because it is easy to create [custom API endpoints](https://docs.astro.build/en/guides/endpoints/).   All that is needed is to place a `.js` file into the `pages` folder.  In that file, you must export a GET, POST, PATCH or DELETE function and then Astro will build the correct route and respond to those AJAX requests.
+[Hypermedia exchanges](https://htmx.org/essays/hypermedia-apis-vs-data-apis/) require that the backend return formatted, finished HTML.  Thus the developer must have control over the server's response.   The [Astro](https://astro.build) build tool is perfect for this because it is easy to create [custom API endpoints](https://docs.astro.build/en/guides/endpoints/).   All that is needed is to place a `.js` file into the `pages` folder.  In that file, you must export a GET, POST, PATCH or DELETE function and then Astro will build the correct route and respond to those AJAX requests.
 
-The GET and POST requests in this example access data stored on disc (in a JSON file), but does not return the raw data.  Instead, the data is used by the server  to format finished html fragments which are returned in the response.   HTMX attributes are used to generate these requests and also to specify how and where the returned markup is inserted into the DOM.  
+The GET and POST requests in this example access data stored on disk (in a JSON file), but do not return the raw data.  Instead, the data is used by the server  to format finished HTML fragments which are returned in the response.   HTMX attributes are used to generate these requests and also to specify how and where the returned markup is inserted into the DOM.  
 
 Read through all the example code below to see how this was accomplished.
 
@@ -171,7 +171,7 @@ This Highlight Active Search hyperComponent includes:
 
 
 1. A `searchPath` prop which accepts a path to a backend search route and is used to configure the `hx-post` attribute of the `<input>` element
-2. A  `target` prop which accepts a CSS selector that is used to update the 	`hx-target` attribute.   The `target` prop identifies the DOM element which will updated with the returned hypertext.
+2. A  `target` prop which accepts a CSS selector that is used to update the 	`hx-target` attribute.   The `target` prop identifies the DOM element which will be updated with the returned hypertext.
 3. A `swapStrategy` prop which is used to update the `hx-swap` attribute thereby determining how htmx will update the target element.
 4. An `hx-include=<input/>` attribute which signals htmx to bundle the values stored in all hidden inputs with the request in order to transmit them to the backend along with the request.
 5. Hyperscript code updates the hidden fields with values needed for the backend.
@@ -180,18 +180,18 @@ This Highlight Active Search hyperComponent includes:
 9. Scroll smoothing back and forth between the target and the search input
 9. Search criteria in the options dropdown can be customized. 
 10.  A Tooltip is displayed on hover over the search-options menu indicating the current selection for search filter.
-11.  Stylings of the `<input>` and dropdown menus are fully customizable using Tailwind utility classe.s
+11.  Styling of the `<input>` and dropdown menus is fully customizable using Tailwind utility classes
 12. A 'rightIcon' slot which displays magnifying glass icon by default but which can accept another dropdown menu or other content to be displayed at the right border of the search container.
 		 
 ## Searchbox Component
 
 There is a single main component which provides the GUI for active searching and highlighting. 
 
-The [code](#code) for the `Searchbox.astro` component is shown below.   In order for this component to function as intended backend code the developer must also provide backend coded to process the request and turn html as discussed in the [API Routes](#api-routes) section below. 
+The [code](#code) for the `Searchbox.astro` component is shown below.   In order for this component to function as intended, the developer must also provide backend code to process the request and return HTML as discussed in the [API Routes](#api-routes) section below. 
 
-Dropdown menus within the Searchbox control are implemented using the [ClickDropdownMenu_A](/components/menus/click_a/) component.   A search-options dropdown is appears to the left of the `<input/>` indicated by a down-caret icon.  Multiple `<li>` elements are passed into the default slot of this [ClickDropdownMenu_A](/components/menus/click_a/) which provide the options for modifying the RegEx match criteria used by the backend.    To tell the backend of the user's selection, the textContent of the selected `<li>` is stored in a hidden field.  
+Dropdown menus within the Searchbox control are implemented using the [ClickDropdownMenu_A](/components/menus/click_a/) component.   A search-options dropdown appears to the left of the `<input/>` indicated by a down-caret icon.  Multiple `<li>` elements are passed into the default slot of this [ClickDropdownMenu_A](/components/menus/click_a/) which provide the options for modifying the RegEx match criteria used by the backend.    To tell the backend of the user's selection, the textContent of the selected `<li>` is stored in a hidden field.  
 
-Another [ClickDropdownMenu_A](/components/menus/click_a/) instance is used to present a pallet of Tailwind colors allowing the user to change the color of the highlighted matched substrings.   A [PalletGrid](/components/menus/examples/pallet/#palletgrid) component is passed to the default slot of this [ClickDropdownMenu_A](/components/menus/click_a/) to display the grid of swatches.   A Hyperscript is used to store the user's selection into the pallet's 'bgColor' attribute and also update another  hidden `<input>` so the highlit color can be transported to the backend with each request.
+Another [ClickDropdownMenu_A](/components/menus/click_a/) instance is used to present a pallet of Tailwind colors allowing the user to change the color of the highlighted matched substrings.   A [PalletGrid](/components/menus/examples/pallet/#palletgrid) component is passed to the default slot of this [ClickDropdownMenu_A](/components/menus/click_a/) to display the grid of swatches.   Hyperscript is used to store the user's selection into the pallet's 'bgColor' attribute and also update another  hidden `<input>` so the highlight color can be transported to the backend with each request.
 
 
 
@@ -210,7 +210,7 @@ interface Props {
 
 #### id
 
-Each Searchbox component recieves a unique identifier as a prop.  This identifier is used by the Hyperscripts to perform certain updates and styling changes.
+Each Searchbox component receives a unique IDentifier as a prop.  This identifier is used by the Hyperscripts to perform certain updates and styling changes.
 
 #### placeholder
 
@@ -218,11 +218,11 @@ This string is displayed in dimmed font which prompts the user to enter a substr
 
 #### target
 
-This prop accepts a string value representing the DOM element where the response will be placed.   You should pass an htmx-compatible CSS selector here.   The actual value you pass will then be referenced by the `hx-target` attribute.   The response html will be swapped into this DOM position according to the next prop which specifies the swap strategy.
+This prop accepts a string value representing the DOM element where the response will be placed.   You should pass an htmx-compatible CSS selector here.   The actual value you pass will then be referenced by the `hx-target` attribute.   The response HTML will be swapped into this DOM position according to the next prop which specifies the swap strategy.
 
 #### swapStrategy
 
-HTMX provides a liberal set of options for how response markup used to update the DOM.   In the example project a `<div>` is used to display the full speech transcript and thus is the natural target for the highlited version of the transcript.   The example uses the `innerHTML` swap strategy.
+HTMX provides a liberal set of options for how response markup is used to update the DOM.   In the example project a `<div>` is used to display the full speech transcript and thus is the natural target for the highlighted version of the transcript.   The example uses the `innerHTML` swap strategy.
 
 #### height
 
@@ -234,7 +234,7 @@ There is no width prop.   To adjust the width, wrap this hyperComponent in a con
 
 #### rightIcon
 
-The magnifyingf glass icon to the right of the `<input>` is actually the default content of the `rightIcon` slot.    Most search controls display a magnifying glass icon as a symbol of the control's function.   In this example, the icon is inert (does not respond to clicks).   
+The magnifying glass icon to the right of the `<input>` is actually the default content of the `rightIcon` slot.    Most search controls display a magnifying glass icon as a symbol of the control's function.   In this example, the icon is inert (does not respond to clicks).   
 
 You may substitute another icon (or even another Dropdown menu) to replace the default magnifying glass by passing markup into the 	`rightIcon` slot.   In [Astro](https://astro.build), the syntax for sending markup into a named slot is `<div slot='slotName'><!-- slot content --></div>`
 
@@ -246,7 +246,7 @@ This attribute of the `<div id="search-container">` is assigned a default value 
 
 The value of this attribute is picked up by the Hyperscript code and used to dynamically change the background color of the entire component when the user picks a swatch from the color pallet dropdown. 
 
-In addition, this color is sent to the backend along with the request in order to provide styling for the `<mark>` tags which bracket the matched substrings in the response html.
+In addition, this color is sent to the backend along with the request in order to provide styling for the `<mark>` tags which bracket the matched substrings in the response HTML.
 
 In this manner the `data-hilight-color`  is used as a local cache for the Hyperscript.
 
@@ -265,7 +265,7 @@ Smooth scrolling to and from the Search control is provided by Hyperscript.  Ins
 	```js
 
 interface Props {
-		id?:string  // a unique identifier
+		id?:string  // a unique IDentifier
 		placeholder?:string  //default placeholder text in the <input> field
 		searchPath:string //api backend route for s
 		target:string  //where the response will be placed
@@ -407,7 +407,7 @@ const {
 import ClickDropdownMenuA from '../ClickDropdownMenu_A.astro'
  
 interface Props {
-		id?:string  // a unique identifier
+		id?:string  // a unique IDentifier
 		placeholder?:string  //default placeholder text in the <input> field
 		searchPath:string //api backend route for s
 		target:string  //where the response will be placed
@@ -561,25 +561,25 @@ import { FileTree } from '@astrojs/starlight/components';
 
 </FileTree>
 
-The Tab panel below is displays the entire source code for each backend route.
+The tab panel below displays the entire source code for each backend route.
 
-##### famousSpeaches.json
+##### famousSpeeches.json
 
-The `famousSpeeches.json` file contains the raw data for each Speech.  There is too much text to show all the data here so just one sample Speech object is included to illustrate the shape of the data.  All other Famous Speech entries use the same object structure.
+The `famousSpeeches.json` file contains the raw data for each speech. There is too much text to show all the data here, so one sample speech object is included to illustrate the data structure. All other speech entries use the same object structure.
 
-In a real world application, the data  will likely be stored in a database.   If you use this hyperComponent in your project, you will need to adjust the data source and provide the appropriate async lookup functions in the next three API files.
+In a real-world application, the data  will likely be stored in a database.   If you use this hyperComponent in your project, you will need to adjust the data source and provide the appropriate async lookup functions in the next three API files.
 
 ##### [id].js
 
 The `[id].js` route decodes the index of the speech from `params.id` value of the [Context](https://docs.astro.build/en/reference/api-reference/#endpoint-context) object provided by [Astro](https://astro.build) as an argument to the GET function by Astro.   Also the `transcript=true` field is decoded from  the `url.searchParams`.  Using this information, the raw text of an individual speech is pulled from the appropriate array index in the `famousSpeeches.json` file.  
 
-The Response object then returns an html fragment containing the entire speech transcript with `<p>` tags swapped for line breaks.
+The Response object then returns an HTML fragment containing the entire speech transcript with `<p>` tags swapped for line breaks.
 
 ##### index.js
 
-A list of speeches is loaded into a `<table>` using the `index.js` route.  The raw data is looped using a `.map()` function returning a single `<tr>` for each Speech containing the speakers name, title of the speech, and the date.   
+A list of speeches is loaded into a `<table>` using the `index.js` route.  The raw data is looped using a `.map()` function returning a single `<tr>` for each Speech containing the speaker's name, title of the speech, and date.   
 
-Notice that a Hyperscript is also added to each `<tr>` so that a click on the row loads the individual itranscript into a target `<div>`.
+Notice that Hyperscript is also added to each `<tr>` so that a click on the row loads the individual transcript into a target `<div>`.
 
 ##### match.js
 
@@ -597,13 +597,13 @@ The `search` field of the request contains the substring which the user wishes t
 
 The `speech-index` field contains the array index for the data in `famousSpeeches.json`
 
-The `search-criteria` field contains a filter to be applied to the regular expression, such as 'Whole Word' or 'Case Sensitive', etc.  The value of this field is set when  the user chooses  an option from the dropdown at the left of the search `<input>`.
+The `search-criteria` field contains the filter to be applied to the regular expression, such as 'Whole Word' or 'Case Sensitive', etc.  The value of this field is set when  the user chooses  an option from the dropdown at the left of the search `<input>`.
 
 The `hilight-color` is  transmitted to the backend from a value cached in the `data-hilight-color` attribute of  the `div#search-container` and specifies a Tailwind background color used by all the `<mark>` tags in the final response.
 
-The remaining code in `match.js` uses a regular expression to match substrings in the speech transcript and then bracket each match with `<mark>` tags containing the specfied Tailwind bg-color* class.
+The remaining code in `match.js` uses a regular expression to match substrings in the speech transcript and then wrap each match with `<mark>` tags containing the specified Tailwind bg-color* class.
 
-The resulting html markup is returned to the caller via the Response object where the `hx-swap` attribute is configured to replace the `innerHTML` of the speech transcript `<div>`.
+The resulting HTML markup is returned to the caller via the Response object where the `hx-swap` attribute is configured to replace the `innerHTML` of the speech transcript `<div>`.
 
 Examine the code in each Tab below to review all the backend functionality used in the mini-example project.
 
@@ -809,17 +809,17 @@ export const POST = async ({request}) => {
 
 ##  Usage
 
-To visualize how the Searchbox component is used in a real world situation, an  mini-project is included in the [Examples](#examples) section above. 
+To visualize how the Searchbox component is used in a real-world situation, a mini-project is included in the [Examples](#examples) section above. 
 
-There are many use cases for active search and even a highlited active search.    In fact, too many use cases to cover here.  The bottom line is that most Web sites include a Search control somewhere in their head element identified to the user by a magnifying glass icon.
+There are many use cases for active search and even a highlighted active search.    In fact, too many use cases to cover here.  The bottom line is that most websites include a Search control somewhere in their header area, identified to the user by a magnifying glass icon.
 
 The capabilities of returning hypertext that is marked up to reveal each matched substring illustrates how hypermedia exchanges work and the advantages of using them.   There are many use cases, which you can explore on your own.
 
-For instructional purposes, the source code for implementing the Famous Speeches mini-project is included below in full detail.   Notice where and how the Searchbox control integerates with the other DOM elements to create the entire experience.
+For instructional purposes, the source code for implementing the Famous Speeches mini-project is included below in full detail.   Notice where and how the Searchbox control integrates with the other DOM elements to create the entire experience.
 
 If you copy this code into your own project, you will have to adjust the import file paths to match your folder structure.
 
-Also notice how explanting and coalescing the Tailwind classes into a local Astro `tw` constant unclutters the html markup.  In this example, the `tw` constant is an object with nested objects that permit clear and unambigous organization for the styling code which enhances both readability and maintainability.
+Also notice how extracting and coalescing the Tailwind classes into a local Astro `tw` constant unclutters the HTML markup.  In this example, the `tw` constant is an object with nested objects that permit clear and unambiguous organization for the styling code which enhances both readability and maintainability.
 
 
 ### Mini-Project Code
@@ -832,8 +832,8 @@ import Searchbox from '/components/searchbox.astro'
 import ClickDropdownMenu_A from '/components/ClickDropdownMenu_A.astro'
 import PalletGrid from '/components/PalletGrid.astro'
 
-const defaultSpeechTitle = 'Click on the any of the famous orations listed above.'
-const defaultSpeechTranscript = 'The full transcript will be displayed here. Use the Search box to dynamnically highlight any part of the transcript'
+const defaultSpeechTitle = 'Click on any of the famous orations listed above.'
+const defaultSpeechTranscript = 'The full transcript will be displayed here. Use the Search box to dynamically highlight any part of the transcript'
 
 
 const tw = {

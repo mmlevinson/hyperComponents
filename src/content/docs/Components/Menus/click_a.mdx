@@ -82,9 +82,9 @@ Tapping any `<li>` emits a custom event from a script attribute followed by dism
 
 ## Features
 
-The trigger button and dropdown are initally styled with Tailwind CSS utility classes but are fully customizable by passing additional classes through [props](#code).
+The trigger button and dropdown are initially styled with Tailwind CSS utility classes but are fully customizable by passing additional classes through [props](#code).
 
-The dropdown appearance/disappearance is smoothly animated by HyperScript with a timing function adjusted using the `duration` prop. 
+The dropdown appearance/disappearance is smoothly animated by Hyperscript with a timing function adjusted using the `duration` prop. 
 
 The dropdown is dismissed by:
 
@@ -94,11 +94,11 @@ The dropdown is dismissed by:
 ###### 4. Mouse leaving the dropdown
 ###### 5. Pressing the Escape key when the button is focused
 
-Custom events emitted by individual menu choices were also written in [HyperScript](https://hyperscript.org/).
+Custom events emitted by individual menu choices were also written in [Hyperscript](https://hyperscript.org/).
 
 ## Props
 
-Below is a summary of the component props which can optionally be used to configure the component from the markup where it is being used.
+Below is a summary of the component props which can optionally be used to configure the component from the markup where it is used.
 
 ```js
 interface Props {
@@ -117,7 +117,7 @@ interface Props {
 
 ### id
 
-Each dropdown component requires a unique id.  This is to ensure that multiple dropdowns do not interfere with each other.
+Each dropdown component requires a unique ID.  This is to ensure that multiple dropdowns do not interfere with each other.
 
 ### caption
 
@@ -147,13 +147,13 @@ The duration of the height transition for the `dropdown container` can be specif
 
 ## Styling
 
-The component's `<button>`, `<ul>` and `dropdown container` are initally styled with a default selection of Tailwind classes.  For accesssibility, the trigger `<button>` also receives a focus ring when activated.
+The component's `<button>`, `<ul>` and `dropdown container` are initially styled with a default selection of Tailwind classes.  For accessibility, the trigger `<button>` also receives a focus ring when activated.
 
 You can override the default styling by sending additional Tailwind classes via [props](#code) which are then merged with the default styles and any conflicts resolved with a 'last wins' rule.
 
-To improve readability, the Tailwind classes and Hyperscripts are both extracted from the markup and encapsulated into  Astro `tw` and `hs` local variables within the [Component Script](https://docs.astro.build/en/basics/astro-components/#the-component-script) which are then referenced in the html markup. 
+To improve readability, the Tailwind classes and Hyperscripts are both extracted from the markup and encapsulated into  Astro `tw` and `hs` local variables within the [Component Script](https://docs.astro.build/en/basics/astro-components/#the-component-script) which are then referenced in the HTML markup. 
 
-The advantage of this strategy is to allow long run-on strings to be formatted as concatenated, multi-line strings which aids readability and code maintenance.
+The advantage of this strategy is to allow long run-on strings to be formatted as concatenated, multi-line strings, which improves readability and maintainability.
 
 ## Transitions
 
@@ -196,7 +196,7 @@ The code below illustrates Tailwind styling of a down-caret svg passed into the 
 ## Code
 
 
-The full source code for this hyperComponent is visible in the various Tabs below.  Use the Everything tab to `copy/paste` the entire component into your Astro project.
+The full source code for this hyperComponent is visible in the various Tabs below.  Use the Everything tab to copy and paste the entire component into your Astro project.
 
 import {Tabs, TabItem } from '@astrojs/starlight/components'
 
@@ -205,7 +205,7 @@ import {Tabs, TabItem } from '@astrojs/starlight/components'
 	<TabItem label="Props">
 	```js
 interface Props {
-		id: string   //a unique identifier for this component, allowing multiple dropdowns on a page without collisions
+		id: string   //a unique IDentifier for this component, allowing multiple dropdowns on a page without collisions
 		caption?: string   //the text displayed in the trigger button
 		buttonStyles?: string   //any additional Tailwind classes for customizing the trigger button
 		dropdownStyles?: string   //any additional styles to apply to the dropdown container <div>
@@ -326,7 +326,7 @@ const tw = {
 import {twMerge} from 'tailwind-merge'
 
 interface Props {
-		id: string   //a unique identifier for this component, allowing multiple dropdowns on a page without collisions
+		id: string   //a unique IDentifier for this component, allowing multiple dropdowns on a page without collisions
 		caption?: string   //the text displayed in the trigger button
 		buttonStyles?: string   //any additional Tailwind classes for customizing the trigger button
 		dropdownStyles?: string   //any additional styles to apply to the dropdown container <div>
@@ -439,7 +439,7 @@ The most common use case for dropdowns are in navigation components such as a to
 To use this component 'as is' in  your Astro project, click the `Copy` button on the Everything tab in the [code](#code) section above.  Paste all the code into a new file with the `.astro` extension.
 
 
-To use this hyperComponent in another Astro component just import the file and use angle brackets (with a Capitalized name) to create a custom html tag as shown in the example below.
+To use this hyperComponent in another Astro component just import the file and use angle brackets (with a Capitalized name) to create a custom HTML tag as shown in the example below.
 
 ```js title="UsingADropdown.astro" "ClickDropdownMenu_A"
 ---

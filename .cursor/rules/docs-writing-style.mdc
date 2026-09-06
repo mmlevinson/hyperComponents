@@ -1,0 +1,37 @@
+---
+description: Documentation writing tone and style for MDX docs
+globs: src/content/docs/**/*.mdx
+alwaysApply: false
+---
+
+# hyperComponents Documentation Style
+
+Write documentation in a clear, professional, instructional tone. Be direct, practical, and friendly without sounding casual.
+
+## Voice and Structure
+
+- Prefer active voice and short-to-medium sentences.
+- Address the reader as "you" for instructions.
+- Keep sections consistent when relevant: `Example`, `Description`, `Features`, `Components`, `Props`, `Slots`, `Events`, `Attributes`, `Transitions`, `Code`, `Usage`.
+- Use parallel bullet phrasing (same grammatical style across a list).
+
+## Terminology and Casing
+
+- Use canonical names: `htmx`, `Hyperscript`, `Tailwind CSS`, `Astro`.
+- Capitalize technical acronyms: `HTML`, `CSS`, `API`, `AJAX`, `DOM`, `ID`.
+- Prefer: "copy and paste", "real-world", "website", "response HTML", "API endpoint".
+- Keep wording consistent across pages for recurring concepts.
+
+## Grammar and Readability
+
+- Avoid awkward phrasing, missing words, and redundant filler.
+- Use precise verbs for behavior: "loads", "swaps", "emits", "listens", "returns".
+- Keep explanations specific to user outcomes and component behavior.
+
+## Examples
+
+- Bad: "copy/paste the html code and set a api endpoint"
+- Good: "Copy and paste the HTML code and set an API endpoint."
+
+- Bad: "A HyperScript is used and results are in response html"
+- Good: "Hyperscript is used, and results are returned as response HTML."

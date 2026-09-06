@@ -32,7 +32,7 @@ import ReadMoreGroup_A from '../../../../components/ReadMoreGroup_A.astro'
 		<h3>Hypermedia</h3>
 		<div class={tw.intro}>
 			<h5>HTML as a response to API requests</h5>
-			<h5>Why are most API calls returing JSON when the browser is optimized to process HTML?</h5>
+			<h5>Why are most API calls returning JSON when the browser is optimized to process HTML?</h5>
 		</div>
 	</ReadMoreItem_A>
 	<ReadMoreItem_A id="1" path="../../../api/readmore" >
@@ -45,12 +45,12 @@ import ReadMoreGroup_A from '../../../../components/ReadMoreGroup_A.astro'
 	<ReadMoreItem_A id="2" path="../../../api/readmore">
 		<h3>Tailwind CSS</h3>
 		<div class={tw.intro}>
-			<h5>Respnsive, mobile first styling</h5>
+			<h5>Responsive, mobile first styling</h5>
 			<h5>A defined set of utility classes makes it easier to prototype user interfaces.</h5>
 		</div>
 	</ReadMoreItem_A>
 	<ReadMoreItem_A id="3" path="../../../api/readmore">
-		<h3>HyperScript</h3>
+		<h3>Hyperscript</h3>
 		<div class={tw.intro}>
 			<h5>New client side scripting language</h5>
 			<h5>Add client side functionality with an easy to learn English-prose syntax patterned after Hypertalk</h5>
@@ -74,17 +74,17 @@ import ReadMoreGroup_A from '../../../../components/ReadMoreGroup_A.astro'
 
 	A `ReadMore` control presents a short introductory text block followed by a clickable "Read More" link which reveals the remaining content in an expandable block below the introduction.  
 
-	ReadMore controls allow the developer to place multiple blog posts or other titles onto a page while conserving vertical real estate.   The users is still able to access the full text of each post or article by simple clicking.
+	ReadMore controls allow the developer to place multiple blog posts or other titles onto a page while conserving vertical real estate.   The user is still able to access the full text of each post or article by simply clicking.
 	
 	Blog sites are the most common use case for `ReadMore` controls.   Multiple blog posts can be displayed on one page using ReadMore items.   Each post is introduced with an opening title sentence, often containing the author and posting date.   The remaining content is hidden from view until the user clicks the "Read More" link, at which point the content is revealed.
 
-	Another variation is the present the blog comments in a ReadMore control below the blog post itself.
+	Another variation is to present the blog comments in a ReadMore control below the blog post itself.
 
 	The action of a ReadMore control is very similar to an [Accordion](components/collapsables/accordion/) control.   The main difference is the button which reveals the hidden content is placed after the introductory text.   Also, an alternative caption is displayed when the content is revealed, for example 'Read Less...'.   A twirl icon rotates when opened which offers further confirmation that  hidden content is now being displayed.
 
 	For this example, two Astro components are used (ReadMoreGroup_A and ReadMoreItem_A).   The ReadMoreGroup  provides a wrapper `<ul>` and a default slot for passing in multiple ReadMoreItems.  
 
-	The basic source code to implement the examples  is shown below.   The [code](#code) sections below contains the props, scripts, and styling of both Astro components.   In order to use this ReadMore example, you will need to set up analagous [custom API endpoints](https://docs.astro.build/en/guides/endpoints/) and return appropriate html responses but the example code should help you get started.
+	The basic source code to implement the examples  is shown below.   The [code](#code) sections below contain the props, scripts, and styling of both Astro components.   In order to use this ReadMore example, you will need to set up analogous [custom API endpoints](https://docs.astro.build/en/guides/endpoints/) and return appropriate HTML responses but the example code should help you get started.
 	
 
 	```astro title="Read More Control Example" "ReadMoreGroup_A" "ReadMoreItem_A"
@@ -101,7 +101,7 @@ const tw = {
 		<h3>Hypermedia</h3>
 		<div class={tw.intro}>
 			<h5>HTML as a response to API requests</h5>
-			<h5>Why are most API calls returing JSON when the browser is optimized to process HTML?</h5>
+			<h5>Why are most API calls returning JSON when the browser is optimized to process HTML?</h5>
 		</div>
 	</ReadMoreItem_A>
 	<ReadMoreItem_A id="1" path="/api/readmore" >
@@ -114,12 +114,12 @@ const tw = {
 	<ReadMoreItem_A id="2" path="/api/readmore">
 		<h3>Tailwind CSS</h3>
 		<div class={tw.intro}>
-			<h5>Respnsive, mobile first styling</h5>
+			<h5>Responsive, mobile first styling</h5>
 			<h5>A defined set of utility classes makes it easier to prototype user interfaces.</h5>
 		</div>
 	</ReadMoreItem_A>
 	<ReadMoreItem_A id="3" path="/api/readmore">
-		<h3>HyperScript</h3>
+		<h3>Hyperscript</h3>
 		<div class={tw.intro}>
 			<h5>New client side scripting language</h5>
 			<h5>Add client side functionality with an easy to learn English-prose syntax patterned after Hypertalk</h5>
@@ -154,7 +154,7 @@ This ReadMore Control features include the following:
 
 This component provides a general `<ul>` wrapper around multiple ReadMoreItem_A components.  This wrapper then permits the developer to style the entire group, especially with positioning utility classes.  
 
-In additon, a HyperScript in the group component listens for the `closeOtherReadMores` event and then optionally ssends the closeUp event to all other ReadMoreItems according to the boolean `closeSiblings` prop.
+In addition, Hyperscript in the group component listens for the `closeOtherReadMores` event and then optionally sends the closeUp event to all other ReadMoreItems according to the boolean `closeSiblings` prop.
 
 #### Props
 
@@ -191,11 +191,11 @@ In additon, a HyperScript in the group component listens for the `closeOtherRead
 
 	##### closeOtherReadMores
 
-	This event is fired by any ReadMoreItem_A component during it's openUp event.   A HyperScript in the ReadMoreGroup_A listens for this event and optionally closes all other ReadMoreItems within the group.   
+	This event is fired by any ReadMoreItem_A component during its openUp event.   Hyperscript in the ReadMoreGroup_A listens for this event and optionally closes all other ReadMoreItems within the group.   
 
 #### Code
 
-Explore the Tabs below to examinea all the code for the ReadMoreGroup_A component.  Use the Everything tab to copy/paste into your project.
+Explore the Tabs below to examine all the code for the ReadMoreGroup_A component.  Use the Everything tab to copy and paste it into your project.
 
 <Tabs>
 	<TabItem label='Props'>
@@ -281,9 +281,9 @@ The heart of this control is in the ReadMoreItem_A component.  This component pr
 
 The introductory text is passed into the components default slot.  This strategy allows you to put any amount and any styling you wish into the introductory text. 
 
-Hidden content is lazy-loaded using the fetch command in the accompanying HyperScript.    An `id` and `path` values are passed as props.  For this example, the `id` prop also serves the file `slug` which is concatenated to the `path` to build a valid route to the backend api endpoint and retrieve the correct hypermedia response. 
+Hidden content is lazy-loaded using the fetch command in the accompanying Hyperscript.    `id` and `path` values are passed as props.  For this example, the `id` prop also serves the file `slug` which is concatenated to the `path` to build a valid route to the backend API endpoint and retrieve the correct hypermedia response. 
 
-Review the Scripts tab in the [Code](#code) section below for the HyperScript used to implement lazy-loading of the hidden content.
+Review the Scripts tab in the [Code](#code) section below for the Hyperscript used to implement lazy-loading of the hidden content.
 
 #### Props
 
@@ -305,12 +305,12 @@ interface Props {
 ```
 
 	##### id
-	Each item should be given a unique id which  serves the dual purpose of preventing name collisions with other ReadMoreItem's as well as providing the `slug` for the file path where the content will be fetched.   If you are using a backend database, the id could also represent the record identifier.
+	Each item should be given a unique ID which  serves the dual purpose of preventing name collisions with other ReadMoreItem's as well as providing the `slug` for the file path where the content will be fetched.   If you are using a backend database, the id could also represent the record identifier.
 
 
 	##### path
 
-	This prop carries the route to the api endpoint where the content will be fetched.   String concatenation in the HyperScript builds the final route using both `id` and the `path` values.
+	This prop carries the route to the API endpoint where the content will be fetched.   String concatenation in the Hyperscript builds the final route using both `id` and the `path` values.
 
 	##### caption
 
@@ -328,17 +328,17 @@ interface Props {
 
 	The body content of the ReadMore is clipped to a fixed height beyond which the content scrolls vertically.
 
-	The default value is 500.   The underlying units used by the script code is pixels.   This prop accepts a number so a mathematical comparison can be performed to determine if the calculated height of the body content exceeds the maxHeight value.
+	The default value is 500.   The underlying units used by the script code are pixels.   This prop accepts a number so a mathematical comparison can be performed to determine if the calculated height of the body content exceeds the maxHeight value.
 
 
 	##### duration
 
-	This props accepts a string indicating the timing of the transition for showing and hiding the body content of the ReadMoreItem.
+	This prop accepts a string indicating the timing of the transition for showing and hiding the body content of the ReadMoreItem.
 
 
 	##### readMoreStyles
 
-	The trigger button and twirl-icon are wrapped by a single flex container.  You can set the background, height, hover, etc. styles by sending in additional TW classes to the readMoreStyles prop.
+	The trigger button and twirl-icon are wrapped by a single flex container.  You can set the background, height, hover, etc. styles by sending in additional Tailwind classes to the readMoreStyles prop.
 
 
 	##### buttonStyles
@@ -358,7 +358,7 @@ interface Props {
 #### Slots
 	{/* Outline the name/function of each slot */}
 	##### default
-The default slot is used to place the introductory text of each  ReadMoreItem.    You can customize the styling of the introductory text by applying TW classes to these elements.
+The default slot is used to place the introductory text of each  ReadMoreItem.    You can customize the styling of the introductory text by applying Tailwind classes to these elements.
 
 	##### twirl-icon
 
@@ -410,7 +410,7 @@ In order for the rotation behavior to work, you must also encode the id of the s
 
 Below you will find all the code segments for the ReadMoreItem_A component.
 
-To use this component in your Astro project, copy/paste the contents of the Everything tab into a .astro file in your src folder.
+To use this component in your Astro project, copy and paste the contents of the Everything tab into an `.astro` file in your `src` folder.
 
 The ReadMoreItem_A component is meant to be used in conjunction with the parent component [ReadMoreGroup_A](#readmoregroup_a).
 
@@ -420,16 +420,16 @@ import {Tabs, TabItem } from '@astrojs/starlight/components'
 	<TabItem label='Props'>
 	```js
 interface Props {
-		id:string   //a unique identifier which doubles as the file 'slug' for loading content from api route
+		id:string   //a unique IDentifier which doubles as the file 'slug' for loading content from api route
 		path?:string	//the path to the api route which will return the content for this ReadMore item
 		caption?:string	//the caption for the trigger button
 		altCaption?:string	//the caption for the trigger button when the content is expanded
 		maxHeight?:number	 //maximum open height in px (after which the body content scrolls vertically)
 		duration?:string	//the duration of the height transition
-		readMoreStyles?:string	//override or add TW classes to the readMore flex container
-		buttonStyles?:string	//override or add TW classes to the trigger button
-		iconStyles?:string	//override or add TW classes to the twirl icon
-		bodyStyles?:string	//override or add TW classes to the body element
+		readMoreStyles?:string	//override or add Tailwind classes to the readMore flex container
+		buttonStyles?:string	//override or add Tailwind classes to the trigger button
+		iconStyles?:string	//override or add Tailwind classes to the twirl icon
+		bodyStyles?:string	//override or add Tailwind classes to the body element
 }
 
 const {
@@ -552,16 +552,16 @@ import {twMerge} from 'tailwind-merge'
 
 
 interface Props {
-		id:string   //a unique identifier which doubles as the file 'slug' for loading content from api route
+		id:string   //a unique IDentifier which doubles as the file 'slug' for loading content from api route
 		path?:string	//the path to the api route which will return the content for this ReadMore item
 		caption?:string	//the caption for the trigger button
 		altCaption?:string	//the caption for the trigger button when the content is expanded
 		maxHeight?:number	 //maximum open height in px (after which the body content scrolls vertically)
 		duration?:string	//the duration of the height transition
-		readMoreStyles?:string	//override or add TW classes to the readMore flex container
-		buttonStyles?:string	//override or add TW classes to the trigger button
-		iconStyles?:string	//override or add TW classes to the twirl icon
-		bodyStyles?:string	//override or add TW classes to the body element
+		readMoreStyles?:string	//override or add Tailwind classes to the readMore flex container
+		buttonStyles?:string	//override or add Tailwind classes to the trigger button
+		iconStyles?:string	//override or add Tailwind classes to the twirl icon
+		bodyStyles?:string	//override or add Tailwind classes to the body element
 }
 
 const {

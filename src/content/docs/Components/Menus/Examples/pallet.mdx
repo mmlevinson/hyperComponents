@@ -10,7 +10,7 @@ A common use case for a custom dropdown is to present a Pallet of colors.   Clic
 
 Two examples are presented which  illustrate a drop down menu with a grid of color swatches.  For illustration purposes we are using Tailwind's color families.
 
-The first example uses the [ClickDropdownMenu_A](/components/menus/click_a/) parent component to wrap a custom [PalletGrid](#palletgrid) component.   The code block used to present  this example is listed to follow.
+The first example uses the [ClickDropdownMenu_A](/components/menus/click_a/) parent component to host a custom [PalletGrid](#palletgrid) component.   The code block used to present  this example is listed below.
 
 import PalletGrid from '../../../../../components/PalletGrid.astro'
 import TailwindPallet from '../../../../../components/TailwindPallet.astro'
@@ -87,15 +87,15 @@ const tw = {
 
 ### Description
 
-This hyperComponent utilizes either the  [ClickDropdownMenu_A](/components/menus/click_a) or [HoverDropdownMenu_B](/components/menus/hover_b) parent components presented in earlier.
+This hyperComponent utilizes either the  [ClickDropdownMenu_A](/components/menus/click_a) or [HoverDropdownMenu_B](/components/menus/hover_b) parent components presented earlier.
 
 The default slot for the dropdown component(s) receives a [PalletGrid](#palletgrid) custom component.   The PalletGrid takes an `orientation` prop which returns either a horizontally or vertically oriented grid of color swatches.  
 
-Each swatch is comprised of  a [PalletItem](#palettitem) component  which accepts a `twColor` and `hexCode` prop.   The `twColor` is the Tailwind color class and the `hexCode` is the equivalent hexadecimal value of the color.   
+Each swatch is comprised of  a [PalletItem](#palletitem) component  which accepts a `twColor` and `hexCode` prop.   The `twColor` is the Tailwind color class and the `hexCode` is the equivalent hexadecimal value of the color.   
 
 ### Features
 
--The trigger button does not receive a`caption` prop so the dropdown's  appearance is only indicated by its icon.
+-The trigger button does not receive a `caption` prop so the dropdown's  appearance is only indicated by its icon.
 
 -The Tailwind logo icon is passed into the `leftIcon` slot with appropriate styling classes applied.
 
@@ -103,7 +103,7 @@ Each swatch is comprised of  a [PalletItem](#palettitem) component  which accept
 
 -Hovering over an individual swatch reveals a tooltip displaying the Tailwind color family, shade,  and corresponding hex value.
 
--Clicking a swatch dismisses the dropdown smoothly and then displays an alert showing the color name and hexidecimal value of the selection.
+-Clicking a swatch dismisses the dropdown smoothly and then displays an alert showing the color name and hexadecimal value of the selection.
 
 -A class of `.colorPallet` is added to the `buttonStyles` prop of the parent component so that the Hyperscript associated with each swatch  can send a custom event which triggers closure of the dropdown after a selection is made.
 
@@ -115,7 +115,7 @@ The dropdown is dismissed by:
 ###### 4. Tapping any color swatch
 ###### 5. Pressing the Escape key when the trigger button is focused
 
-In the hover activated example, a Hyperscript behavior (ToggleDropwon) is installed into the  `<button>`from a `<script>` tag in the [HoverDropdownMenu_B](/components/menus/hover_b) component. This behavior adds tracking of the mouseenter and mouseleave system events in order to set dropdown visibility based on hover state. 
+In the hover activated example, a Hyperscript behavior (ToggleDropdown) is installed into the  `<button>` from a `<script>` tag in the [HoverDropdownMenu_B](/components/menus/hover_b) component. This behavior adds tracking of the mouseenter and mouseleave system events in order to set dropdown visibility based on hover state. 
 
 
 ## Components
@@ -225,13 +225,13 @@ The data structures of the vertically oriented pallet are exactly the same so wo
 
 The essential component rendering a single swatch is the `PalletItem` comprised of a simple `<span>` whose background color is set using props. 
 
-The PalletItem component accepts three props.   The `twColor prop is the name of the Tailwind color such as 'red-500'`.    The `hexCode` prop is the corresponding hexidecimal value for that color.  Finally, the `script` prop receives a HyperScript from its parents which is used to close the dropdown and then trigger some custom action.
+The PalletItem component accepts three props.   The `twColor prop is the name of the Tailwind color such as 'red-500'`.    The `hexCode` prop is the corresponding hexadecimal value for that color.  Finally, the `script` prop receives Hyperscript from its parent which is used to close the dropdown and then trigger some custom action.
 
 A function in the component script capitalizes the first letter of the color name which is then used to set a `title` attribute creating a tooltip that will be displayed when the user hovers over the color swatch.
 
-Since the swatch color is created using background colors, the 'bg-' prefix is stripped from the Tailwind class before the `title`string  is created.
+Since the swatch color is created using background colors, the 'bg-' prefix is stripped from the Tailwind class before the `title` string  is created.
 
-Finally, a Hyperscript attribute on each `PalletItem` accepts a `script` prop which should listen for a click  and then send the `closeDropdown` custom event back to the parent `<button>`.  To make this happen, a `.colorPalett` class is explicitly added to the `<button>` of each dropdown component by passing this class name into the `buttonStyles` prop. The custom event should target the `.colorPallet` class in order to close the dropdown.
+Finally, a Hyperscript attribute on each `PalletItem` accepts a `script` prop which should listen for a click  and then send the `closeDropdown` custom event back to the parent `<button>`.  To make this happen, a `.colorPallet` class is explicitly added to the `<button>` of each dropdown component by passing this class name into the `buttonStyles` prop. The custom event should target the `.colorPallet` class in order to close the dropdown.
 
 To set the background color of the swatch a simple string concatenation expression is used to combine the default styles with the `twColor` prop.   Since there are no default background colors, twMerge() is not needed here.
 
@@ -279,15 +279,15 @@ const tw = {
 
 Use the Tabs below to explore all the code used to create these examples.  
 
-To apply  one of these palettes in your Astro project, copy/paste the code from either the Click or Hover activated examples into the Astro file where it will be used and then adjust the file import paths.  You will also need the parent dropdown components, either the [ClickDropdownMenu_A](/components/menus/click_a/) or [HoverDropdownMenu_B](/components/menus/hover_b/).
+To apply  one of these palettes in your Astro project, copy and paste the code from either the Click or Hover activated examples into the Astro file where it will be used and then adjust the file import paths.  You will also need the parent dropdown components, either the [ClickDropdownMenu_A](/components/menus/click_a/) or [HoverDropdownMenu_B](/components/menus/hover_b/).
 
-You will also need to copy/paste the PalletGrid, PalletGridH, PalletGridV, and  PalletItem code and put them into separate `.astro` files.
+You will also need to copy and paste the PalletGrid, PalletGridH, PalletGridV, and  PalletItem code and put them into separate `.astro` files.
 
 The import file paths in the sample code are for illustration purposes only and not specific for your project structure.  They will all need to be adjusted depending on where in your src folder you place the `.astro` files.
 
  Unlike the examples here, you  probably don't want to just show an alert when the swatch is clicked but actually perform some more useful action.  To give each swatch a custom action, provide a custom Hyperscript for the `hs` prop of the PalletGrid and this will be passed along eventually reaching the PalettItem component.
 
-However, before your custom action is triggered, you should  `send closeDropodown to the .colorPallet then settle` to smoothly dismiss the dropdown before the user is taken away to something else.
+However, before your custom action is triggered, you should  `send closeDropdown to the .colorPallet then settle` to smoothly dismiss the dropdown before the user is taken away to something else.
 
 
 import {Tabs, TabItem } from '@astrojs/starlight/components'
