@@ -33,11 +33,11 @@ const hs =
 	`
 -- Curiously, logging shows multiple 'load' events, so we debounce the duplicates
 
--- With Tailwind, we cannot just add multiple styles for the same thing.  Tailwind sorts classes alpha with the last
+-- With Tailwind, we cannot just add duplicate styles for the same CSS property.  Tailwind sorts classes alpha with the last
 -- being the winner, so for example you cannot have multiple background classes without potential abberent behavior (not knowing which will win)
 -- That is why we cannot just 'take' the classes from the current active tab and and give them to the clickedTab
--- b/c all the inactive classes  remain and may win (depending on which colors you are using)
--- 'remove' can take advantage 'flat-mapping' to loop through all children in one step, but we must only add the active classes
+-- b/c all the inactive classes remain and may win (depending on which colors you are using)
+-- 'remove' does take advantage 'flat-mapping' to loop through all children in one step, but we must only add the active classes
 -- to the clicked tab and the inactive classes to all other tabs.   
 -- This is a Tailwind issue, not Hyperscript !!
 
@@ -59,6 +59,7 @@ const hs =
 	end -- activate tab by id
 
 	on activateTab(clickedTab)
+	  -- transition my *opacity to 0
 		remove .${tw.inactiveLight} .${tw.inactiveDark} .${tw.textInactiveLight} .${tw.textInactiveDark} from the <.tab-item/> in me
 		remove .border-b-0 .${tw.activeLight} .${tw.activeDark} .${tw.textActiveLight} .${tw.textActiveDark} from the <.tab-item/> in me
 		set allTabs to <.tab-item/> in me
@@ -69,6 +70,7 @@ const hs =
 				add .${tw.inactiveLight} .${tw.inactiveDark} .${tw.textInactiveLight} .${tw.textInactiveDark} to the tab
 			end
 		end
+		 -- transition my *opacity to 1
 
 
 	end  -- activateTab handler

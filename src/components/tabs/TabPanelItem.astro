@@ -18,16 +18,22 @@ const {
 
 import {tw} from './TabPanel.astro'
 
+const normalizedTrigger = trigger
+	.split(',')
+	.map((eventName) => eventName.trim())
+	.filter(Boolean)
+	.join(' or ')
+
 const hs = `
-  on click send activateTab(clickedTab:me) to the closest <.tab-panel/>
+  on ${trigger}
+		send activateTab(clickedTab:me) to the closest <.tab-panel/>
+		set *opacity of the next <output/> to 0
+	  fetch '${path}' as html then put the result into the next <output/>
+		transition the next <output/>'s *opacity to 1
 `
 ---
 
-<button id={id} 
-	class={tw.tabItem}
-	hx-trigger={trigger}
-	hx-get={`${path}`}
-	script={hs}>
+<button id={id} class={tw.tabItem} script={hs}>
 	{caption}
 </button>
 	 
