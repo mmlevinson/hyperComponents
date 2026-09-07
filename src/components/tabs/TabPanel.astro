@@ -55,11 +55,10 @@ const hs =
 		set requestedTab to #{tabId}
 		if requestedTab exists
 			send activateTab(clickedTab:requestedTab) to me
-		end
+		end -- if
 	end -- activate tab by id
 
 	on activateTab(clickedTab)
-	  -- transition my *opacity to 0
 		remove .${tw.inactiveLight} .${tw.inactiveDark} .${tw.textInactiveLight} .${tw.textInactiveDark} from the <.tab-item/> in me
 		remove .border-b-0 .${tw.activeLight} .${tw.activeDark} .${tw.textActiveLight} .${tw.textActiveDark} from the <.tab-item/> in me
 		set allTabs to <.tab-item/> in me
@@ -70,9 +69,6 @@ const hs =
 				add .${tw.inactiveLight} .${tw.inactiveDark} .${tw.textInactiveLight} .${tw.textInactiveDark} to the tab
 			end
 		end
-		 -- transition my *opacity to 1
-
-
 	end  -- activateTab handler
 
 	`
