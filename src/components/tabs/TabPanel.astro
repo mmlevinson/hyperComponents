@@ -2,7 +2,7 @@
 import {twMerge} from 'tailwind-merge'
  
 interface Props {
-	defaultTabId?:string  // The id of the tab to be activated by default	
+	defaultTabId?:string  // The id of the tab to be activated on load	
 	maxHeight?:string  // The maximum height of the panel content area
 }
  
@@ -10,7 +10,9 @@ const {
 	defaultTabId = '0',
 	maxHeight = 'max-h-[30rem]'
 } = Astro.props 
- 
+
+//Export styles from the TabPanel to be imported into TabPanelItem
+//One source of truth for all the styles for this Component
 export const tw = {
 	container: 'tab-panel not-content flex justify-left ',
 	output: 'block text-left p-4 w-full overflow-y-scroll ' +
@@ -76,9 +78,6 @@ const hs =
 ---
  
 <div class={tw.container}
-	hx-trigger="click"
-	hx-swap="innerHTML transition:true"
-	hx-target="next <output/>"
 	script={hs} >
   <slot/>
 </div>

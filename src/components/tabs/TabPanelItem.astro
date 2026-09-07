@@ -1,14 +1,13 @@
 ---
-
-import {twMerge} from 'tailwind-merge'
-
+//values passed in via attributes on invididual <TabPanelItem>
 interface Props {
 	id: string  // a unique identifier
 	caption: string  // a string displayed in the Tab
 	path: string  // the API route to be loaded when the Tab is active
-	trigger?: string  //one or more (comma separated) events which activate the Tab
+	trigger?: string  // multipe triggers separated by 'or'
 }
 
+//destruct pros into local constants
 const { 
 	id, 
 	caption, 
@@ -16,14 +15,10 @@ const {
   trigger = 'click' 
 } = Astro.props
 
+//get our styles
 import {tw} from './TabPanel.astro'
 
-const normalizedTrigger = trigger
-	.split(',')
-	.map((eventName) => eventName.trim())
-	.filter(Boolean)
-	.join(' or ')
-
+//interpolate props (as constants) into our Hyperscript code
 const hs = `
   on ${trigger}
 		send activateTab(clickedTab:me) to the closest <.tab-panel/>
