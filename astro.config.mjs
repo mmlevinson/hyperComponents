@@ -1,7 +1,6 @@
 import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
 import tailwind from "@astrojs/tailwind";
-
 import vercel from "@astrojs/vercel/serverless";
 
 // https://astro.build/config
@@ -24,14 +23,14 @@ export default defineConfig({
 					{
 						tag: 'script',
 						attrs: {
-							src: 'https://unpkg.com/hyperscript.org@0.9.12',
+							src: 'https://unpkg.com/hyperscript.org@latest',
 							defer: true
 						}
 					}, 
 					{
 						tag: 'script',
 						attrs: {
-							src: 'https://unpkg.com/htmx.org@1.9.12',
+							src: 'https://unpkg.com/htmx.org@latest',
 							integrity: "sha384-ujb1lZYygJmzgSwoxRggbCHcjc0rB2XoQrxeTUQyRjrOnlCoYta87iKBWq3EsdM2",
 							crossorigin: "anonymous",
 							defer: true
