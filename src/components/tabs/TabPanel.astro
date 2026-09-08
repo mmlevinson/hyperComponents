@@ -1,12 +1,14 @@
 ---
 //values passed in via attributes on individual <TabPanel>s
 interface Props {
-	defaultTabId?:string  // The id of the tab to be activated on load	
-	maxHeight?:string  // The maximum height of the panel content area
+	defaultTabId?:string  // The id of the tab to be activated on load
+	minHeight?:string //shortest vertical height of the </output>	
+	maxHeight?:string  //tallest vertical height of the </output>
 }
 //destruct props into local constants 
 const {
 	defaultTabId,
+	minHeight = 'min-h-[30rem]',
 	maxHeight = 'max-h-[30rem]'
 } = Astro.props 
 
@@ -83,7 +85,7 @@ const hs =
  
 <div class={tw.container} script={hs} >
   <slot/>
-	<output class={tw.output + ' ' + maxHeight}/>
+	<output class={tw.output + ' ' + maxHeight + ' ' + minHeight}/>
 </div>
 
 

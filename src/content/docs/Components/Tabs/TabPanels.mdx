@@ -5,7 +5,7 @@ tableOfContents:
   minHeadingLevel: 2
   maxHeadingLevel: 5
 ---
-
+	{/* TabPanel Example */}
 
 import TabPanel from '../../../../components/tabs/TabPanel.astro'
 import TabPanelItem from '../../../../components/tabs/TabPanelItem.astro'
@@ -25,16 +25,15 @@ import TabPanelItem from '../../../../components/tabs/TabPanelItem.astro'
 		 
 ## Description
 	{/* General Description */}
-	{/* Example  Code block showing the  control in action. */}
 
-In the example above , a row of classic semi-rounded Tabs is presented above a fixed height container where content is loaded according to the topic displayed in the currently selected Tab.  
+In the example above , a row of classic semi-rounded Tabs is presented above a container where content is dynamically loaded according to the topic displayed in the currently selected Tab.  
 
 This example  uses [Hyperscript](https://hyperscript.org) for UI and [Tailwind](https://tailwindcss.com) for styling.
 
 There are two Astro components used to implement this control: 
 
-1. [TabPanel](#tabpanel) component which acts as a parent container, and  
-2. Multiple [TabPanelItem](#tabpanelitem) components inserted into the TabPanel default slot. 
+1. [TabPanel](#tabpanel)  which acts as a parent container, and  
+2. Multiple [TabPanelItem](#tabpanelitem)s inserted into the TabPanel default slot. 
 
 Here is the code used to implement this example:
 
@@ -57,37 +56,30 @@ import TabPanelItem from '/components/tabs/TabPanelItem.astro'
 
 ## Features
 
-1.  A single fixed-height panel with a top row of tabs
-2.  Height of panel can be changed via props.
-3.  Panel content is loaded from custom API routes using [htmx](https://htmx.org)
-4.  Customizable appearance of active and inactive tabs
-5.  Customizable appearance of the panel content
-6.  Smooth transitions between content swapping
+1. A top row of Tabs where click events switch content in the output element.
+2. Smooth transitions during content swapping.  
+3. Custom styling using [Tailwind](https://tailwindcss.com)
+
 		 
 ## Components
 	{/* Breakdown of each Astro Components used for this control */}
 	### TabPanel
    
-	  The main container for this control is the `TabPanel` component.
-
-		The following sections break down the code with explanations for the [Props](#props), [Slots](#slots), [Events](#events), [Attributes](#attributes), and [Transitions](#transitions) provided by this component.
-
-   All the  source code you need to implement this component in your project is presented in various tabs of the [Code](#code) section below.		
-
-		#### Props
-			{/* Each component, with code block showing the props interface */}
+The parent container for this control is the `TabPanel` component.
+#### Props
+	{/* Each component, with code block showing the props interface */}
 			
-		```js title="TabPanel.astro"
-		interface Props {
-			defaultTabId?:string 
-			maxHeight?:string  
-		}
-		
-		const {
-			defaultTabId = '0',
-			maxHeight = 'max-h-[35rem]'
+```js title="TabPanel.astro"
+interface Props {
+	defaultTabId?:string  //unique identifier of the Tab to be loaded as a the default
+	maxHeight?:string    //TW class for maximum output height (ex: max-h-[35rem])
+}
+
+const {
+	defaultTabId = '0',
+	maxHeight = 'max-h-[35rem]'
 } = Astro.props 
-		```
+```
 
 		##### defaultTabId
 
