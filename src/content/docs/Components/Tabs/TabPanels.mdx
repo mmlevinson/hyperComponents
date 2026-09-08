@@ -26,8 +26,8 @@ import TabPanelItem from '../../../../components/tabs/TabPanelItem.astro'
 1. Clicking a Tab fetches hypermedia from a specified api end point (passed as a prop).
 2. Uses just two astro components ([TabPanel](#TabPanel) and [TabPanelItem](#TabPanelItem))
 3. UI implemented exclusively with [Hyperscript](https://hyperscript.org) (No JS or client-side frameworks)
-4. Styling implemented exclusively with [Tailwind](https://tailwindcss.com)
-5. Tabs can be switched programmatically using a unique identifer
+4. Styling implemented entirely with [Tailwind](https://tailwindcss.com)
+5. Tabs can be switched programmatically by referencing  a unique identifer
 6. Smooth transitions during content swapping.
 
 ## Example Code
@@ -224,9 +224,9 @@ import {Tabs, TabItem } from '@astrojs/starlight/components'
 		</Tabs>
 		 
 
-	 In the Scripts tab above notice the use of back-ticks for the `hs` constant.  By extracting the entire script into a local constant and then using back-ticks with string interpolation, it is possible to utilize props and/or utitilty classes in both the HS code and the markup.
+	 In the Scripts tab above notice the use of back-ticks for the `hs` constant.  By extracting the entire script into a local constant and then using string interpolation, it is possible to utilize props and/or utitilty classes in both the HS code and the markup.
 
-	 In the HTML tab above notice the heigth props are simply concatenated into the `class` attribute of the `<output/>` element. This is a simple way of extending the class attribute but you must [avoid colliding classes](/about/tailwind#are-you-missing-a-space-char).
+	 In the HTML tab above notice the heigth props are simply concatenated into the `class` attribute of the `<output/>` element. This is a simple way of extending the class attribute but you must [avoid merge conflicts](/about/tailwind#merge-conflicts).
 
 
 	### TabPanelItem
@@ -326,12 +326,11 @@ import {Tabs, TabItem } from '@astrojs/starlight/components'
 ##  Usage
 	{/* Discuss use cases */}
 
-	You build TabPanels by including multiple TabPanelItems in the default `<slot/>`.   Each item should reference a different API endpoint and return html (not raw data or JSON)
-	No client side JavaScript or frameworks are used.  
+	You build TabPanels by including multiple TabPanelItems in the default `<slot/>`.   Each item should reference a different API endpoint and return html (not raw data or JSON).
 
-	The TabPanel script listens for an `activateTab()` event emitted by any clicked TabPanelItem and then loads the api endpoint with underlying smooth transitions.
+	The TabPanel listens for an `activateTab()` event emitted by any clicked TabPanelItem and then loads the api endpoint with underlying smooth transitions.
 
-	You can also switch tabs programmatically by sending `activateTabById` to the TabPanel container:
+	You can also switch tabs programmatically by sending `activateTabById` to the parent TabPanel.
 
 	```html title="Programmatic Tab Switch"
 	<button script="on click send activateTabById(tabId:'3') to the first <.tab-panel/>">
@@ -343,5 +342,7 @@ import {Tabs, TabItem } from '@astrojs/starlight/components'
 
 	Hyperscript provides a [take command](https://hyperscript.org/commands/take/) which extracts classes (or attributes) from one element and adds to another.    This elegant feature of Hyperscript has a minor interaction with Tailwind utility classes.
 	Tailwind becomes confused if you have duplicate utility classes on the same element.   So, in order for Tabs to show reliable styling in both states, it is not enough to `take` from one and give to another.
-	You must remove [Tailwind](https://tailwindcss.com) classes to [avoid colliding classes](/about/tailwind#are-you-missing-a-space-char). 
+	You must remove [Tailwind](https://tailwindcss.com) classes to [avoid merge conflicts](/about/tailwind#merge-conflicts). 
 	This is a [Tailwind](https://tailwindcss.com) issue, not Hyperscript.  The solution is to manually remove potentially colliding [Tailwind](https://tailwindcss.com) classes as in the example scripts above.
+
+	Another limitation is the absence of `aria-attributes` to facilitate screen readers and assist visually impaired users.   This limitation will be addressed in future updates
