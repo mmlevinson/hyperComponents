@@ -1,20 +1,19 @@
 ---
-import {twMerge} from 'tailwind-merge'
- 
+//values passed in via attributes on individual <TabPanel>s
 interface Props {
 	defaultTabId?:string  // The id of the tab to be activated on load	
 	maxHeight?:string  // The maximum height of the panel content area
 }
- 
+//destruct props into local constants 
 const {
-	defaultTabId = '0',
+	defaultTabId,
 	maxHeight = 'max-h-[30rem]'
 } = Astro.props 
 
-//Export styles from the TabPanel to be imported into TabPanelItem
-//One source of truth for all the styles for this Component
+//Export styles as one-source-of-truth for the TabPanel UI
+//   so they can also be imported into TabPanelItem
 export const tw = {
-	container: 'tab-panel not-content flex justify-left ',
+	container: 'tab-panel not-content',
 	output: 'block text-left p-4 w-full overflow-y-scroll ' +
 	  'bg-gray-100 dark:bg-gray-950 ',
 	tabItem: 'z-10 tab-item not-content select-none ' + 
@@ -31,8 +30,9 @@ export const tw = {
 	textInactiveDark: 'dark:text-zinc-200'
 }
 
-const hs = 
-	`
+//interpolate props (as constants) into our Hyperscript code
+
+/*
 -- Curiously, logging shows multiple 'load' events, so we debounce the duplicates
 
 -- With Tailwind, we cannot just add duplicate styles for the same CSS property.  Tailwind sorts classes alpha with the last
@@ -42,7 +42,9 @@ const hs =
 -- 'remove' does take advantage 'flat-mapping' to loop through all children in one step, but we must only add the active classes
 -- to the clicked tab and the inactive classes to all other tabs.   
 -- This is a Tailwind issue, not Hyperscript !!
-
+*/
+const hs = 
+	`
 	on init
     set :loadCount to 0
 	end -- init
@@ -70,16 +72,18 @@ const hs =
 			else
 				add .${tw.inactiveLight} .${tw.inactiveDark} .${tw.textInactiveLight} .${tw.textInactiveDark} to the tab
 			end
-		end
+		end -- for allTabs
 	end  -- activateTab handler
 
 	`
  
+
+ //Put multiple <TabPanelItem/> components into the default slot below...
 ---
  
-<div class={tw.container}
-	script={hs} >
+<div class={tw.container} script={hs} >
   <slot/>
+	<output class={tw.output + ' ' + maxHeight}/>
 </div>
-<output class={tw.output + ' ' + maxHeight}/>
+
 

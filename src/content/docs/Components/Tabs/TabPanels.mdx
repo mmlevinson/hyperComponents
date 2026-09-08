@@ -5,27 +5,7 @@ tableOfContents:
   minHeadingLevel: 2
   maxHeadingLevel: 5
 ---
-		 
-A utility control for displaying blocks of related content is the TabPanel control.
 
-In the example below, a row of classic semi-rounded Tabs is presented above a fixed height container where content is loaded according to the topic displayed in the Tab.  
-		 
-## Example
-		 
-export const tw = {
-		exampleContainer: 'not-content w-full w-max-lg text-center my-6 mx-auto rounded-xl ' + 
-		'bg-gray-300 dark:bg-gray-800' ,
-		exampleTitle: 'py-2 mb-4 rounded-t-xl ' + 
-		'font-semibold text-gray-300 dark:text-zinc-200 ' + 
-		'bg-gray-800 dark:bg-sky-900 ',
-		icon:'inline-block size-6',
-		image: 'inline-block max-h-6',
-		p: 'pb-3'	
-}
-		 
-<div id='TabPanel-example' class={tw.exampleContainer} >
-<div id='TabPanel-title' class={tw.exampleTitle}>Sample TabPanel Control</div>
-	{/* Example Control in Action */}
 
 import TabPanel from '../../../../components/tabs/TabPanel.astro'
 import TabPanelItem from '../../../../components/tabs/TabPanelItem.astro'
@@ -41,25 +21,29 @@ import TabPanelItem from '../../../../components/tabs/TabPanelItem.astro'
 	</div>
 
 
-</div>
+
 		 
 ## Description
 	{/* General Description */}
 	{/* Example  Code block showing the  control in action. */}
 
+In the example above , a row of classic semi-rounded Tabs is presented above a fixed height container where content is loaded according to the topic displayed in the currently selected Tab.  
 
-This example hyperComponent uses [htmx](https://htmx.org) to issue AJAX requests to an [Astro](https://astro.build/docs) API endpoint which returns a [hypermedia](https://htmx.org/essays/hypermedia-apis-vs-data-apis/) response that loads into the container below the tabs.
+This example  uses [Hyperscript](https://hyperscript.org) for UI and [Tailwind](https://tailwindcss.com) for styling.
 
-Switching tabs is performed exclusively by [Hyperscript](https://hyperscript.org).  Styling is provided only by [Tailwind](https://tailwindcss.com) utility classes.
+There are two Astro components used to implement this control: 
 
-There are two Astro components used to implement this control, specifically  a [TabPanel](#tabpanel) component which acts as a parent container that wraps multiple [TabPanelItem](#tabpanelitem) components.  
+1. [TabPanel](#tabpanel) component which acts as a parent container, and  
+2. Multiple [TabPanelItem](#tabpanelitem) components inserted into the TabPanel default slot. 
 
-	```astro title="UsingATabPanel.astro" "TabPanel" "TabPanelItem"
+Here is the code used to implement this example:
+
+```astro title="Example.astro" "TabPanel" "TabPanelItem"
 
 	---
 import TabPanel from '/components/tabs/TabPanel.astro'
 import TabPanelItem from '/components/tabs/TabPanelItem.astro'
-	---
+---
 		 
 <TabPanel defaultTabId="1">
 		<TabPanelItem id="0" caption="Hypermedia" path="/api/endpoint/0" trigger="load, click" />
