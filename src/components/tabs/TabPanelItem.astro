@@ -2,9 +2,9 @@
 //values passed in via attributes on individual <TabPanelItem>s
 interface Props {
 	id: string  // a unique identifier
-	caption: string  // a string displayed in the Tab
-	path: string  // the API route to be loaded when the Tab is active
-	trigger?: string  // multipe triggers separated by 'or'
+	caption: string  // a string displayed as the Tab label
+	path: string  // the API route to be loaded when the Tab is activated
+	trigger?: string  // multiple triggers may be separated by 'or'
 }
 
 //destruct props into local constants
