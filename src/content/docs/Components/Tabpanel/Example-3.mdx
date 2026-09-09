@@ -1,0 +1,376 @@
+---
+title: Example 3
+description: Tabpanel example using direct aria transfer with Hyperscript take
+sidebar:
+  label: Example 3
+  order: 3
+tableOfContents:
+  minHeadingLevel: 2
+  maxHeadingLevel: 5
+---
+{/* TabPanel Example using modern Hyperscript take syntax */}
+
+import TabPanel_B from '../../../../components/tabs/TabPanel_B.astro'
+import TabPanelItem_B from '../../../../components/tabs/TabPanelItem_B.astro'
+import {Tabs, TabItem } from '@astrojs/starlight/components'
+
+<div class='p-4'>
+	<TabPanel_B defaultTabId='0'>
+		<TabPanelItem_B id='0' caption='Hypermedia' path='/api/readmore/0' trigger='load or click' />
+		<TabPanelItem_B id='1' caption='HTMX' path='/api/readmore/1' />
+		<TabPanelItem_B id='2' caption='Tailwind' path='/api/readmore/2' />
+		<TabPanelItem_B id='3' caption='Hyperscript' path='/api/readmore/3' />
+		<TabPanelItem_B id='4' caption='Astro' path='/api/readmore/4' />
+	</TabPanel_B>
+</div>
+
+## Features
+
+1. Uses Hyperscript's `take` command to set `aria-selected` and `tabindex` attributes on the clickedTab
+2. Switches tab appearance by setting `aria-selected = true` for the clickedTab
+3. Avoids manually swapping active and inactive classes.
+4. All functionality is delegated to the parent class ([TabPanel](#TabPanel_B) )
+5. Preserves fetching hypermedia responses from API routes and smooth transitions using Hyperscript
+6. Supports programmatic tab switching with `activateTabById`
+7. Compatible with screen readers
+
+This example is a direct port of the `aria-attribute`  example from the [Hyperscript Patterns](https://hyperscript.org/patterns/dom/tabs/) page illustrating the `take` command.
+
+Tailwind supports the `aria-selected:` prefix which instructs the browser to apply those styles whenever an element has it's ` aria-selected = true`
+
+Setting the `tab-index` to -1 keeps the focus on the clicked tab.
+
+## Example Code
+
+```astro title='Example-3.astro' 'TabPanel_B' 'TabPanelItem_B'
+---
+import TabPanel_B from '/components/tabs/TabPanel_B.astro'
+import TabPanelItem_B from '/components/tabs/TabPanelItem_B.astro'
+---
+
+<TabPanel_B defaultTabId='0'>
+	<TabPanelItem_B id='0' caption='Hypermedia' path='/api/readmore/0' trigger='load or click' />
+	<TabPanelItem_B id='1' caption='HTMX' path='/api/readmore/1' />
+	<TabPanelItem_B id='2' caption='Tailwind' path='/api/readmore/2' />
+	<TabPanelItem_B id='3' caption='Hyperscript' path='/api/readmore/3' />
+	<TabPanelItem_B id='4' caption='Astro' path='/api/readmore/4' />
+</TabPanel_B>
+```
+
+## Components
+
+### TabPanel_B
+
+All logic for switching the active and inactive styling is present in the parent TabPanel component.
+
+The `aria-selected:` Tailwind styles are updated by the browser  when Hyperscript takes the `aria-selected = true` attribute from one tab and applies it to another
+
+<Tabs>
+
+<TabItem label='Props'>
+   ```js
+//values passed in via attributes on individual <TabPanel_B>s
+interface Props {
+	defaultTabId?:string  // the id of the tab to activate on load
+	minHeight?:string // shortest vertical height of the </output>
+	maxHeight?:string  // tallest vertical height of the </output>
+}
+
+const {
+	defaultTabId = '0',
+	minHeight = 'min-h-[30rem]',
+	maxHeight = 'max-h-[30rem]'
+} = Astro.props
+
+export const tabpanelOutputId = 'tabpanel-output-id'
+	 ```
+	</TabItem>
+
+
+{/* HTML */}
+	<TabItem label='HTML'>
+	```html
+<div class={tw.container} script={hs}>
+	<div class={tw.tabList} role='tablist'>
+		<slot/>
+	</div>
+	<output id={tabpanelOutputId} 
+		role='tabpanel'
+		aria-live='polite' 
+		class={tw.output + ' ' + maxHeight + ' ' + minHeight}/>
+</div>
+	```
+	</TabItem>
+
+{/* Scripts */}
+	<TabItem label='Scripts'>
+	```js
+
+const hs =
+	`
+	on init
+		set :loadCount to 0
+	end -- init
+
+	-- logging reveals multiple load events ... debounce here
+	on load
+		if :loadCount is greater than 1 then exit end
+		send activateTabById(tabId:'${defaultTabId}') to me
+		increment :loadCount
+	end -- load handler
+
+	on click
+		set clickedTab to the closest <[role=tab]/> to the target
+		if no clickedTab exit end
+		send activateTab(clickedTab:clickedTab) to me
+	end -- click delegation
+
+	on activateTabById(tabId)
+		set requestedTab to #{tabId}
+		if requestedTab exists
+			send activateTab(clickedTab:requestedTab) to me
+		end -- if
+	end -- activate tab by id
+
+	on activateTab(clickedTab)
+		take @aria-selected='true' with 'false' from <[role=tab]/> in me for clickedTab
+		take @tabindex='0' with -1 from <[role=tab]/> in me for clickedTab
+		set panel to the first <[role=tabpanel]/> in me
+		if panel exists
+			set panel's @aria-labelledby to clickedTab's @id
+			set panel's @aria-busy to 'true'
+			set panel's *opacity to 0
+			fetch clickedTab's @data-path as html then put the result into panel
+			wait 50ms -- prevents intermittant quick flash of content without transition
+			transition panel's *opacity to 1 over 170ms
+			set panel's @aria-busy to 'false'
+		end -- if
+	end -- activate tab
+	`
+	```
+	</TabItem>
+
+{/* Tailwind */}
+	<TabItem label='Tailwind'>
+	```js
+//export styles as one-source-of-truth for TabPanel_B and TabPanelItem_B
+export const tw = {
+	container: 'tab-panel not-content',
+	tabList: 'flex flex-wrap',
+	output: 'block text-left p-4 w-full overflow-y-scroll bg-gray-100 dark:bg-gray-950 ',
+	tabItem: 'z-10 tab-item not-content select-none font-semibold rounded-t-xl cursor-pointer ' +
+		'hover:bg-orange-100 dark:hover:bg-purple-900 border-2 border-slate-600 ' +
+		'bg-slate-300 dark:bg-gray-800 text-blue-900 dark:text-zinc-200 ' +
+		'aria-selected:border-b-0 aria-selected:bg-gray-100 dark:aria-selected:bg-gray-950 ' +
+		'aria-selected:text-blue-950 dark:aria-selected:text-orange-200'
+}
+
+	```
+	</TabItem>
+	
+
+{/* Everything */}
+	<TabItem label = 'Everything'> 
+	```js
+	---
+//values passed in via attributes on individual <TabPanel_B>s
+interface Props {
+	defaultTabId?:string  // the id of the tab to activate on load
+	minHeight?:string // shortest vertical height of the </output>
+	maxHeight?:string  // tallest vertical height of the </output>
+}
+
+const {
+	defaultTabId = '0',
+	minHeight = 'min-h-[30rem]',
+	maxHeight = 'max-h-[30rem]'
+} = Astro.props
+
+export const tabpanelOutputId = 'tabpanel-output-id'
+
+//export styles as one-source-of-truth for TabPanel_B and TabPanelItem_B
+export const tw = {
+	container: 'tab-panel not-content',
+	tabList: 'flex flex-wrap',
+	output: 'block text-left p-4 w-full overflow-y-scroll bg-gray-100 dark:bg-gray-950 ',
+	tabItem: 'z-10 tab-item not-content select-none font-semibold rounded-t-xl cursor-pointer ' +
+		'hover:bg-orange-100 dark:hover:bg-purple-900 border-2 border-slate-600 ' +
+		'bg-slate-300 dark:bg-gray-800 text-blue-900 dark:text-zinc-200 ' +
+		'aria-selected:border-b-0 aria-selected:bg-gray-100 dark:aria-selected:bg-gray-950 ' +
+		'aria-selected:text-blue-950 dark:aria-selected:text-orange-200'
+}
+
+const hs =
+	`
+	on init
+		set :loadCount to 0
+	end -- init
+
+	-- logging reveals multiple load events ... debounce here
+	on load
+		if :loadCount is greater than 1 then exit end
+		send activateTabById(tabId:'${defaultTabId}') to me
+		increment :loadCount
+	end -- load handler
+
+	on click
+		set clickedTab to the closest <[role=tab]/> to the target
+		if no clickedTab exit end
+		send activateTab(clickedTab:clickedTab) to me
+	end -- click delegation
+
+	on activateTabById(tabId)
+		set requestedTab to #{tabId}
+		if requestedTab exists
+			send activateTab(clickedTab:requestedTab) to me
+		end -- if
+	end -- activate tab by id
+
+	on activateTab(clickedTab)
+		take @aria-selected='true' with 'false' from <[role=tab]/> in me for clickedTab
+		take @tabindex='0' with -1 from <[role=tab]/> in me for clickedTab
+		set panel to the first <[role=tabpanel]/> in me
+		if panel exists
+			set panel's @aria-labelledby to clickedTab's @id
+			set panel's @aria-busy to 'true'
+			set panel's *opacity to 0
+			fetch clickedTab's @data-path as html then put the result into panel
+			wait 50ms -- prevents intermittant quick flash of content without transition
+			transition panel's *opacity to 1 over 170ms
+			set panel's @aria-busy to 'false'
+		end -- if
+	end -- activate tab
+	`
+---
+
+<div class={tw.container} script={hs}>
+	<div class={tw.tabList} role='tablist'>
+		<slot/>
+	</div>
+	<output id={tabpanelOutputId} 
+		role='tabpanel'
+		aria-live='polite' 
+		class={tw.output + ' ' + maxHeight + ' ' + minHeight}/>
+</div>
+
+	````
+
+	</TabItem>
+</Tabs>
+
+### TabPanelItem_B
+
+Each `TabPanelItem_B` only provides tab metadata (`id`, caption text, and `data-path`) while the parent handles activation and fetch logic.
+
+<Tabs>
+{/* Props */}
+ <TabItem label="Props">
+	```js
+	//values passed in via attributes on individual <TabPanelItem_B>s
+	interface Props {
+		id: string  // a unique identifier
+		caption: string  // the tab label
+		path: string  // the API route loaded when the tab is activated
+		trigger?: string  // kept for API parity with previous examples
+	}
+
+	const {
+		id,
+		caption,
+		path
+	} = Astro.props
+
+	import {tabpanelOutputId} from './TabPanel_B.astro'
+
+	```
+ </TabItem>
+
+
+ <TabItem label="HTML">
+	```html
+	<button
+		id={id}
+		class={tw.tabItem}
+		role='tab'
+		aria-selected='false'
+		tabindex='-1'
+		type='button'
+		data-path={path}
+		script={hs}>
+		{caption}
+	</button>
+	
+	```
+
+ </TabItem>
+
+ 
+{/* Scripts */}
+ <TabItem label="Scripts">
+	```js
+	const hs = `
+		on init
+			set my @aria-controls to '${tabpanelOutputId}'
+		end -- init
+	````
+ </TabItem>
+
+ <TabItem label="Tailwind">
+	```js
+	import {tw} from './TabPanel_B.astro'
+	```
+ </TabItem>
+
+{/* Everyting */}
+	<TabItem label='Everything'>
+	```js
+---
+//values passed in via attributes on individual <TabPanelItem_B>s
+interface Props {
+	id: string  // a unique identifier
+	caption: string  // the tab label
+	path: string  // the API route loaded when the tab is activated
+	trigger?: string  // kept for API parity with previous examples
+}
+
+const {
+	id,
+	caption,
+	path
+} = Astro.props
+
+import {tabpanelOutputId} from './TabPanel_B.astro'
+import {tw} from './TabPanel_B.astro'
+
+const hs = `
+	on init
+		set my @aria-controls to '${tabpanelOutputId}'
+	end -- init
+`
+---
+
+<button
+	id={id}
+	class={tw.tabItem}
+	role='tab'
+	aria-selected='false'
+	tabindex='-1'
+	type='button'
+	data-path={path}
+	script={hs}>
+	{caption}
+</button>
+	```
+	</TabItem>
+</Tabs>
+
+## Usage
+
+You can still switch tabs programmatically by sending `activateTabById` to the parent component.
+
+```html title='Programmatic Tab Switch'
+<button script="on click send activateTabById(tabId:'3') to the first <.tab-panel/>">
+	Show Hyperscript tab
+</button>
+```
+

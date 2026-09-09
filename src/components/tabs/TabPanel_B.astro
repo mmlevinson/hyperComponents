@@ -1,0 +1,80 @@
+---
+//values passed in via attributes on individual <TabPanel_B>s
+interface Props {
+	defaultTabId?:string  // the id of the tab to activate on load
+	minHeight?:string // shortest vertical height of the </output>
+	maxHeight?:string  // tallest vertical height of the </output>
+}
+
+const {
+	defaultTabId = '0',
+	minHeight = 'min-h-[30rem]',
+	maxHeight = 'max-h-[30rem]'
+} = Astro.props
+
+export const tabpanelOutputId = 'tabpanel-output-id'
+
+//export styles as one-source-of-truth for TabPanel_B and TabPanelItem_B
+export const tw = {
+	container: 'tab-panel not-content',
+	tabList: 'flex flex-wrap',
+	output: 'block text-left p-4 w-full overflow-y-scroll bg-gray-100 dark:bg-gray-950 ',
+	tabItem: 'z-10 tab-item not-content select-none font-semibold rounded-t-xl cursor-pointer ' +
+		'hover:bg-orange-100 dark:hover:bg-purple-900 border-2 border-slate-600 ' +
+		'bg-slate-300 dark:bg-gray-800 text-blue-900 dark:text-zinc-200 ' +
+		'aria-selected:border-b-0 aria-selected:bg-gray-100 dark:aria-selected:bg-gray-950 ' +
+		'aria-selected:text-blue-950 dark:aria-selected:text-orange-200'
+}
+
+const hs =
+	`
+	on init
+		set :loadCount to 0
+	end -- init
+
+	-- logging reveals multiple load events ... debounce here
+	on load
+		if :loadCount is greater than 1 then exit end
+		send activateTabById(tabId:'${defaultTabId}') to me
+		increment :loadCount
+	end -- load handler
+
+	on click
+		set clickedTab to the closest <[role=tab]/> to the target
+		if no clickedTab exit end
+		send activateTab(clickedTab:clickedTab) to me
+	end -- click delegation
+
+	on activateTabById(tabId)
+		set requestedTab to #{tabId}
+		if requestedTab exists
+			send activateTab(clickedTab:requestedTab) to me
+		end -- if
+	end -- activate tab by id
+
+	on activateTab(clickedTab)
+		take @aria-selected='true' with 'false' from <[role=tab]/> in me for clickedTab
+		take @tabindex='0' with -1 from <[role=tab]/> in me for clickedTab
+		set panel to the first <[role=tabpanel]/> in me
+		if panel exists
+			set panel's @aria-labelledby to clickedTab's @id
+			set panel's @aria-busy to 'true'
+			set panel's *opacity to 0
+			fetch clickedTab's @data-path as html then put the result into panel
+			wait 50ms -- prevents intermittant quick flash of content without transition
+			transition panel's *opacity to 1 over 170ms
+			set panel's @aria-busy to 'false'
+		end -- if
+	end -- activate tab
+	`
+---
+
+<div class={tw.container} script={hs}>
+	<div class={tw.tabList} role='tablist'>
+		<slot/>
+	</div>
+	<output id={tabpanelOutputId} 
+		role='tabpanel'
+		aria-live='polite' 
+		class={tw.output + ' ' + maxHeight + ' ' + minHeight}/>
+</div>

@@ -1,0 +1,35 @@
+---
+//values passed in via attributes on individual <TabPanelItem_B>s
+interface Props {
+	id: string  // a unique identifier
+	caption: string  // the tab label
+	path: string  // the API route loaded when the tab is activated
+	trigger?: string  // kept for API parity with previous examples
+}
+
+const {
+	id,
+	caption,
+	path
+} = Astro.props
+
+import {tabpanelOutputId, tw} from './TabPanel_B.astro'
+
+const hs = `
+	on init
+		set my @aria-controls to '${tabpanelOutputId}'
+	end -- init
+`
+---
+
+<button
+	id={id}
+	class={tw.tabItem}
+	role='tab'
+	aria-selected='false'
+	tabindex='-1'
+	type='button'
+	data-path={path}
+	script={hs}>
+	{caption}
+</button>
