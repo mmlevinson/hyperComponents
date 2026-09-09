@@ -1,7 +1,7 @@
 ---
 import StarlightPage from '@astrojs/starlight/components/StarlightPage.astro'
-import TabPanel from '../components/tabs/TabPanel.astro'
-import TabPanelItem from '../components/tabs/TabPanelItem.astro'
+import TabPanel_A from '../components/tabs/TabPanel_A.astro'
+import TabPanelItem_A from '../components/tabs/TabPanelItem_A.astro'
 
 
 const title = 'TestTabs'
@@ -10,13 +10,13 @@ const title = 'TestTabs'
 
 <StarlightPage frontmatter={{title: title}}>
 
-	<TabPanel defaultTabId="1">
-		<TabPanelItem id="0" caption="Hypermedia" path="/api/readmore/0" trigger="load, click" />
-		<TabPanelItem id="1" caption="HTMX" path="/api/readmore/1" />
-		<TabPanelItem id="2" caption="Tailwind" path="/api/readmore/2" />
-		<TabPanelItem id="3" caption="Hyperscript" path="/api/readmore/3" />
-		<TabPanelItem id="4" caption="Astro" path="/api/readmore/4" />
-	</TabPanel>
+	<TabPanel_A defaultTabId="1">
+		<TabPanelItem_A id="0" caption="Hypermedia" path="/api/readmore/0" trigger="load, click" />
+		<TabPanelItem_A id="1" caption="HTMX" path="/api/readmore/1" />
+		<TabPanelItem_A id="2" caption="Tailwind" path="/api/readmore/2" />
+		<TabPanelItem_A id="3" caption="Hyperscript" path="/api/readmore/3" />
+		<TabPanelItem_A id="4" caption="Astro" path="/api/readmore/4" />
+	</TabPanel_A>
 
 
 </StarlightPage>

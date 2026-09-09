@@ -1,43 +1,36 @@
 ---
-//values passed in via attributes on individual <TabPanelItem_A>s
+//values passed in via attributes on individual <TabPanelItem>s
 interface Props {
 	id: string  // a unique identifier
-	caption: string  // the tab label
-	path: string  // the API route loaded when the tab is activated
+	caption: string  // a string displayed as the Tab label
+	path: string  // the API route to be loaded when the Tab is activated
 	trigger?: string  // multiple triggers may be separated by 'or'
 }
 
-const {
-	id,
-	caption,
+//destruct props into local constants
+const { 
+	id, 
+	caption, 
 	path,
-	trigger = 'click'
+  trigger = 'click' 
 } = Astro.props
 
+//get our styles
 import {tw} from './TabPanel_A.astro'
 
+//interpolate props (as constants) into our Hyperscript code
 const hs = `
-	on init
-		set panel to the next <[role='tabpanel']/>
-		if panel exists
-			set my @aria-controls to panel's @id
-		end -- if
-	end -- init
-
-	on ${trigger}
+  on ${trigger}
 		send activateTab(clickedTab:me) to the closest <.tab-panel/>
-		set panel to the next <[role='tabpanel']/>
-		if panel exists
-			set panel's @aria-busy to 'true'
-			set *opacity of the next <[role='tabpanel']/> to 0
-			fetch '${path}' as html then put the result into panel
-			wait 50ms -- prevents intermittant quick flash of content without transition
-			transition the next <[role='tabpanel']/>'s *opacity to 1 over 170ms
-			set panel's @aria-busy to 'false'
-		end -- if
+		set *opacity of the next <output/> to 0
+	  fetch '${path}' as html then put the result into the next <output/>
+		wait 50ms  -- prevents intermittant quick flash of content without transition
+		transition the next <output/>'s *opacity to 1 over 170ms
+
 `
 ---
 
-<button id={id} class={tw.tabItem} role='tab' aria-selected='false' tabindex='-1' type='button' script={hs}>
+<button id={id} class={tw.tabItem} script={hs}>
 	{caption}
 </button>
+	 
