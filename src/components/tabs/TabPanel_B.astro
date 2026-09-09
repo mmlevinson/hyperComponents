@@ -55,15 +55,15 @@ const hs =
 	on activateTab(clickedTab)
 		take @aria-selected='true' with 'false' from <[role=tab]/> in me for clickedTab
 		take @tabindex='0' with -1 from <[role=tab]/> in me for clickedTab
-		set panel to the first <[role=tabpanel]/> in me
-		if panel exists
-			set panel's @aria-labelledby to clickedTab's @id
-			set panel's @aria-busy to 'true'
-			set panel's *opacity to 0
-			fetch clickedTab's @data-path as html then put the result into panel
+		set output to the first <[role=tabpanel]/> in me
+		if output exists
+			set output's @aria-labelledby to clickedTab's @id
+			set output's @aria-busy to 'true'
+			set output's *opacity to 0
+			fetch clickedTab's @data-path as html then put the result into output
 			wait 50ms -- prevents intermittant quick flash of content without transition
-			transition panel's *opacity to 1 over 170ms
-			set panel's @aria-busy to 'false'
+			transition output's *opacity to 1 over 170ms
+			set output's @aria-busy to 'false'
 		end -- if
 	end -- activate tab
 	`

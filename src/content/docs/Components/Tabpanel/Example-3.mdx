@@ -38,7 +38,7 @@ This example is a direct port of the `aria-attribute`  example from the [Hypersc
 
 Tailwind supports the `aria-selected:` prefix which instructs the browser to apply those styles whenever an element has it's ` aria-selected = true`
 
-Setting the `tab-index` to -1 keeps the focus on the clicked tab.
+Setting the `tab-index` to 0 keeps the focus on the clicked tab.
 
 ## Example Code
 
@@ -104,7 +104,7 @@ export const tabpanelOutputId = 'tabpanel-output-id'
 
 {/* Scripts */}
 	<TabItem label='Scripts'>
-	```js
+	```js 'take'
 
 const hs =
 	`
@@ -135,15 +135,15 @@ const hs =
 	on activateTab(clickedTab)
 		take @aria-selected='true' with 'false' from <[role=tab]/> in me for clickedTab
 		take @tabindex='0' with -1 from <[role=tab]/> in me for clickedTab
-		set panel to the first <[role=tabpanel]/> in me
-		if panel exists
-			set panel's @aria-labelledby to clickedTab's @id
-			set panel's @aria-busy to 'true'
-			set panel's *opacity to 0
-			fetch clickedTab's @data-path as html then put the result into panel
+		set output to the first <[role=tabpanel]/> in me
+		if output exists
+			set output's @aria-labelledby to clickedTab's @id
+			set output's @aria-busy to 'true'
+			set output's *opacity to 0
+			fetch clickedTab's @data-path as html then put the result into output
 			wait 50ms -- prevents intermittant quick flash of content without transition
-			transition panel's *opacity to 1 over 170ms
-			set panel's @aria-busy to 'false'
+			transition output's *opacity to 1 over 170ms
+			set output's @aria-busy to 'false'
 		end -- if
 	end -- activate tab
 	`
@@ -152,7 +152,7 @@ const hs =
 
 {/* Tailwind */}
 	<TabItem label='Tailwind'>
-	```js
+	```js "aria-selected:"
 //export styles as one-source-of-truth for TabPanel_B and TabPanelItem_B
 export const tw = {
 	container: 'tab-panel not-content',
@@ -171,7 +171,7 @@ export const tw = {
 
 {/* Everything */}
 	<TabItem label = 'Everything'> 
-	```js
+	```js 'aria-selected:' 'take'
 	---
 //values passed in via attributes on individual <TabPanel_B>s
 interface Props {
@@ -229,15 +229,15 @@ const hs =
 	on activateTab(clickedTab)
 		take @aria-selected='true' with 'false' from <[role=tab]/> in me for clickedTab
 		take @tabindex='0' with -1 from <[role=tab]/> in me for clickedTab
-		set panel to the first <[role=tabpanel]/> in me
-		if panel exists
-			set panel's @aria-labelledby to clickedTab's @id
-			set panel's @aria-busy to 'true'
-			set panel's *opacity to 0
-			fetch clickedTab's @data-path as html then put the result into panel
+		set output to the first <[role=tabpanel]/> in me
+		if output exists
+			set output's @aria-labelledby to clickedTab's @id
+			set output's @aria-busy to 'true'
+			set output's *opacity to 0
+			fetch clickedTab's @data-path as html then put the result into output
 			wait 50ms -- prevents intermittant quick flash of content without transition
-			transition panel's *opacity to 1 over 170ms
-			set panel's @aria-busy to 'false'
+			transition output's *opacity to 1 over 170ms
+			set output's @aria-busy to 'false'
 		end -- if
 	end -- activate tab
 	`
