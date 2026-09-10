@@ -1,248 +1,106 @@
 ---
-title: Hover Activated Dropdown (B)
-description: Dropdown Menu Component activated by both hover and click events
+title: Dropdown (Hover)
+description: Dropdown menu component activated by mouseenter or click events
 sidebar:
-  label: Hover Activated Dropdown (B)
+  label: Dropdown (Hover)
   order: 2
 ---
 
-:::note
-This hyperComponent is identical to the  [Click Activated Dropdown (A)](/components/menus/click_a/) except:
-
--Activation is by _either_ hover or click
-
--Hyperscript code is extracted into a \<script\> tag with [Behaviors](https://hyperscript.org/docs/#behaviors) installed into elements inside the component
-
-:::
-
-
-## Example
-
-###### A commonly used web component is a Button which reveals a list of choices when activated.
-
 export const tw = {
-	exampleContainer: 'not-content w-full w-max-lg text-center pb-4 my-6 mx-auto rounded-xl ' + 
-		'bg-gray-300 dark:bg-gray-800' ,
-	exampleTitle: 'py-2 mb-4 rounded-t-xl ' + 
-		'font-semibold text-gray-300 dark:text-zinc-200 ' + 
-		'bg-gray-800 dark:bg-sky-900 ',
+	exampleContainer: 'not-content w-full w-max-lg text-center p-4 my-6 mx-auto rounded-xl ' +
+		'bg-gray-300 dark:bg-gray-800',
 	menuItem: 'px-4 hover:bg-gray-200 hover:text-purple-600 ' +
 		'hover:dark:bg-stone-300 hover:dark:text-sky-800',
-	icon:'inline-block size-6'
+	icon: 'inline-block size-6'
 }
 
-export const hs = "on click send closeDropdown to the #{'hover_dropdown_id'} then settle then call alert('You selected ' + my innerHTML) "
+export const hs = "on click send closeDropdown to the #{'hover_dropdown_id'} then settle then call alert('You selected ' + my innerHTML)"
 
-import HoverDropdownMenu_B from '../../../../components/HoverDropdownMenu_B.astro';
+import HoverDropdownMenu_B from '../../../../components/HoverDropdownMenu_B.astro'
 
-<div id='exampleContainer' class={tw.exampleContainer} >
-<div id='title' class={tw.exampleTitle}>Hover Activated Dropdown</div>
-<HoverDropdownMenu_B id="hover_dropdown_id" caption="Hover Me" duration="300ms" moveXY="10, 5">
-  <svg slot="rightIcon" class={tw.icon}  fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-		<path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6z"/>
-	</svg>
-   <li class={tw.menuItem} script={hs}>Choice 1</li>
-   <li class={tw.menuItem} script={hs}>Choice 2</li>
-   <li class={tw.menuItem} script={hs}>Choice 3</li>
-   <li class={tw.menuItem} script="on click send closeDropdown to #{'hover_dropdown_id'} then settle then go to url '/' ">Go Home</li>
-</HoverDropdownMenu_B>
+<div id='exampleContainer' class={tw.exampleContainer}>
+	<HoverDropdownMenu_B id="hover_dropdown_id" caption="Hover Me" duration="300ms" moveXY="10, 5">
+		<svg slot="rightIcon" class={tw.icon} fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+			<path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6z"/>
+		</svg>
+		<li class={tw.menuItem} script={hs}>Choice 1</li>
+		<li class={tw.menuItem} script={hs}>Choice 2</li>
+		<li class={tw.menuItem} script={hs}>Choice 3</li>
+		<li class={tw.menuItem} script="on click send closeDropdown to #{'hover_dropdown_id'} then settle then go to url '/' ">Go Home</li>
+	</HoverDropdownMenu_B>
 </div>
 
 
-## Description
-
-The example above is an Astro component comprised of a `<button>` and a `dropdown container` which wraps a `<ul>` containing a list of choices.  
-
-The unordered list is populated by passing multiple `<li>` into the component's default slot.
-
-```js title="Hover Activated Dropdown Example" "class={tw.menuItem}" "script={hs}" /const hs/ /const tw/
----
-import HoverDropdownMenu_B from '/components/HoverDropdownMenu_B.astro';
-
-const tw = {
-	menuItem: 'px-4 hover:bg-stone-200 hover:dark:bg-stone-300 ' +
-		'hover:text-cyan-100 hover:dark:text-sky-950',
-	icon:'inline-block size-6'
-}
-
-const hs = "on click send closeDropdown to the #{'hover_dropdown_id'} then settle then call alert('You selected ' + my innerHTML) "
-
----
-<HoverDropdownMenu_B id="hover_dropdown_id" caption="Hover Me" duration="300ms" moveXY="10, 5">
-  <svg slot="rightIcon" class={tw.icon}  fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-		<path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6z"/>
-	</svg>
-   <li class={tw.menuItem} script={hs}>Choice 1</li>
-   <li class={tw.menuItem} script={hs}>Choice 2</li>
-   <li class={tw.menuItem} script={hs}>Choice 3</li>
-   <li class={tw.menuItem} script="on click send closeDropdown to #{'hover_dropdown_id'} then settle then go to url '/' ">Go Home</li>
-</HoverDropdownMenu_B>
-
-```
-The `dropdown container` is hidden by setting it's height to 0 and the opacity of it's `<ul>` to 0.  
-
-The `<button>` listens for either a `mouseenter` or  `click` event which then triggers the items to smoothly appear by transitioning the `dropdown container` to a new height and the `<ul>`'s opacity to 1 over a specified duration. 
-
-Tapping any `<li>` emits a custom event from a script attribute followed by dismissal of the dropdown.
-
 ## Features
 
-The trigger button and dropdown are initially styled with Tailwind CSS utility classes but are fully customizable by passing additional classes through [props](#code).
+5. Uses Hyperscript [behaviors](https://hyperscript.org/features/behavior/) for showing and hiding dropdown 
+1. Toggled by either `mouseenter` or `click`
+2. Left and right slots for custom icons
+3. Styling implemented entirely  with [Tailwind CSS](https://tailwindcss.com)
+5. Dropdown dismissed by  item click, escape, or mouseleave
+6. Menu items can invoke their own Hyperscripts 
 
-The dropdown appearance/disappearance is smoothly animated by Hyperscript with a timing function adjusted using the `duration` prop. 
+## Example Code
 
-The dropdown is dismissed by:
+```js title="Example" "class={tw.menuItem}" "script={hs}" /const hs/ /const tw/
+---
+import HoverDropdownMenu_B from '/components/HoverDropdownMenu_B.astro'
 
-###### 1. Clicking the trigger button again
-###### 2. Clicking any menu item
-###### 3. Mouse leaving the button
-###### 4. Mouse leaving the dropdown
-###### 5. Pressing the Escape key when the button is focused
-
-Custom events emitted by individual menu choices were also written in [Hyperscript](https://hyperscript.org/).
-
-## Props
-
-Below is a summary of the component props which can optionally be used to configure the component from the markup where it is used.
-
-
-```js
-interface Props {
- id: string,   
- caption?: string,   	
- buttonStyles?: string,
- dropdownStyles?: string,   
- listStyles?: string,   
- moveXY?: string,
- duration?: string
+const tw = {
+	menuItem: 'px-4 hover:bg-gray-200 hover:text-purple-600 ' +
+		'hover:dark:bg-stone-300 hover:dark:text-sky-800',
+	icon: 'inline-block size-6'
 }
 
-const {
-	id, 
-	caption, 
-	buttonStyles, 
-	dropdownStyles, 
-	listStyles, 
-	moveXY = "0,0", 
-	duration = '100ms'
-} = Astro.props
-
-```
-
-### id
-
-Each dropdown component requires a unique ID.  This is to ensure that multiple dropdowns do not interfere with each other.
-
-### caption
-
-The `caption` prop is a text string that will be displayed in the trigger button.  
-
-### buttonStyles
-
-The `buttonStyles` prop allows you to customize the appearance of the trigger button.  Use this prop if you want to change the button's hover styles,  background or text color, apply a dropshadow, etc.
-
-### listStyles
-
-The `listStyles` prop allows you to customize the appearance of the `<ul>` flex container.  Any styles you pass in this prop apply to the parent `<ul>` that wraps all menu items.
-
-### dropdownStyles
-
-The `dropdownStyles` prop allows you to style the `dropdown container` itself. 
-
-### moveXY
-
-If the dropdown needs to be moved relative to the trigger button, you can pass a string with two comma separated values using the `moveXY` prop.  The first value is the horizontal shift and the second is the vertical shift.  
-
-For example, to move the dropdown 5 pixels to the left and 5 pixels down relative to the button's location, you would pass `"-5,5"`.
-
-### duration
-
-The duration of the height transition for the `dropdown container` can be specified by passing a string (in milliseconds) into the `duration` prop, for example "300ms".
-
-## Styling
-
-The component's `<button>`, `<ul>` and `dropdown container` are initially styled with a default selection of Tailwind classes.  For accessibility, the trigger `<button>` also receives a focus ring when activated.
-
-You can override the default styling by sending additional Tailwind classes via [props](#code) which are then merged with the default styles and any conflicts resolved with a 'last wins' rule.
-
-To improve readability, the Tailwind classes are extracted from the markup and encapsulated into an Astro `tw` local variable within the [Component Script](https://docs.astro.build/en/basics/astro-components/#the-component-script) which is then referenced in the HTML markup. 
-
-The advantage of this strategy is to allow long run-on strings to be formatted as concatenated, multi-line strings, which improves readability and maintainability.
-
-## Transitions
-
-[Hyperscript](https://hyperscript.org/) exposes the `transition` keyword so you can explicitly utilize CSS selectors to invoke transitions within your HS code.  However, this technique is [blocking](https://hyperscript.org/docs/#transitions), and you will need to explicitly call the `settle` keyword after each `transition` statement which tells HS to wait briefly (20ms by default) to allow for swapping of all HS specific CSS classes used to implement the transition.
-
-A simpler, but less flexible, technique is to apply a  CSS transition rule directly on the element being transitioned using an inline `<style>` tag.  This technique is not blocking and reduces the amount of code in the script itself.  This is the technique chosen for this hyperComponent. 
-
-## Slots
-### Default Slot
-
-All menu items should be placed between the component's opening and closing tags thus positioning them within the default slot inside the component's `<ul>`.
-
-### Left Icon Slot
-
-The `leftIcon` slot is used to install any icon or image markup of your choice.   If you also pass a `caption` prop, the `leftIcon` will be displayed to the left of the caption text.
-
-### Right Icon Slot
-
-The `rightIcon` slot is used to install any icon or image markup of your choice which is then positioned to the right of the caption text.  
-
-In the [example code above](#example), a down-caret svg is used to present a visual clue that interacting with the `<button>` will reveal additional choices.
-
-### Icon Styling
-
-In Astro, you target a named slot by including a `slot="name"` attribute in the parent element of the markup you are passing into the slot. 
-
-You will need to attach Tailwind styling classes to your slot markup because the receiving component has no way to apply Tailwind classes to elements it does not know about yet. 
-
-For example, icon sizes, padding, margins, and  colors will need to be annotated  directly on the markup passed into any `<slot>`.
-
-The code below illustrates Tailwind styling of a down-caret svg passed into the `rightIcon` slot.
-
-```html title="Tailwind Styling for Icon Slots" "slot=\"rightIcon\""   "class=\"inline-block size-6\""
-  <svg slot="rightIcon" class="inline-block size-6"  fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+const hs = "on click send closeDropdown to the #{'hover_dropdown_id'} then settle then call alert('You selected ' + my innerHTML)"
+---
+<HoverDropdownMenu_B id="hover_dropdown_id" caption="Hover Me" duration="300ms" moveXY="10, 5">
+	<svg slot="rightIcon" class={tw.icon} fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
 		<path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6z"/>
 	</svg>
+	<li class={tw.menuItem} script={hs}>Choice 1</li>
+	<li class={tw.menuItem} script={hs}>Choice 2</li>
+	<li class={tw.menuItem} script={hs}>Choice 3</li>
+	<li class={tw.menuItem} script="on click send closeDropdown to #{'hover_dropdown_id'} then settle then go to url '/' ">Go Home</li>
+</HoverDropdownMenu_B>
 ```
 
 
-## Code
+## Components
 
-The full source code for this hyperComponent is visible in the various Tabs below.  Use the Everything tab to copy and paste the entire component into your Astro project.
+Use the Everything tab to copy and paste the entire component into your Astro project.
 
 import {Tabs, TabItem } from '@astrojs/starlight/components'
-
 
 <Tabs>
 	<TabItem label="Props">
 	```js
+import {twMerge} from 'tailwind-merge'
 
 interface Props {
-		id: string   //a unique IDentifier for this component, allowing multiple dropdowns on a page without collisions
-		caption?: string   //the text displayed in the trigger button
-		buttonStyles?: string   //any additional Tailwind classes for customizing the trigger button
-		dropdownStyles?: string   //any additional styles to apply to the dropdown container <div>
-		listStyles?: string   //any additional styles to apply to the <ul>
-		moveXY?: string //comma separated integer values specifying x,y shift in dropdown position
-		duration?: string, //duration (in milliseconds) for dropdown height transition
+	id: string   // unique identifier; required to isolate component events
+	caption?: string   // trigger button label
+	buttonStyles?: string   // extra Tailwind classes for the trigger button
+	dropdownStyles?: string   // extra Tailwind classes for the dropdown container
+	listStyles?: string   // extra Tailwind classes for the menu list
+	moveXY?: string   // x,y pixel offset for dropdown positioning (example: "10,5")
+	duration?: string   // dropdown height transition duration (example: "300ms")
 }
 
 const {
-		id, 
-		caption, 
-		buttonStyles, 
-		dropdownStyles, 
-		listStyles, 
-		moveXY = "0,0", 
-		duration = '100ms'
+	id,
+	caption,
+	buttonStyles,
+	dropdownStyles,
+	listStyles,
+	moveXY = "0,0",
+	duration = '100ms'
 } = Astro.props
-
-```
+	```
 	</TabItem>
 
-  <TabItem label="HTML">
-    ```html {7,7} {15,15} {18,19}
+	<TabItem label="HTML">
+	```html {7,7} {15,15} {18,19}
 	<!-- Trigger -->
 	<button
 		id={id}
@@ -250,314 +108,291 @@ const {
 		moveXY={moveXY}
 		class={twMerge(tw.triggerButton, buttonStyles)}
 		script="install ToggleDropdown">
-		<slot name='leftIcon' />
+		<slot name='leftIcon'/>
 		{caption}
 		<slot name='rightIcon'/>
 	</button>
+
 	<!-- Dropdown -->
 	<div id=`${id}-container`
 		class={twMerge(tw.dropdownContainer, dropdownStyles)}
 		style=`transition: all ${duration} ease-in-out`>
-			<ul id=`${id}-list`
-				class={twMerge(tw.itemsList, listStyles)}
-				style="transition: all 50ms ease-in-out"
-				script="install HideDropdown">
+		<ul id=`${id}-list`
+			class={twMerge(tw.itemsList, listStyles)}
+			style="transition: all 50ms ease-in-out"
+			script="install HideDropdown">
 			<slot/>
-			</ul>
+		</ul>
 	</div>
+	```
+	</TabItem>
 
+	<TabItem label="Scripts">
+	```js "behavior ToggleDropdown" "behavior HideDropdown"
+<script type="text/hyperscript">
 
-		```
-  </TabItem>
-  <TabItem label="Scripts">
-    ```js "behavior ToggleDropdown" "behavior HideDropdown"
-	<script type="text/hyperscript">
+behavior ToggleDropdown
+	init
+		set :dropdownContainer to my @id + '-container'
+		set :itemsList to my @id + '-list'
+		set :dropdownHasMouse to false
+	end -- init
 
-  behavior ToggleDropdown
-		init
-			set :dropdownContainer to my @id + '-container'
-			set :itemsList to my @id + '-list'
-			set :dropdownHasMouse to false
-		end -- init
-	
-		on mouseenter from me
-			call me.focus()
-			trigger openDropdown on me
-		end -- listener for hover
+	on mouseenter from me
+		call me.focus()
+		trigger openDropdown on me
+	end -- open on hover
 
-		on mouseleave from me
-			call me.blur()
-			wait 50ms then
-				if not :dropdownHasMouse trigger closeDropdown on me
-			end
-		end -- close on mouseleave
+	on mouseleave from me
+		call me.blur()
+		wait 50ms then
+			if not :dropdownHasMouse trigger closeDropdown on me
+		end
+	end -- close after leaving button if menu is not hovered
 
-		on click from me
-		 if I match .open then trigger closeDropdown on me 
-			otherwise trigger openDropdown on me
-		end -- click handler
+	on click from me
+		if I match .open then trigger closeDropdown on me
+		otherwise trigger openDropdown on me
+	end -- click toggles open/closed
 
-		on mouseWithinDropdown(value)
-			set :dropdownHasMouse to value
-		end -- update state of mouse location
+	on mouseWithinDropdown(value)
+		set :dropdownHasMouse to value
+	end -- receives state from HideDropdown behavior
 
-		on keydown[key=='Escape']
-			trigger closeDropdown on me
-		end  -- Escape key handler
+	on keydown[key=='Escape']
+		trigger closeDropdown on me
+	end -- keyboard dismissal
 
-		def calculatedHeight
-			set dropdownHeight to 0 then set items to the children of the #{:dropdownContainer}
-			for item in items increment the dropdownHeight by the item's offsetHeight end
-			return dropdownHeight
-		end -- function to calculate dropdown container's height based on it's content
+	def calculatedHeight
+		set dropdownHeight to 0 then set items to the children of the #{:dropdownContainer}
+		for item in items increment the dropdownHeight by the item's offsetHeight end
+		return dropdownHeight
+	end -- total dropdown height from rendered item heights
 
 	def repositionDropdown
-			set offsets to my @moveXY.split(',')
-			set xOffset to the offsets[0] as Int
-			set yOffset to the offsets[1] as Int
-			measure me then put the result.bounds into buttonLocation
-			set the *left of the #{:dropdownContainer} to (buttonLocation.left + xOffset + window.pageXOffset) px
-			set the *top of the #{:dropdownContainer} to (buttonLocation.bottom  + yOffset + window.pageYOffset) px
-		end  -- function to move dropdown by x,y pixels
-		
-		on openDropdown from me
-			repositionDropdown()
-			set the *height of the #{:dropdownContainer} to the calculatedHeight() px then wait 20ms then
-			set the *opacity of the #{:itemsList} to 1
-			add .open to me
-		end  -- handler to open dropdown
+		set offsets to my @moveXY.split(',')
+		set xOffset to the offsets[0] as Int
+		set yOffset to the offsets[1] as Int
+		measure me then put the result.bounds into buttonLocation
+		set the *left of the #{:dropdownContainer} to (buttonLocation.left + xOffset + window.pageXOffset) px
+		set the *top of the #{:dropdownContainer} to (buttonLocation.bottom + yOffset + window.pageYOffset) px
+	end -- shift dropdown relative to trigger
 
-		on closeDropdown 
-			set the *opacity of the #{:itemsList} to 0
-			set the *height of the #{:dropdownContainer} to 0 then settle then
-			remove .open from me
-		end -- handler to close dropdown
+	on openDropdown from me
+		repositionDropdown()
+		set the *height of the #{:dropdownContainer} to the calculatedHeight() px then wait 20ms then
+		set the *opacity of the #{:itemsList} to 1
+		add .open to me
+	end -- open state
 
-	end -- behavior ToggleDropdown
+	on closeDropdown
+		set the *opacity of the #{:itemsList} to 0
+		set the *height of the #{:dropdownContainer} to 0 then settle then
+		remove .open from me
+	end -- close state
+end -- behavior ToggleDropdown
 
-	behavior HideDropdown
-	  on mouseenter send mouseWithinDropdown(value:true) to the previous <button/> end
-		on mouseleave send mouseWithinDropdown(value:false) to the previous <button/> end
-		on click or mouseleave send closeDropdown to the previous <button/> end
-	end -- behavior HideDropdown
+behavior HideDropdown
+	on mouseenter send mouseWithinDropdown(value:true) to the previous <button/> end
+	on mouseleave send mouseWithinDropdown(value:false) to the previous <button/> end
+	on click or mouseleave send closeDropdown to the previous <button/> end
+end -- behavior HideDropdown
 
 </script>
+	```
+	</TabItem>
 
-		```
-  </TabItem>
-  <TabItem label="Tailwind">
-```js
+	<TabItem label="Tailwind">
+	```js "const tw"
 const tw = {
 	triggerButton: 'inline-block rounded-lg p-3 ' +
-		'font-semibold text-lg lg:text-xl text-zinc-100 hover:text-zinc-400 hover:dark:text-zinc-300 ' + 
+		'font-semibold text-lg lg:text-xl text-zinc-100 hover:text-zinc-400 hover:dark:text-zinc-300 ' +
 		'bg-indigo-600 hover:bg-indigo-800 ' +
 		'focus:ring-4 focus:outline-none focus:ring-indigo-300',
-	dropdownContainer:'h-0 absolute z-10 ' + 
-		'rounded-lg drop-shadow-2xl overflow-hidden ' + 
+	dropdownContainer: 'h-0 absolute z-10 ' +
+		'rounded-lg drop-shadow-2xl overflow-hidden ' +
 		'text-lg font-medium ' +
 		'bg-white dark:bg-gray-800 ',
-	itemsList:'opacity-0 flex flex-col gap-y-4 cursor-pointer ' + 
-		'py-4 font-semibold text-gray-900 dark:text-zinc-50',
+	itemsList: 'opacity-0 flex flex-col gap-y-4 cursor-pointer ' +
+		'py-4 font-semibold text-gray-900 dark:text-zinc-50'
 }
-
-```
-  </TabItem>
+	```
+	</TabItem>
 
 	<TabItem label="Everything">
-```js
+	```js
 ---
 import {twMerge} from 'tailwind-merge'
 
 interface Props {
- id: string   //a unique IDentifier for this component, allowing multiple dropdowns on a page without collisions
- caption?: string   //the text displayed in the button that triggers the dropdown
- buttonStyles?: string   //any additional Tailwind classes for customizing the trigger button
- dropdownStyles?: string   //any additional styles to apply to the overall wrapper <div>
- listStyles?: string   //any additional styles to apply to the dropdown list
- moveXY?: string //comma separated integer values specifying x,y shift in dropdown position
- duration?: string, //duration (in milliseconds) for dropdown height transition
+	id: string   // unique identifier; required to isolate component events
+	caption?: string   // trigger button label
+	buttonStyles?: string   // extra Tailwind classes for the trigger button
+	dropdownStyles?: string   // extra Tailwind classes for the dropdown container
+	listStyles?: string   // extra Tailwind classes for the menu list
+	moveXY?: string   // x,y pixel offset for dropdown positioning (example: "10,5")
+	duration?: string   // dropdown height transition duration (example: "300ms")
 }
 
 const {
-	id, 
-	caption, 
-	buttonStyles, 
-	dropdownStyles, 
-	listStyles, 
-	moveXY = "0,0", 
+	id,
+	caption,
+	buttonStyles,
+	dropdownStyles,
+	listStyles,
+	moveXY = "0,0",
 	duration = '100ms'
 } = Astro.props
 
 const tw = {
 	triggerButton: 'inline-block rounded-lg p-3 ' +
-		'font-semibold text-lg lg:text-xl text-zinc-100 hover:text-zinc-400 hover:dark:text-zinc-300 ' + 
+		'font-semibold text-lg lg:text-xl text-zinc-100 hover:text-zinc-400 hover:dark:text-zinc-300 ' +
 		'bg-indigo-600 hover:bg-indigo-800 ' +
 		'focus:ring-4 focus:outline-none focus:ring-indigo-300',
-	dropdownContainer:'h-0 absolute z-10 ' + 
-		'rounded-lg drop-shadow-2xl overflow-hidden ' + 
+	dropdownContainer: 'h-0 absolute z-10 ' +
+		'rounded-lg drop-shadow-2xl overflow-hidden ' +
 		'text-lg font-medium ' +
 		'bg-white dark:bg-gray-800 ',
-	itemsList:'opacity-0 flex flex-col gap-y-4 cursor-pointer ' + 
-		'py-4 font-semibold text-gray-900 dark:text-zinc-50',
+	itemsList: 'opacity-0 flex flex-col gap-y-4 cursor-pointer ' +
+		'py-4 font-semibold text-gray-900 dark:text-zinc-50'
 }
 ---
 
 <script type="text/hyperscript">
 
-  behavior ToggleDropdown
-		init
-			set :dropdownContainer to my @id + '-container'
-			set :itemsList to my @id + '-list'
-			set :dropdownHasMouse to false
-		end -- init
-	
-		on mouseenter from me
-			call me.focus()
-			trigger openDropdown on me
-		end -- listener for hover
+behavior ToggleDropdown
+	init
+		set :dropdownContainer to my @id + '-container'
+		set :itemsList to my @id + '-list'
+		set :dropdownHasMouse to false
+	end -- init
 
-		on mouseleave from me
-			call me.blur()
-			wait 50ms then
-				if not :dropdownHasMouse trigger closeDropdown on me
-			end
-		end -- close on mouseleave
+	on mouseenter from me
+		call me.focus()
+		trigger openDropdown on me
+	end -- open on hover
 
-		on click from me
-		 if I match .open then trigger closeDropdown on me 
-			otherwise trigger openDropdown on me
-		end -- click handler
+	on mouseleave from me
+		call me.blur()
+		wait 50ms then
+			if not :dropdownHasMouse trigger closeDropdown on me
+		end
+	end -- close after leaving button if menu is not hovered
 
-		on mouseWithinDropdown(value)
-			set :dropdownHasMouse to value
-		end -- update state of mouse location
+	on click from me
+		if I match .open then trigger closeDropdown on me
+		otherwise trigger openDropdown on me
+	end -- click toggles open/closed
 
-		on keydown[key=='Escape']
-			trigger closeDropdown on me
-		end  -- Escape key handler
+	on mouseWithinDropdown(value)
+		set :dropdownHasMouse to value
+	end -- receives state from HideDropdown behavior
 
-		def calculatedHeight
-			set dropdownHeight to 0 then set items to the children of the #{:dropdownContainer}
-			for item in items increment the dropdownHeight by the item's offsetHeight end
-			return dropdownHeight
-		end -- function to calculate dropdown container's height based on it's content
+	on keydown[key=='Escape']
+		trigger closeDropdown on me
+	end -- keyboard dismissal
+
+	def calculatedHeight
+		set dropdownHeight to 0 then set items to the children of the #{:dropdownContainer}
+		for item in items increment the dropdownHeight by the item's offsetHeight end
+		return dropdownHeight
+	end -- total dropdown height from rendered item heights
 
 	def repositionDropdown
-			set offsets to my @moveXY.split(',')
-			set xOffset to the offsets[0] as Int
-			set yOffset to the offsets[1] as Int
-			measure me then put the result.bounds into buttonLocation
-			set the *left of the #{:dropdownContainer} to (buttonLocation.left + xOffset + window.pageXOffset) px
-			set the *top of the #{:dropdownContainer} to (buttonLocation.bottom  + yOffset + window.pageYOffset) px
-		end  -- function to move dropdown by x,y pixels
-		
-		on openDropdown from me
-			repositionDropdown()
-			set the *height of the #{:dropdownContainer} to the calculatedHeight() px then wait 20ms then
-			set the *opacity of the #{:itemsList} to 1
-			add .open to me
-		end  -- handler to open dropdown
+		set offsets to my @moveXY.split(',')
+		set xOffset to the offsets[0] as Int
+		set yOffset to the offsets[1] as Int
+		measure me then put the result.bounds into buttonLocation
+		set the *left of the #{:dropdownContainer} to (buttonLocation.left + xOffset + window.pageXOffset) px
+		set the *top of the #{:dropdownContainer} to (buttonLocation.bottom + yOffset + window.pageYOffset) px
+	end -- shift dropdown relative to trigger
 
-		on closeDropdown 
-			set the *opacity of the #{:itemsList} to 0
-			set the *height of the #{:dropdownContainer} to 0 then settle then
-			remove .open from me
-		end -- handler to close dropdown
+	on openDropdown from me
+		repositionDropdown()
+		set the *height of the #{:dropdownContainer} to the calculatedHeight() px then wait 20ms then
+		set the *opacity of the #{:itemsList} to 1
+		add .open to me
+	end -- open state
 
-	end -- behavior ToggleDropdown
+	on closeDropdown
+		set the *opacity of the #{:itemsList} to 0
+		set the *height of the #{:dropdownContainer} to 0 then settle then
+		remove .open from me
+	end -- close state
+end -- behavior ToggleDropdown
 
-	behavior HideDropdown
-	  on mouseenter send mouseWithinDropdown(value:true) to the previous <button/> end
-		on mouseleave send mouseWithinDropdown(value:false) to the previous <button/> end
-		on click or mouseleave send closeDropdown to the previous <button/> end
-	end -- behavior HideDropdown
+behavior HideDropdown
+	on mouseenter send mouseWithinDropdown(value:true) to the previous <button/> end
+	on mouseleave send mouseWithinDropdown(value:false) to the previous <button/> end
+	on click or mouseleave send closeDropdown to the previous <button/> end
+end -- behavior HideDropdown
 
 </script>
 
+<!-- Trigger -->
+<button
+	id={id}
+	type='button'
+	moveXY={moveXY}
+	class={twMerge(tw.triggerButton, buttonStyles)}
+	script="install ToggleDropdown">
+	<slot name='leftIcon'/>
+	{caption}
+	<slot name='rightIcon'/>
+</button>
 
-	<!-- Trigger -->
-	<button
-		id={id}
-		type='button'
-		moveXY={moveXY}
-		class={twMerge(tw.triggerButton, buttonStyles)}
-		script="install ToggleDropdown">
-		<slot name='leftIcon' />
-		{caption}
-		<slot name='rightIcon'/>
-	</button>
-	<!-- Dropdown -->
-	<div id=`${id}-container`
-		class={twMerge(tw.dropdownContainer, dropdownStyles)}
-		style=`transition: all ${duration} ease-in-out`>
-			<ul id=`${id}-list`
-				class={twMerge(tw.itemsList, listStyles)}
-				style="transition: all 50ms ease-in-out"
-				script="install HideDropdown">
-			<slot/>
-			</ul>
-	</div>
-
-
-
-
-```
+<!-- Dropdown -->
+<div id=`${id}-container`
+	class={twMerge(tw.dropdownContainer, dropdownStyles)}
+	style=`transition: all ${duration} ease-in-out`>
+	<ul id=`${id}-list`
+		class={twMerge(tw.itemsList, listStyles)}
+		style="transition: all 50ms ease-in-out"
+		script="install HideDropdown">
+		<slot/>
+	</ul>
+</div>
+	```
 	</TabItem>
 </Tabs>
 
-## Usage
 
-The most common use case for dropdowns are in navigation components such as a top `<nav>` bar or an `<aside>` navigation drawer.  Dropdowns can also provide a more customizable equivalent to `<select>` elements.
+## Transitions
 
-To use this component 'as is' in  your Astro project, click the `Copy` button on the Everything tab in the [code](#code) section above.  Paste all the code into a new file with the `.astro` extension.
+[Hyperscript](https://hyperscript.org/) exposes `transition` for explicit CSS transitions in Hyperscript code. That path is [blocking](https://hyperscript.org/docs/#transitions), so you must call `settle` after each `transition` to let class swaps complete.
+
+This component uses inline CSS `transition` rules instead, which keeps behavior code shorter and non-blocking.
 
 
-To use this hyperComponent in another Astro component just import the file and use angle brackets (with a Capitalized name) to create a custom HTML tag as shown in the example below.
+## Slots
 
-```js title="UsingADropdown.astro" "HoverDropdownMenu_B"
----
-import HoverDropdownMenu_B from '/components/HoverDropdownMenu_B.astro';
+### Default Slot
 
-const tw = {
-	menuItem: 'px-4 hover:bg-gray-200 hover:text-purple-600 ' +
-		'hover:dark:bg-stone-300 hover:dark:text-sky-800',
-	icon:'inline-block size-6'
-}
+Place menu items between the component tags so they render inside the internal `<ul>`.
 
-const hs = "on click call alert('You selected ' + my innerHTML) "
+### Icon Slots
 
----
-<HoverDropdownMenu_B id="hover_dropdown_id" caption="Hover Me" duration="300ms" moveXY="10, 5">
-  <svg slot="rightIcon" class={tw.icon}  fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-		<path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6z"/>
-	</svg>
-   <li class={tw.menuItem} script={hs}>Choice 1</li>
-   <li class={tw.menuItem} script={hs}>Choice 2</li>
-   <li class={tw.menuItem} script={hs}>Choice 3</li>
-   <li class={tw.menuItem} script="on click send closeDropdown to #{'hover_dropdown_id'} then settle then go to url '/' ">Go Home</li>
-</HoverDropdownMenu_B>
+Use `leftIcon` and `rightIcon` to pass custom icons or image markup.
 
+In the example above, a down-caret SVG in `rightIcon` signals that the button reveals more choices.
+
+### Icon Styling
+
+In Astro, target a named slot by adding `slot="name"` to the parent element of the markup you pass in.
+
+Apply Tailwind classes directly on slot markup because the receiving component cannot style unknown child elements.
+
+```html title="Tailwind Styling for Icon Slots" "slot=\"rightIcon\"" "class=\"inline-block size-6\""
+<svg slot="rightIcon" class="inline-block size-6" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+	<path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6z"/>
+</svg>
 ```
 
-To install menu items into the dropdown container just include multiple `<li>` elements between the component tags. 
 
-To attach custom actions to any menu item simply include a script attribute in the corresponding `<li>` (as seen in the example above).  
+## Usage
 
-Your custom scripts should always  `send closeDropdown to the #{'hover_dropdown_id'} then settle` to dismiss the dropdown gracefully before proceeding with any further actions (as in the 'Go Home' choice above).
+Import `HoverDropdownMenu_B` and render it as a custom tag, as shown in the example.
 
+Attach custom behavior to each menu choice with a `script` attribute on each `<li>`.
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+Your custom menu scripts should generally include `send closeDropdown to the #{'hover_dropdown_id'} then settle` before follow-up actions so the menu closes cleanly.
