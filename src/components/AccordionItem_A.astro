@@ -68,10 +68,10 @@ const hs = `
 		add ${activeStyles} to me
 		add .py-4 .border-t-2 to the  #{:accordionBody}
 		if the :accordionHeight is greater than ${maxHeight}
-			transition the #{:accordionBody}'s  *height to ${maxHeight} px using 'all ${openDuration} ease-in'
+			transition the  *height of #{:accordionBody} to ${maxHeight} px using 'all ${openDuration} ease-in'
 			add .overflow-y-auto to the #{:accordionBody}
 		otherwise
-			transition the #{:accordionBody} *height to :accordionHeight px using 'all ${openDuration} ease-in'
+			transition the *height of #{:accordionBody} to :accordionHeight px using 'all ${openDuration} ease-in'
 		end -- if > maxHeight
 		add .rotate-180 to the #{:twirlIcon}
 		set :accordionOpen to true
@@ -82,7 +82,7 @@ const hs = `
 		remove ${activeStyles} from me
 		remove .py-4 .border-t-2 from the #{:accordionBody}
 		remove .rotate-180 from the #{:twirlIcon}
-		transition the #{:accordionBody} *height to 0 using 'all ${closeDuration} ease-out'
+		transition the *height of #{:accordionBody} to 0 using 'all ${closeDuration} ease-out'
 		set :accordionOpen to false
 	end -- closeAccordion
 `

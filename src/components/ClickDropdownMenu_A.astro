@@ -58,7 +58,7 @@ const hs = {
 		end -- function to calculate dropdown container's height based on it's content
 			
 		def repositionDropdown
-			set offsets to my @moveXY.split(',')
+			set offsets to (my @movexy) split by ','
 			set xOffset to the offsets[0] as Int
 			set yOffset to the offsets[1] as Int
 			measure me then put the result.bounds into buttonLocation
