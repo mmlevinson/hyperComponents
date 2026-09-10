@@ -1,15 +1,15 @@
 ---
-const title = 'Click Dropdown Menu (A)';
 import {twMerge} from 'tailwind-merge'
 
 interface Props {
  id: string   //a unique identifier for this component, allowing multiple dropdowns on a page without collisions
  caption?: string   //the text displayed in the trigger button
- buttonStyles?: string   //any additional Tailwind classes for customizing the trigger button
- dropdownStyles?: string   //any additional styles to apply to the dropdown container <div>
- listStyles?: string   //any additional styles to apply to the <ul>
- moveXY?: string //comma separated integer values specifying x,y shift in dropdown position
+ buttonStyles?: string   //apply TW  classes for customizing the trigger button
+ dropdownStyles?: string   //apply TW classes to the menu container
+ listStyles?: string   //apply TW classes to the menu items
+ moveXY?: string //jog dropdodwn by  x,y shift pixels
  duration?: string, //duration (in milliseconds) for dropdown height transition
+ trigger?:string //specify click or mouseenter to reveal dropdown
 }
 
 const {
@@ -17,9 +17,10 @@ const {
 	caption, 
 	buttonStyles, 
 	dropdownStyles, 
-	listStyles, 
+	listStyles,
 	moveXY = "0,0", 
-	duration = '100ms'
+	duration = '100ms', 
+	trigger = 'click'
 } = Astro.props
 
 const tw = {
@@ -42,7 +43,7 @@ const hs = {
 			set :itemsList to my @id + '-list'
 		end -- init 
 
-		on click from me
+		on ${trigger} from me
 			if I match .open then trigger closeDropdown on me 
 			otherwise trigger openDropdown on me
 		end -- click toggles open/closed
@@ -82,17 +83,18 @@ const hs = {
 }
 ---
 <div class="not-content">
-		<!-- Trigger -->
+	<!-- Trigger -->
 		<button 
-		id={id}  
-		type='button'
-		moveXY={moveXY} 
-		class={twMerge(tw.triggerButton, buttonStyles)} 
-		script={hs.toggleDropdown}>
-			<slot name='leftIcon'/>
-			{caption}
-			<slot name='rightIcon'/>
-	</button>
+			id={id}  
+			type='button'
+			moveXY={moveXY} 
+			class={twMerge(tw.triggerButton, buttonStyles)} 
+			script={hs.toggleDropdown}>
+				<slot name='leftIcon'/>
+				{caption}
+				<slot name='rightIcon'/>
+		</button>
+
 	<!-- Dropdown -->
 	<div id=`${id}-container` 
 		class={twMerge(tw.dropdownContainer, dropdownStyles)} 
