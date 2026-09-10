@@ -5,7 +5,6 @@ description: Dropdown Color Pallet
 
 ---
 
-
 import PalletGrid from '../../../../components/PalletGrid.astro'
 import TailwindPallet from '../../../../components/TailwindPallet.astro'
 import ClickDropdownMenu_A from '../../../../components/ClickDropdownMenu_A.astro'
@@ -13,7 +12,7 @@ import HoverDropdownMenu_B from '../../../../components/HoverDropdownMenu_B.astr
 
 export const tw = {
 	exampleWrapper: 'flex ', 
-	exampleContainer: 'not-content w-full w-max-lg text-center pb-4 my-6 mx-auto rounded-xl ' + 
+	exampleContainer: 'not-content w-full grow  text-center  p-4 mx-auto rounded-xl ' + 
 	'bg-gray-300 dark:bg-gray-800' ,
 	exampleTitle: 'py-2 mb-4 rounded-t-xl ' + 
 	'font-semibold text-gray-300 dark:text-zinc-200 ' + 
@@ -22,9 +21,12 @@ export const tw = {
 	button:'colorPallet bg-gray-200 border-2 border-gray-600 dark:bg-gray-700 size-16'
 }
 
-<div id='example-wrapper' class={tw.exampleWrapper}>
+import {Tabs, TabItem } from '@astrojs/starlight/components'
+
+<Tabs>
+	<TabItem label='Click'>
+  
 	<div id='example-1' class={tw.exampleContainer} >
-	<div id='example-1-title' class={tw.exampleTitle}>Click</div>
 
 	<ClickDropdownMenu_A id='click-activated-pallet' moveXY='-200,18' buttonStyles={tw.button} duration='180ms'>
 		<img slot="leftIcon" src='/images/tailwind_icon.svg' alt='tailwind icon' class={tw.icon}/>
@@ -32,22 +34,9 @@ export const tw = {
 	</ClickDropdownMenu_A>
 	</div>
 
-	<div id='example-2' class={tw.exampleContainer} >
-	<div id='example-2-title' class={tw.exampleTitle}>Hover</div>
 
-	<HoverDropdownMenu_B id='hover-activated-pallet' moveXY='-100,18' buttonStyles={tw.button} duration='180ms'>
-		<img slot="leftIcon" src='/images/tailwind_icon.svg' alt='tailwind icon' class={tw.icon}/>
-		<PalletGrid orientation='vertical' hs="on click send closeDropdown to the .colorPallet then settle then alert( 'You selected ' + my @title)"/>
-	</HoverDropdownMenu_B>
-	</div>
-</div>
 
-import {Tabs, TabItem } from '@astrojs/starlight/components'
-
-<Tabs>
-	<TabItem label='Click'>
-
-```js title="Click Activated Color Pallet" "ClickDropdownMenu_A" "PalletGrid" "colorPallet"
+```js "ClickDropdownMenu_A" "PalletGrid" "colorPallet"
 ---
 
 const tw = {
@@ -61,22 +50,21 @@ const tw = {
 </ClickDropdownMenu_A>
 
 ```
-
-
 	</TabItem>
-</Tabs>
 
-The second example creates the vertically oriented pallet (for small screens) with hover activation.  This example is  built with the [HoverDropdownMenu_B](/components/menus/hover_b) component outlined earlier. 
+	<TabItem label="Hover">
 
-The code block used to embed the hover activated pallet is shown following the example.
+	<div id='example-2' class={tw.exampleContainer} >
 
+	<HoverDropdownMenu_B id='hover-activated-pallet' moveXY='-100,18' buttonStyles={tw.button} duration='180ms'>
+		<img slot="leftIcon" src='/images/tailwind_icon.svg' alt='tailwind icon' class={tw.icon}/>
+		<PalletGrid orientation='vertical' hs="on click send closeDropdown to the .colorPallet then settle then alert( 'You selected ' + my @title)"/>
+	</HoverDropdownMenu_B>
+	</div>
 
-
-
-```js title="Hover Activated Color Pallet"  "HoverDropdownMenu_B" "PalletGrid" "colorPallet"
+```js "HoverDropdownMenu_B" "PalletGrid" "colorPallet"
 ---
-import PalletGrid from '/components/PalletGrid.astro'
-import HoverDropdownMenu_B from '/components/HoverDropdownMenu_B.astro'
+
 const tw = {
 	icon:'inline-block size-6',
 	button:'colorPallet bg-gray-200 border-2 border-gray-600 dark:bg-gray-700 size-16'
@@ -89,6 +77,46 @@ const tw = {
 
 
 ```
+	</TabItem>
+</Tabs>
+
+## Features
+
+1. Dropdown color palette showing all basic Tailwind colors
+2. Uses ClickDropdownMenu_A and HoverDropdownMenu_B hyperComponents
+3. Both Landscape and Portrait variations (for mobile screens).
+4. 
+
+-The trigger button does not receive a `caption` prop so the dropdown's  appearance is only indicated by its icon.
+
+-The Tailwind logo icon is passed into the `leftIcon` slot with appropriate styling classes applied.
+
+-The `duration` prop is set to '180ms' but can be any value.
+
+-Hovering over an individual swatch reveals a tooltip displaying the Tailwind color family, shade,  and corresponding hex value.
+
+-Clicking a swatch dismisses the dropdown smoothly and then displays an alert showing the color name and hexadecimal value of the selection.
+
+-A class of `.colorPallet` is added to the `buttonStyles` prop of the parent component so that the Hyperscript associated with each swatch  can send a custom event which triggers closure of the dropdown after a selection is made.
+
+The dropdown is dismissed by:
+
+###### 1. Tapping the trigger button again
+###### 2. Clicking outside the dropdown
+###### 3. Mouse leaving the dropdown
+###### 4. Tapping any color swatch
+###### 5. Pressing the Escape key when the trigger button is focused
+
+In the hover activated example, a Hyperscript behavior (ToggleDropdown) is installed into the  `<button>` from a `<script>` tag in the [HoverDropdownMenu_B](/components/menus/hover_b) component. This behavior adds tracking of the mouseenter and mouseleave system events in order to set dropdown visibility based on hover state. 
+
+
+The second example creates the vertically oriented pallet (for small screens) with hover activation.  This example is  built with the [HoverDropdownMenu_B](/components/menus/hover_b) component outlined earlier. 
+
+The code block used to embed the hover activated pallet is shown following the example.
+
+
+
+
 
 ### Description
 
