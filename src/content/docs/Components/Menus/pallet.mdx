@@ -1,21 +1,18 @@
 ---
 
-title: Color Pallet Dropdown
-description: Dropdown Menu Component displaying a Pallet of colors
+title: Color Pallet
+description: Dropdown Color Pallet
 
 ---
-A common use case for a custom dropdown is to present a Pallet of colors.   Clicking a color then updates the styling of some user element.  
 
-## Examples
 
-Two examples are presented which  illustrate a drop down menu with a grid of color swatches.  For illustration purposes we are using Tailwind's color families.
-
-The first example uses the [ClickDropdownMenu_A](/components/menus/click_a/) parent component to host a custom [PalletGrid](#palletgrid) component.   The code block used to present  this example is listed below.
-
-import PalletGrid from '../../../../../components/PalletGrid.astro'
-import TailwindPallet from '../../../../../components/TailwindPallet.astro'
+import PalletGrid from '../../../../components/PalletGrid.astro'
+import TailwindPallet from '../../../../components/TailwindPallet.astro'
+import ClickDropdownMenu_A from '../../../../components/ClickDropdownMenu_A.astro'
+import HoverDropdownMenu_B from '../../../../components/HoverDropdownMenu_B.astro'
 
 export const tw = {
+	exampleWrapper: 'flex ', 
 	exampleContainer: 'not-content w-full w-max-lg text-center pb-4 my-6 mx-auto rounded-xl ' + 
 	'bg-gray-300 dark:bg-gray-800' ,
 	exampleTitle: 'py-2 mb-4 rounded-t-xl ' + 
@@ -25,21 +22,34 @@ export const tw = {
 	button:'colorPallet bg-gray-200 border-2 border-gray-600 dark:bg-gray-700 size-16'
 }
 
-<div id='example-1' class={tw.exampleContainer} >
-<div id='example-1-title' class={tw.exampleTitle}>Click Activated Dropdown</div>
+<div id='example-wrapper' class={tw.exampleWrapper}>
+	<div id='example-1' class={tw.exampleContainer} >
+	<div id='example-1-title' class={tw.exampleTitle}>Click</div>
 
-import ClickDropdownMenu_A from '../../../../../components/ClickDropdownMenu_A.astro'
+	<ClickDropdownMenu_A id='click-activated-pallet' moveXY='-200,18' buttonStyles={tw.button} duration='180ms'>
+		<img slot="leftIcon" src='/images/tailwind_icon.svg' alt='tailwind icon' class={tw.icon}/>
+		<PalletGrid hs="on click send closeDropdown to the .colorPallet then settle then alert( 'You selected ' + my @title)"/>
+	</ClickDropdownMenu_A>
+	</div>
 
-<ClickDropdownMenu_A id='click-activated-pallet' moveXY='-200,18' buttonStyles={tw.button} duration='180ms'>
-	<img slot="leftIcon" src='/images/tailwind_icon.svg' alt='tailwind icon' class={tw.icon}/>
-	<PalletGrid hs="on click send closeDropdown to the .colorPallet then settle then alert( 'You selected ' + my @title)"/>
-</ClickDropdownMenu_A>
+	<div id='example-2' class={tw.exampleContainer} >
+	<div id='example-2-title' class={tw.exampleTitle}>Hover</div>
+
+	<HoverDropdownMenu_B id='hover-activated-pallet' moveXY='-100,18' buttonStyles={tw.button} duration='180ms'>
+		<img slot="leftIcon" src='/images/tailwind_icon.svg' alt='tailwind icon' class={tw.icon}/>
+		<PalletGrid orientation='vertical' hs="on click send closeDropdown to the .colorPallet then settle then alert( 'You selected ' + my @title)"/>
+	</HoverDropdownMenu_B>
+	</div>
 </div>
+
+import {Tabs, TabItem } from '@astrojs/starlight/components'
+
+<Tabs>
+	<TabItem label='Click'>
 
 ```js title="Click Activated Color Pallet" "ClickDropdownMenu_A" "PalletGrid" "colorPallet"
 ---
-import PalletGrid from '/components/PalletGrid.astro'
-import ClickDropdownMenu_A from '/components/ClickDropdownMenu_A.astro'
+
 const tw = {
 	icon:'inline-block size-6',
 	button:'colorPallet bg-gray-200 border-2 border-gray-600 dark:bg-gray-700 size-16'
@@ -52,20 +62,15 @@ const tw = {
 
 ```
 
+
+	</TabItem>
+</Tabs>
+
 The second example creates the vertically oriented pallet (for small screens) with hover activation.  This example is  built with the [HoverDropdownMenu_B](/components/menus/hover_b) component outlined earlier. 
 
 The code block used to embed the hover activated pallet is shown following the example.
 
-<div id='example-2' class={tw.exampleContainer} >
-<div id='example-2-title' class={tw.exampleTitle}>Hover Activated Dropdown</div>
 
-import HoverDropdownMenu_B from '../../../../../components/HoverDropdownMenu_B.astro'
-
-<HoverDropdownMenu_B id='hover-activated-pallet' moveXY='-100,18' buttonStyles={tw.button} duration='180ms'>
-	<img slot="leftIcon" src='/images/tailwind_icon.svg' alt='tailwind icon' class={tw.icon}/>
-	<PalletGrid orientation='vertical' hs="on click send closeDropdown to the .colorPallet then settle then alert( 'You selected ' + my @title)"/>
-</HoverDropdownMenu_B>
-</div>
 
 
 ```js title="Hover Activated Color Pallet"  "HoverDropdownMenu_B" "PalletGrid" "colorPallet"
@@ -289,8 +294,6 @@ The import file paths in the sample code are for illustration purposes only and 
 
 However, before your custom action is triggered, you should  `send closeDropdown to the .colorPallet then settle` to smoothly dismiss the dropdown before the user is taken away to something else.
 
-
-import {Tabs, TabItem } from '@astrojs/starlight/components'
 
 <Tabs>
 
