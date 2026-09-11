@@ -88,7 +88,7 @@ const hs = `
 
 	on collapse
 		remove ${activeStyles} from me
-		remove .py-4 .border-t-2 from the #{:accordionBody}
+		remove .py-4 .border-t-2 .overflow-y-auto from the #{:accordionBody}
 		remove .rotate-180 from the #{:twirlIcon}
 		transition the *height of #{:accordionBody} to 0 using 'all ${closeDuration} ease-out'
 		set :accordionOpen to false
