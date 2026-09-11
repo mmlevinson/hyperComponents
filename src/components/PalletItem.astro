@@ -1,14 +1,15 @@
 ---
 interface Props {
-	twColor: string
-	hexCode:string
-	script?:string
+	twColor: string  //a Tailwind bg-color class name
+	hexCode:string  //corresponding hext code
+	script?:string  //custom action when user selects a swatch
 }
 
 const {twColor, hexCode, script } = Astro.props
 
-import {twMerge} from 'tailwind-merge'
-
+/* Palellets are built using the background color class names, so 
+we strip out the 'bg' prefix and capitalize the first char to create
+color family and shade names */
 function capitalizeFirstCharacter(str) {
     if (!str) return str;
     return str.charAt(0).toUpperCase() + str.slice(1);

@@ -3,8 +3,8 @@ import PalletGridH from "./PalletGridH.astro"
 import PalletGridV from "./PalletGridV.astro"
 
 interface Props {
-	orientation?:string
-	hs?:string
+	orientation?:string //horizontal or vertical
+	hs?:string //custom action when a swatch is selected
 }
 
 const {orientation = "horizontal", hs} = Astro.props
