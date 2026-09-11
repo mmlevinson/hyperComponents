@@ -15,17 +15,17 @@ const tw = {
  group: twMerge('mx-auto', styles),
 }
 
-const hs =
- `on closeOpenAccordions
+const hs = `
+	on collapseSiblings
 	 if ${closeSiblings} is true
 		 set allAccordions to the <li/> in me
 		 set allHeaders to the <button/> in allAccordions
 		 for header in allHeaders
 			 if header is not sender
-				 send closeAccordion to header
+				 send collapse to header
 		 end -- for
 	 end -- if closeSiblings
- end -- closeOpenAccordions
+ end -- collapseSiblings
 `
 
 ---

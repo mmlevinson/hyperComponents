@@ -27,159 +27,437 @@ import AccordionItem_A from '../../../../components/AccordionItem_A.astro'
 </div>
 
 
-## Description
 
-Accordions conserve screen real estate while still allowing considerable content to be displayed when needed.
+### Features
 
-To implement this control you need:
-
-1.  A header (with a clickable title)
-2.  A body (with hidden content that can  be revealed)
-
-In the collapsed state, the height of the  body is  set to 0.  In response to a click event in the header, the body smoothly transitions to an open state by setting a final height and a transition animation. From a programming standpoint, the key is calculating the body's final height based on the proposed content.  
-
-If too much content is revealed then a huge vertical shift occurs on the page which is distracting.   Thus it is best to set a maxHeight after which extra content simply scrolls vertically.
-
-The source code to create the example accordion is shown next with highlights indicating the Astro used.  The complete source code for each component is presented in the [Code](#code) section.
-
-```astro title="UsingAnAccordion.astro" "AccordionGroup_A" "AccordionItem_A"
-----
-import AccordionGroup_A from '../../../../components/AccordionGroup_A.astro'
-import AccordionItem_A from '../../../../components/AccordionItem_A.astro'
-
-const tw - {
-	p: 'pb-3'
-}
----
-
-<AccordionGroup_A closeSiblings={true} styles='mx-4'>
-
-	<AccordionItem_A id='accordion-htmx' caption="HTMX" >
-		<p class={tw.p}>
-		HTMX extends HTML with a suite of attributes giving any element the ability to send and respond to AJAX requests.   
-		</p>
-	</AccordionItem_A>
-
-	<AccordionItem_A id='accordion-hyperscript' caption='Hyperscript'>
-		<p class={tw.p}>
-			Hyperscript is a front-end scripting language which leverages robust event handling to bring dynamic user interfaces to the browser.
-		</p>
-		<p class={tw.p}>
-		Hyperscript syntax is based on Dan Winkler's HyperTalk language made famous by Apple's HyperCard program.   The syntax boasts an English-prose like grammar which eases the learning curve for new programmers.
-		</p>
-	</AccordionItem_A>
-
-	<AccordionItem_A id='accordion-tailwind' caption='Tailwind CSS'>
-		<p class={tw.p}>
-			The Tailwind CSS library provides a rich ecosystem of utility classes that simplify responsive design by using prefixes to replace media queries and emphasizing mobile first design.
-		</p>
-		<p class={tw.p}>
-		Lorem, ipsum dolor sit amet consectetur adipisicing elit. Commodi, unde nostrum itaque aut explicabo deserunt vel sunt alias? Atque, a eveniet ad rerum labore deleniti tempora nisi commodi officiis quis eius perferendis.
-		</p>
-		<p class={tw.p}>
-		Lorem ipsum dolor sit amet consectetur adipisicing elit. Debitis consectetur illum quis ipsam quos quidem eligendi ex blanditiis nihil temporibus veniam adipisci deleniti modi, facilis amet fugiat incidunt atque neque aut qui quia reprehenderit magni fugit aliquam. Hic dolorem consectetur qui libero eius commodi natus, quod fuga tenetur, non doloremque unde at impedit vero. Beatae quas excepturi dignissimos est assumenda quidem ullam quisquam labore! Quaerat veritatis ex sint similique veniam quidem numquam doloremque officiis et accusantium! Non nesciunt ea itaque explicabo ipsa blanditiis iusto, est deserunt inventore voluptas dolorem possimus at exercitationem aliquid, distinctio similique quae! Perferendis ipsam excepturi repudiandae.
-		</p>
-	</AccordionItem_A>
-
-	<AccordionItem_A id='accordion-astro' caption='Astro'>
-		<p class={tw.p}>
-			Astro is a modern Vite-based build tool meant for speed which ships zero JavaScript by default.  Initially released with support for static site generation, now Astro delivers a full suite of server rendered features.
-		</p>
-	</AccordionItem_A>
-
-</AccordionGroup_A>
-
-```
-
-## Features
-
-1.  Clicking the header toggles the body open or closed.
-2.  An indicator icon  rotates 180 degrees to indicate open/closed state
-3.  Body content is revealed  smoothly using a Hyperscript `transition` on the body's *height.
-4.  A maxHeight prop prevents the body height from exceeding a set value.
-5.  Tailwind classes for the header, body, and active header (when opened) can be passed in through props to customize the appearance of the entire control from outside.
-6.  Content for the body is simply placed into the default slot of the AccordionItem_A component and thus can be styled to your liking from where the accordion is used. 
-
-## Components
-
-This control is comprised of two Astro components:
-
-1.  `AccordionGroup_A` which functions as a wrapper for all the individual items, and
-2.  `AccordionItem_A` which consists of a button for the header and a div for the body content.
-
-All of the source code, including the scripts and styling, is found in the [Code](#code) section below.
-
-## Props
-
-Props are used to configure both components from where they are used.  This strategy allows full customization without having to rewrite the  source code itself.
-
-All  props accept strings unless otherwise specified.
-
-### AccordionGroup_A
-
-
-```js
-
-interface Props {
-	closeSiblings?:boolean,
-	styles?:string
-}
-
-const {
-	closeSiblings = false, 
-	styles
-} = Astro.props
-
-```
+1.  Clicking the header component reveals or hides the body content.
+1.  Built with two components ... AccordionGroup and AccordionItem
+6.  Body content can either be placed into the Accordion Group default `<slot/>` or fetched by providing an api route to the `path` prop
+2.  An optional `closeSiblings` prop signals the parent component to close all but the active accordion
+5.  Header and body styles can be customized via props, including the active state
+3.  Body content is revealed smoothly using a Hyperscript `transition` on the body's *height.
+4.  A maxHeight prop prevents the body height from exceeding a set value and is adjusable per accordion body
+5.  If no maxHeight prop is sent, accordion body reveals to the entire content height
+1.  Styled entirely with Tailwind
+2.  All actions (including transitions and content updating) by Hyperscript
 
 
 
-#### closeSiblings
+### Example Code
+	
+	```js title="Example"
+export const tw = {
+		exampleContainer: 'not-content w-full w-max-lg text-center mx-auto rounded-xl ' + 
+		'bg-transparent' ,
+	}
 
-You can designate if opening an accordion should cause all other accordions to close.  When  passing `true` to the `closeSiblings` prop  a custom `closeOpenAccordions` event is fired.  All accordions except the one sending this event will be then closed. This was done in the example code above.
+	<div id='accordion-example' class={tw.exampleContainer} >
 
-The default value for closeSiblings is `false`.
+	import AccordionGroup_A from '../../../../components/AccordionGroup_A.astro'
+	import AccordionItem_A from '../../../../components/AccordionItem_A.astro'
 
-#### styles
+	<AccordionGroup_A closeSiblings={true} styles='mx-4'>
+		<AccordionItem_A id='accordion-hypermedia'  caption="Hypermedia" path='/api/readmore/0'/>
+		<AccordionItem_A id='accordion-htmx'  caption='HTMX' path='/api/readmore/1'/>
+		<AccordionItem_A id='accordion-tailwind'  caption='Tailwind' path='/api/readmore/2'/>
+		<AccordionItem_A id='accordion-hyperscript'  caption='Hyperscript' path='/api/readmore/3'/>
+		<AccordionItem_A id='accordion-astro'  caption='Astro' path='/api/readmore/4' />
+	</AccordionGroup_A>
 
-This prop takes a string containing any Tailwind classes of your choosing.   These classes will be merged with the default styles for AccordionGroup_A (which you find in the [Code](#code) section below.
+	</div>
 
-Tailwind classes passed in the `styles` prop only affect the whole group and thus should be mostly positioning values such as width, margins, etc.
+	```
+
+import {Tabs, TabItem } from '@astrojs/starlight/components'
+
+
+### Components
+
+
+
+#### AccordionGroup_A
+
+AccordionGroup is the parent (or wrapper) component.   Multiple AccordionItem components are placed into the default slot.
+
+The `closeSiblings` prop (as boolean) determines if only one accordion can be opened at a time.
+
+The `styles` prop is used to send TW utility classes to override or add styling for the Accordions general appearance
+
+<Tabs>
+	<TabItem label='Props'>
+	```js
+	interface Props {
+		closeSiblings?:boolean,   //all other Accordions sent a collapseItems event
+		styles?:string   //override or add TW classes for stying the Group
+	}
+
+	const {
+		closeSiblings = false, 
+		styles
+	} = Astro.props
+
+	```
+	</TabItem>
+		 
+	<TabItem label='HTML'>
+	```html
+		 
+	<ul class={tw.group} script={hs}>
+			<slot />
+	</ul>
+	```
+	</TabItem>
+		 
+	<TabItem label='Scripts'>
+	```js
+	const hs = `
+		on collapseItems
+		if ${closeSiblings} is true
+			set allAccordions to the <li/> in me
+			set allHeaders to the <button/> in allAccordions
+			for header in allHeaders
+				if header is not sender
+					send closeAccordion to header
+			end -- for
+		end -- if closeSiblings
+	end -- collapseItems
+	`
+
+	```
+	</TabItem>
+		 
+	<TabItem label='Tailwind'>
+	```js
+
+	import {twMerge} from 'tailwind-merge'
+	const tw = {
+		group: twMerge('mx-auto', styles),
+	}
+	```
+	</TabItem>
+		 
+	<TabItem label='Everything'>
+	```astro
+		 ---
+	import {twMerge} from 'tailwind-merge'
+
+	interface Props {
+		closeSiblings?:boolean,   //all other Accordions sent a collapseItems event
+		styles?:string   //override or add TW classes for stying the Group
+	}
+
+	const {
+		closeSiblings = false, 
+		styles
+	} = Astro.props
+
+	const tw = {
+	group: twMerge('mx-auto', styles),
+	}
+
+	const hs =` 
+		on collapseItems
+			if ${closeSiblings} is true
+				set allAccordions to the <li/> in me
+				set allHeaders to the <button/> in allAccordions
+				for header in allHeaders
+					if header is not sender
+						send closeAccordion to header
+				end -- for
+			end -- if closeSiblings
+		end -- collapseItems
+		`
+
+	---
+		
+	<ul class={tw.group} script={hs}>
+		<slot />
+	</ul>
+	```
+	</TabItem>
+</Tabs>
+		 
+
+
 
 ### AccordionItem_A
 
+	
+<Tabs>
+	<TabItem label='Props'>
+	```js
 
-```js
-
-interface Props {
-	id:string,
-	caption:string,
-	prefix?:string
-	maxHeight:number
-	headerStyles?:string
-	bodyStyles?:string
-	activeHeaderStyles?:string
-	openDuration?:string  
-	closeDuration?:string 
+	interface Props {
+	id:string,   //a unique identifier allowing multiple AccordionItems on a page without collisions
+	caption:string,   //the text display in the Accordion header
+	prefix?:string   //a tick mark preceeding the caption
+	maxHeight:string  //maximum open height in px (after which the body content scrolls vertically)
+	headerStyles?:string   //override or add TW classes to  the header
+	bodyStyles?:string   //override or add TW classes to the body
+	activeHeaderStyles?:string //override, add, remove TW classes for headers of opened Accordions
+	openDuration?:string   //transition timing when showing body content
+	closeDuration?:string  //transition timing when hiding body content
+	path?:string //an optional api endpoint to fetch hypermedia for accordion body
 }
 const {
 	id, 
 	caption, 
 	prefix='- ',
-	maxHeight=300,
+	maxHeight,
 	headerStyles,
 	bodyStyles,
-	activeHeaderStyles = 'bg-orange-100 dark:bg-blue-950',
+	activeHeaderStyles = 'bg-orange-100 dark:bg-indigo-950',
 	openDuration='260ms',
-	closeDuration='400ms'
+	closeDuration='400ms',
+	path
 } = Astro.props
-```
+		 
+	```
+	</TabItem>
+		 
+	<TabItem label='HTML'>
+	```html
+		 
 
-#### id
+		<li class={tw.wrapper}>
+
+			<!-- Accordion Header -->
+			<button 
+				id={id} 
+				class={tw.accordionHeader} 
+				script={hs}>
+					<span>{prefix}{caption}</span>
+					<!-- TwirlIcon -->
+					<svg id={`${id}-twirl-icon`} class={tw.icon} fill='currentColor' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'>
+							<path fill-rule='evenodd' d='M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z' clip-rule='evenodd'></path>
+						</svg>
+			</button>
+
+			<!-- Accordion Body -->
+			<div 	id={`${id}-body`} class={tw.accordionBody}>
+				<slot/>
+			</div>
+
+		</li> 
+
+	```
+	</TabItem>
+		 
+	<TabItem label='Scripts'>
+	```js
+
+
+const hs = `
+	init
+		set :accordionOpen to false
+		set :accordionBody to my @id + '-body'
+		set :twirlIcon to my @id + '-twirl-icon'
+	end -- init
+
+	def calcBodyHeight()
+		set bodyHeight to 0
+		set accordionContent to the children of the #{:accordionBody}
+		for item in accordionContent 
+			increment bodyHeight by the item's offsetHeight
+		end -- for
+		increment bodyHeight by 45   -- for .py-4 when accordion open
+		return bodyHeight 
+	end
+
+	on click from me
+		if :accordionOpen is true then trigger closeAccordion on me
+		otherwise trigger expand on me
+		end 
+	end -- click
+
+	on expand
+		add ${activeStyles} to me
+		add .py-4 .border-t-2 to the  #{:accordionBody}
+		fetch '${path}' as html then put the result into #${id}-body
+		set bodyHeight to calcBodyHeight()
+		if the bodyHeight is greater than ${maxHeight}
+			transition the  *height of #{:accordionBody} to ${maxHeight} px using 'all ${openDuration} ease-in'
+			add .overflow-y-auto to the #{:accordionBody}
+		otherwise
+			transition the *height of #{:accordionBody} to bodyHeight px using 'all ${openDuration} ease-in'
+		end -- if > maxHeight
+		add .rotate-180 to the #{:twirlIcon}
+		set :accordionOpen to true
+		send collapseItems to the closest <ul/>
+	end -- expand
+
+	on closeAccordion
+		remove ${activeStyles} from me
+		remove .py-4 .border-t-2 from the #{:accordionBody}
+		remove .rotate-180 from the #{:twirlIcon}
+		transition the *height of #{:accordionBody} to 0 using 'all ${closeDuration} ease-out'
+		set :accordionOpen to false
+	end -- closeAccordion
+`
+
+
+	```
+	</TabItem>
+		 
+	<TabItem label='Tailwind'>
+	```js
+
+		import {twMerge} from 'tailwind-merge'
+		const tw = {
+			wrapper:'shadow-lg overflow-hidden ' + 
+			'border-4 border-b-0 last-of-type:border-b-4 border-indigo-500 border-opacity-20  dark:border-gray-700 ' + 
+			'first-of-type:rounded-t-xl last-of-type:rounded-b-xl',
+			accordionHeader: twMerge('w-full flex justify-between items-center p-3 select-none cursor-pointer ' +
+				'font-bold text-lg text-left text-gray-900 dark:text-zinc-300 ' +
+				'bg-blue-100 hover:bg-sky-950 hover:text-yellow-50 ' +
+				'dark:bg-slate-900 dark:hover:bg-purple-950 dark:hover:text-fuchsia-100 ' + 
+				'', headerStyles),
+			accordionBody: twMerge('h-0 px-6 text-left border-zinc-600 ' + 
+				' bg-gray-100 text-slate-800 dark:bg-gray-900 dark:text-gray-100', bodyStyles),
+			icon: 'size-6 shrink-0'
+		}
+
+		function formatTWClasses(twClasses) {
+				return twClasses.split(' ').map(twClass => '.' + twClass).join(' ');
+		}
+
+		const activeStyles = formatTWClasses(activeHeaderStyles)
+	```
+	</TabItem>
+		 
+	<TabItem label='Everything'>
+	```astro
+		 ---
+import {twMerge} from 'tailwind-merge'
+
+interface Props {
+	id:string,   //a unique identifier allowing multiple AccordionItems on a page without collisions
+	caption:string,   //the text display in the Accordion header
+	prefix?:string   //a tick mark preceeding the caption
+	maxHeight:string  //maximum open height in px (after which the body content scrolls vertically)
+	headerStyles?:string   //override or add TW classes to  the header
+	bodyStyles?:string   //override or add TW classes to the body
+	activeHeaderStyles?:string //override, add, remove TW classes for headers of opened Accordions
+	openDuration?:string   //transition timing when showing body content
+	closeDuration?:string  //transition timing when hiding body content
+	path?:string //an optional api endpoint to fetch hypermedia for accordion body
+}
+const {
+	id, 
+	caption, 
+	prefix='- ',
+	maxHeight,
+	headerStyles,
+	bodyStyles,
+	activeHeaderStyles = 'bg-orange-100 dark:bg-indigo-950',
+	openDuration='260ms',
+	closeDuration='400ms',
+	path
+} = Astro.props
+
+
+const tw = {
+	wrapper:'shadow-lg overflow-hidden ' + 
+	'border-4 border-b-0 last-of-type:border-b-4 border-indigo-500 border-opacity-20  dark:border-gray-700 ' + 
+	'first-of-type:rounded-t-xl last-of-type:rounded-b-xl',
+	accordionHeader: twMerge('w-full flex justify-between items-center p-3 select-none cursor-pointer ' +
+		'font-bold text-lg text-left text-gray-900 dark:text-zinc-300 ' +
+		'bg-blue-100 hover:bg-sky-950 hover:text-yellow-50 ' +
+		'dark:bg-slate-900 dark:hover:bg-purple-950 dark:hover:text-fuchsia-100 ' + 
+		'', headerStyles),
+	accordionBody: twMerge('h-0 px-6 text-left border-zinc-600 ' + 
+		' bg-gray-100 text-slate-800 dark:bg-gray-900 dark:text-gray-100', bodyStyles),
+	icon: 'size-6 shrink-0'
+}
+
+function formatTWClasses(twClasses) {
+    return twClasses.split(' ').map(twClass => '.' + twClass).join(' ');
+}
+
+const activeStyles = formatTWClasses(activeHeaderStyles)
+
+const hs = `
+	init
+		set :accordionOpen to false
+		set :accordionBody to my @id + '-body'
+		set :twirlIcon to my @id + '-twirl-icon'
+	end -- init
+
+	def calcBodyHeight()
+		set bodyHeight to 0
+		set accordionContent to the children of the #{:accordionBody}
+		for item in accordionContent 
+			increment bodyHeight by the item's offsetHeight
+		end -- for
+		increment bodyHeight by 45   -- for .py-4 when accordion open
+		return bodyHeight 
+	end
+
+	on click from me
+		if :accordionOpen is true then trigger closeAccordion on me
+		otherwise trigger expand on me
+		end 
+	end -- click
+
+	on expand
+		add ${activeStyles} to me
+		add .py-4 .border-t-2 to the  #{:accordionBody}
+		fetch '${path}' as html then put the result into #${id}-body
+		set bodyHeight to calcBodyHeight()
+		if the bodyHeight is greater than ${maxHeight}
+			transition the  *height of #{:accordionBody} to ${maxHeight} px using 'all ${openDuration} ease-in'
+			add .overflow-y-auto to the #{:accordionBody}
+		otherwise
+			transition the *height of #{:accordionBody} to bodyHeight px using 'all ${openDuration} ease-in'
+		end -- if > maxHeight
+		add .rotate-180 to the #{:twirlIcon}
+		set :accordionOpen to true
+		send collapseItems to the closest <ul/>
+	end -- expand
+
+	on closeAccordion
+		remove ${activeStyles} from me
+		remove .py-4 .border-t-2 from the #{:accordionBody}
+		remove .rotate-180 from the #{:twirlIcon}
+		transition the *height of #{:accordionBody} to 0 using 'all ${closeDuration} ease-out'
+		set :accordionOpen to false
+	end -- closeAccordion
+`
+
+
+---
+
+
+<li class={tw.wrapper}>
+
+	<!-- Accordion Header -->
+	<button 
+		id={id} 
+		class={tw.accordionHeader} 
+		script={hs}>
+			<span>{prefix}{caption}</span>
+			<!-- TwirlIcon -->
+			<svg id={`${id}-twirl-icon`} class={tw.icon} fill='currentColor' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'>
+					<path fill-rule='evenodd' d='M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z' clip-rule='evenodd'></path>
+				</svg>
+	</button>
+
+	<!-- Accordion Body -->
+	<div 	id={`${id}-body`} class={tw.accordionBody}>
+		<slot/>
+	</div>
+
+</li> 
+	```
+	</TabItem>
+</Tabs>
+		 
+
+
 
 Each item should have a unique ID to prevent naming collisions with other items.
 
-#### caption
+
 
 The caption is the text that appears in the accordion header.
 
@@ -299,14 +577,14 @@ Explore the Tabs below to review all the code and styling which makes up the acc
 
 Copy/paste the contents of the `Everything` tab to use this component in your projects.
 
-import {Tabs, TabItem } from '@astrojs/starlight/components'
+
 
 <Tabs>
 <TabItem label="Props">
 ```js
 
 interface Props {
-	closeSiblings?:boolean,   //all other Accordions are sent a closeOpenAccordions event
+	closeSiblings?:boolean,   //all other Accordions are sent a collapseItems event
 	styles?:string   //override or add Tailwind classes for styling the group
 }
 
@@ -331,7 +609,7 @@ const {
 ```js "${closeSiblings}"
 
 const hs =
- `on closeOpenAccordions
+ `on collapseItems
 	 if ${closeSiblings} is true
 		 set allAccordions to the <li/> in me
 		 set allHeaders to the <button/> in allAccordions
@@ -340,7 +618,7 @@ const hs =
 				 send closeAccordion to header
 		 end -- for
 	 end -- if closeSiblings
- end -- closeOpenAccordions
+ end -- collapseItems
 `
 
 ```
@@ -362,7 +640,7 @@ const tw = {
 import {twMerge} from 'tailwind-merge'
 
 interface Props {
-	closeSiblings?:boolean,   //all other Accordions are sent a closeOpenAccordions event
+	closeSiblings?:boolean,   //all other Accordions are sent a collapseItems event
 	styles?:string   //override or add Tailwind classes for styling the group
 }
 
@@ -376,7 +654,7 @@ const tw = {
 }
 
 const hs =
- `on closeOpenAccordions
+ `on collapseItems
 	 if ${closeSiblings} is true
 		 set allAccordions to the <li/> in me
 		 set allHeaders to the <button/> in allAccordions
@@ -385,7 +663,7 @@ const hs =
 				 send closeAccordion to header
 		 end -- for
 	 end -- if closeSiblings
- end -- closeOpenAccordions
+ end -- collapseItems
 `
 
 ---
@@ -491,11 +769,11 @@ const hs = `
 
 	on click from me
 		if :accordionOpen is true then trigger closeAccordion on me
-		otherwise trigger openAccordion on me
+		otherwise trigger expand on me
 		end 
 	end -- click
 
-	on openAccordion
+	on expand
 		add ${activeStyles} to me
 		add .py-4 .border-t-2 to the  #{:accordionBody}
 		if the :accordionHeight is greater than ${maxHeight}
@@ -506,8 +784,8 @@ const hs = `
 		end -- if > maxHeight
 		add .rotate-180 to the #{:twirlIcon}
 		set :accordionOpen to true
-		send closeOpenAccordions to the closest <ul/>
-	end -- openAccordion
+		send collapseItems to the closest <ul/>
+	end -- expand
 
 	on closeAccordion
 		remove ${activeStyles} from me
@@ -607,11 +885,11 @@ const hs = `
 
 	on click from me
 		if :accordionOpen is true then trigger closeAccordion on me
-		otherwise trigger openAccordion on me
+		otherwise trigger expand on me
 		end 
 	end -- click
 
-	on openAccordion
+	on expand
 		add ${activeStyles} to me
 		add .py-4 .border-t-2 to the  #{:accordionBody}
 		if the :accordionHeight is greater than ${maxHeight}
@@ -622,8 +900,8 @@ const hs = `
 		end -- if > maxHeight
 		add .rotate-180 to the #{:twirlIcon}
 		set :accordionOpen to true
-		send closeOpenAccordions to the closest <ul/>
-	end -- openAccordion
+		send collapseItems to the closest <ul/>
+	end -- expand
 
 	on closeAccordion
 		remove ${activeStyles} from me

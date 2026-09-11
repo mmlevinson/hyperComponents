@@ -11,16 +11,16 @@ interface Props {
 	activeHeaderStyles?:string //override, add, remove TW classes for headers of opened Accordions
 	openDuration?:string   //transition timing when showing body content
 	closeDuration?:string  //transition timing when hiding body content
-	path?:string //api endpoint to be loaded into default slot as accordion contents
+	path?:string //an optional api endpoint to fetch hypermedia for accordion body
 }
 const {
 	id, 
 	caption, 
 	prefix='- ',
-	maxHeight='300',
+	maxHeight,
 	headerStyles,
 	bodyStyles,
-	activeHeaderStyles = 'bg-orange-100 dark:bg-sky-950',
+	activeHeaderStyles = 'bg-orange-100 dark:bg-indigo-950',
 	openDuration='260ms',
 	closeDuration='400ms',
 	path
@@ -31,7 +31,7 @@ const tw = {
 	wrapper:'shadow-lg overflow-hidden ' + 
 	'border-4 border-b-0 last-of-type:border-b-4 border-indigo-500 border-opacity-20  dark:border-gray-700 ' + 
 	'first-of-type:rounded-t-xl last-of-type:rounded-b-xl',
-	accordionHeader: twMerge('w-full flex justify-between items-center px-2 py-5 select-none cursor-pointer ' +
+	accordionHeader: twMerge('w-full flex justify-between items-center p-3 select-none cursor-pointer ' +
 		'font-bold text-lg text-left text-gray-900 dark:text-zinc-300 ' +
 		'bg-blue-100 hover:bg-sky-950 hover:text-yellow-50 ' +
 		'dark:bg-slate-900 dark:hover:bg-purple-950 dark:hover:text-fuchsia-100 ' + 
@@ -60,17 +60,17 @@ const hs = `
 		for item in accordionContent 
 			increment bodyHeight by the item's offsetHeight
 		end -- for
-		increment bodyHeight by 45  -- to accomodate for py-4
+		increment bodyHeight by 45   -- for .py-4 when accordion open
 		return bodyHeight 
 	end
 
 	on click from me
-		if :accordionOpen is true then trigger closeAccordion on me
-		otherwise trigger openAccordion on me
+		if :accordionOpen is true then trigger collapse on me
+		otherwise trigger expand on me
 		end 
 	end -- click
 
-	on openAccordion
+	on expand
 		add ${activeStyles} to me
 		add .py-4 .border-t-2 to the  #{:accordionBody}
 		fetch '${path}' as html then put the result into #${id}-body
@@ -83,16 +83,16 @@ const hs = `
 		end -- if > maxHeight
 		add .rotate-180 to the #{:twirlIcon}
 		set :accordionOpen to true
-		send closeOpenAccordions to the closest <ul/>
-	end -- openAccordion
+		send collapseSiblings to the closest <ul/>
+	end -- expand
 
-	on closeAccordion
+	on collapse
 		remove ${activeStyles} from me
 		remove .py-4 .border-t-2 from the #{:accordionBody}
 		remove .rotate-180 from the #{:twirlIcon}
 		transition the *height of #{:accordionBody} to 0 using 'all ${closeDuration} ease-out'
 		set :accordionOpen to false
-	end -- closeAccordion
+	end -- collapse
 `
 
 
@@ -115,6 +115,7 @@ const hs = `
 
 	<!-- Accordion Body -->
 	<div 	id={`${id}-body`} class={tw.accordionBody}>
+		<slot/>
 	</div>
 
 </li> 
