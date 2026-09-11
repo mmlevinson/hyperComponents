@@ -86,19 +86,18 @@ const tw = {
 
 ## Features
 
-1. Dropdown showing all entire Tailwind colors pallet
+1. Dropdown showing entire Tailwind color pallet
 2. Hovering a color swatch reveals a tooltip displaying the corresponding Tailwind color family, shade,  and  hex value.
 3. Clicking a swatch dismisses the dropdown smoothly and then displays an alert showing the color name and hexadecimal value of the selection.
-4. Custom actions can be assigned to the click feature.
+4. Custom actions can be invoked when selecting a swatch.
 4. Dropdown also dismissed by clicking target button again, any swatch clicked, mouseleave, or escape (when trigger button is focused)
 5. Both  `mouseenter` or `click` variants
-6. Both Landscape and Portrait variants (i.e. for  mobile screens).
-8. Styling implemented entirely  with [Tailwind CSS](https://tailwindcss.com)
-9. The Tailwind logo icon is passed into the `leftIcon` slot with appropriate styling classes applied.
-10. Uses ClickDropdownMenu_A and HoverDropdownMenu_B hyperComponents (but without a caption)
-11. The default slot for the dropdown component(s) receives a [PalletGrid](#palletgrid) custom component.   The PalletGrid takes an `orientation` prop which returns either a horizontally or vertically oriented grid of color swatches.  
-12. The `duration` prop is set to '180ms' but can be any value.
-13. A class of `.colorPallet` is added to the `buttonStyles` prop of the parent component (Click/HoverDropdown) so that the Hyperscript associated with each swatch can send a custom event which triggers closure of the dropdown after a selection is made.
+6. Both Landscape and Portrait variants (i.e. for  mobile screens) determined by an `orientation` prop.
+7. Styling implemented entirely  with [Tailwind CSS](https://tailwindcss.com)
+8. The `duration` prop is set to '180ms' but can be any value.
+9. Parent components are  ClickDropdownMenu_A and HoverDropdownMenu_B hyperComponents whose default slot receives a [PalletGrid](#palletgrid) custom component.   
+10. A class of `.colorPallet` is added to the `buttonStyles` prop of the parent component (Click/HoverDropdown) so that the Hyperscript associated with each swatch can send a custom event which triggers closure of the dropdown after a selection is made.
+11. The Tailwind logo icon is passed into the `leftIcon` slot with appropriate styling classes applied (and no caption)
 
 ## Components
 
@@ -188,36 +187,7 @@ The data structures of the vertically oriented pallet are exactly the same so wo
 
 ```js title="PalletGridV.astro" "colorFamilies" "shades" "hexValues"
 	---
-	import PalletItem from './PalletItem.astro';
-
-	interface Props {
-		hs?: string //custom action when user selects a swatch
-	}
-
-	const {hs} = Astro.props
-
-	const tw = {
-		grid: 'grid grid-cols-11 gap-2 px-4',
-		palletContainer: 'mt-0 flex flex-col gap-y-2',
-	}
-
-	const colorFamilies = ['slate', 'gray', 'zinc', 'neutral', 'stone', 'red', 'orange', 'amber', 'yellow', 'lime', 'green', 'emerald', 'teal', 'cyan', 'sky', 'blue', 'indigo', 'violet', 'purple', 'fuchsia', 'pink', 'rose']
-	const shades = ['50', '100', '200', '300', '400', '500', '600', '700', '800', '900', '950']
-	const hexValues = [
-	['f8fafc', 'f9fafb', 'fafafa', 'fafafa', 'fafaf9', 'fef2f2', 'fff7ed', 'fffbeb', 'fefce8', 'f7fee7', 'f0fdf4', 'ecfdf5', 'f0fdfa', 'ecfeff', 'f0f9ff', 'eff6ff', 'eef2ff', 'f5f3ff', 'faf5ff', 'fdf4ff', 'fdf2f8', 'fff1f2'], //50,
-	['f1f5f9', 'f3f4f6', 'f4f4f5', 'f5f5f5', 'f5f5f4', 'fee2e2', 'ffedd5', 'fefec7', 'fef9c3', 'ecfccb', 'dcfce7', 'd1fae5', 'ccfbf1', 'cffafe, e0f2fe', 'dbeafe', 'e0e7ff', 'ede9fe', 'f3e8ff', 'fae8ff', 'fce7f3', 'ffe4e6'],  //100
-	['e2e8f0', 'e5e7eb', 'e4e4e7', 'e5e5e5', 'e7e5e4', 'fecaca', 'fed7aa', 'fde68a', 'fef08a', 'd9f99d', 'bbf7d0', 'a7f3d0', '99f6e4', 'a5f3fc', 'bae6fd', 'bfdbfe', 'c7d2fe', 'ddd6fe', 'e9d5ff', 'f5d0fe', 'fbcfe8', 'fecdd3'],  //200
-	['cbd5e1', 'd1d5db', 'd4d4d8', 'd4d4d4', 'd6d3d1', 'fca5a5', 'fdba74', 'fcd34d', 'fde047', 'bef264', '86efac', '6ee7b7', '5eead4', '67e8f9', '7dd3fc', '93c5fd', 'a5b4fc', 'c4b5fd', 'd8b4fe', 'f0abfc', 'f9a8d4', 'fda4af'],  //300
-	['94a3b8', '9ca3af', 'a1a1aa', 'a3a3a3', 'a8a29e', 'f87171', 'fb923c', 'fbbf24', 'facc15', 'a3e635', '4ade80', '34d399', '2dd4bf', '22d3ee', '38bdf8', '60a5fa', '818cf8', 'a78bfa', 'c084fc', 'e879f9', 'f472b6', 'fb7185'], //400
-	['64748b',  '6b7280', '71717a', '737373', '78716c', 'ef4444', 'f97316', 'f59e0b', 'eab308', '84cc16', '22c55e', '10b981', '14b8a6', '06b6d4', '0ea5e9', '3b82f6', '6366f1', '8b5cf6', 'a855f7', 'd946ef', 'ec4899', 'f43f5e'], //500
-	['475569', '4b5563', '52525b', '525252', '57534e', 'dc2626', 'ea580c', 'd97706', 'ca8a04', '65a30d', '16a34a','059669', '0d9488', '0891b2', '0284c7', '2563eb', '4f46e5', '7c3aed', '9333ea', 'c026d3', 'db2777', 'e11d48'], //600
-	['334155','374151', '3f3f46', '404040', '44403c', 'b91c1c', 'c2410c', 'b45309', 'a16207','4d7c0f', '15803d', '047857', '0f766e', '0e7490', '03609a1', '1d4ed8', '4338ca', '6d28d9', '7e22ce', 'a21caf','be185d', 'be123c'], //700
-	['1e293b', '1f2937', '27272a', '262626', '292524', '991b1b', '9a3412','92400e', '854d0e','3f6212', '166534', '065f46', '115e59', '155e75', '075985', '1e40af', '3730a3', '5b21b6', '6b21a8', '86198f', '9d174d', '9f1239'],  //800
-	['0f172a','111827', '18181b', '171717', '1c1917', '7f1d1d', '7c2d12','78350f', '713f12', '365314', '14532d', '064e3b', '1334e4a', '164e63', '0c4a6e','1e3a8a','312e81', '4c1d95', '581c87','701a75', '831843', '881337'], //900
-	['020617', '030712', '09090b', '0a0a0a', '0c0a09', '450a0a', '431407', '451a03', '422006', '1da2e05', '052e16', '022c22', '042f2e', '083344', '082f49', '172554', '1e1b4b', '2e1065', '3b0764', '4a044e', '500724', '4c0519'], //950
-	]
-
-	---
+	
 	<div class={tw.grid}>
 		{shades.map((shade, shadeIndex) => (
 			<div class={tw.palletContainer}>
@@ -235,11 +205,9 @@ The data structures of the vertically oriented pallet are exactly the same so wo
 
 The essential component rendering a single swatch is the `PalletItem` comprised of a simple `<span>` whose background color is set using props. 
 
-The PalletItem component accepts three props.   The `twColor prop is the name of the Tailwind color such as 'red-500'`.    The `hexCode` prop is the corresponding hexadecimal value for that color.  Finally, the `script` prop receives Hyperscript from its parent which is used to close the dropdown and then trigger some custom action.
+The PalletItem component accepts three props.   The `twColor prop is the name of the Tailwind background color such as 'bg-red-500'`.    The `hexCode` prop is the corresponding hexadecimal value for that color.  Finally, the `script` prop receives a Hyperscript from its parent which is used to close the dropdown and then trigger some custom action.
 
-A function in the component script capitalizes the first letter of the color name which is then used to set a `title` attribute creating a tooltip that will be displayed when the user hovers over the color swatch.
-
-Since the swatch color is created using background colors, the 'bg-' prefix is stripped from the Tailwind class before the `title` string  is created.
+A function in the component script strips out the 'bg' prefix and capitalizes the first letter of the color name which is then used to set a `title` attribute creating a tooltip that will be displayed when the user hovers over the color swatch.
 
 Finally, a Hyperscript attribute on each `PalletItem` accepts a `script` prop which should listen for a click  and then send the `closeDropdown` custom event back to the parent `<button>`.  To make this happen, a `.colorPallet` class is explicitly added to the `<button>` of each dropdown component by passing this class name into the `buttonStyles` prop. The custom event should target the `.colorPallet` class in order to close the dropdown.
 
@@ -259,7 +227,7 @@ interface Props {
 
 const {twColor, hexCode, script } = Astro.props
 
-/* Palellets are built using the background color class names, so 
+/* Pallets are built using the background color class names, so 
 we strip out the 'bg' prefix and capitalize the first char to create
 color family and shade names */
 function capitalizeFirstCharacter(str) {
@@ -464,7 +432,7 @@ interface Props {
 
 const {twColor, hexCode, script } = Astro.props
 
-/* Palellets are built using the background color class names, so 
+/* Pallets are built using the background color class names, so 
 we strip out the 'bg' prefix and capitalize the first char to create
 color family and shade names */
 function capitalizeFirstCharacter(str) {
