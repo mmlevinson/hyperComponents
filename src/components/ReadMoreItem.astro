@@ -3,7 +3,7 @@ import {twMerge} from 'tailwind-merge'
 
 
 interface Props {
-	id:string   //a unique identifier which doubles as the file 'slug' for loading content from api route
+	id:string   //a unique identifier for the item
 	caption?:string	//the caption for the trigger button
 	altCaption?:string	//the caption for the trigger button when the content is expanded
 	maxHeight?:string	 //maximum open height in px (after which the body content scrolls vertically)
@@ -56,7 +56,7 @@ const hs = `
 		on mouseenter from me
 			get the innerHTML of the next .body
 			if it is empty then 
-				fetch '${path}/${id}' as html then put the result into the next .body
+				fetch '${path}' as html then put the result into the next .body
 		end -- mouseenter handler
 
 		on click from me
@@ -67,7 +67,7 @@ const hs = `
 
 		on expand
 			set my textContent to '${altCaption}'
-			add .rotate-180 to the  #{'twirl-icon-'+${id}}
+			add .rotate-180 to the  #{'twirl-icon-${id}'}
 			set openHeight to calcOpenHeight()
 			if openHeight is greater than ${maxHeight} then
 				add .overflow-y-scroll to the next .body
@@ -79,7 +79,7 @@ const hs = `
 
 		on collapse
 			set my textContent to '${caption}'
-			remove .rotate-180 from the  #{'twirl-icon-'+${id}}
+			remove .rotate-180 from the  #{'twirl-icon-${id}'}
 			remove .overflow-y-scroll from the next .body
 			set the *height of the next .body to 0 then settle		
 		end -- collapse event handler

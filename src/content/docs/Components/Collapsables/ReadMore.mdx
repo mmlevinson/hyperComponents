@@ -16,36 +16,36 @@ export const tw = {
 import ReadMoreItem from '../../../../components/ReadMoreItem.astro'
 import ReadMoreGroup from '../../../../components/ReadMoreGroup.astro'
 
-<ReadMoreGroup closeSiblings={true}	styles="mx-6">
-	<ReadMoreItem id="0" path="../../../api/readmore" >
+<ReadMoreGroup styles="mx-6">
+	<ReadMoreItem id="hypermedia" path="/api/readmore/0" >
 		<h3>Hypermedia</h3>
 		<div class={tw.intro}>
 			<h5>HTML as a response to API requests</h5>
 			<h5>Why are most API calls returning JSON when the browser is optimized to process HTML?</h5>
 		</div>
 	</ReadMoreItem>
-	<ReadMoreItem id="1" path="../../../api/readmore" >
+	<ReadMoreItem id="htmx" path="/api/readmore/1" >
 		<h3>HTMX</h3>
 		<div class={tw.intro}>
 			<h5>Adding functionality to any HTML element</h5>
 			<h5>Can any element issue requests and update the DOM?</h5>
 		</div>
 	</ReadMoreItem>
-	<ReadMoreItem id="2" path="../../../api/readmore">
+	<ReadMoreItem id="tailwind" path="/api/readmore/2">
 		<h3>Tailwind CSS</h3>
 		<div class={tw.intro}>
 			<h5>Responsive, mobile first styling</h5>
 			<h5>A defined set of utility classes makes it easier to prototype user interfaces.</h5>
 		</div>
 	</ReadMoreItem>
-	<ReadMoreItem id="3" path="../../../api/readmore">
+	<ReadMoreItem id="hyperscript" path="/api/readmore/3">
 		<h3>Hyperscript</h3>
 		<div class={tw.intro}>
 			<h5>New client side scripting language</h5>
 			<h5>Add client side functionality with an easy to learn English-prose syntax patterned after Hypertalk</h5>
 		</div>
 	</ReadMoreItem>
-	<ReadMoreItem id="4" path="../../../api/readmore">
+	<ReadMoreItem id="astro" path="/api/readmore/4">
 		<h3>Astro</h3>
 		<div class={tw.intro}>
 			<h5>Fast, robust Vite-based build tool featuring static and server rendered pages</h5>
@@ -69,7 +69,7 @@ This hyperComponent modifies the code and layout from the [Accordion](/component
 
 ### Features
 
-1.  Built with two components ... [ReadMoreGroup](#readmoregroup) and [ReadMoreIte](#readmoreitem)
+1.  Built with two components ... [ReadMoreGroup](#readmoregroup) and [ReadMoreItem](#readmoreitem)
 
 2.  [ReadMoreGroup](#readmoregroup) accepts multiple ReadMoreItems in it's default `<slot/>`
 
@@ -102,7 +102,7 @@ By using back-tick delimited strings, dynamic values can be passed into the [Hyp
 
 ### Example Code
 
-	```astro title="RExample" "ReadMoreGroup" "ReadMoreItem"
+	```astro title="Example" "ReadMoreGroup" "ReadMoreItem"
 ---
 
 export const tw = {
@@ -115,36 +115,36 @@ export const tw = {
 import ReadMoreItem from '../../../../components/ReadMoreItem.astro'
 import ReadMoreGroup from '../../../../components/ReadMoreGroup.astro'
 
-<ReadMoreGroup closeSiblings={true}	styles="mx-6">
-	<ReadMoreItem id="0" path="../../../api/readmore" >
+<ReadMoreGroup styles="mx-6">
+	<ReadMoreItem id="hypermedia" path="/api/readmore/0" >
 		<h3>Hypermedia</h3>
 		<div class={tw.intro}>
 			<h5>HTML as a response to API requests</h5>
 			<h5>Why are most API calls returning JSON when the browser is optimized to process HTML?</h5>
 		</div>
 	</ReadMoreItem>
-	<ReadMoreItem id="1" path="../../../api/readmore" >
+	<ReadMoreItem id="htmx" path="/api/readmore/1" >
 		<h3>HTMX</h3>
 		<div class={tw.intro}>
 			<h5>Adding functionality to any HTML element</h5>
 			<h5>Can any element issue requests and update the DOM?</h5>
 		</div>
 	</ReadMoreItem>
-	<ReadMoreItem id="2" path="../../../api/readmore">
+	<ReadMoreItem id="tailwind" path="/api/readmore/2">
 		<h3>Tailwind CSS</h3>
 		<div class={tw.intro}>
 			<h5>Responsive, mobile first styling</h5>
 			<h5>A defined set of utility classes makes it easier to prototype user interfaces.</h5>
 		</div>
 	</ReadMoreItem>
-	<ReadMoreItem id="3" path="../../../api/readmore">
+	<ReadMoreItem id="hyperscript" path="/api/readmore/3">
 		<h3>Hyperscript</h3>
 		<div class={tw.intro}>
 			<h5>New client side scripting language</h5>
 			<h5>Add client side functionality with an easy to learn English-prose syntax patterned after Hypertalk</h5>
 		</div>
 	</ReadMoreItem>
-	<ReadMoreItem id="4" path="../../../api/readmore">
+	<ReadMoreItem id="astro" path="/api/readmore/4">
 		<h3>Astro</h3>
 		<div class={tw.intro}>
 			<h5>Fast, robust Vite-based build tool featuring static and server rendered pages</h5>
@@ -281,6 +281,7 @@ const {
 		 
 	<TabItem label='HTML'>
 	```html
+	
 	<li id={id} class={tw.wrapper}>
 		<div>
 			<!-- Default Slot for introductory content-->
@@ -299,7 +300,10 @@ const {
 					</svg>
 				</slot>
 			</div>
+
+
 			
+
 		<!-- Body -->
 		{/* Must leave this div empty, will be lazy loaded by the above fetch call*/}
 		{/* Add .body class so the script will find this div */}
@@ -326,7 +330,7 @@ const hs = `
 		on mouseenter from me
 			get the innerHTML of the next .body
 			if it is empty then 
-				fetch '${path}/${id}' as html then put the result into the next .body
+				fetch '${path}' as html then put the result into the next .body
 		end -- mouseenter handler
 
 		on click from me
@@ -337,7 +341,7 @@ const hs = `
 
 		on expand
 			set my textContent to '${altCaption}'
-			add .rotate-180 to the  #{'twirl-icon-'+${id}}
+			add .rotate-180 to the  #{'twirl-icon-${id}'}
 			set openHeight to calcOpenHeight()
 			if openHeight is greater than ${maxHeight} then
 				add .overflow-y-scroll to the next .body
@@ -349,7 +353,7 @@ const hs = `
 
 		on collapse
 			set my textContent to '${caption}'
-			remove .rotate-180 from the  #{'twirl-icon-'+${id}}
+			remove .rotate-180 from the  #{'twirl-icon-${id}'}
 			remove .overflow-y-scroll from the next .body
 			set the *height of the next .body to 0 then settle		
 		end -- collapse event handler
@@ -400,7 +404,7 @@ import {twMerge} from 'tailwind-merge'
 
 
 interface Props {
-	id:string   //a unique identifier which doubles as the file 'slug' for loading content from api route
+	id:string   //a unique identifier for the item
 	caption?:string	//the caption for the trigger button
 	altCaption?:string	//the caption for the trigger button when the content is expanded
 	maxHeight?:string	 //maximum open height in px (after which the body content scrolls vertically)
@@ -453,7 +457,7 @@ const hs = `
 		on mouseenter from me
 			get the innerHTML of the next .body
 			if it is empty then 
-				fetch '${path}/${id}' as html then put the result into the next .body
+				fetch '${path}' as html then put the result into the next .body
 		end -- mouseenter handler
 
 		on click from me
@@ -464,7 +468,7 @@ const hs = `
 
 		on expand
 			set my textContent to '${altCaption}'
-			add .rotate-180 to the  #{'twirl-icon-'+${id}}
+			add .rotate-180 to the  #{'twirl-icon-${id}'}
 			set openHeight to calcOpenHeight()
 			if openHeight is greater than ${maxHeight} then
 				add .overflow-y-scroll to the next .body
@@ -476,7 +480,7 @@ const hs = `
 
 		on collapse
 			set my textContent to '${caption}'
-			remove .rotate-180 from the  #{'twirl-icon-'+${id}}
+			remove .rotate-180 from the  #{'twirl-icon-${id}'}
 			remove .overflow-y-scroll from the next .body
 			set the *height of the next .body to 0 then settle		
 		end -- collapse event handler
@@ -504,6 +508,9 @@ const hs = `
 					</svg>
 				</slot>
 			</div>
+
+
+			
 
 		<!-- Body -->
 		{/* Must leave this div empty, will be lazy loaded by the above fetch call*/}
