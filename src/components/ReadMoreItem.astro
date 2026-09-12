@@ -79,9 +79,9 @@ const hs = `
 
 		on collapse
 			set my textContent to '${caption}'
-			remove .rotate-180 from the  #{'twirl-icon-${id}'}
-			remove .overflow-y-scroll from the next .body
 			set the *height of the next .body to 0 then settle		
+			remove .rotate-180 from the #{'twirl-icon-${id}'}
+			remove .overflow-y-scroll from the next .body
 		end -- collapse event handler
 `
 
