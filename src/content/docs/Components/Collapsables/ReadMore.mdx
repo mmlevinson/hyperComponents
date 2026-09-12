@@ -5,24 +5,13 @@ tableOfContents:
   minHeadingLevel: 2
   maxHeadingLevel: 5
 ---
-		 
-	{/* Introduction */}
-Blog sites typically use a ReadMore control to display a short introductory prompt followed by  a Read More... link which loads the remaining post content on demand.
-		 
-## Example
-		 
+
 export const tw = {
-		exampleContainer: 'not-content w-full pb-4 w-max-lg bg-gray-100 dark:bg-gray-800 rounded-xl my-6',
-		exampleTitle:'text-center bg-gray-800 dark:bg-sky-900 text-gray-300 dark:text-zinc-50 font-semibold py-2 mb-4 rounded-t-xl',
-		icon:'inline-block size-6',
-		image: 'inline-block max-h-6',
-		p: 'pb-3'	,
+		exampleContainer: 'not-content w-full p-2 w-max-lg bg-transparent border-2 border-gray-300  dark:border-gray-700 rounded-xl my-6',
 		intro: 'ml-2 mt-2 text-lg'
 }
 		 
 <div id='ReadMore-example' class={tw.exampleContainer} >
-<div id='ReadMore-title' class={tw.exampleTitle}>Sample ReadMore Control</div>
-
 
 import ReadMoreItem_A from '../../../../components/ReadMoreItem_A.astro'
 import ReadMoreGroup_A from '../../../../components/ReadMoreGroup_A.astro'
