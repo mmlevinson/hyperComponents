@@ -43,18 +43,14 @@ const tw = {
 
 const hs = `
 
-		init
-			set :openHeight to 0
-		end
-
 		def calcOpenHeight()
-			set :openHeight to 0
+			set openHeight to 0
 			set content to the children of the next .body
 			for item in content 
-				increment :openHeight by the item's offsetHeight
+				increment openHeight by the item's offsetHeight
 			end
-			increment :openHeight by 25   -- for padding
-			return :openHeight 
+			increment openHeight by 25   -- for padding
+			return openHeight 
 		end -- calcOpenHeight 
 
 		on mouseenter from me
@@ -72,13 +68,12 @@ const hs = `
 		on expand
 			set my textContent to '${altCaption}'
 			add .rotate-180 to the  #{'twirl-icon-'+${id}}
-			calcOpenHeight()
-			if :openHeight is greater than ${maxHeight} then
+			set openHeight to calcOpenHeight()
+			if openHeight is greater than ${maxHeight} then
 				add .overflow-y-scroll to the next .body
 				set the *height of the next .body to ${maxHeight} px then settle
 			otherwise
-				add .overflow-y-hidden to the next .body
-				set the *height of the next .body to the :openHeight px then settle
+				set the *height of the next .body to the openHeight px then settle
 			end
 		end -- expand event handler
 
