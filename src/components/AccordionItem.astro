@@ -100,10 +100,10 @@ const hs = `
 	end -- expand
 
 	on collapse
+		remove .rotate-180 from the #{:twirlIcon}
 		remove ${activeStyles} from me
 		transition the *height of #{:accordionBody} to 0 using 'all ${closeDuration} ease-out' then settle
 		remove .overflow-y-scroll from the #{:accordionBody}
-		remove .rotate-180 from the #{:twirlIcon}
 		set :accordionOpen to false
 	end -- collapse
 `
