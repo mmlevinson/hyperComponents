@@ -57,83 +57,106 @@ import ReadMoreGroup_A from '../../../../components/ReadMoreGroup_A.astro'
 </div>
 
 
-	{/* Example Control in Action */}
-## Description
-	{/* General Description */}
 
-	A `ReadMore` control presents a short introductory text block followed by a clickable "Read More" link which reveals the remaining content in an expandable block below the introduction.  
+ReadMore components are useful for blogposts etc where a title and/subtitle introduces the content, but the user must click the Read More... link to reveal the full discussion.
 
-	ReadMore controls allow the developer to place multiple blog posts or other titles onto a page while conserving vertical real estate.   The user is still able to access the full text of each post or article by simply clicking.
-	
-	Blog sites are the most common use case for `ReadMore` controls.   Multiple blog posts can be displayed on one page using ReadMore items.   Each post is introduced with an opening title sentence, often containing the author and posting date.   The remaining content is hidden from view until the user clicks the "Read More" link, at which point the content is revealed.
+Essentially, ReadMore components are very similar to Accordions, with a few differences:
 
-	Another variation is to present the blog comments in a ReadMore control below the blog post itself.
+1.  The Read More... link and twirl icon are presented after the title and introductory text
+2.  When expanded, the `Read More ... `hint is swapped for an alternative hint (such as `Read Less ...`)
 
-	The action of a ReadMore control is very similar to an [Accordion](components/collapsables/accordion/) control.   The main difference is the button which reveals the hidden content is placed after the introductory text.   Also, an alternative caption is displayed when the content is revealed, for example 'Read Less...'.   A twirl icon rotates when opened which offers further confirmation that  hidden content is now being displayed.
+This hyperComponent modifies the code and layout from the [Accordion](/components/collapsables/accordion/) example.
 
-	For this example, two Astro components are used (ReadMoreGroup_A and ReadMoreItem_A).   The ReadMoreGroup  provides a wrapper `<ul>` and a default slot for passing in multiple ReadMoreItems.  
+### Features
 
-	The basic source code to implement the examples  is shown below.   The [code](#code) sections below contain the props, scripts, and styling of both Astro components.   In order to use this ReadMore example, you will need to set up analogous [custom API endpoints](https://docs.astro.build/en/guides/endpoints/) and return appropriate HTML responses but the example code should help you get started.
-	
+1.  Built with two components ... [ReadMoreGroup](#readmoregroup) and [ReadMoreIte](#readmoreitem)
 
-	```astro title="Read More Control Example" "ReadMoreGroup_A" "ReadMoreItem_A"
+2.  [ReadMoreGroup](#readmoregroup) accepts multiple ReadMoreItems in it's default `<slot/>`
+
+3.  [ReadMoreItem](#readmoreitem) accepts HTML into it's default `<slot/>`for both the title and introductory text
+
+4.  The full content is pre-fetched from  the backend api route specified by the `path` prop when the user hovers over the Read More link
+
+1.  Clicking any Read More ... link smoothly toggles the body content
+
+2.  The `caption` (Read More ...) and `altCaption` (Read Less ...) can be customized via props
+
+3.  The twirl icon can be customized by passing an icon image into the `<slot name='twirl-icon>'>` or by updating the default image in the component HTML
+
+4.  A `maxHeight` prop prevents the body height from exceeding a set value and is adjusable per [ReadMoreItem](#readmoreitem)
+
+5.  If the body content exceeds the `maxHeight`, a vertical scroll bar is applied
+
+5.  If no maxHeight prop is sent, all of the content is displayed without a vertical scrollbar
+
+1.  Baseline styling is exclusively by [Tailwind](https://tailwindcss.com)
+
+5.  Add or override baseline styles by sending [Tailwind](https://tailwindcss.com) classes via props
+
+2.  All actions (including transitions and content updating) performed by [Hyperscript](https://hyperscript.org) (No Javascript or frameworks)
+
+The [Tailwind](https://tailwindcss.com) classes and Hyperscripts are both extracted from the markup and encapsulated into  Astro `tw` and `hs` local variables within the [Component Script](https://docs.astro.build/en/basics/astro-components/#the-component-script).
+By using back-tick delimited strings, dynamic values can be passed into the [Hyperscript](https://hyperscript.org) code from outside of the component using props.
+
+`twMerge()` allows custom styling via props while preventing [merge conflicts]('/about/tailwind/#merge-conflicts)
+
+### Example Code
+
+	```astro title="RExample" "ReadMoreGroup_A" "ReadMoreItem_A"
 ---
-import ReadMoreItem_A from '/components/ReadMoreItem_A.astro'
-import ReadMoreGroup_A from '/components/ReadMoreGroup_A.astro'
 
-const tw = {
+export const tw = {
+		exampleContainer: 'not-content w-full p-2 w-max-lg bg-transparent border-2 border-gray-300  dark:border-gray-700 rounded-xl my-6',
 		intro: 'ml-2 mt-2 text-lg'
 }
----
+		 
+<div id='ReadMore-example' class={tw.exampleContainer} >
+
+import ReadMoreItem_A from '../../../../components/ReadMoreItem_A.astro'
+import ReadMoreGroup_A from '../../../../components/ReadMoreGroup_A.astro'
+
 <ReadMoreGroup_A closeSiblings={true}	styles="mx-6">
-	<ReadMoreItem_A id="0" path="/api/readmore" >
+	<ReadMoreItem_A id="0" path="../../../api/readmore" >
 		<h3>Hypermedia</h3>
 		<div class={tw.intro}>
 			<h5>HTML as a response to API requests</h5>
 			<h5>Why are most API calls returning JSON when the browser is optimized to process HTML?</h5>
 		</div>
 	</ReadMoreItem_A>
-	<ReadMoreItem_A id="1" path="/api/readmore" >
+	<ReadMoreItem_A id="1" path="../../../api/readmore" >
 		<h3>HTMX</h3>
 		<div class={tw.intro}>
 			<h5>Adding functionality to any HTML element</h5>
 			<h5>Can any element issue requests and update the DOM?</h5>
 		</div>
 	</ReadMoreItem_A>
-	<ReadMoreItem_A id="2" path="/api/readmore">
+	<ReadMoreItem_A id="2" path="../../../api/readmore">
 		<h3>Tailwind CSS</h3>
 		<div class={tw.intro}>
 			<h5>Responsive, mobile first styling</h5>
 			<h5>A defined set of utility classes makes it easier to prototype user interfaces.</h5>
 		</div>
 	</ReadMoreItem_A>
-	<ReadMoreItem_A id="3" path="/api/readmore">
+	<ReadMoreItem_A id="3" path="../../../api/readmore">
 		<h3>Hyperscript</h3>
 		<div class={tw.intro}>
 			<h5>New client side scripting language</h5>
 			<h5>Add client side functionality with an easy to learn English-prose syntax patterned after Hypertalk</h5>
 		</div>
 	</ReadMoreItem_A>
-	<ReadMoreItem_A id="4" path="/api/readmore">
+	<ReadMoreItem_A id="4" path="../../../api/readmore">
 		<h3>Astro</h3>
 		<div class={tw.intro}>
 			<h5>Fast, robust Vite-based build tool featuring static and server rendered pages</h5>
 			<h5>Utilize an island architecture to selectively hydrate content on the client side.</h5>
 		</div>
 	</ReadMoreItem_A>
-
 </ReadMoreGroup_A>
 
+</div>
+
 	```
-## Features
 
-This ReadMore Control features include the following:
-
-1.  The trigger button caption and alternative caption can be sent as props
-2.  The maximum height of the exposed content can be adjusted via props
-3.  The transition duration is customizable
-4.  Styling for the readMore flex container, trigger button, and twirl icon can be customized using Tailwind utility classes passed via props
-5.  A custom twirl icon can be used
 
 
 		 
@@ -145,119 +168,54 @@ This component provides a general `<ul>` wrapper around multiple ReadMoreItem_A 
 
 In addition, Hyperscript in the group component listens for the `closeOtherReadMores` event and then optionally sends the closeUp event to all other ReadMoreItems according to the boolean `closeSiblings` prop.
 
-#### Props
-
-	```js
-
-	interface Props {
-		closeSiblings?: boolean 
-		styles?: string  
-	}
-
-	const {
-		closeSiblings = true,
-		styles
-	} = Astro.props
-
-
-	```
-
-		##### closeSiblings
-
-		This boolean value controls whether or not the ReadMoreGroup_A component should close other ReadMoreItems before the sending control is opened.  The default is true.
-
-		##### styles
-
-		This prop allows the developer to pass in any Tailwind CSS utility classes to style the ReadMoreGroup_A component.    Most useful classes for the group component are positioning, margins, padding, and the like.
-
-#### Slots
-
-	##### default slot
-
-	Multiple ReadMoreItem_A components can be passed into the default slot of the ReadMoreGroup_A component.
-
-#### Events
-
-	##### closeOtherReadMores
-
-	This event is fired by any ReadMoreItem_A component during its openUp event.   Hyperscript in the ReadMoreGroup_A listens for this event and optionally closes all other ReadMoreItems within the group.   
-
-#### Code
-
-Explore the Tabs below to examine all the code for the ReadMoreGroup_A component.  Use the Everything tab to copy and paste it into your project.
-
 <Tabs>
 	<TabItem label='Props'>
 	```js
-	interface Props {
-		closeSiblings?: boolean  //sibling ReadMoreItems will be closed
-		styles?: string  //tw classes to position/style the entire group
+	---
+interface Props {
+	closeSiblings?: boolean  //sibling ReadMoreItems will be closed
+	styles?: string  //add tw classes to position/style the entire group
 }
 
 const {
-		closeSiblings = true,
-		styles
-} = Astro.props	 
+	closeSiblings = true,
+	styles
+} = Astro.props
+
+---	 
 	```
 	</TabItem>
 		 
 	<TabItem label='HTML'>
 	```html
-	<ul script={hs} class={styles}>
-	<!-- Default Slot for ReadMoreItems  -->
-		<slot/>
-	</ul>	 
+		<ul class={styles}>
+			<!-- Default Slot for ReadMoreItems  -->
+			<slot/>
+		</ul> 
 	```
 	</TabItem>
 		 
-	<TabItem label='Scripts'>
-	```js
-	const hs =
-		`on closeOtherReadMores
-			if ${closeSiblings} is true
-				set allReadMores to the children of me
-				set allButtons to <button/> in me
-				for button in allButtons
-					if button is not detail.sender
-						send closeUp to the button
-					end -- for
-			end -- if closeSiblings
-		end -- closeOtherReadMores
-	`
-	```
-	</TabItem>
+
 	
 		 
 	<TabItem label='Everything'>
-	```astro
+	```js
 ---
 interface Props {
-		closeSiblings?: boolean  //sibling ReadMoreItems will be closed
-		styles?: string  //add tw classes to position/style the entire group
+	closeSiblings?: boolean  //sibling ReadMoreItems will be closed
+	styles?: string  //add tw classes to position/style the entire group
 }
 
 const {
-		closeSiblings = true,
-		styles
+	closeSiblings = true,
+	styles
 } = Astro.props
 
-const hs =
-	`on closeOtherReadMores
-		if ${closeSiblings} is true
-			set allReadMores to the children of me
-			set allButtons to <button/> in me
-			for button in allButtons
-				if button is not detail.sender
-					send closeUp to the button
-				end -- for
-		end -- if closeSiblings
-	end -- closeOtherReadMores
-`
 ---
 
-<ul script={hs} class={styles}>
-		<!-- Default Slot for ReadMoreItems  -->
-	<slot/>
+<ul class={styles}>
+	<!-- Default Slot for ReadMoreItems  -->
+ <slot/>
 </ul>
 	```
 	</TabItem>
@@ -274,114 +232,6 @@ Hidden content is lazy-loaded using the fetch command in the accompanying Hypers
 
 Review the Scripts tab in the [Code](#code) section below for the Hyperscript used to implement lazy-loading of the hidden content.
 
-#### Props
-
-```js
-
-interface Props {
-	id:string   
-	path?:string	
-	caption?:string	
-	altCaption?:string	
-	maxHeight?:number	 
-	duration?:string	
-	readMoreStyles?:string	
-	buttonStyles?:string
-	iconStyles?:string	
-	bodyStyles?:string	
-}
-
-```
-
-	##### id
-	Each item should be given a unique ID which  serves the dual purpose of preventing name collisions with other ReadMoreItem's as well as providing the `slug` for the file path where the content will be fetched.   If you are using a backend database, the id could also represent the record identifier.
-
-
-	##### path
-
-	This prop carries the route to the API endpoint where the content will be fetched.   String concatenation in the Hyperscript builds the final route using both `id` and the `path` values.
-
-	##### caption
-
-	The string value passed in the `caption` prop is the initial text content of the trigger button when the body content is hidden.   The default caption is 'Read More...'
-
-
-	##### altCaption
-
-	The string value passed in the `altCaption` prop is displayed as the text content of the trigger button when the body content is unhidden.   This text should encourage the user to click again to hide the content.    
-
-	The default `altCaption` is 'Read Less....'
-
-
-	##### maxHeight
-
-	The body content of the ReadMore is clipped to a fixed height beyond which the content scrolls vertically.
-
-	The default value is 500.   The underlying units used by the script code are pixels.   This prop accepts a number so a mathematical comparison can be performed to determine if the calculated height of the body content exceeds the maxHeight value.
-
-
-	##### duration
-
-	This prop accepts a string indicating the timing of the transition for showing and hiding the body content of the ReadMoreItem.
-
-
-	##### readMoreStyles
-
-	The trigger button and twirl-icon are wrapped by a single flex container.  You can set the background, height, hover, etc. styles by sending in additional Tailwind classes to the readMoreStyles prop.
-
-
-	##### buttonStyles
-
-	Use this prop to separately style the trigger button.
-
-
-	##### iconStyles
-
-	Use this prop to separately style the twirl-icon.
-
-	##### bodyStyles
-
-	This prop can be used to provide general styles to the container in which the body content is displayed.  Some of those styles, like text-color  will then be inherited by the actual text of the content, as per usual with CSS inheritance.  
-
-
-#### Slots
-	{/* Outline the name/function of each slot */}
-	##### default
-The default slot is used to place the introductory text of each  ReadMoreItem.    You can customize the styling of the introductory text by applying Tailwind classes to these elements.
-
-	##### twirl-icon
-
-The default content of the `twirl-icon` slot  is a down-caret SVG.   You can override this by placing a custom SVG with a `slot='twirl-icon'` attribute between the opening and closing ReadMoreItem_A tags.
-
-```html title="twirl-icon slot" 
-	<svg id={`twirl-icon-${id}`} class={tw.icon}  fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-		<path d="M12 24a12 12 0 1 1 12-12 12.013 12.013 0 0 1-12 12zm0-22a10 10 0 1 0 10 10A10.011 10.011 0 0 0 12 2z"/><path d="m12 18.414-4.707-4.707 1.414-1.414L12 15.586l3.293-3.293 1.414 1.414L12 18.414z"/>
-		<path d="M11 6h2v11h-2z"/>
-	</svg>
-```
-
-In order for the rotation behavior to work, you must also encode the id of the svg exactly as `twirl-icon-${id}` (enclosed in back-ticks).  This identifier will then be picked up by the Hyperscript and the `rotate-180` class toggled when the openUp or closeUp events are triggered.
-
-#### Events
-
-	##### openUp
-
-	The ReadMoreItem_A component listens for the openUp event and then recalculates the height of the body `<div>`.  
-	
-	Also the .rotate-180 class is added to the twirl icon and the trigger button text is replaced with the string passed into the `altCaption` prop.
-
-	##### closeUp
-
-	The ReadMoreItem_A component listens for the closeUp event then sets the body height to zero,  removes the .rotate-180 class from the twirl icon, and replaces the trigger button text with the string passed into the `caption` prop.
-
-
-		 
-	#### Transitions
-	{/* Description of the animations used in the control */}
-
-	The ReadMore transition effect is implemented by setting the initial height of the .body to zero.   In addition to TW utility classes a `body` class is added to the div containing the lazy-loaded additional content.   This strategy keeps the div within the DOM so that the script can access the offsetHeight property of each child.    
-
-	The calcHeight() function in the script recalculates the final height based on the offsetHeight of each child within the `div.body`.   
 
 	A `style` attribute with transition timing function is added to the `div.body`.    When the script sets a new value to the height property of the div.body, this transition is triggered behind the scenes.
 
@@ -389,56 +239,48 @@ In order for the rotation behavior to work, you must also encode the id of the s
 <div  class={tw.body} style=`transition: all ${duration} ease-out`></div>	
 	```
 
-  You can customize the timing using the `duration` prop.    Using string interpolation via back-ticks allows the value of this prop to be accessed by the script.
-
-
-
-		 
-
-#### Code
 
 Below you will find all the code segments for the ReadMoreItem_A component.
 
 To use this component in your Astro project, copy and paste the contents of the Everything tab into an `.astro` file in your `src` folder.
 
-The ReadMoreItem_A component is meant to be used in conjunction with the parent component [ReadMoreGroup_A](#readmoregroup_a).
 
 import {Tabs, TabItem } from '@astrojs/starlight/components'
 		 
 <Tabs>
 	<TabItem label='Props'>
 	```js
+
 interface Props {
-		id:string   //a unique IDentifier which doubles as the file 'slug' for loading content from api route
-		path?:string	//the path to the api route which will return the content for this ReadMore item
-		caption?:string	//the caption for the trigger button
-		altCaption?:string	//the caption for the trigger button when the content is expanded
-		maxHeight?:number	 //maximum open height in px (after which the body content scrolls vertically)
-		duration?:string	//the duration of the height transition
-		readMoreStyles?:string	//override or add Tailwind classes to the readMore flex container
-		buttonStyles?:string	//override or add Tailwind classes to the trigger button
-		iconStyles?:string	//override or add Tailwind classes to the twirl icon
-		bodyStyles?:string	//override or add Tailwind classes to the body element
+	id:string   //a unique identifier which doubles as the file 'slug' for loading content from api route
+	caption?:string	//the caption for the trigger button
+	altCaption?:string	//the caption for the trigger button when the content is expanded
+	maxHeight?:string	 //maximum open height in px (after which the body content scrolls vertically)
+	duration?:string	//the duration of the height transition
+	readMoreStyles?:string	//override or add TW classes to the readMore flex container
+	buttonStyles?:string	//override or add TW classes to the trigger button
+	iconStyles?:string	//override or add TW classes to the twirl icon
+	bodyStyles?:string	//override or add TW classes to the body element
+	path?:string	//the path to the api route which will return the content for this ReadMore item
 }
 
 const {
-		id,
-		path,
-		caption = 'Read More...',
-		altCaption = 'Read Less...', 
-		maxHeight = 500,
-		duration='400ms',
-		readMoreStyles,
-		buttonStyles,
-		iconStyles,
-		bodyStyles
+	id,
+	path,
+	caption = 'Read More...',
+	altCaption = 'Read Less...', 
+	maxHeight='300',
+	duration='500ms',
+	readMoreStyles,
+	buttonStyles,
+	iconStyles,
+	bodyStyles
 } = Astro.props
 	```
 	</TabItem>
 		 
 	<TabItem label='HTML'>
 	```html
-		 
 	<li id={id} class={tw.wrapper}>
 		<div>
 			<!-- Default Slot for introductory content-->
@@ -457,7 +299,7 @@ const {
 					</svg>
 				</slot>
 			</div>
-
+			
 		<!-- Body -->
 		{/* Must leave this div empty, will be lazy loaded by the above fetch call*/}
 		{/* Add .body class so the script will find this div */}
@@ -470,15 +312,16 @@ const {
 	```js
 
 const hs = `
-		def calcHeight()
+
+		def calcOpenHeight()
 			set openHeight to 0
-			set readMoreContent to the children of the next .body
-			for item in readMoreContent 
+			set content to the children of the next .body
+			for item in content 
 				increment openHeight by the item's offsetHeight
 			end
 			increment openHeight by 25   -- for padding
 			return openHeight 
-		end -- calcHeight 
+		end -- calcOpenHeight 
 
 		on mouseenter from me
 			get the innerHTML of the next .body
@@ -488,28 +331,30 @@ const hs = `
 
 		on click from me
 			measure the next .body
-			if the result.height is greater than 0 then send closeUp to me
-			otherwise send openUp to me end
+			if the result.height is greater than 0 then send collapse to me
+			otherwise send expand to me end
 		end -- click handler
 
-		on openUp
-			send closeOtherReadMores to closest parent <ul/>
+		on expand
 			set my textContent to '${altCaption}'
 			add .rotate-180 to the  #{'twirl-icon-'+${id}}
-			set bodyHeight to calcHeight()
-			if bodyHeight is greater than ${maxHeight} then
+			set openHeight to calcOpenHeight()
+			if openHeight is greater than ${maxHeight} then
+				add .overflow-y-scroll to the next .body
 				set the *height of the next .body to ${maxHeight} px then settle
 			otherwise
-				set the *height of the next .body to the bodyHeight px then settle
-			end 
-		end -- openUp event handler
+				set the *height of the next .body to the openHeight px then settle
+			end
+		end -- expand event handler
 
-		on closeUp
+		on collapse
 			set my textContent to '${caption}'
 			remove .rotate-180 from the  #{'twirl-icon-'+${id}}
+			remove .overflow-y-scroll from the next .body
 			set the *height of the next .body to 0 then settle		
-		end -- closeUp event handler
+		end -- collapse event handler
 `
+
 
 
 	```
@@ -517,77 +362,93 @@ const hs = `
 		 
 	<TabItem label='Tailwind'>
 	```js
+import {twMerge} from 'tailwind-merge'
 
 
-const tw = {
-		wrapper: 'mb-8 ',
-		readMore: twMerge('mt-6 flex justify-end items-center rounded-lg ' +
-			' bg-gray-300 dark:bg-gray-700 opacity-60 hover:opacity-100 ', readMoreStyles),
-		button: twMerge('w-full h-8 px-4 py-1 cursor-pointer rounded-l-lg ' + 
-			'text-sm font-fjalla text-right text-sky-900 dark:text-zinc-200  ' +
-			'bg-transparent ', buttonStyles),
-		icon: twMerge('inline-block size-8 shrink-0 ' + 
-			' text-sky-900 dark:text-zinc-200 ', iconStyles),
-			body: twMerge('body h-0 px-4 text-pretty text-gray-700 dark:text-zinc-200 dark:bg-slate-900 overflow-y-auto', bodyStyles),
+interface Props {
+	id:string   //a unique identifier which doubles as the file 'slug' for loading content from api route
+	caption?:string	//the caption for the trigger button
+	altCaption?:string	//the caption for the trigger button when the content is expanded
+	maxHeight?:string	 //maximum open height in px (after which the body content scrolls vertically)
+	duration?:string	//the duration of the height transition
+	readMoreStyles?:string	//override or add TW classes to the readMore flex container
+	buttonStyles?:string	//override or add TW classes to the trigger button
+	iconStyles?:string	//override or add TW classes to the twirl icon
+	bodyStyles?:string	//override or add TW classes to the body element
+	path?:string	//the path to the api route which will return the content for this ReadMore item
 }
 
+const {
+	id,
+	path,
+	caption = 'Read More...',
+	altCaption = 'Read Less...', 
+	maxHeight='300',
+	duration='500ms',
+	readMoreStyles,
+	buttonStyles,
+	iconStyles,
+	bodyStyles
+} = Astro.props
 	```
 	</TabItem>
 		 
 	<TabItem label='Everything'>
-	```astro
+	```js
 ---
 import {twMerge} from 'tailwind-merge'
 
 
 interface Props {
-		id:string   //a unique IDentifier which doubles as the file 'slug' for loading content from api route
-		path?:string	//the path to the api route which will return the content for this ReadMore item
-		caption?:string	//the caption for the trigger button
-		altCaption?:string	//the caption for the trigger button when the content is expanded
-		maxHeight?:number	 //maximum open height in px (after which the body content scrolls vertically)
-		duration?:string	//the duration of the height transition
-		readMoreStyles?:string	//override or add Tailwind classes to the readMore flex container
-		buttonStyles?:string	//override or add Tailwind classes to the trigger button
-		iconStyles?:string	//override or add Tailwind classes to the twirl icon
-		bodyStyles?:string	//override or add Tailwind classes to the body element
+	id:string   //a unique identifier which doubles as the file 'slug' for loading content from api route
+	caption?:string	//the caption for the trigger button
+	altCaption?:string	//the caption for the trigger button when the content is expanded
+	maxHeight?:string	 //maximum open height in px (after which the body content scrolls vertically)
+	duration?:string	//the duration of the height transition
+	readMoreStyles?:string	//override or add TW classes to the readMore flex container
+	buttonStyles?:string	//override or add TW classes to the trigger button
+	iconStyles?:string	//override or add TW classes to the twirl icon
+	bodyStyles?:string	//override or add TW classes to the body element
+	path?:string	//the path to the api route which will return the content for this ReadMore item
 }
 
 const {
-		id,
-		path,
-		caption = 'Read More...',
-		altCaption = 'Read Less...', 
-		maxHeight = 500,
-		duration='400ms',
-		readMoreStyles,
-		buttonStyles,
-		iconStyles,
-		bodyStyles
+	id,
+	path,
+	caption = 'Read More...',
+	altCaption = 'Read Less...', 
+	maxHeight='300',
+	duration='500ms',
+	readMoreStyles,
+	buttonStyles,
+	iconStyles,
+	bodyStyles
 } = Astro.props
 
 const tw = {
-		wrapper: 'mb-8 ',
-		readMore: twMerge('mt-6 flex justify-end items-center rounded-lg ' +
-			' bg-gray-300 dark:bg-gray-700 opacity-60 hover:opacity-100 ', readMoreStyles),
-		button: twMerge('w-full h-8 px-4 py-1 cursor-pointer rounded-l-lg ' + 
-			'text-sm font-fjalla text-right text-sky-900 dark:text-zinc-200  ' +
-			'bg-transparent ', buttonStyles),
-		icon: twMerge('inline-block size-8 shrink-0 ' + 
-			' text-sky-900 dark:text-zinc-200 ', iconStyles),
-			body: twMerge('body h-0 px-4 text-pretty text-gray-700 dark:text-zinc-200 dark:bg-slate-900 overflow-y-auto', bodyStyles),
+	wrapper: 'mb-8 ',
+	readMore: twMerge('mt-6 flex justify-end items-center font-bold ' +
+	 ' bg-transparent opacity-70 hover:opacity-100 ', readMoreStyles),
+	button: twMerge('w-full h-8 px-4 py-1 cursor-pointer rounded-l-lg ' + 
+	'text-sm font-fjalla text-right text-sky-900 dark:text-indigo-200  ' +
+	'bg-transparent ', buttonStyles),
+	icon: twMerge('inline-block size-8 shrink-0 ' + 
+	' text-sky-900 dark:text-zinc-200 ', iconStyles),
+	body: twMerge('body h-0 px-2 text-pretty text-slate-950 dark:text-zinc-200 dark:bg-slate-900 overflow-y-hidden  ', bodyStyles),
 }
 
+
 const hs = `
-		def calcHeight()
+
+		def calcOpenHeight()
 			set openHeight to 0
-			set readMoreContent to the children of the next .body
-			for item in readMoreContent 
+			set content to the children of the next .body
+			for item in content 
 				increment openHeight by the item's offsetHeight
 			end
 			increment openHeight by 25   -- for padding
 			return openHeight 
-		end -- calcHeight 
+		end -- calcOpenHeight 
 
 		on mouseenter from me
 			get the innerHTML of the next .body
@@ -597,27 +458,28 @@ const hs = `
 
 		on click from me
 			measure the next .body
-			if the result.height is greater than 0 then send closeUp to me
-			otherwise send openUp to me end
+			if the result.height is greater than 0 then send collapse to me
+			otherwise send expand to me end
 		end -- click handler
 
-		on openUp
-			send closeOtherReadMores to closest parent <ul/>
+		on expand
 			set my textContent to '${altCaption}'
 			add .rotate-180 to the  #{'twirl-icon-'+${id}}
-			set bodyHeight to calcHeight()
-			if bodyHeight is greater than ${maxHeight} then
+			set openHeight to calcOpenHeight()
+			if openHeight is greater than ${maxHeight} then
+				add .overflow-y-scroll to the next .body
 				set the *height of the next .body to ${maxHeight} px then settle
 			otherwise
-				set the *height of the next .body to the bodyHeight px then settle
-			end 
-		end -- openUp event handler
+				set the *height of the next .body to the openHeight px then settle
+			end
+		end -- expand event handler
 
-		on closeUp
+		on collapse
 			set my textContent to '${caption}'
 			remove .rotate-180 from the  #{'twirl-icon-'+${id}}
+			remove .overflow-y-scroll from the next .body
 			set the *height of the next .body to 0 then settle		
-		end -- closeUp event handler
+		end -- collapse event handler
 `
 
 
