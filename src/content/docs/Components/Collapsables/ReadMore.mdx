@@ -58,7 +58,7 @@ import ReadMoreGroup from '../../../../components/ReadMoreGroup.astro'
 
 
 
-ReadMore components are useful for blogposts etc where a title and/subtitle introduces the content, but the user must click the Read More... link to reveal the full discussion.
+ReadMore components are useful for blogposts etc where a title/subtitle introduces the content, but the user must click the Read More... link to reveal the full discussion.
 
 Essentially, ReadMore components are very similar to Accordions, with a few differences:
 
@@ -75,25 +75,25 @@ This hyperComponent modifies the code and layout from the [Accordion](/component
 
 3.  [ReadMoreItem](#readmoreitem) accepts HTML into it's default `<slot/>`for both the title and introductory text
 
-4.  The full content is pre-fetched from  the backend api route specified by the `path` prop when the user hovers over the Read More link
+4.  The body content is from the api route specified by the `path` prop when the user clicks the  Read More link
 
-1.  Clicking any Read More ... link smoothly toggles the body content
+5.  The height of the body content is smoothly transitioned.
 
-2.  The `caption` (Read More ...) and `altCaption` (Read Less ...) can be customized via props
+6.  A `maxHeight` prop prevents the body height from exceeding a set value and is adjusable per [ReadMoreItem](#readmoreitem)
 
-3.  The twirl icon can be customized by passing an icon image into the `<slot name='twirl-icon>'>` or by updating the default image in the component HTML
+7.  If no maxHeight prop is sent, all of the content is displayed without a vertical scrollbar
 
-4.  A `maxHeight` prop prevents the body height from exceeding a set value and is adjusable per [ReadMoreItem](#readmoreitem)
+8.  If the body content exceeds the `maxHeight`, a vertical scroll bar is applied
 
-5.  If the body content exceeds the `maxHeight`, a vertical scroll bar is applied
+9.  The `caption` (Read More ...) and `altCaption` (Read Less ...) can be customized via props
 
-5.  If no maxHeight prop is sent, all of the content is displayed without a vertical scrollbar
+10.  The twirl icon can be customized by passing an icon image into the `<slot name='twirl-icon>'>` or by updating the default image in the component HTML
 
-1.  Baseline styling is exclusively by [Tailwind](https://tailwindcss.com)
+11.  Baseline styling is exclusively by [Tailwind](https://tailwindcss.com)
 
-5.  Add or override baseline styles by sending [Tailwind](https://tailwindcss.com) classes via props
+12.  Add or override baseline styles by sending [Tailwind](https://tailwindcss.com) classes via props
 
-2.  All actions (including transitions and content updating) performed by [Hyperscript](https://hyperscript.org) (No Javascript or frameworks)
+13.  All actions (including transitions and content updating) performed by [Hyperscript](https://hyperscript.org) (No Javascript or frameworks)
 
 The [Tailwind](https://tailwindcss.com) classes and Hyperscripts are both extracted from the markup and encapsulated into  Astro `tw` and `hs` local variables within the [Component Script](https://docs.astro.build/en/basics/astro-components/#the-component-script).
 By using back-tick delimited strings, dynamic values can be passed into the [Hyperscript](https://hyperscript.org) code from outside of the component using props.
@@ -172,20 +172,20 @@ In addition, Hyperscript in the group component listens for the `closeOtherReadM
 	```js
 ---
 interface Props {
-	closeSiblings?: boolean  //sibling ReadMoreItems will be closed
-	styles?: string  //add tw classes to position/style the entire group
+		closeSiblings?: boolean  //sibling ReadMoreItems will be closed
+		styles?: string  //add tw classes to position/style the entire group
 }
 
 const {
-	closeSiblings = true,
-	styles
+		closeSiblings = true,
+		styles
 } = Astro.props
 
 ---
 
 <ul class={styles}>
-	<!-- Default Slot for ReadMoreItems  -->
- <slot/>
+		<!-- Default Slot for ReadMoreItems  -->
+		<slot/>
 </ul>
 	```
 	</TabItem>
@@ -194,13 +194,13 @@ const {
 	```js
 	---
 interface Props {
-	closeSiblings?: boolean  //sibling ReadMoreItems will be closed
-	styles?: string  //add tw classes to position/style the entire group
+		closeSiblings?: boolean  //sibling ReadMoreItems will be closed
+		styles?: string  //add tw classes to position/style the entire group
 }
 
 const {
-	closeSiblings = true,
-	styles
+		closeSiblings = true,
+		styles
 } = Astro.props
 
 ---	 
@@ -224,10 +224,7 @@ The heart of this control is in the ReadMoreItem component.  This component prov
 
 The introductory text is passed into the components default slot.  This strategy allows you to put any amount and any styling you wish into the introductory text. 
 
-Hidden content is lazy-loaded using the fetch command in the accompanying Hyperscript.    `id` and `path` values are passed as props.  For this example, the `id` prop also serves the file `slug` which is concatenated to the `path` to build a valid route to the backend API endpoint and retrieve the correct hypermedia response. 
-
-Review the Scripts tab in the [Code](#code) section below for the Hyperscript used to implement lazy-loading of the hidden content.
-
+Hidden content is fetch command in the accompanying Hyperscript using teh `path` prop.
 
 	A `style` attribute with transition timing function is added to the `div.body`.    When the script sets a new value to the height property of the div.body, this transition is triggered behind the scenes.
 
@@ -411,9 +408,6 @@ const {
 				</slot>
 			</div>
 
-
-			
-
 		<!-- Body -->
 		{/* Must leave this div empty, will be lazy loaded by the above fetch call*/}
 		{/* Add .body class so the script will find this div */}
@@ -464,9 +458,6 @@ const hs = `
 			add .hidden to the next .body
 		end -- collapse event handler
 `
-
-
-
 	```
 	</TabItem>
 		 
