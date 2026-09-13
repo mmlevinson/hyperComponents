@@ -37,12 +37,12 @@ const tw = {
 	'bg-transparent ', buttonStyles),
 	icon: twMerge('inline-block size-8 shrink-0 ' + 
 	' text-sky-900 dark:text-zinc-200 ', iconStyles),
-	body: twMerge('body h-0 px-2 text-pretty text-slate-950 dark:text-zinc-200 dark:bg-slate-900 overflow-y-hidden  ', bodyStyles),
+	body: twMerge('hidden overflow-y-hidden h-0 px-2 text-pretty text-slate-950 dark:text-zinc-200 dark:bg-slate-900 ', bodyStyles),
 }
 
 
 const hs = `
-
+	
 		def calcOpenHeight()
 			set openHeight to 0
 			set content to the children of the next .body
@@ -54,18 +54,18 @@ const hs = `
 		end -- calcOpenHeight 
 
 		on mouseenter from me
-			fetch '${path}' as html then put the result into the next .body
+			if '${path}' exists fetch '${path}' as html then put the result into the next .body
 		end -- mouseenter handler
 
 		on click from me
-			measure the next .body
-			if the result.height is greater than 0 then send collapse to me
-			otherwise send expand to me end
+			if the next .body matches .hidden send expand to me 
+			otherwise send collapse to me end
 		end -- click handler
 
 		on expand
 			set my textContent to '${altCaption}'
-			add .rotate-180 to the  #{'twirl-icon-${id}'}
+			add .rotate-180 to the #{'twirl-icon-${id}'}
+			remove .hidden from the next .body
 			set openHeight to calcOpenHeight()
 			if openHeight is greater than ${maxHeight} then
 				add .overflow-y-scroll to the next .body
@@ -76,10 +76,11 @@ const hs = `
 		end -- expand event handler
 
 		on collapse
-			set my textContent to '${caption}'
+			set my textContent to the '${caption}'
 			set the *height of the next .body to 0 then settle		
 			remove .rotate-180 from the #{'twirl-icon-${id}'}
 			remove .overflow-y-scroll from the next .body
+			add .hidden to the next .body
 		end -- collapse event handler
 `
 
@@ -106,6 +107,6 @@ const hs = `
 			</div>
 
 		<!-- Body -->
-		<div  class={tw.body} style=`transition: all ${duration} ease-out`>
+		<div  class={'body ' + tw.body} style=`transition: all ${duration} ease-out`>
 		</div>	
 	</li>
