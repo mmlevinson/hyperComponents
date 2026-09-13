@@ -16,12 +16,12 @@ export const tw = {
 import AccordionGroup from '../../../../components/AccordionGroup.astro'
 import AccordionItem from '../../../../components/AccordionItem.astro'
 
-<AccordionGroup closeSiblings={true} styles='mx-4'>
+<AccordionGroup closeSiblings={true} styles='mx-auto'>
 	<AccordionItem id='hypermedia'  caption='Hypermedia' path='/api/readmore/0'/>
 	<AccordionItem id='htmx'  caption='HTMX' path='/api/readmore/1'/>
 	<AccordionItem id='tailwind'  caption='Tailwind' path='/api/readmore/2'/>
 	<AccordionItem id='hyperscript'  caption='Hyperscript' path='/api/readmore/3'/>
-	<AccordionItem id='astro'  caption='Astro' path='/api/readmore/4' />
+	<AccordionItem id='astro'  caption='Astro' path='/api/readmore/4' maxHeight='400' />
 </AccordionGroup>
 
 </div>

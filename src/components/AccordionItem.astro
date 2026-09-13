@@ -17,11 +17,11 @@ const {
 	id, 
 	caption, 
 	prefix='- ',
-	maxHeight='250',
+	maxHeight,
 	headerStyles,
 	bodyStyles,
 	activeHeaderStyles = 'bg-orange-100 dark:bg-indigo-800',
-	openDuration='300ms',
+	openDuration='400ms',
 	closeDuration='200ms',
 	path
 } = Astro.props
@@ -38,11 +38,12 @@ const tw = {
 		'bg-blue-100 hover:bg-sky-950 hover:text-yellow-50 ' +
 		'dark:bg-slate-900 dark:hover:bg-purple-950 dark:hover:text-fuchsia-100 ' + 
 		'', headerStyles),
-	accordionBody: twMerge('h-0 px-6 text-left border-zinc-600 ' + 
+	accordionBody: twMerge('hidden h-0 px-6 text-left border-zinc-600 ' + 
 		' bg-gray-100 text-slate-800 dark:bg-gray-900 dark:text-gray-100 overflow-y-hidden ', bodyStyles),
 	icon: 'size-6 shrink-0'
 }
 
+//Using TW styles in Hyperscript code requires a preceeding dot char for the HS parser
 function formatTWClasses(twClasses) {
     return twClasses.split(' ').map(twClass => '.' + twClass).join(' ');
 }
@@ -51,42 +52,34 @@ const activeStyles = formatTWClasses(activeHeaderStyles)
 
 const hs = `
 	init
-		set :accordionOpen to false
-		set :accordionBody to my @id + '-body'
+		set :accordionBody to 'body-' + my @id
 		set :twirlIcon to 'twirl-icon-' + my @id
-		set :contentLoaded to false
 	end -- init
 
-	def ensureContentLoaded()
-		if :contentLoaded is false and '${lazyPath}' is not ''
-			fetch '${lazyPath}' as html then put the result into the #{:accordionBody}
-			set :contentLoaded to true
-		end
-	end
-
 	on mouseenter from me
-			fetch '${path}' as html then put the result into the #{:accordionBody}
+		-- pre-fetch lastest (dynamic) content
+		fetch '${path}' as html then put the result into the #{:accordionBody}
 	end -- preload handler
 
 	def calcOpenHeight()
+		-- calculate the vertical height of all content
 		set openHeight to 0
 		set content to the children of the #{:accordionBody}
 		for item in content 
 			increment openHeight by the item's offsetHeight
 		end -- for
 		increment openHeight by 45   -- for .py-4 when accordion open
-		log openHeight
 		return openHeight 
 	end
 
 	on click from me
-		if :accordionOpen is true then trigger collapse on me
-		otherwise trigger expand on me
-		end 
+		if the #{:accordionBody} matches .hidden then send expand to me
+		otherwise send collapse to me end
 	end -- click
 
 	on expand
 		add ${activeStyles} to me
+		remove .hidden from the #{:accordionBody}
 		set openHeight to calcOpenHeight()
 		if openHeight is greater than ${maxHeight}
 			add .overflow-y-scroll to the #{:accordionBody} 
@@ -102,32 +95,26 @@ const hs = `
 	on collapse
 		remove .rotate-180 from the #{:twirlIcon}
 		remove ${activeStyles} from me
-		transition the *height of #{:accordionBody} to 0 using 'all ${closeDuration} ease-out' then settle
+		transition the *height of #{:accordionBody} to 0 using 'all ${closeDuration} ease-out'
 		remove .overflow-y-scroll from the #{:accordionBody}
-		set :accordionOpen to false
+		add .hidden to the #{:accordionBody}
 	end -- collapse
 `
-
-
 ---
-
-
 <li class={tw.wrapper}>
-
 	<!-- Accordion Header -->
-	<button 
-		id={id} 
-		class={tw.accordionHeader} 
-		script={hs}>
+	<button id={id} class={tw.accordionHeader} script={hs}>
+			<!-- (Prefix) Caption -->
 			<span>{prefix}{caption}</span>
 			<!-- TwirlIcon -->
-			<svg id={`twirl-icon-${id}`} class={tw.icon} fill='currentColor' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'>
-					<path fill-rule='evenodd' d='M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z' clip-rule='evenodd'></path>
-				</svg>
+		<svg id={`twirl-icon-${id}`} class={tw.icon} fill='currentColor' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'>
+				<path fill-rule='evenodd' d='M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z' clip-rule='evenodd'></path>
+			</svg>
 	</button>
 
 	<!-- Accordion Body -->
-	<div 	id={`${id}-body`} class={tw.accordionBody}>
+	<div 	id={`body-${id}`} class={tw.accordionBody}>
+		<!-- Default Slot (for multiple AccordionItems) -->
 		<slot/>
 	</div>
 

@@ -54,9 +54,7 @@ const hs = `
 		end -- calcOpenHeight 
 
 		on mouseenter from me
-			get the innerHTML of the next .body
-			if it is empty then 
-				fetch '${path}' as html then put the result into the next .body
+			fetch '${path}' as html then put the result into the next .body
 		end -- mouseenter handler
 
 		on click from me
@@ -94,25 +92,20 @@ const hs = `
 			<!-- Default Slot for introductory content-->
 			<slot/>
 		</div>
-			<!-- Read More Trigger Button -->
-			<div class={tw.readMore}>
-				<button class={tw.button}
-					script={hs}>
+		<div class={tw.readMore}>
+				<!-- Read More Trigger Button -->
+				<button class={tw.button} script={hs}>
 					{caption}
 				</button>
+				<!-- TwirlIcon -->
 				<slot name='twirl-icon>'>
-					<!-- TwirlIcon -->
 				<svg id={`twirl-icon-${id}`} class={tw.icon} style="margin-top:0;" fill='currentColor' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'>
 						<path fill-rule='evenodd' d='M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z' clip-rule='evenodd'></path>
 					</svg>
 				</slot>
 			</div>
 
-
-			
-
 		<!-- Body -->
-		{/* Must leave this div empty, will be lazy loaded by the above fetch call*/}
-		{/* Add .body class so the script will find this div */}
-		<div  class={tw.body} style=`transition: all ${duration} ease-out`></div>	
+		<div  class={tw.body} style=`transition: all ${duration} ease-out`>
+		</div>	
 	</li>
