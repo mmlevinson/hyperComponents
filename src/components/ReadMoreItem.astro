@@ -53,16 +53,13 @@ const hs = `
 			return openHeight 
 		end -- calcOpenHeight 
 
-		on mouseenter from me
-			if '${path}' exists fetch '${path}' as html then put the result into the next .body
-		end -- mouseenter handler
-
 		on click from me
 			if the next .body matches .hidden send expand to me 
 			otherwise send collapse to me end
 		end -- click handler
 
 		on expand
+			fetch '${path}' as html then put the result into the next .body
 			set my textContent to '${altCaption}'
 			add .rotate-180 to the #{'twirl-icon-${id}'}
 			remove .hidden from the next .body

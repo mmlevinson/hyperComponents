@@ -53,10 +53,6 @@ const hs = `
 		set :twirlIcon to 'twirl-icon-' + my @id
 	end -- init
 
-	-- check for an api endpoint and then pre-fetch lastest content
-	on mouseenter from me
-		if '${path}' exists fetch '${path}' as html then put the result into the #{:accordionBody}
-	end -- preload handler
 
 	-- calculate the vertical height of all body content
 	def calcOpenHeight()
@@ -75,6 +71,7 @@ const hs = `
 	end -- click
 
 	on expand
+	  if '${path}' exists fetch '${path}' as html then put the result into the #{:accordionBody}
 		add ${activeStyles} to me
 		remove .hidden from the #{:accordionBody}
 		set openHeight to calcOpenHeight()
