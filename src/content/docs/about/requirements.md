@@ -14,9 +14,9 @@ hyperComponents in this project were created using the [Astro](https://astro.bui
 
 These advantages make Astro an excellent choice for building hypermedia applications and controls.
 
-To utilize hyperComponents by simple copy/paste, you will need build your project with [Astro](https://astro.build/docs) to conform with their component architecture.  Otherwise, the code snippets in this library simply provide examples which you will need to adapt to your favorite Web component build system.
+To utilize hyperComponents by simple copy/paste, you will need build your project with [Astro](https://astro.build/docs) to conform with their component architecture.  Otherwise, the code snippets in this library simply provide examples which you will need to adapt to your favorite Web development platform.
 
-To install Astro, please visit the [Astro.build](https://astro.build/docs) site.  There is extensive documentation on both installation and implementation of Astro as a modern Vite based build tool and development environment. 
+To install Astro, please visit the [Astro.build](https://astro.build/docs) site.  There is extensive documentation on both installation and implementation of Astro as a modern node.js/Vite based build tool.
 
 ## Tailwind
 
@@ -30,9 +30,9 @@ npx astro add tailwind
 
 ## Tailwind Merge
 
-hyperComponents were intended to be customizable by passing Tailwind class names via props.  This means that hyperComponent styles are not frozen and developers can fully customize their appearance in the code block where the component is being used.   This increases the versatility of the hyperComponent without extensive re-writing.
+Examples of hyperCompenents were intended to be customizable by passing Tailwind class names via props.  This means that hyperComponent styles are not frozen and developers can fully customize their appearance in the code block where the component is being used.   This increases the versatility of the hyperComponent without extensive re-writing.
 
-It is a trivial matter to pass Tailwind CSS utility classes into a component using prop.  However, just adding new class names to an established (or default) list of classes yields **unpredictable** results.   It appears that the current version of Tailwind sorts class lists alphabetically, so if you add a class name to an element manually, it may not apply if its alpha sort happens before another class name.
+It is a trivial matter to pass Tailwind CSS utility classes into a component using props.  However, just adding new Tailwind class names to an established (or default) list of classes yields **unpredictable** results.   It appears that the current version of Tailwind sorts class lists alphabetically, so if you add a class name to an element manually, it may not apply if its alpha sort occurs before another class name.
 
 This problem is resolved using the third-pary library [tailwind-merge](https://www.npmjs.com/package/tailwind-merge).    This library ensures the 'last class name wins' rule applies.    To allow fully customizable hyperComponents, you are encouraged to install tailwind-merge.
 
@@ -40,7 +40,7 @@ This problem is resolved using the third-pary library [tailwind-merge](https://w
 npm install tailwind-merge
 ```
 
-There is a full discussion of the peculiarities of Tailwind in the next docs page.
+There is a full discussion of the peculiarities of [Tailwind](/about/tailwind/) in the docs page.
 
 
 ## HyperScript
@@ -48,32 +48,39 @@ There is a full discussion of the peculiarities of Tailwind in the next docs pag
 Installation of [HyperScript](https://hyperscript.org/) is simply by including the appropriate script tag via CDN.  For Astro projects, place the following script tag in the head tag of your main layout page.
 
 ```html
-<script src="https://unpkg.com/hyperscript.org@0.9.5/dist/hyperscript.module.min.js"></script>
+<script src="https://unpkg.com/hyperscript.org@latest/dist/hyperscript.module.min.js"></script>
 ```
 
 ## HTMX
 
+
+The [HTMX](https://htmx.org) web site includes [full instructions on installation](https://htmx.org/docs/#installing).
+
+A version 4.0 is in beta.  The currently recommended version is 2.0+   
+
 There are 3 possible strategies for installing HTMX...
 
-1.  via CDN using the following script tag.
+1.  Via CDN using a `<script/>` tag in the `<head>` tag of your main layout file.
 
 ```html
-<script src="https://unpkg.com/htmx.org@1.9.12" integrity="sha384-ujb1lZYygJmzgSwoxRggbCHcjc0rB2XoQrxeTUQyRjrOnlCoYta87iKBWq3EsdM2" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/htmx.org@2.0.10/dist/htmx.min.js" integrity="sha384-H5SrcfygHmAuTDZphMHqBJLc3FhssKjG7w/CeCpFReSfwBWDTKpkzPP8c+cLsK+V" crossorigin="anonymous"></script>
 ```
 
-2.  via npm using
+2.  Via npm 
 
 ```bash
-npm install htmx
+npm install htmx.org@2.0.10
 ```
 
-3.  via direct download and bundling of the minified script
+3.  Via direct download and bundling of the minified script
 
 ```html
-https://unpkg.com/htmx.org@1.9.12/dist/htmx.min.js
+https://cdn.jsdelivr.net/npm/htmx.org@2.0.10/dist/htmx.min.js
 ```
 
- It is recommended that you use option #3 for production use.  Clicking that link delivers the raw minified code which you should copy-paste into a file named `htxm.min.js`.  In Astro projects, you place the resulting htmx.min.js file into your `public` folder.  Then simply 'import' the minified version into the head tag of your main layout file.
+ It is recommended that you use option #3 for production use.  Clicking that link delivers the raw minified code which you should copy-paste into a file named `htxm.min.js`.  
+ 
+ In Astro projects, you place the resulting htmx.min.js file into your `public` folder.  Then simply 'import' the minified version into the `<head>` tag of your main layout file.
 
  You must also add the `is:inline` attribute to the script tag which tells Astro not process the contents of this file during build and to simply serve it to the browser unmodified.
 

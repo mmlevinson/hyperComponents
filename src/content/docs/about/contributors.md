@@ -9,7 +9,6 @@ description:  Instructions to Authors of hyperComponents
 
 At this time, hyperComponents is a nascent project.   If there is need, the project will grow by contribution from the community.
 
-Pull Requests through the GitHub interface are welcome.  Please fork the repository, make your additions, and submit a Pull Request.
 
 ## Refactoring
 
@@ -28,19 +27,11 @@ There may be some tweaks to the styling or comments added to assist users in how
 
 Your are encouraged to stay with Tailwind utility classes for styling.  In some situations, there is no appropriate TW class.   In that situation, a component based `<style>` tag should be used.  Astro supports the `is:global` attribute for `<style>` tags to apply styles to the global scope but this is discouraged.  CSS should remain scoped to the component you are writing.
 
-Long, verbose TW class lists are difficult to maintain. In particular, they are difficult to apply to repetitive elements (like `<tr>`, `<td>` `<li>`, etc.).  For this reason, I prefer to remove the class list from the element and instead place a `tw` object in the Astro component script (ie frontmatter).  Then properties of the `tw` object can be interpolated into the elements `class` attribute.  
-
-The advantage of this technique is that making minor changes to the `tw` object will automatically update the class list for every element that uses that object.  
-
-Click on the [Tailwind Issues](/about/tailwind/) doc for a detailed discussion of this technique.
-
 ### Hyperscript
 
 To assist in writing HS code, there is a VSCode extension for color syntax hilighting. 
 
 Comments in HS are created with double-dashes  (--) followed by a space.  These comments can be inline (ie the remainder of the line is ignored)
-
-Although HS also supports common C-type comments, please reserve these for multi-line comments only.   
 
 Most coders prefer comments at the beginning of a code block.   However, I find a one-line brief comment following the `end` keyword of a code block helpful b/c it also clarifies which method  has just completed.  
 
@@ -59,7 +50,7 @@ Most coders prefer comments at the beginning of a code block.   However, I find 
 
 ```
 
-## VSCode Extensions
+## Useful VSCode Extensions
 
 If you are using VSCode, you will find helpful Extensions for writing hyperComponents:
 

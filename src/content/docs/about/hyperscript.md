@@ -14,17 +14,6 @@ HS emphasizes [Locality of Behavior (LoB)](https://htmx.org/essays/locality-of-b
 
 [Hyperscript](https://hyperscript.org/) presents some unique features as well as possiblities which are worthy of a brief summary.   The [official docs](https://hyperscript.org/docs/) are the best place to explort HS in depth, but a review of some of the important topics here will help the facilitate understanding of the example Components in this library.
 
-Hyperscript allows different options for embedding script code into an Astro component, as detailed below. 
-To assist the library user a `brief naming convention is put forward` which provide a hint as to which embedding style is being used in that particular example.   
-
-**Style A**:  Examples with names ending in `_A` utilize `attribute embedded Hyperscript` code
-
-**Style B**:  Examples ending with `_B` utilize `behaviors to embed Hyperscript` code
-
-For educational purposes, some examples in this libary are offered in both embedding styles.  Whether the `A style` or `B style` of Hyperscript embedding is used, the code functions identically.
-
-Below is an explanation of all the options for embedding Hyperscript into your Astro components.
-
 ### Embedding Hyperscript
 
 There are several ways to embed HS code into your client side markup.
@@ -72,7 +61,7 @@ In Astro projects, these files should be placed in your /public folder and the \
 
 ### Using Behaviors
 
-Behaviors are one strengths of Hyperscript. Behaviors allow you to encapsulate functionality in one place that can be used in many other places.   
+Behaviors are one power feature of Hyperscript. Behaviors allow you to encapsulate functionality in one place that can be used in many other places.   
 
 Behaviors are declared with the `Behavior` keyword.  Parameters can be passed into Behaviors.
 
@@ -99,8 +88,6 @@ In some situations, the same hyperComponent will be presented differently using 
 
 The shortcut attribute `_="` is the most common technique for embedding element level Hyperscipts.
 
-**However, the hyperComponents library is principally for instructional purposes so it is the author's preference to use the more descriptive `script=""` attribute to explicitly indicate that an element has HS code attached.**
-
 ### Events
 
 The DNA of HS is event management.   All actions invoked by HS are in response to an event triggered by an `on eventName` phrase.  Available event modifiers which [determine handling of multiple events](https://hyperscript.org/docs/#event_queueing) are:
@@ -120,7 +107,7 @@ In addition, an optional event `filter` allows you to restrict how/when an event
 
 The square bracket syntax evaluates an expression which is used to filter the event.
 
-By default an `event.detail` object is provided to each handler, from which you can destructure the individual properties using parentheses.
+By default an `event.detail` object is provided to each handler, from which you can destructure the individual properties using parentheses.  The `sender`object represents the DOM element that initiated the event.
 
 You can send custom events to other DOM elements using either `send` or `trigger` syntax, as in:
 
@@ -188,7 +175,7 @@ Use the syntax `call someFunction()` to invoke a either a HS defined function or
 
 Using the `js` keyword in an event handler creates a command that executes JavaScript, including passing parameters and returning results.  The `end` keyword terminates the block.
 
-To embed JS code into a `<script type=text/hyperscript>` top level block, there are some additional precautiosn using the `end` keyword which you can review [here](https://hyperscript.org/features/js/).
+To embed JS code into a `<script type=text/hyperscript>` top level block, there are some additional precautions using the `end` keyword which you can review [here](https://hyperscript.org/features/js/).
 
 
 
@@ -201,7 +188,7 @@ get the customFunction() then put it into my innerHTML
 
 ### DOM traversal
 
-In HS, you do not call `getElementById`, `querySelectorAll`, etc.  Instead you take advtange of a shorthand syntax called `DOM literals` which are strings  (or [expressions](https://hyperscript.org/expressions/) that yield a string) wrapped with special characters to tell HS you want to access one or more DOM elements.   Behind the scenes HS invokes the standard queries for you.  You can get or set any value accesed by a DOM literal syntax.
+In HS, you do not call `getElementById`, `querySelectorAll`, etc.  Instead you take advantage of a shorthand syntax called `DOM literals` which are strings  (or [expressions](https://hyperscript.org/expressions/) that yield a string) wrapped with special characters to tell HS you want to access one or more DOM elements.   Behind the scenes HS invokes the standard queries for you.  You can get or set any value accesed by a DOM literal syntax.
 
 Expressions inside of curly braces are evaluated to yield a string which is then uses as the literal value for DOM access.
 
@@ -216,8 +203,8 @@ With CSS selectors, HS returns all elements that match, so you will receive an a
 
 You can traverse the DOM with the additional keywords:
 
-1. `closest` closest element matching a CSS selector you provide
-2. `nearest`
+1. `closest` nearest ancestor  matching a CSS selector you provide
+2. `nearest` next sibling or child element matching a CSS selector
 3. `parent` begins searching at the parent of the current element
 4. `next` scans forward from current element looking for specified CSS Selector
 5. `previous` scans backward from current element looking for a specified cSS Selector
@@ -261,5 +248,9 @@ set divChildren to the children of allDivs -- retrieves all children, walking ea
 
 ### Variables
 
-Variables are created  `set` or `put` and accessed with `get`
-YOU can scope variables with the `local` `element` or `global` keyword preceeding the variable name.   Also, using a colon prefix is a shorthand for an element scoped variable which remains valid as long as the element is in the DOM.   The  `$` prefix defines a globally scoped variable. 
+Variables are with created  `set` or `put` and accessed with `get`
+You can scope variables with the `local` `element` or `global` keyword preceeding the variable name, or use the following shorthand:
+
+1. `$globalVar`  scoped to all hyperscripts
+2. `^domVar` walks up DOM to find nearest ancestor where it was defined, if not found then created on the element where it is declared. 
+3. `:elementVar` scoped to the element where it is declared

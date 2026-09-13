@@ -16,9 +16,11 @@ An exciting alternative is the implementation of hypermedia transfer as the engi
 
 ### What is HyperMedia
 
-Sending **html markup** from an API endpoint instead of raw data is more natural and vastly more efficient since reduced browser resources are required on the client side.  Afterall, the entire purpose for a web browser (which it is highly optimized) is to render html markup directly to the screen.   APIs which return finished html markup circumvents the need for complex JS instructions which the browser then needs to implement in order to render/update DOM elements.  
+Sending `html markup` from an API endpoint is more natural and vastly more efficient since reduced browser resources are required on the client side.  Afterall, the entire purpose for a web browser (for which it is highly optimized) is to render html markup directly to the screen.  
 
-[Hypermedia](https://htmx.org/essays/hypermedia-apis-vs-data-apis/) (instead of data) as an API endpoint has the advantages of:
+ APIs which return finished html markup circumvents the need for complex JS instructions which the browser then needs to implement in order to render/update DOM elements.  
+
+[Hypermedia](https://htmx.org/essays/hypermedia-apis-vs-data-apis/) as an API endpoint has the advantages of:
 
 1.  Shipping little or no JavaScript to the browser
 2.  Faster load and rendering times, with enhanced UX
@@ -32,9 +34,13 @@ Sending **html markup** from an API endpoint instead of raw data is more natural
 
 ### What are hyperComponents
 
-hyperComponents is an new open source project initiated to address the need for pre-rolled, user interface components based on exchanges of hypermedia instead of data.  In this library, hypermedia exchanges are facilitated principally by [HTMX](https://htmx.org/docs/).  Client side user interactivity and event management is provided by [Hyperscript](https://hyperscript.org/).   To preserve [Locality of Behavior](https://htmx.org/essays/locality-of-behaviour/) for styling, [TailwindCSS](https://tailwindcss.com/) utility classes are used.
+hyperComponents is an open source project initiated to address the need for pre-rolled, user interface components based on exchanges of hypermedia instead of data.  In this library, hypermedia exchanges are facilitated principally by [HTMX](https://htmx.org/docs/).  Client side user interactivity and event management is provided by [Hyperscript](https://hyperscript.org/).   To preserve [Locality of Behavior](https://htmx.org/essays/locality-of-behaviour/) for styling, [TailwindCSS](https://tailwindcss.com/) utility classes are used.
 
-hyperComponents are built with [Astro](https://astro.build/docs) because this tool is uniquely  straightforward for creating Web components and custom API endpoints in the same code base which is ideal for hypermedia exchanges.  
+hyperComponents are built with [Astro](https://astro.build/docs) because this tool is uniquely  suited  for creating custom API endpoints and  Web components in the same code base.
+
+### Source Code
+
+This project is open source and available for download, fork or pull requests.    The source code is avaiable on the [hyperComponents github repo](https://github.com/mmlevinson/hyperComponents).
 
 ### Conclusions
 
