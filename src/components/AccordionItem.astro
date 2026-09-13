@@ -9,8 +9,8 @@ interface Props {
 	headerStyles?:string   //override or add TW classes to the header
 	bodyStyles?:string   //override or add TW classes to the body
 	activeHeaderStyles?:string //override, add, remove TW classes for headers of opened Accordions
-	openDuration?:string   //transition timing when showing body content
-	closeDuration?:string  //transition timing when hiding body content
+	expandDuration?:string   //transition timing when showing body content
+	collapseDuration?:string  //transition timing when hiding body content
 	path?:string //an optional api endpoint to fetch hypermedia for accordion body
 }
 const {
@@ -21,13 +21,10 @@ const {
 	headerStyles,
 	bodyStyles,
 	activeHeaderStyles = 'bg-orange-100 dark:bg-indigo-800',
-	openDuration='400ms',
-	closeDuration='200ms',
-	path
+	expandDuration='400ms',
+	collapseDuration='150ms',
+	path=''
 } = Astro.props
-
-const lazyPath = path ?? ''
-
 
 const tw = {
 	wrapper:'shadow-lg overflow-hidden ' + 
@@ -56,13 +53,13 @@ const hs = `
 		set :twirlIcon to 'twirl-icon-' + my @id
 	end -- init
 
+	-- check for an api endpoint and then pre-fetch lastest content
 	on mouseenter from me
-		-- pre-fetch lastest (dynamic) content
-		fetch '${path}' as html then put the result into the #{:accordionBody}
+		if '${path}' exists fetch '${path}' as html then put the result into the #{:accordionBody}
 	end -- preload handler
 
+	-- calculate the vertical height of all body content
 	def calcOpenHeight()
-		-- calculate the vertical height of all content
 		set openHeight to 0
 		set content to the children of the #{:accordionBody}
 		for item in content 
@@ -83,19 +80,18 @@ const hs = `
 		set openHeight to calcOpenHeight()
 		if openHeight is greater than ${maxHeight}
 			add .overflow-y-scroll to the #{:accordionBody} 
-			transition the *height of #{:accordionBody} to ${maxHeight} px using 'all ${openDuration} ease-in' 
+			transition the *height of #{:accordionBody} to ${maxHeight} px using 'all ${expandDuration} ease-in' 
 		otherwise
-			transition the *height of #{:accordionBody} to openHeight px using 'all ${openDuration} ease-in'
+			transition the *height of #{:accordionBody} to openHeight px using 'all ${expandDuration} ease-in'
 		end -- if > maxHeight
 		add .rotate-180 to the #{:twirlIcon}
-		set :accordionOpen to true
-		send collapseSiblings to the closest <ul/>
+		send collapseSiblings to the closest <ul/>   -- the parent Accordion Group
 	end -- expand
 
 	on collapse
 		remove .rotate-180 from the #{:twirlIcon}
 		remove ${activeStyles} from me
-		transition the *height of #{:accordionBody} to 0 using 'all ${closeDuration} ease-out'
+		transition the *height of #{:accordionBody} to 0 using 'all ${collapseDuration} ease-out'
 		remove .overflow-y-scroll from the #{:accordionBody}
 		add .hidden to the #{:accordionBody}
 	end -- collapse
