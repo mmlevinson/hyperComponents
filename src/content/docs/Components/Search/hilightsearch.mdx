@@ -5,26 +5,6 @@ tableOfContents:
   minHeadingLevel: 2
   maxHeadingLevel: 5
 ---
-		 
-{/* Introduction */}
-## Example
-
-This hyperComponent is a prototype for [hypermedia exchanges](https://htmx.org/essays/hypermedia-apis-vs-data-apis/) because it illustrates a front-end coupled to backend routes that respond by returning only hypertext.
-
-An active search `<input>` is utilized which is based on the [Active Search example from the htmx documentation](http://htmx.org/examples/active-search/).   However, this hyperComponent expands on that example by providing **live highlighting of matched substrings**.  In addition, the hilight color can be selected from a dropdown menu displaying the entire Tailwind color pallet.  Clicking a color swatch in the pallet changes the highlight color.    Another dropdown menu provides options for changing the match criteria. 
-
-All functionality is powered by [htmx](https://htmx.org) and [Hyperscript](https://hyperscript.org).  There are no JavaScript imports or `<script>` tags anywhere in this component. 
-
- A [mini-project](/#mini-project-code) is included below to illustrate how this hyperComponent works.   The project presents a table of famous English language speeches.  Clicking any table row loads the full speech transcript and then switches focus to the search `<input>` where any substring entered by the user is matched against the full transcript using Regular Expressions.  
- 
- Successful matches are surrounded with `<mark>` tags styled with the user's choice of Tailwind bg-color-* utility class. The server then returns the entire transcript as HTML annotated with `<mark>` elements.  The user's experience is analogous to using a felt tipped highlight marker on a printed document.
-
-Take a tour of the example project below by clicking on a famous speech.  Click  the Reset button (or select another speech) to start over.
-
-The subsequent discussions go into great detail about all the source code used to create this hyperComponent.
-
-The [full source code for the mini-project](#mini-project-code) can be found [here](/#mini-project-code) which shows how every component is used and how each [backend route](#api-routes) is accessed.
-
 
 		 
 export const tw = {
@@ -38,7 +18,8 @@ export const tw = {
 		introduction: {
 		h3: 'text-center text-xl lg:text-2xl',
 		h4: 'pt-8 pb-4 text-center text-lg lg:text-xl',
-		p: 'text-center font-semibold'	
+		p: 'text-center font-semibold',
+		ol: 'mx-auto font-normal text-lg lg:text-xl '	
 		},
 		table:'mx-auto my-4 max-w-max',
 		searchExample:{
@@ -62,11 +43,14 @@ export const tw = {
 
 {/* Intro */}
 <div id='highlight-search-example' class={tw.exampleContainer} >
-<div id='highlight-search-title' class={tw.exampleTitle}>Sample Highlight Active Search Control</div>
-<div id="introduction" class="w-10/12 mx-auto">
-	<h3 class={tw.introduction.h3}>Famous Speeches in the English Language</h3>
-	<h4 class={tw.introduction.h4}>Use the Search control below to highlight words from the most famous speeches that shaped  our world.</h4>
-	<p class={tw.introduction.p}>Click to select any Speech from the list</p>
+<div id="introduction" class="mx-auto pb-4">
+	<ol class={tw.introduction.ol + 'ml-4  p-4'}>
+		<li>Click  any `Famous Speech` in the table below</li>
+		<li>Use the  `Search box` to enter substrings to match</li>
+		<li>Use the `(left caret) dropdown` to restrict search</li>
+		<li>Click the `Tailwind dropdown` to change the hilite color</li>
+		<li>Start over with the `Reset` button</li>
+	</ol>
 </div>
 </div>
 
@@ -148,27 +132,11 @@ export const hs = {
 
 <div class={tw.speech.wrapper}>
 	<h4 id="speech-title" class={tw.speech.title}></h4>
-	<div id="speech-transcript" class={tw.speech.transcript}>
-	</div>
+	<div id="speech-transcript" class={tw.speech.transcript}></div>
 </div>
 
 
-		 
-## Description
-	{/* General Description */}
-	{/* Example  Code block showing the  control in action. */}
-
-[Hypermedia exchanges](https://htmx.org/essays/hypermedia-apis-vs-data-apis/) require that the backend return formatted, finished HTML.  Thus the developer must have control over the server's response.   The [Astro](https://astro.build) build tool is perfect for this because it is easy to create [custom API endpoints](https://docs.astro.build/en/guides/endpoints/).   All that is needed is to place a `.js` file into the `pages` folder.  In that file, you must export a GET, POST, PATCH or DELETE function and then Astro will build the correct route and respond to those AJAX requests.
-
-The GET and POST requests in this example access data stored on disk (in a JSON file), but do not return the raw data.  Instead, the data is used by the server  to format finished HTML fragments which are returned in the response.   HTMX attributes are used to generate these requests and also to specify how and where the returned markup is inserted into the DOM.  
-
-Read through all the example code below to see how this was accomplished.
-
-
 ## Features
-
-This Highlight Active Search hyperComponent includes:
-
 
 1. A `searchPath` prop which accepts a path to a backend search route and is used to configure the `hx-post` attribute of the `<input>` element
 2. A  `target` prop which accepts a CSS selector that is used to update the 	`hx-target` attribute.   The `target` prop identifies the DOM element which will be updated with the returned hypertext.
@@ -183,6 +151,38 @@ This Highlight Active Search hyperComponent includes:
 11.  Styling of the `<input>` and dropdown menus is fully customizable using Tailwind utility classes
 12. A 'rightIcon' slot which displays magnifying glass icon by default but which can accept another dropdown menu or other content to be displayed at the right border of the search container.
 		 
+
+## Example
+
+This hyperComponent is a prototype for [hypermedia exchanges](https://htmx.org/essays/hypermedia-apis-vs-data-apis/) because it illustrates a front-end coupled to backend routes that respond by returning only hypertext.
+
+An active search `<input>` is utilized which is based on the [Active Search example from the htmx documentation](http://htmx.org/examples/active-search/).   However, this hyperComponent expands on that example by providing **live highlighting of matched substrings**.  In addition, the hilight color can be selected from a dropdown menu displaying the entire Tailwind color pallet.  Clicking a color swatch in the pallet changes the highlight color.    Another dropdown menu provides options for changing the match criteria. 
+
+All functionality is powered by [htmx](https://htmx.org) and [Hyperscript](https://hyperscript.org).  There are no JavaScript imports or `<script>` tags anywhere in this component. 
+
+ A [mini-project](/#mini-project-code) is included below to illustrate how this hyperComponent works.   The project presents a table of famous English language speeches.  Clicking any table row loads the full speech transcript and then switches focus to the search `<input>` where any substring entered by the user is matched against the full transcript using Regular Expressions.  
+ 
+ Successful matches are surrounded with `<mark>` tags styled with the user's choice of Tailwind bg-color-* utility class. The server then returns the entire transcript as HTML annotated with `<mark>` elements.  The user's experience is analogous to using a felt tipped highlight marker on a printed document.
+
+Take a tour of the example project below by clicking on a famous speech.  Click  the Reset button (or select another speech) to start over.
+
+The subsequent discussions go into great detail about all the source code used to create this hyperComponent.
+
+The [full source code for the mini-project](#mini-project-code) can be found [here](/#mini-project-code) which shows how every component is used and how each [backend route](#api-routes) is accessed.
+
+
+		 
+## Description
+	{/* General Description */}
+	{/* Example  Code block showing the  control in action. */}
+
+[Hypermedia exchanges](https://htmx.org/essays/hypermedia-apis-vs-data-apis/) require that the backend return formatted, finished HTML.  Thus the developer must have control over the server's response.   The [Astro](https://astro.build) build tool is perfect for this because it is easy to create [custom API endpoints](https://docs.astro.build/en/guides/endpoints/).   All that is needed is to place a `.js` file into the `pages` folder.  In that file, you must export a GET, POST, PATCH or DELETE function and then Astro will build the correct route and respond to those AJAX requests.
+
+The GET and POST requests in this example access data stored on disk (in a JSON file), but do not return the raw data.  Instead, the data is used by the server  to format finished HTML fragments which are returned in the response.   HTMX attributes are used to generate these requests and also to specify how and where the returned markup is inserted into the DOM.  
+
+Read through all the example code below to see how this was accomplished.
+
+
 ## Searchbox Component
 
 There is a single main component which provides the GUI for active searching and highlighting. 
