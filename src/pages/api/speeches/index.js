@@ -3,12 +3,10 @@ import famousSpeeches from '../../../data/famousSpeeches.json?json'
 
 export const tw = {
 	tr: 'cursor-pointer font-semibold ' + 
-	'even:hover:bg-amber-300/50 odd:hover:bg-amber-400/30 ' + 
-	'even:hover:text-blue-800 odd:hover:text-blue-800 ' +
-	'even:hover:dark:bg-indigo-950/60 odd:hover:dark:bg-indigo-950 ' + 
-	'even:hover:dark:text-amber-400 odd:hover:dark:text-amber-400',
+	'hover:bg-amber-300/50 hover:dark:bg-indigo-950 hover:text-yellow-600 hover:dark:text-yellow-600',
+
 	rowHilight: 'text-orange-500'
-}
+} 
 
 const getSpeechData = () => {
 
@@ -27,8 +25,9 @@ const getSpeechData = () => {
 					log rowHiliteColor
           set textRowHiliteColor to rowHiliteColor.replace('bg-','text-')
           log textRowHiliteColor
-					add .{textRowHiliteColor} to me 
-					go to the  #{'searchbox'} smoothly then settle then 
+					-- add .{'text-indigo-600'} to me  -- works
+					add .{textRowHiliteColor} to me  -- does not work
+					go to the #{'searchbox'} smoothly then settle then 
 					send reset to the #{'searchbox'} then
 					set the value of the #{'speech-index'} to the ${speech.id}
 				end
@@ -51,3 +50,9 @@ export const GET = async ({params, request}) => {
 	
 	
 }
+
+
+/* 'even:hover:bg-amber-300/50 odd:hover:bg-amber-400/30 ' + 
+	'even:hover:text-blue-800 odd:hover:text-blue-800 ' +
+	'even:hover:dark:bg-indigo-950/60 odd:hover:dark:bg-indigo-950 ' + 
+	'even:hover:dark:text-amber-400 odd:hover:dark:text-amber-400', */
