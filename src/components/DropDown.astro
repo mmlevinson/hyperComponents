@@ -1,8 +1,6 @@
 ---
 
 import {twMerge} from 'tailwind-merge'
-import type { HTMXLogo } from './HTMX_Logo.astro'
-import { hs } from '../pages/testdropdown.astro'
 
 interface Props {
  id: string   //a unique identifier for this component, allowing multiple dropdowns on a page without collisions
@@ -27,8 +25,8 @@ const {
 } = Astro.props
 
 const tw = {
-	triggerButton: 'inline-block rounded-lg p-3 ' +
-		'font-semibold text-lg lg:text-xl text-zinc-100 hover:text-zinc-400 hover:dark:text-zinc-300 ' + 
+	triggerButton: 'inline-block rounded-lg px-4 ' +
+		'font-semibold text-md lg:text-lg text-zinc-100 hover:text-zinc-400 hover:dark:text-zinc-300 ' + 
 		'bg-indigo-600 hover:bg-indigo-800 ' +
 		'focus:ring-4 focus:outline-none focus:ring-indigo-300',
 	dropdownContainer:'h-0 absolute z-10 ' + 
@@ -142,7 +140,7 @@ const behaviors = {
 		style=`transition: all ${duration} ease-in-out`>
 			<ul id=`menuItems-${id}`
 				class={twMerge(tw.itemsList, listStyles)}
-				style="transition: all 80ms ease-in-out"
+				style=`transition: all ${duration} ease-in-out`
 				script={behavior == 'click' ? `${hs.clickHide}`:`${hs.hoverHide}`}>
 			<slot/>
 			</ul>
