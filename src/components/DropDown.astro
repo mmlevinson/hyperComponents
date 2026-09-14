@@ -33,7 +33,7 @@ const tw = {
 		'rounded-lg drop-shadow-2xl overflow-hidden ' + 
 		'text-lg font-medium ' +
 		'bg-white dark:bg-gray-800 ',
-	itemsList:'opacity-0 flex flex-col text-left gap-y-4 cursor-pointer ' + 
+	itemsList:'flex flex-col text-left gap-y-4 cursor-pointer ' + 
 		'py-4 font-semibold text-gray-900 dark:text-zinc-50',
 }
 
@@ -109,12 +109,10 @@ const hs = {
 			on openDropdown from me
 				repositionMenu()
 				set the *height of the #{:menu} to the calcOpenHeight() px then 
-				set the *opacity of the #{:menuItems} to 1
 				add .open to me
 			end -- openDropdown
 
 			on closeDropdown
-				set the *opacity of the #{:menuItems} to 0
 				set the *height of the #{:menu} to 0 then settle then
 				remove .open from me
 			end -- closeDropdown`,
@@ -137,12 +135,11 @@ const behaviors = {
 	<!-- Dropdown -->
 	<div id=`menu-${id}` 
 		class={twMerge(tw.dropdownContainer, dropdownStyles)}
-		style=`transition: all ${duration} ease-in-out`>
+		style=`transition: height ${duration} ease-in-out`>
 			<ul id=`menuItems-${id}`
 				class={twMerge(tw.itemsList, listStyles)}
-				style=`transition: all ${duration} ease-in-out`
-				script={behavior == 'click' ? `${hs.clickHide}`:`${hs.hoverHide}`}>
-			<slot/>
+				script={behavior == 'click' ? `${hs.clickHide}`:`${hs.hoverHide}`} >
+				<slot/>
 			</ul>
 	</div>
 </div>
