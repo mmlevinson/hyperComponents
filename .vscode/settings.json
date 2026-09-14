@@ -43,5 +43,8 @@
 		"statusBar.debuggingForeground": "#FFFFFF",
 		"statusBar.noFolderForeground": "#FFFFFF"
 	},
-	"workbench.editorAssociations": { "*.md": "default" } 
+	"workbench.editorAssociations": { "*.md": "default" },
+	"[astro]": {
+		"typescript.validate.enable": false
+	}
 }

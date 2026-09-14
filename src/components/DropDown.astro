@@ -10,7 +10,7 @@ interface Props {
  listStyles?: string   //any additional styles to apply to the <ul>
  moveXY?: string //comma separated integer values specifying x,y shift in dropdown position
  duration?: string, //duration (in milliseconds) for dropdown height transition
- trigger?:string //specify click | click or  mouseenter to reveal dropdown
+ behavior?:string //specify click | hover options
 }
 
 const {
@@ -21,7 +21,7 @@ const {
 	listStyles, 
 	moveXY = "0,0", 
 	duration = '100ms',
-	trigger
+	behavior = 'click'
 } = Astro.props
 
 const tw = {
@@ -36,218 +36,118 @@ const tw = {
 	itemsList:'opacity-0 flex flex-col text-left gap-y-4 cursor-pointer ' + 
 		'py-4 font-semibold text-gray-900 dark:text-zinc-50',
 }
-
-const hs={
-	hover:{
-		toggle:`	
-		init
-			set :dropdownContainer to my @id + '-container'
-			set :itemsList to my @id + '-items'
-			set :dropdownHasMouse to false
-		end -- init
-	
-		on mouseenter from me
-			call me.focus() 
-			trigger openDropdown on me
-		end -- listener for hover
-
-		on mouseleave from me
-			call me.blur()
-			wait 50ms then
-				if not :dropdownHasMouse trigger closeDropdown on me
-			end
-		end -- close on mouseleave
-
-		on click from me
-		 if I match .open then trigger closeDropdown on me 
-			otherwise trigger openDropdown on me
-		end -- click handler
-
-		on mouseWithinDropdown(value)
-			set :dropdownHasMouse to value
-		end -- update state of mouse location
-
-		on keydown[key=='Escape']
-			trigger closeDropdown on me
-		end  -- Escape key handler
-
-		def calculatedHeight
-			set dropdownHeight to 0 then set items to the children of the #{:dropdownContainer}
-			for item in items increment the dropdownHeight by the item's offsetHeight end
-			return dropdownHeight
-		end -- function to calculate dropdown container's height based on it's content
-
-		def repositionDropdown
-			set offsets to (my @movexy) split by ','
-			set xOffset to the offsets[0] as Int
-			set yOffset to the offsets[1] as Int
-			measure me then put the result.bounds into buttonLocation
-			set the *left of the #{:dropdownContainer} to (buttonLocation.left + xOffset + window.pageXOffset) px
-			set the *top of the #{:dropdownContainer} to (buttonLocation.bottom  + yOffset + window.pageYOffset) px
-		end  -- function to move dropdown by x,y pixels
-		
-		on openDropdown from me
-			repositionDropdown()
-			set the *height of the #{:dropdownContainer} to the calculatedHeight() px then wait 20ms then
-			set the *opacity of the #{:itemsList} to 1
-			add .open to me
-		end  -- handler to open dropdown
-
-		on closeDropdown 
-			set the *opacity of the #{:itemsList} to 0
-			set the *height of the #{:dropdownContainer} to 0 then settle then
-			remove .open from me
-		end -- handler to close dropdown
-	`,
-		hide:`
-			on mouseenter send mouseWithinDropdown(value:true) to the previous <button/> end
-			on mouseleave send mouseWithinDropdown(value:false) to the previous <button/> end
-			on click or mouseleave send closeDropdown to the previous <button/> end
-	`
-	},
-	click:{
-		toggle:`
-			init
-			set :dropdownContainer to my @id + '-container'
-			set :itemsList to my @id + '-items'
-		end -- init 
-
-		on ${trigger} from me
-			if I match .open then trigger closeDropdown on me 
-			otherwise trigger openDropdown on me
-		end -- click toggles open/closed
-
-		on keydown[key=='Escape'] or blur
-			trigger closeDropdown on me 
-		end  -- close on blur or Escape key when focused
-
-		def calculatedHeight
-			set dropdownHeight to 0 then set items to the children of the #{:dropdownContainer}
-			for item in items increment the dropdownHeight by the item's offsetHeight end
-			return dropdownHeight
-		end -- function to calculate dropdown container's height based on it's content
-			
-		def repositionDropdown
-			set offsets to (my @movexy) split by ','
-			set xOffset to the offsets[0] as Int
-			set yOffset to the offsets[1] as Int
-			measure me then put the result.bounds into buttonLocation
-			set the *left of the #{:dropdownContainer} to (buttonLocation.left + xOffset + window.pageXOffset) px
-			set the *top of the #{:dropdownContainer} to (buttonLocation.bottom  + yOffset + window.pageYOffset) px
-		end  -- function to move dropdown by x,y pixels
-		
-		on openDropdown from me
-			repositionDropdown()
-			set the *height of the #{:dropdownContainer} to the calculatedHeight() px then wait 20ms then
-			set the *opacity of the #{:itemsList} to 1
-			add .open to me
-		end -- handler to open dropdown
-
-		on closeDropdown
-			set the *opacity of the #{:itemsList} to 0
-			set the *height of the #{:dropdownContainer} to 0 then settle then
-			remove .open from me
-		end -- handler to close dropdown `,
-		hide:`on click or mouseleave send closeDropdown to the previous <button/> end`
-	},
-	triggerClick:`
-	init
-			set :dropdownContainer to my @id + '-container'
-			set :itemsList to my @id + '-list'
-		end -- init 
-
-		on click from me
-			if I match .open then trigger closeDropdown on me 
-			otherwise trigger openDropdown on me
-		end -- click toggles open/closed
-
-		on keydown[key=='Escape'] or blur
-			trigger closeDropdown on me 
-		end  -- close on blur or Escape key when focused
-	`,
-	triggerHover:`
-	init
-			set :dropdownContainer to my @id + '-container'
-			set :itemsList to my @id + '-items'
-			set :dropdownHasMouse to false
-		end -- init
-	
-		on mouseenter from me
-			call me.focus() 
-			trigger openDropdown on me
-		end -- listener for hover
-
-		on mouseleave from me
-			call me.blur()
-			wait 50ms then
-				if not :dropdownHasMouse trigger closeDropdown on me
-			end
-		end -- close on mouseleave
-
-		on click from me
-		 if I match .open then trigger closeDropdown on me 
-			otherwise trigger openDropdown on me
-		end -- click handler
-
-		on mouseWithinDropdown(value)
-			set :dropdownHasMouse to value
-		end -- update state of mouse location
-
-		on keydown[key=='Escape']
-			trigger closeDropdown on me
-		end  -- Escape key handler`,
-	action: `
-		def calculatedHeight
-			set dropdownHeight to 0 then set items to the children of the #{:dropdownContainer}
-			for item in items increment the dropdownHeight by the item's offsetHeight end
-			return dropdownHeight
-		end -- function to calculate dropdown container's height based on it's content
-			
-		def repositionDropdown
-			set offsets to (my @movexy) split by ','
-			set xOffset to the offsets[0] as Int
-			set yOffset to the offsets[1] as Int
-			measure me then put the result.bounds into buttonLocation
-			set the *left of the #{:dropdownContainer} to (buttonLocation.left + xOffset + window.pageXOffset) px
-			set the *top of the #{:dropdownContainer} to (buttonLocation.bottom  + yOffset + window.pageYOffset) px
-		end  -- function to move dropdown by x,y pixels
-		
-		on openDropdown from me
-			repositionDropdown()
-			set the *height of the #{:dropdownContainer} to the calculatedHeight() px then wait 20ms then
-			set the *opacity of the #{:itemsList} to 1
-			add .open to me
-		end -- handler to open dropdown
-
-		on closeDropdown
-			set the *opacity of the #{:itemsList} to 0
-			set the *height of the #{:dropdownContainer} to 0 then settle then
-			remove .open from me
-		end -- handler to close dropdown
-		`
-}
 ---
+
+<script is:raw type="text/hyperscript"> 
+	behavior clickToggle
+		init
+			set :menu to my 'menu-' + my @id
+			set :menuItems to 'menuItems-' + my @id
+		end -- init 
+
+		on click  from me
+			if I match .open then trigger closeDropdown on me 
+			otherwise trigger openDropdown on me
+		end -- click toggles open/closed
+
+		on keydown[key=='Escape'] or blur
+			trigger closeDropdown on me 
+		end  -- escape key
+	end -- clickToggle
+
+	behavior clickHide
+		on click or mouseleave send closeDropdown to the previous <button/> 
+	end -- clickHide
+
+	behavior hoverToggle
+		init
+				set :menu to my 'menu-' + my @id
+				set :menuItems to 'menuItems-' + my @id
+				set :menuHasMouse to false
+			end -- init
+		
+		on mouseenter from me
+			call me.focus() then send openDropdown to me
+		end -- listener for hover
+
+		on mouseleave from me
+			call me.blur()
+			wait 50ms then
+				if not :menuHasMouse send closeDropdown to me
+			end
+		end -- close on mouseleave
+
+		on click from me
+			if I match .open then send closeDropdown to me 
+			otherwise send openDropdown to me
+		end -- click handler
+
+		on menuHasMouse(value)
+			set :menuHasMouse to value
+		end -- update state of mouse location
+
+		on keydown[key=='Escape']
+			send closeDropdown to me
+		end  -- Escape key handler
+		
+	end -- hoverToggle
+
+	behavior hoverHide
+		on mouseenter send menuHasMouse(value:true) to the previous <button/> end
+		on mouseleave send menuHasMouse(value:false) to the previous <button/> end
+		on click or mouseleave send closeDropdown to the previous <button/> end
+	end -- hoverHide
+
+	behavior  dropdownAction
+
+		def calcOpenHeight
+			set menuHeight to 0 then set items to the children of the #{:menu}
+			for item in items increment the menuHeight by the item's offsetHeight end
+			return menuHeight
+		end -- calcOpenHeight
+		
+		def repositionMenu
+			set offsets to (my @movexy) split by ','
+			set xOffset to the offsets[0] as Int
+			set yOffset to the offsets[1] as Int
+			measure me then put the result.bounds into buttonLocation
+			set the *left of the #{:menu} to (buttonLocation.left + xOffset + window.pageXOffset) px
+			set the *top of the #{:menu} to (buttonLocation.bottom  + yOffset + window.pageYOffset) px
+		end  -- move menu by x,y pixels
+
+		on openDropdown from me
+			repositionMenu()
+			set the *height of the #{:menu} to the calcOpenHeight() px then wait 20ms then
+			set the *opacity of the #{:menuItems} to 1
+			add .open to me
+		end -- openDropdown
+
+		on closeDropdown
+			set the *opacity of the #{:menuItems} to 0
+			set the *height of the #{:menu} to 0 then settle then
+			remove .open from me
+		end -- closeDropdown
+
+	end -- dropdownAction
+</script>
 
 <div class="not-content">
 	<!-- Trigger -->
-	<button
-		id={id}
-		type='button'
-		moveXY={moveXY}
+	<button id={id} type='button' moveXY={moveXY}
 		class={twMerge(tw.triggerButton, buttonStyles)}
-		script={trigger === 'click' ? hs.triggerClick + hs.action : hs.triggerHover + hs.action}>
+		script={behavior === 'click' ? 'install clickToggle then install dropdownAction' : 'install hoverToggle then install dropdownAction'}>
 		<slot name='leftIcon' />
 		{caption}
 		<slot name='rightIcon'/>
 	</button>
 	<!-- Dropdown -->
-	<div id=`${id}-container`
+	<div id=`menu-${id}`
 		class={twMerge(tw.dropdownContainer, dropdownStyles)}
 		style=`transition: all ${duration} ease-in-out`>
-			<ul id=`${id}-items`
+			<ul id=`menuItems-${id}`
 				class={twMerge(tw.itemsList, listStyles)}
 				style="transition: all 80ms ease-in-out"
-				script={trigger == 'click' ? hs.click.hide : hs.hover.hide}>
+				script={behavior == 'click' ? 'install clickHide' : 'install hoverHide'}>
 			<slot/>
 			</ul>
 	</div>

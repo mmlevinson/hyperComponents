@@ -4,5 +4,6 @@
 declare namespace astroHTML.JSX {
 	interface HTMLAttributes {
 		script?: string
+		moveXY?: string
 	}
 }
