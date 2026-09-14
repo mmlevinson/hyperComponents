@@ -1,6 +1,8 @@
 ---
-const title = 'Dropdown Menu';
+
 import {twMerge} from 'tailwind-merge'
+import type { HTMXLogo } from './HTMX_Logo.astro'
+import { hs } from '../pages/testdropdown.astro'
 
 interface Props {
  id: string   //a unique identifier for this component, allowing multiple dropdowns on a page without collisions
@@ -36,36 +38,32 @@ const tw = {
 	itemsList:'opacity-0 flex flex-col text-left gap-y-4 cursor-pointer ' + 
 		'py-4 font-semibold text-gray-900 dark:text-zinc-50',
 }
----
 
-<script is:raw type="text/hyperscript"> 
-	behavior clickToggle
+const hs = {
+	clickToggle:`
 		init
-			set :menu to my 'menu-' + my @id
+			set :menu to 'menu-' + my @id
 			set :menuItems to 'menuItems-' + my @id
 		end -- init 
 
-		on click  from me
-			if I match .open then trigger closeDropdown on me 
-			otherwise trigger openDropdown on me
-		end -- click toggles open/closed
+		on click from me
+			if I match .open then send closeDropdown to me 
+			otherwise send openDropdown to me
+		end -- click toggles open/closedto
 
 		on keydown[key=='Escape'] or blur
-			trigger closeDropdown on me 
-		end  -- escape key
-	end -- clickToggle
-
-	behavior clickHide
+			send closeDropdown to me 
+		end  -- escape key`,
+	clickHide:`
 		on click or mouseleave send closeDropdown to the previous <button/> 
-	end -- clickHide
-
-	behavior hoverToggle
+		`,
+	hoverToggle:`
 		init
-				set :menu to my 'menu-' + my @id
-				set :menuItems to 'menuItems-' + my @id
-				set :menuHasMouse to false
-			end -- init
-		
+					set :menu to 'menu-' + my @id
+					set :menuItems to 'menuItems-' + my @id
+					set :menuHasMouse to false
+		end -- init
+			
 		on mouseenter from me
 			call me.focus() then send openDropdown to me
 		end -- listener for hover
@@ -89,65 +87,63 @@ const tw = {
 		on keydown[key=='Escape']
 			send closeDropdown to me
 		end  -- Escape key handler
-		
-	end -- hoverToggle
-
-	behavior hoverHide
+		`,
+	hoverHide: `
 		on mouseenter send menuHasMouse(value:true) to the previous <button/> end
 		on mouseleave send menuHasMouse(value:false) to the previous <button/> end
-		on click or mouseleave send closeDropdown to the previous <button/> end
-	end -- hoverHide
-
-	behavior  dropdownAction
-
+		on click or mouseleave send closeDropdown to the previous <button/> end`,
+	dropdownAction:`
 		def calcOpenHeight
-			set menuHeight to 0 then set items to the children of the #{:menu}
-			for item in items increment the menuHeight by the item's offsetHeight end
-			return menuHeight
-		end -- calcOpenHeight
-		
-		def repositionMenu
-			set offsets to (my @movexy) split by ','
-			set xOffset to the offsets[0] as Int
-			set yOffset to the offsets[1] as Int
-			measure me then put the result.bounds into buttonLocation
-			set the *left of the #{:menu} to (buttonLocation.left + xOffset + window.pageXOffset) px
-			set the *top of the #{:menu} to (buttonLocation.bottom  + yOffset + window.pageYOffset) px
-		end  -- move menu by x,y pixels
+				set menuHeight to 0 then set items to the children of the #{:menu}
+				for item in items increment the menuHeight by the item's offsetHeight end
+				return menuHeight
+			end -- calcOpenHeight
+			
+			def repositionMenu
+				set offsets to (my @movexy) split by ','
+				set xOffset to the offsets[0] as Int
+				set yOffset to the offsets[1] as Int
+				measure me then put the result.bounds into buttonLocation
+				set the *left of the #{:menu} to (buttonLocation.left + xOffset + window.pageXOffset) px
+				set the *top of the #{:menu} to (buttonLocation.bottom  + yOffset + window.pageYOffset) px
+			end  -- move menu by x,y pixels
 
-		on openDropdown from me
-			repositionMenu()
-			set the *height of the #{:menu} to the calcOpenHeight() px then wait 20ms then
-			set the *opacity of the #{:menuItems} to 1
-			add .open to me
-		end -- openDropdown
+			on openDropdown from me
+				repositionMenu()
+				set the *height of the #{:menu} to the calcOpenHeight() px then settle then
+				set the *opacity of the #{:menuItems} to 1
+				add .open to me
+			end -- openDropdown
 
-		on closeDropdown
-			set the *opacity of the #{:menuItems} to 0
-			set the *height of the #{:menu} to 0 then settle then
-			remove .open from me
-		end -- closeDropdown
-
-	end -- dropdownAction
-</script>
+			on closeDropdown
+				set the *opacity of the #{:menuItems} to 0
+				set the *height of the #{:menu} to 0 then settle then
+				remove .open from me
+			end -- closeDropdown`,
+}
+const behaviors = {
+   click: hs.clickToggle + " " + hs.dropdownAction,
+	 hover: hs.hoverToggle + " " + hs.dropdownAction
+	}
+---
 
 <div class="not-content">
 	<!-- Trigger -->
 	<button id={id} type='button' moveXY={moveXY}
 		class={twMerge(tw.triggerButton, buttonStyles)}
-		script={behavior === 'click' ? 'install clickToggle then install dropdownAction' : 'install hoverToggle then install dropdownAction'}>
+		script={behavior === 'click' ? `${behaviors.click}`: `${behaviors.hover}`}>
 		<slot name='leftIcon' />
 		{caption}
 		<slot name='rightIcon'/>
 	</button>
 	<!-- Dropdown -->
-	<div id=`menu-${id}`
+	<div id=`menu-${id}` 
 		class={twMerge(tw.dropdownContainer, dropdownStyles)}
 		style=`transition: all ${duration} ease-in-out`>
 			<ul id=`menuItems-${id}`
 				class={twMerge(tw.itemsList, listStyles)}
 				style="transition: all 80ms ease-in-out"
-				script={behavior == 'click' ? 'install clickHide' : 'install hoverHide'}>
+				script={behavior == 'click' ? `${hs.clickHide}`:`${hs.hoverHide}`}>
 			<slot/>
 			</ul>
 	</div>
