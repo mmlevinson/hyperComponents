@@ -24,44 +24,50 @@ const {
 	behavior = 'click'
 } = Astro.props
 
+//appearance-none removes all the default butotn styling
 const tw = {
-	triggerButton: 'inline-block rounded-lg px-4 ' +
-		'font-semibold text-md lg:text-lg text-zinc-100 hover:text-zinc-400 hover:dark:text-zinc-300 ' + 
-		'bg-indigo-600 hover:bg-indigo-800 ' +
-		'focus:ring-4 focus:outline-none focus:ring-indigo-300',
+		triggerButton: 'appearance-none not-content select-none cursor-pointer inline-flex items-center rounded-md p-2 drop-shadow-2xl  ' +
+		'font-semibold text-md lg:text-lg ' +
+		'bg-slate-200 hover:bg-slate-300 text-zinc-700 ' + 
+		'dark:text-zinc-300 dark:bg-indigo-600 dark:hover:bg-indigo-800 ' + 
+		'border-2 border-slate-500 dark:border-indigo-400 ',
 	dropdownContainer:'h-0 absolute z-10 ' + 
 		'rounded-lg drop-shadow-2xl overflow-hidden ' + 
 		'text-lg font-medium ' +
-		'bg-white dark:bg-gray-800 ',
-	itemsList:'flex flex-col text-left gap-y-4 cursor-pointer ' + 
+		'bg-white dark:bg-gray-800 ' ,
+	itemsList:'inline-block flex flex-col text-left gap-y-4 cursor-pointer ' + 
 		'py-4 font-semibold text-gray-900 dark:text-zinc-50',
 }
 
 const hs = {
-	clickToggle:`
+	sharedToggle:`
 		init
 			set :menu to 'menu-' + my @id
 			set :menuItems to 'menuItems-' + my @id
+			set :menuHasMouse to false
 		end -- init 
 
-		on click from me
-			if I match .open then send closeDropdown to me 
+		def toggleDropdown
+			if my @aria-expanded is 'true' then send closeDropdown to me 
 			otherwise send openDropdown to me
+		end -- shared open/close toggle
+
+		on click from me
+			toggleDropdown()
 		end -- click toggles open/closedto
 
-		on keydown[key=='Escape'] or blur
-			send closeDropdown to me 
+		on keydown[key=='Escape'] from document
+			if my @aria-expanded is 'true' send closeDropdown to me
 		end  -- escape key`,
+
+	clickOnly:`
+		on blur
+			send closeDropdown to me 
+		end -- close on blur`,
 	clickHide:`
-		on click or mouseleave send closeDropdown to the previous <button/> 
+		on click or mouseleave send closeDropdown to the previous .trigger-button
 		`,
-	hoverToggle:`
-		init
-					set :menu to 'menu-' + my @id
-					set :menuItems to 'menuItems-' + my @id
-					set :menuHasMouse to false
-		end -- init
-			
+	hoverOnly:`
 		on mouseenter from me
 			call me.focus() then send openDropdown to me
 		end -- listener for hover
@@ -73,23 +79,14 @@ const hs = {
 			end
 		end -- close on mouseleave
 
-		on click from me
-			if I match .open then send closeDropdown to me 
-			otherwise send openDropdown to me
-		end -- click handler
-
 		on menuHasMouse(value)
 			set :menuHasMouse to value
 		end -- update state of mouse location
-
-		on keydown[key=='Escape']
-			send closeDropdown to me
-		end  -- Escape key handler
 		`,
 	hoverHide: `
-		on mouseenter send menuHasMouse(value:true) to the previous <button/> end
-		on mouseleave send menuHasMouse(value:false) to the previous <button/> end
-		on click or mouseleave send closeDropdown to the previous <button/> end`,
+		on mouseenter send menuHasMouse(value:true) to the previous .trigger-button end
+		on mouseleave send menuHasMouse(value:false) to the previous .trigger-button end
+		on click or mouseleave send closeDropdown to the previous .trigger-button end`,
 	dropdownAction:`
 		def calcOpenHeight
 				set menuHeight to 0 then set items to the children of the #{:menu}
@@ -108,35 +105,43 @@ const hs = {
 
 			on openDropdown from me
 				repositionMenu()
-				set the *height of the #{:menu} to the calcOpenHeight() px then 
-				add .open to me
+				set @aria-expanded of me to 'true'
+				set @aria-hidden of the #{:menu} to 'false'
+				set the *height of the #{:menu} to the calcOpenHeight() px
 			end -- openDropdown
 
 			on closeDropdown
-				set the *height of the #{:menu} to 0 then settle then
-				remove .open from me
+				set @aria-expanded of me to 'false'
+				set @aria-hidden of the #{:menu} to 'true'
+				set the *height of the #{:menu} to 0 then settle
 			end -- closeDropdown`,
 }
 const behaviors = {
-   click: hs.clickToggle + " " + hs.dropdownAction,
-	 hover: hs.hoverToggle + " " + hs.dropdownAction
+   click: hs.sharedToggle + " " + hs.clickOnly + " " + hs.dropdownAction,
+	 hover: hs.sharedToggle + " " + hs.hoverOnly + " " + hs.dropdownAction
 	}
 ---
 
-<div class="not-content">
+<div class="dropdownmenu">
 	<!-- Trigger -->
 	<button id={id} type='button' moveXY={moveXY}
-		class={twMerge(tw.triggerButton, buttonStyles)}
+		class={'trigger-button ' + twMerge(tw.triggerButton, buttonStyles)}
+		aria-haspopup='menu'
+		aria-expanded='false'
+		aria-controls={`menuItems-${id}`}
 		script={behavior === 'click' ? `${behaviors.click}`: `${behaviors.hover}`}>
 		<slot name='leftIcon' />
 		{caption}
 		<slot name='rightIcon'/>
 	</button>
 	<!-- Dropdown -->
-	<div id=`menu-${id}` 
+	<div id={`menu-${id}`}
+		aria-hidden='true'
 		class={twMerge(tw.dropdownContainer, dropdownStyles)}
 		style=`transition: height ${duration} ease-in-out`>
-			<ul id=`menuItems-${id}`
+			<ul id={`menuItems-${id}`}
+				role='menu'
+				aria-labelledby={id}
 				class={twMerge(tw.itemsList, listStyles)}
 				script={behavior == 'click' ? `${hs.clickHide}`:`${hs.hoverHide}`} >
 				<slot/>

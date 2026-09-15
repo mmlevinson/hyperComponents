@@ -7,17 +7,17 @@ sidebar:
 ---
 
 import DropDown from '../../../../components/DropDown.astro'
-export const hs = "on click send closeDropdown to the previous <button/> then settle then call alert('You selected ' + my innerHTML)"
+export const hs = "on click send closeDropdown to the previous .trigger-button then settle then call alert('You selected ' + my innerHTML)"
 export const tw = {
 	exampleContainer: 'flex justify-center gap-4 not-content w-full w-max-lg text-center p-4 my-6 mx-auto rounded-xl ' +
-		'bg-gray-300 dark:bg-gray-800',
+		'bg-stone-100 dark:bg-gray-800',
 	menuItem: 'px-4 hover:bg-gray-200 hover:text-purple-600 ' +
 		'hover:dark:bg-stone-300 hover:dark:text-sky-800',
 	icon: 'inline-block size-6'
 }
 
 <div id='exampleContainer' class={tw.exampleContainer}>
-	<DropDown id="hover_example" behavior="hover" caption="Hover Me" duration="450ms" moveXY="3, 5">
+	<DropDown id="hover_example" behavior="hover" caption="Hover Me" duration="450ms" moveXY="3, 0">
 		<svg slot="rightIcon" class={tw.icon} fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
 			<path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6z"/>
 		</svg>
@@ -26,10 +26,10 @@ export const tw = {
 		<li class={tw.menuItem} script={hs}>Tailwind</li>
 		<li class={tw.menuItem} script={hs}>Hyperscript</li>
 		<li class={tw.menuItem} script={hs}>Astro</li>
-		<li class={tw.menuItem} script="on click send closeDropdown to the previous <button/> then settle then go to url '/' ">Go Home</li>
+		<li class={tw.menuItem} script="on click send closeDropdown to the previous .trigger-button then settle then go to url '/' ">Go Home</li>
 	</DropDown>
 
-		<DropDown id="dropdown_click" behavior="click" caption="Click Me" duration="300ms" moveXY="0, 5">
+		<DropDown id="dropdown_click" behavior="click" caption="Click Me" duration="300ms" moveXY="0, 0">
 			<svg slot="rightIcon" class={tw.icon} fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
 				<path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6z"/>
 			</svg>
@@ -38,7 +38,7 @@ export const tw = {
 			<li class={tw.menuItem} script={hs}>Tailwind</li>
 			<li class={tw.menuItem} script={hs}>Hyperscript</li>
 			<li class={tw.menuItem} script={hs}>Astro</li>
-		<li class={tw.menuItem} script="on click send closeDropdown to the previous <button/> then settle then go to url '/' ">Go Home</li>
+		<li class={tw.menuItem} script="on click send closeDropdown to the previous .trigger-button then settle then go to url '/' ">Go Home</li>
 	</DropDown>
 
 </div>
