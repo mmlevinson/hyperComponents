@@ -10,7 +10,7 @@ interface Props {
  listStyles?: string   //any additional styles to apply to the <ul>
  moveXY?: string //comma separated integer values specifying x,y shift in dropdown position
  duration?: string, //duration (in milliseconds) for dropdown height transition
- behavior?:string //specify click | hover options
+ trigger?:string // click | hover 
 }
 
 const {
@@ -21,7 +21,7 @@ const {
 	listStyles, 
 	moveXY = "0,0", 
 	duration = '100ms',
-	behavior = 'click'
+	trigger = 'click'
 } = Astro.props
 
 //appearance-none removes all the default butotn styling
@@ -143,17 +143,18 @@ const hs = {
 </script>
 
 <div class="dropdownmenu">
-	<!-- Trigger -->
+	<!-- Trigger Button-->
 	<button id={id} type='button' moveXY={moveXY}
 		class={'trigger-button ' + twMerge(tw.triggerButton, buttonStyles)}
 		aria-haspopup='menu'
 		aria-expanded='false'
 		aria-controls={`menuItems-${id}`}
-		script={behavior === 'click' ? `${hs.trigger.click}`: `${hs.trigger.hover}`}>
+		script={trigger === 'click' ? `${hs.trigger.click}`: `${hs.trigger.hover}`}>
 		<slot name='leftIcon' />
-		{caption}
+			{caption}
 		<slot name='rightIcon'/>
 	</button>
+	
 	<!-- Dropdown -->
 	<div id={`menu-${id}`}
 		aria-hidden='true'
@@ -163,7 +164,7 @@ const hs = {
 				role='menu'
 				aria-labelledby={id}
 				class={twMerge(tw.itemsList, listStyles)}
-				script={behavior == 'click' ? `${hs.dismiss.click}`:`${hs.dismiss.hover}`} >
+				script={trigger == 'click' ? `${hs.dismiss.click}`:`${hs.dismiss.hover}`} >
 				<slot/>
 			</ul>
 	</div>

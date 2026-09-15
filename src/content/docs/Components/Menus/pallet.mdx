@@ -1,19 +1,13 @@
 ---
 
 title: Color Pallet
-description: Dropdown Color Pallet
+description: Dropdown Tailwind Color Pallet
 
 ---
 
-import PalletGrid from '../../../../components/PalletGrid.astro'
-import TailwindPallet from '../../../../components/TailwindPallet.astro'
-import ClickDropdownMenu_A from '../../../../components/ClickDropdownMenu_A.astro'
-import HoverDropdownMenu_B from '../../../../components/HoverDropdownMenu_B.astro'
-import DropDown from '../../../../components/DropDown.astro'
-
 export const tw = {
 	exampleWrapper: 'flex ', 
-	exampleContainer: 'not-content w-full grow  text-center  p-4 mx-auto rounded-xl ' + 
+	exampleContainer: 'not-content w-full grow text-center p-4 mx-auto rounded-xl ' + 
 	'bg-gray-300 dark:bg-gray-800' ,
 	exampleTitle: 'py-2 mb-4 rounded-t-xl ' + 
 	'font-semibold text-gray-300 dark:text-zinc-200 ' + 
@@ -24,82 +18,79 @@ export const tw = {
 
 import {Tabs, TabItem } from '@astrojs/starlight/components'
 
-<Tabs>
+<div id='example-2' class={tw.exampleContainer} >
 
-{/* Click Variant */}
-	<TabItem label='Click'>
-  
-	<div id='example-1' class={tw.exampleContainer} >
+	<form
+		id="dropdown-demo-controls"
+		class="flex flex-wrap items-start justify-center gap-6 mb-6"
+		hx-get="/api/menus/dropdown"
+		hx-trigger="load, change from:input"
+		hx-target="#dropdown-demo-target"
+		hx-swap="innerHTML"
+	>
+		<fieldset class="flex flex-col items-start text-lg gap-3 justify-center p-4 rounded-lg border border-gray-400 dark:border-gray-600 bg-slate-100 dark:bg-gray-900 min-w-48">
+			<legend class="font-semibold text-gray-800 dark:text-gray-200 px-2">Trigger</legend>
+			<label class="flex items-center gap-2 cursor-pointer">
+				<input
+					type="radio"
+					name="trigger"
+					value="click"
+					checked
+					class="accent-indigo-600"
+				/>
+				<span class="text-md text-gray-700 dark:text-gray-200">Click</span>
+			</label>
+			<label class="flex items-center gap-2 cursor-pointer">
+				<input
+					type="radio"
+					name="trigger"
+					value="hover"
+					class="accent-indigo-600"
+				/>
+				<span class="text-md text-gray-700 dark:text-gray-200">Hover</span>
+			</label>
+		</fieldset>
 
-	<ClickDropdownMenu_A id='click-activated-pallet' moveXY='-200,18' buttonStyles={tw.button} duration='180ms'>
-		<img slot="leftIcon" src='/images/tailwind_icon.svg' alt='tailwind icon' class={tw.icon}/>
-		<PalletGrid hs="on click send closeDropdown to the .colorPallet then settle then alert( 'You selected ' + my @title)"/>
-	</ClickDropdownMenu_A>
-	</div>
+		<fieldset class="flex flex-col items-start text-lg gap-3 justify-center p-4 rounded-lg border border-gray-400 dark:border-gray-600 bg-slate-100 dark:bg-gray-900 min-w-48">
+			<legend class="font-semibold text-gray-800 dark:text-gray-200 px-2">Orientation</legend>
+			<label class="flex items-center gap-2 cursor-pointer">
+				<input
+					type="radio"
+					name="orientation"
+					value="horizontal"
+					checked
+					class="accent-indigo-600"
+				/>
+				<span class="text-md text-gray-700 dark:text-gray-200">Horizontal</span>
+			</label>
+			<label class="flex items-center gap-2 cursor-pointer">
+				<input
+					type="radio"
+					name="orientation"
+					value="vertical"
+					class="accent-indigo-600"
+				/>
+				<span class="text-md text-gray-700 dark:text-gray-200">Vertical</span>
+			</label>
+		</fieldset>
+	</form>
 
+	<div id="dropdown-demo-target" class="min-h-24"></div>
+</div>
 
-
-
-
-```js "ClickDropdownMenu_A" "PalletGrid" "buttonStyles={tw.button}" "colorPallet"
----
-
-const tw = {
-	icon:'inline-block size-6',
-	button:'colorPallet bg-gray-200 border-2 border-gray-600 dark:bg-gray-700 size-16'
-}
----
-<ClickDropdownMenu_A id='click-activated-pallet' moveXY='-200,18' buttonStyles={tw.button} duration='180ms'>
-	<img slot="leftIcon" src='/images/tailwind_icon.svg' alt='tailwind icon' class={tw.icon}/>
-	<PalletGrid hs="on click send closeDropdown to the .colorPallet then settle then alert( 'You selected ' + my @title)"/>
-</ClickDropdownMenu_A>
-
+ ```js
+<form
+	hx-get="/api/menus/dropdown"
+	hx-trigger="load, change from:input"
+	hx-target="#dropdown-demo-target"
+	hx-swap="innerHTML">
+	<input type="radio" name="trigger" value="click" checked />
+	<input type="radio" name="trigger" value="hover" />
+	<input type="radio" name="orientation" value="horizontal" checked />
+	<input type="radio" name="orientation" value="vertical" />
+</form>
+<div id="dropdown-demo-target"></div>
 ```
-	</TabItem>
-
-
-{/*Hover variant*/}
-	<TabItem label="Hover">
-
-	<div id='example-2' class={tw.exampleContainer} >
-
-	<HoverDropdownMenu_B id='hover-activated-pallet' moveXY='-100,18' buttonStyles={tw.button} duration='180ms'>
-		<img slot="leftIcon" src='/images/tailwind_icon.svg' alt='tailwind icon' class={tw.icon}/>
-		<PalletGrid orientation='vertical' hs="on click send closeDropdown to the .colorPallet then settle then alert( 'You selected ' + my @title)"/>
-	</HoverDropdownMenu_B>
-	</div>
-
-```js "HoverDropdownMenu_B" "PalletGrid" "buttonStyles={tw.button}"  "colorPallet"
----
-
-const tw = {
-	icon:'inline-block size-6',
-	button:'colorPallet bg-gray-200 border-2 border-gray-600 dark:bg-gray-700 size-16'
-}
----
-	<div id='example-2' class={tw.exampleContainer} >
-
-<HoverDropdownMenu_B id='hover-activated-pallet' moveXY='-200,18' buttonStyles={tw.button} duration='180ms'>
-	<img slot="leftIcon" src='/images/tailwind_icon.svg' alt='tailwind icon' class={tw.icon}/>
-	<PalletGrid orientation='vertical' hs="on click send closeDropdown to the .colorPallet then settle then alert( 'You selected ' + my @title)"/>
-</HoverDropdownMenu_B>
-
-	</div>
-
-```
-	</TabItem>
-
-
- <TabItem label='Dropdown'>
-	<div id='example-2' class={tw.exampleContainer} >
-		<DropDown id='dropdown-pallet' behavior="hover" moveXY='0,18' buttonStyles={tw.button} duration='180ms'>
-			<img slot="leftIcon" src='/images/tailwind_icon.svg' alt='tailwind icon' class={tw.icon}/>
-			<PalletGrid orientation='vertical' hs="on click send closeDropdown to the .colorPallet then settle then alert( 'You selected ' + my @title)"/>
-		</DropDown>
-	</div>
- </TabItem>
-	
-</Tabs>
 
 ## Features
 
@@ -112,8 +103,8 @@ const tw = {
 6. Both Landscape and Portrait variants (i.e. for  mobile screens) determined by an `orientation` prop.
 7. Styling implemented entirely  with [Tailwind CSS](https://tailwindcss.com)
 8. The `duration` prop is set to '180ms' but can be any value.
-9. Parent components are  ClickDropdownMenu_A and HoverDropdownMenu_B hyperComponents whose default slot receives a [PalletGrid](#palletgrid) custom component.   
-10. A class of `.colorPallet` is added to the `buttonStyles` prop of the parent component (Click/HoverDropdown) so that the Hyperscript associated with each swatch can send a custom event which triggers closure of the dropdown after a selection is made.
+9. This example uses a single `DropDown` component with a `trigger` prop and a [PalletGrid](#palletgrid) in the default slot.
+10. HTMX reloads the demo from `/api/menus/dropdown` whenever trigger or orientation changes so scripts and data initialize from a fresh component instance.
 11. The Tailwind logo icon is passed into the `leftIcon` slot with appropriate styling classes applied (and no caption)
 
 ## Components
@@ -226,7 +217,7 @@ The PalletItem component accepts three props.   The `twColor prop is the name of
 
 A function in the component script strips out the 'bg' prefix and capitalizes the first letter of the color name which is then used to set a `title` attribute creating a tooltip that will be displayed when the user hovers over the color swatch.
 
-Finally, a Hyperscript attribute on each `PalletItem` accepts a `script` prop which should listen for a click  and then send the `closeDropdown` custom event back to the parent `<button>`.  To make this happen, a `.colorPallet` class is explicitly added to the `<button>` of each dropdown component by passing this class name into the `buttonStyles` prop. The custom event should target the `.colorPallet` class in order to close the dropdown.
+Finally, a Hyperscript attribute on each `PalletItem` accepts a `script` prop that listens for click events and then sends the `hideDropdown` custom event back to the parent `DropDown` trigger button. In this pattern, each swatch uses `send hideDropdown to the previous .trigger-button` so the dropdown closes smoothly before running your custom action.
 
 To set the background color of the swatch a simple string concatenation expression is used to combine the default styles with the `twColor` prop.   Since there are no default background colors, twMerge() is not needed here.
 
@@ -271,9 +262,9 @@ const tw = {
 
 ## Code
 
-Use the Tabs below to explore all the code used to create these examples.  
+Use the Tabs below to explore all the code used to create these examples.
 
-To apply  one of these palettes in your Astro project, copy and paste the code from either the Click or Hover activated examples into the Astro file where it will be used and then adjust the file import paths.  You will also need the parent dropdown components, either the [ClickDropdownMenu_A](/components/menus/click_a/) or [HoverDropdownMenu_B](/components/menus/hover_b/).
+To apply one of these palettes in your Astro project, copy and paste either the click or hover `DropDown` example into the Astro file where it will be used, then adjust the import paths for your project structure.
 
 You will also need to copy and paste the PalletGrid, PalletGridH, PalletGridV, and  PalletItem code and put them into separate `.astro` files.
 
@@ -281,44 +272,43 @@ The import file paths in the sample code are for illustration purposes only and 
 
 To give each swatch a custom action, provide your own  Hyperscript for the `hs` prop of the PalletGrid and this will be embedded into  the PalettItem component.
 
-However, before your custom action is triggered, you should  `send closeDropdown to the .colorPallet then settle` to smoothly dismiss the dropdown before the user is taken away to something else.
+Before your custom action is triggered, you should `send hideDropdown to the previous .trigger-button then settle` so the dropdown dismisses smoothly before the next action runs.
 
 
 <Tabs>
 
 
 <TabItem label="Click">
-```js title="Click Activated Color Pallet" "ClickDropdownMenu_A" "colorPallet"
+```js title="Click Activated Color Pallet" "DropDown" "trigger='click'"
 ---
 import PalletGrid from '/components/PalletGrid.astro'
-import ClickDropdownMenu_A from '/components/ClickDropdownMenu_A.astro'
+import DropDown from '/components/DropDown.astro'
 const tw = {
 	icon:'inline-block size-6',
 	button:'colorPallet bg-gray-200 border-2 border-gray-600 dark:bg-gray-700 size-16'
 }
 ---
-<ClickDropdownMenu_A id='click-activated-pallet' moveXY='-200,18' buttonStyles={tw.button} duration='180ms'>
+<DropDown id='click-activated-pallet' trigger='click' moveXY='-200,18' buttonStyles={tw.button} duration='180ms'>
 	<img slot="leftIcon" src='/images/tailwind_icon.svg' alt='tailwind icon' class={tw.icon}/>
-	<PalletGrid hs="on click send closeDropdown to the .colorPallet then settle then alert( 'You selected ' + my @title)"/>
-</ClickDropdownMenu_A>
-</div>
+	<PalletGrid hs="on click send hideDropdown to the previous .trigger-button then settle then alert( 'You selected ' + my @title)"/>
+</DropDown>
 ```
 
 </TabItem>
 <TabItem label="Hover">
-```js title="Hover Activated Color Pallet" "HoverDropdownMenu_B" "colorPallet"
+```js title="Hover Activated Color Pallet" "DropDown" "trigger='hover'"
 ---
 import PalletGrid from '/components/PalletGrid.astro'
-import HoverDropdownMenu_B from '/components/HoverDropdownMenu_B.astro'
+import DropDown from '/components/DropDown.astro'
 const tw = {
 	icon:'inline-block size-6',
 	button:'colorPallet bg-gray-200 border-2 border-gray-600 dark:bg-gray-700 size-16'
 }
 ---
-<HoverDropdownMenu_B id='hover-activated-pallet' moveXY='-100,18' buttonStyles={tw.button} duration='180ms'>
+<DropDown id='hover-activated-pallet' trigger='hover' moveXY='-100,18' buttonStyles={tw.button} duration='180ms'>
 	<img slot="leftIcon" src='/images/tailwind_icon.svg' alt='tailwind icon' class={tw.icon}/>
-	<PalletGrid orientation='vertical' hs="on click send closeDropdown to the .colorPallet then settle then alert( 'You selected ' + my @title)"/>
-</HoverDropdownMenu_B>
+	<PalletGrid orientation='vertical' hs="on click send hideDropdown to the previous .trigger-button then settle then alert( 'You selected ' + my @title)"/>
+</DropDown>
 ```
 </TabItem>
 
