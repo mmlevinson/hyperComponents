@@ -36,36 +36,37 @@ const tw = {
 		'text-lg font-medium ' +
 		'bg-white dark:bg-gray-800 ' ,
 	itemsList:'inline-block flex flex-col text-left gap-y-4 cursor-pointer ' + 
-		'py-4 font-semibold text-gray-900 dark:text-zinc-50',
+		'py-4 font-semibold text-gray-900 dark:text-zinc-50 ',
 }
 
-const behaviorScripts = {
+const hs = {
 	trigger: {
-		click: `install DropDownSharedToggle
-install DropDownAction
-install DropDownClickOnly`,
-		hover: `install DropDownSharedToggle
-install DropDownAction
-install DropDownHoverOnly`
+		click: `install DropdownToggle
+						install DropdownFeatures
+						install DropdownBlur`  ,   
+		hover: `install DropdownToggle
+						install DropdownFeatures
+						install DropdownHover`
 	},
-	list: {
-		click: `install DropDownSharedHide`,
-		hover: `install DropDownSharedHide
-install DropDownHoverHideState`
+		dismiss: {
+			click: `install DropdownDismiss`,
+			hover: `install DropdownDismiss
+							install DropdownTrackMouse
+							`
 	}
 }
 ---
 
 <script is:raw type="text/hyperscript">
-	behavior DropDownSharedToggle
+	behavior DropdownToggle
 		init
 			set ^menu to 'menu-' + my @id
 			set ^menuHasMouse to false
 		end -- init
 
 		def toggleDropdown
-			if my @aria-expanded is 'true' then send closeDropdown to me
-			otherwise send openDropdown to me
+			if my @aria-expanded is 'true' then send hideDropdown to me
+			otherwise send showDropdown to me
 		end -- shared open/close toggle
 
 		on click from me
@@ -73,25 +74,25 @@ install DropDownHoverHideState`
 		end -- click toggles open/closed
 
 		on keydown[key=='Escape'] from document
-			if my @aria-expanded is 'true' send closeDropdown to me
+			if my @aria-expanded is 'true' send hideDropdown to me
 		end -- close on escape
 	end
 
-	behavior DropDownClickOnly
-		on blur
-			send closeDropdown to me
+	behavior DropdownBlur
+			on blur
+			send hideDropdown to me
 		end -- close on blur
 	end
 
-	behavior DropDownHoverOnly
+	behavior DropdownHover
 		on mouseenter from me
-			call me.focus() then send openDropdown to me
+			call me.focus() then send showDropdown to me
 		end -- listener for hover
 
 		on mouseleave from me
 			call me.blur()
 			wait 50ms then
-				if not ^menuHasMouse send closeDropdown to me
+				if not ^menuHasMouse send hideDropdown to me
 			end
 		end -- close on mouseleave
 
@@ -100,7 +101,7 @@ install DropDownHoverHideState`
 		end -- update state of mouse location
 	end
 
-	behavior DropDownAction
+	behavior DropdownFeatures
 		def calcOpenHeight
 			set menuHeight to 0 then set items to the children of the #{^menu}
 			for item in items increment the menuHeight by the item's offsetHeight end
@@ -116,29 +117,29 @@ install DropDownHoverHideState`
 			set the *top of the #{^menu} to (buttonLocation.bottom + yOffset + window.pageYOffset) px
 		end -- move menu by x,y pixels
 
-		on openDropdown from me
+		on showDropdown from me
 			repositionMenu()
 			set @aria-expanded of me to 'true'
 			set @aria-hidden of the #{^menu} to 'false'
 			set the *height of the #{^menu} to the calcOpenHeight() px
-		end -- openDropdown
+		end -- showDropdown
 
-		on closeDropdown
+		on hideDropdown
 			set @aria-expanded of me to 'false'
 			set @aria-hidden of the #{^menu} to 'true'
 			set the *height of the #{^menu} to 0 then settle
-		end -- closeDropdown
+		end -- hideDropdown
 	end
 
-	behavior DropDownSharedHide
-		on click or mouseleave send closeDropdown to the previous .trigger-button
+	behavior DropdownDismiss
+		on click or mouseleave send hideDropdown to the previous .trigger-button
 	end
 
-	behavior DropDownHoverHideState
+	behavior DropdownTrackMouse
 		on mouseenter send menuHasMouse(value:true) to the previous .trigger-button end
 		on mouseleave send menuHasMouse(value:false) to the previous .trigger-button end
 	end
-	
+
 </script>
 
 <div class="dropdownmenu">
@@ -148,7 +149,7 @@ install DropDownHoverHideState`
 		aria-haspopup='menu'
 		aria-expanded='false'
 		aria-controls={`menuItems-${id}`}
-		script={behavior === 'click' ? `${behaviorScripts.trigger.click}`: `${behaviorScripts.trigger.hover}`}>
+		script={behavior === 'click' ? `${hs.trigger.click}`: `${hs.trigger.hover}`}>
 		<slot name='leftIcon' />
 		{caption}
 		<slot name='rightIcon'/>
@@ -162,7 +163,7 @@ install DropDownHoverHideState`
 				role='menu'
 				aria-labelledby={id}
 				class={twMerge(tw.itemsList, listStyles)}
-				script={behavior == 'click' ? `${behaviorScripts.list.click}`:`${behaviorScripts.list.hover}`} >
+				script={behavior == 'click' ? `${hs.dismiss.click}`:`${hs.dismiss.hover}`} >
 				<slot/>
 			</ul>
 	</div>
