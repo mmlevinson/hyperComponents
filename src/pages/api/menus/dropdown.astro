@@ -1,0 +1,55 @@
+---
+import DropDown from '../../../components/DropDown.astro'
+import PalletGrid from '../../../components/PalletGrid.astro'
+import { Code } from '@astrojs/starlight/components'
+
+const AllowedTriggers = new Set(['click', 'hover'])
+const AllowedOrientations = new Set(['horizontal', 'vertical'])
+
+//* --------------------------------SANITIZE VALUE -------------------------------------/
+/* Keep query params constrained to supported component prop values.
+*/
+function sanitizeValue(value: string | null, allowedValues: Set<string>, fallbackValue: string) {
+	if (!value) return fallbackValue
+	return allowedValues.has(value) ? value : fallbackValue
+}
+
+//* --------------------------------SANITIZE MOVEXY -------------------------------------/
+/* Accept only comma-separated integer offsets for moveXY.
+*/
+function sanitizeMoveXY(value: string | null, fallbackValue: string) {
+	if (!value) return fallbackValue
+	return /^-?\d+,-?\d+$/.test(value) ? value : fallbackValue
+}
+
+const trigger = sanitizeValue(Astro.url.searchParams.get('trigger'), AllowedTriggers, 'click')
+const orientation = sanitizeValue(Astro.url.searchParams.get('orientation'), AllowedOrientations, 'horizontal')
+const defaultMoveXY = orientation === 'vertical' ? '-100,2' : '-200,2'
+const moveXY = sanitizeMoveXY(Astro.url.searchParams.get('moveXY'), defaultMoveXY)
+
+Astro.response.headers.set('Content-Type', 'text/html; charset=utf-8')
+Astro.response.headers.set('Cache-Control', 'no-store')
+
+const tw = {
+	icon: 'inline-block size-8 pt-2',
+	button: 'colorPallet bg-gray-200 border-2 border-gray-600 dark:bg-gray-700 size-16',
+}
+
+const hs = "on click send hideDropdown to the previous .trigger-button then settle then alert( 'You selected ' + my @title)"
+const codeFragment = `<DropDown id='dropdown-pallet' trigger='${trigger}' moveXY='${moveXY}' duration='280ms'>
+	<img slot="leftIcon" src='/images/tailwind_icon.svg' alt='tailwind icon' class={tw.icon}/>
+	<PalletGrid orientation='${orientation}' hs="on click send hideDropdown to the previous .trigger-button then settle then alert( 'You selected ' + my @title)"/>
+</DropDown>`
+---
+
+<DropDown id='dropdown-pallet' trigger={trigger} moveXY={moveXY}  duration='280ms'>
+	<img slot="leftIcon" src='/images/tailwind_icon.svg' alt='tailwind icon' class={tw.icon}/>
+	<PalletGrid orientation={orientation} hs={hs}/>
+</DropDown>
+<div id="dropdown-demo-code-target" class="not-content" hx-swap-oob="innerHTML">
+	<Code
+		lang="astro"
+		meta='title="DropDown Fragment" "trigger" "orientation" "moveXY"'
+		code={codeFragment}
+	/>
+</div>
