@@ -39,35 +39,51 @@ const tw = {
 		'py-4 font-semibold text-gray-900 dark:text-zinc-50',
 }
 
-const hs = {
-	sharedToggle:`
+const behaviorScripts = {
+	trigger: {
+		click: `install DropDownSharedToggle
+install DropDownAction
+install DropDownClickOnly`,
+		hover: `install DropDownSharedToggle
+install DropDownAction
+install DropDownHoverOnly`
+	},
+	list: {
+		click: `install DropDownSharedHide`,
+		hover: `install DropDownSharedHide
+install DropDownHoverHideState`
+	}
+}
+---
+
+<script is:raw type="text/hyperscript">
+	behavior DropDownSharedToggle
 		init
-			set :menu to 'menu-' + my @id
-			set :menuItems to 'menuItems-' + my @id
-			set :menuHasMouse to false
-		end -- init 
+			set ^menu to 'menu-' + my @id
+			set ^menuHasMouse to false
+		end -- init
 
 		def toggleDropdown
-			if my @aria-expanded is 'true' then send closeDropdown to me 
+			if my @aria-expanded is 'true' then send closeDropdown to me
 			otherwise send openDropdown to me
 		end -- shared open/close toggle
 
 		on click from me
 			toggleDropdown()
-		end -- click toggles open/closedto
+		end -- click toggles open/closed
 
 		on keydown[key=='Escape'] from document
 			if my @aria-expanded is 'true' send closeDropdown to me
-		end  -- escape key`,
+		end -- close on escape
+	end
 
-	clickOnly:`
+	behavior DropDownClickOnly
 		on blur
-			send closeDropdown to me 
-		end -- close on blur`,
-	clickHide:`
-		on click or mouseleave send closeDropdown to the previous .trigger-button
-		`,
-	hoverOnly:`
+			send closeDropdown to me
+		end -- close on blur
+	end
+
+	behavior DropDownHoverOnly
 		on mouseenter from me
 			call me.focus() then send openDropdown to me
 		end -- listener for hover
@@ -75,52 +91,55 @@ const hs = {
 		on mouseleave from me
 			call me.blur()
 			wait 50ms then
-				if not :menuHasMouse send closeDropdown to me
+				if not ^menuHasMouse send closeDropdown to me
 			end
 		end -- close on mouseleave
 
 		on menuHasMouse(value)
-			set :menuHasMouse to value
+			set ^menuHasMouse to value
 		end -- update state of mouse location
-		`,
-	hoverHide: `
+	end
+
+	behavior DropDownAction
+		def calcOpenHeight
+			set menuHeight to 0 then set items to the children of the #{^menu}
+			for item in items increment the menuHeight by the item's offsetHeight end
+			return menuHeight
+		end -- calcOpenHeight
+
+		def repositionMenu
+			set offsets to (my @movexy) split by ','
+			set xOffset to the offsets[0] as Int
+			set yOffset to the offsets[1] as Int
+			measure me then put the result.bounds into buttonLocation
+			set the *left of the #{^menu} to (buttonLocation.left + xOffset + window.pageXOffset) px
+			set the *top of the #{^menu} to (buttonLocation.bottom + yOffset + window.pageYOffset) px
+		end -- move menu by x,y pixels
+
+		on openDropdown from me
+			repositionMenu()
+			set @aria-expanded of me to 'true'
+			set @aria-hidden of the #{^menu} to 'false'
+			set the *height of the #{^menu} to the calcOpenHeight() px
+		end -- openDropdown
+
+		on closeDropdown
+			set @aria-expanded of me to 'false'
+			set @aria-hidden of the #{^menu} to 'true'
+			set the *height of the #{^menu} to 0 then settle
+		end -- closeDropdown
+	end
+
+	behavior DropDownSharedHide
+		on click or mouseleave send closeDropdown to the previous .trigger-button
+	end
+
+	behavior DropDownHoverHideState
 		on mouseenter send menuHasMouse(value:true) to the previous .trigger-button end
 		on mouseleave send menuHasMouse(value:false) to the previous .trigger-button end
-		on click or mouseleave send closeDropdown to the previous .trigger-button end`,
-	dropdownAction:`
-		def calcOpenHeight
-				set menuHeight to 0 then set items to the children of the #{:menu}
-				for item in items increment the menuHeight by the item's offsetHeight end
-				return menuHeight
-			end -- calcOpenHeight
-			
-			def repositionMenu
-				set offsets to (my @movexy) split by ','
-				set xOffset to the offsets[0] as Int
-				set yOffset to the offsets[1] as Int
-				measure me then put the result.bounds into buttonLocation
-				set the *left of the #{:menu} to (buttonLocation.left + xOffset + window.pageXOffset) px
-				set the *top of the #{:menu} to (buttonLocation.bottom  + yOffset + window.pageYOffset) px
-			end  -- move menu by x,y pixels
-
-			on openDropdown from me
-				repositionMenu()
-				set @aria-expanded of me to 'true'
-				set @aria-hidden of the #{:menu} to 'false'
-				set the *height of the #{:menu} to the calcOpenHeight() px
-			end -- openDropdown
-
-			on closeDropdown
-				set @aria-expanded of me to 'false'
-				set @aria-hidden of the #{:menu} to 'true'
-				set the *height of the #{:menu} to 0 then settle
-			end -- closeDropdown`,
-}
-const behaviors = {
-   click: hs.sharedToggle + " " + hs.clickOnly + " " + hs.dropdownAction,
-	 hover: hs.sharedToggle + " " + hs.hoverOnly + " " + hs.dropdownAction
-	}
----
+	end
+	
+</script>
 
 <div class="dropdownmenu">
 	<!-- Trigger -->
@@ -129,7 +148,7 @@ const behaviors = {
 		aria-haspopup='menu'
 		aria-expanded='false'
 		aria-controls={`menuItems-${id}`}
-		script={behavior === 'click' ? `${behaviors.click}`: `${behaviors.hover}`}>
+		script={behavior === 'click' ? `${behaviorScripts.trigger.click}`: `${behaviorScripts.trigger.hover}`}>
 		<slot name='leftIcon' />
 		{caption}
 		<slot name='rightIcon'/>
@@ -143,7 +162,7 @@ const behaviors = {
 				role='menu'
 				aria-labelledby={id}
 				class={twMerge(tw.itemsList, listStyles)}
-				script={behavior == 'click' ? `${hs.clickHide}`:`${hs.hoverHide}`} >
+				script={behavior == 'click' ? `${behaviorScripts.list.click}`:`${behaviorScripts.list.hover}`} >
 				<slot/>
 			</ul>
 	</div>
